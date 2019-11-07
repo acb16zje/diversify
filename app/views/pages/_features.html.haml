@@ -1,0 +1,40 @@
+#features
+  .container.span
+    %h2.center.font-weight-bold Take a Good look at our tools!
+    %br
+    %p.center Analyse, Rate, Join!
+    %br
+    %br
+    %br
+    .row
+      .col-6.col-md
+        %img#feature{:src => asset_path("sample.png")}
+        .container
+          %a{"aria-controls" => "analyse", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#analyse", :role => "button"}
+            %h5.line.float-left
+              %span.font-weight-bold   analyse
+            %span.float-right
+              .fas.fa-chevron-down
+          #analyse.collapse{:style => "clear: both"}
+            %p Get all potential team members on our platform recommended to your for your analysis. Ge the best skills available.
+      .col-6.col-md
+        %img#feature{:src => asset_path("sample.png")}
+        .container
+          %a{"aria-controls" => "rate", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#rate", :role => "button"}
+            %h5.line.float-left
+              %span.font-weight-bold   rate
+            %span.float-right
+              .fas.fa-chevron-down
+          #rate.collapse{:style => "clear: both"}
+            %p Review your team mates on their performance for other people to see, and to enable them to get more work!
+
+      .col-6.col-md
+        %img#feature{:src => asset_path("sample.png")}
+        .container
+          %a{"aria-controls" => "join", "aria-expanded" => "false", "data-toggle" => "collapse", :href => "#join", :role => "button"}
+            %h5.line.float-left
+              %span.font-weight-bold   join
+            %span.float-right
+              .fas.fa-chevron-down
+          #join.collapse{:style => "clear: both"}
+            %p Join open projects and add members to your own private projects!

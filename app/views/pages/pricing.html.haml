@@ -1,0 +1,11 @@
+%nav.tabs
+  .container
+    #nav-tab.nav.nav-tabs{:role => "tablist", :style => 'width: 100%;'}
+      %a#nav-home-tab.nav-item.nav-link.align-middle.text-center.active{"aria-controls" => "nav-pricing", "aria-selected" => "true", "data-toggle" => "tab", :href => "#nav-pricing", :role => "tab"} pricing
+      %a#nav-profile-tab.nav-item.nav-link.align-middle.text-center{"aria-controls" => "nav-comparison", "aria-selected" => "false", "data-toggle" => "tab", :href => "#nav-comparison", :role => "tab"} comparison
+      %a#nav-contact-tab.nav-item.nav-link.align-middle.text-center{"aria-controls" => "nav-contact", "aria-selected" => "false", "data-toggle" => "tab", :href => "#nav-contact", :role => "tab"} extra content
+#nav-tabContent.tab-content
+  #nav-pricing.tab-pane.fade.show.active{"aria-labelledby" => "nav-pricing-tab", :role => "tabpanel"}
+    = render :partial => "/partial/pricing"
+  #nav-comparison.tab-pane.fade.show{"aria-labelledby" => "nav-pcomparison-tab", :role => "tabpanel"}
+    = render :partial => "/partial/comparison"

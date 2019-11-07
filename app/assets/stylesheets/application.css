@@ -6,3 +6,287 @@
   *= require warning_page
   *= require custom_flash
 */
+
+/* Root variables. */
+:root {
+ --button-primary: #ffb047;
+ --button-hover: #febb63;
+ --font-large: 65px;
+ --font-medium: 35px;
+ --font-nav: 15px;
+ --font-small: 12.5px;
+ --font-main: #3A4147;
+ --font-light: #798793;
+ --monochrome-offwhite: #f9f9f9;
+}
+
+/* Default Styles */
+body{
+  color: var(--font-main);
+  font-family: 'Poppins', sans-serif;
+}
+
+main{
+  width: 100%;
+  padding: 75px;
+  margin: 0px;
+}
+
+.header{
+  width: 100%;
+  height: 75px;
+  padding: 0 150px;
+  border-bottom: solid 0.1px var(--monochrome-offwhite);
+}
+
+nav{
+  font-size: small;
+  width:fit-content;
+  float: right;
+  padding-right: 100px;
+}
+
+a{
+  color: var(--font-main);
+}
+
+a:hover{
+  text-decoration: none;
+  color: var(--font-light);
+}
+
+.logo a{
+  text-decoration: none;
+}
+
+nav a{
+  display: inline;
+  text-decoration: none;
+  color: var(--font-light);
+  padding:5px 20px;
+  border-right: solid var(--button-primary) 3px;
+  font-size: var(--font-nav);
+}
+
+nav a:last-child{
+  border-right: none;
+}
+
+nav a:hover{
+  text-decoration: none;
+  color: var(--button-hover);
+  transition:all 0.5s ease-in-out;
+}
+
+#nav-tabContent{
+  height: max-content;
+}
+
+#comparison{
+  margin-top: 150px;
+}
+
+.navbar{
+  padding: 0;
+}
+
+.button{
+  padding: 40px 20px;
+  border-radius: 50px;
+  background-color: var(--button-primary);
+  border: none;
+  color: white;
+  box-shadow: 0 0 50px #0000003b
+}
+
+.button:hover{
+  text-decoration: none;
+  color: white;
+  box-shadow: #8080802b 0 0 0px 0px;
+  background-color: var(--button-hover);
+  transition: all 0.5s ease-in-out;
+}
+
+.card-button{
+  margin: 0;
+  border-radius: 0;
+  padding: 20px 5px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  box-shadow: none;
+}
+
+.card-button:hover{
+  text-decoration: none;
+  color: white;
+  box-shadow: #8080802b 0 0 0px 0px;
+  background-color: var(--button-hover);
+}
+
+.span{
+  clear: both;
+  width: 100%;
+  height: max-content;
+}
+
+.col-6{
+  clear:right;
+  max-width: 100%;
+  min-width: 360px;
+  padding: 25px;
+}
+
+img{
+  width: 100%;
+}
+
+.background{
+  position: absolute;
+  top: 930px;
+  left: 420px;
+}
+
+.intro{
+  padding: 75px 150px;
+}
+
+.center{
+  margin: auto;
+  text-align: center;
+}
+
+.small{
+  font-size: var(--font-small);
+  color: var(--button-hover);
+}
+
+#sample{
+  width: 550px;
+  background-color: white;
+  box-shadow: 0 0 25px #0000003b;
+  margin: 150px auto 0;
+}
+
+#samples{
+  background-image: url(/assets/background_1.png);
+  background-size: 1000px;
+  background-position: center 50.5px;
+  background-repeat: no-repeat;
+}
+
+#feature{
+  background-color: white;
+  box-shadow: 0 0 25px #0000003b;
+  margin: 0 auto 100px;
+}
+
+#feature p{
+  width: 75%;
+}
+
+#features{
+  width: 100%;
+  padding-top: 250px;
+}
+
+#footer{
+  border: none;
+  padding-top: 150px;
+}
+
+#pricing{
+  padding: 150px 0 0;
+}
+
+.tabs{
+  width: 100%;
+  padding: 0;
+}
+
+.tabs .nav-item{
+  width: 320px;
+  height: 60px;
+  margin: 0 20px;
+  background-color: var(--button-hover);
+  color: white;
+}
+
+.nav-tabs{
+  width: max-content;
+  margin: auto;
+}
+.card{
+  margin: auto;
+  border: none;
+  height: 450px
+}
+
+.card h2{
+  margin-top: 120px;
+}
+
+.card-footer{
+  padding: 0
+}
+
+
+.motto{
+  font-size: var(--font-large);
+  margin-bottom: 50px;
+  /* width: 650px; */
+}
+
+.info{
+  font-size: var(--font-small);
+  color: var(--font-light);
+  margin-bottom: 25px;
+  /* width: 650px; */
+}
+
+.logo a{
+  color: var(--font-main);
+  float: left;
+}
+
+/* decoration */
+.line{
+  border-bottom: solid var(--button-primary) 3px;
+  width: 45px;
+  padding-left: 50px;
+  height: 22.5px;
+  margin-bottom: 20px;
+}
+
+.line span{
+  padding-left: 20px;
+}
+
+@media only screen and (max-width: 500px) {
+  table{
+    font-size: 10px;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  main {
+    padding: 0px;
+  }
+  .header{
+    padding: 25px;
+  }
+
+  .col-6{
+    padding: 50px;
+  }
+
+  .intro{
+    padding: 0;
+  }
+  .logo a{
+    margin-left: 0px;
+  }
+  #sample{
+    width: 300px;
+  }
+}
