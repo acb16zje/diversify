@@ -161,6 +161,13 @@ img{
   color: var(--button-hover);
 }
 
+.register{
+  width: 100%;
+  border: solid 3px var(--button-primary);
+  border-radius: 50px;
+  padding: 15px 30px;
+}
+
 #sample{
   width: 550px;
   background-color: white;
@@ -192,7 +199,6 @@ img{
 
 #footer{
   border: none;
-  padding-top: 150px;
 }
 
 #pricing{
@@ -229,7 +235,6 @@ img{
 .card-footer{
   padding: 0
 }
-
 
 .motto{
   font-size: var(--font-large);
