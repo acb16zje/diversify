@@ -1,11 +1,13 @@
 #pricing.container
   .row
     .col-6.col-md
-      .card.text-white.bg-dark.mb-3{:style => "max-width: 18rem;"}
+      .card.mb-3{:style => "max-width: 18rem;"}
         .card-body
-          %h5.card-title Casual
+          %h5.card-title.text-center Casual
           .container
             %h2.card-text.bold.text-center Free
+            %br
+            %br
             .container
               %p.card-text.small
                 %span.fas.fa-check
@@ -16,11 +18,13 @@
         .card-footer
           %a.button.card-button{:href => "/register"} Get started for free!
     .col-6.col-md
-      .card.text-white.bg-dark.mb-3{:style => "max-width: 18rem;"}
+      .card.mb-3{:style => "max-width: 18rem;"}
         .card-body
-          %h5.card-title Proffesional
+          %h5.card-title.text-center  Proffesional
           .container
             %h2.card-text.bold.text-center £ 9.99/month
+            %br
+            %br
             .container
               %p.card-text.small
                 %span.fas.fa-check
@@ -32,13 +36,15 @@
                 %span.fas.fa-check
                 %span private projects
         .card-footer
-          %a.button.card-button{:href => "/register"} try our 14-day free trial
+          %a.button.card-button{:href => "/register"} use our 14-day free trial
     .col-6.col-md
-      .card.text-white.bg-dark.mb-3{:style => "max-width: 18rem;"}
+      .card.mb-3{:style => "max-width: 18rem; border: solid 5px var(--button-hover);"}
         .card-body
-          %h5.card-title Enterprise
+          %h5.card-title.text-center  Enterprise
           .container
             %h2.card-text.bold.text-center £ 164.99/year
+            %br
+            %br
             .container
               %p.card-text.small
                 %span.fas.fa-check
@@ -50,4 +56,4 @@
                 %span.fas.fa-check
                 %span unlimited team members
         .card-footer
-          %a.button.card-button{:href => "/register"} try our 14-day free trial
+          %a.button.card-button{:href => "/register"} use our 14-day free trial

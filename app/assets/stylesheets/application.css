@@ -9,8 +9,8 @@
 
 /* Root variables. */
 :root {
- --button-primary: #ffb047;
- --button-hover: #febb63;
+ --button-primary: #3e3cd3;
+ --button-hover: #615ff1;
  --font-large: 65px;
  --font-medium: 35px;
  --font-nav: 15px;
@@ -201,8 +201,8 @@ img{
   border: none;
 }
 
-#pricing{
-  padding: 150px 0 0;
+#pricing, #about{
+  padding: 50px 0 0;
 }
 
 .tabs{
@@ -225,7 +225,8 @@ img{
 .card{
   margin: auto;
   border: none;
-  height: 450px
+  height: 600px;
+  box-shadow: 0 0 25px #0000003b;
 }
 
 .card h2{
@@ -267,6 +268,11 @@ img{
   padding-left: 20px;
 }
 
+.bg-color{
+  background-color: var(--button-primary);
+  color: white;
+}
+
 @media only screen and (max-width: 500px) {
   table{
     font-size: 10px;
@@ -279,6 +285,10 @@ img{
   }
   .header{
     padding: 25px;
+  }
+
+  .row{
+    margin-right: 0
   }
 
   .col-6{
