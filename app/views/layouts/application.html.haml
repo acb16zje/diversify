@@ -1,22 +1,22 @@
 !!!
 %html{:lang => "en"}
   %head
-    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}
-    %meta{:content => "IE=edge", "http-equiv" => "X-UA-Compatible"}
-    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}
+    %meta{content: "text/html; charset=UTF-8", "http-equiv": "Content-Type"}
+    %meta{content: "IE=edge", "http-equiv": "X-UA-Compatible"}
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}
     = csrf_meta_tags
 
     = favicon_link_tag '/favicon.ico'
 
+    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
+    = stylesheet_link_tag 'application', media: :all
+    = javascript_include_tag 'application', defer: true
+
     %title #{content_for(:title)}
-    %link{:href => "https://fonts.googleapis.com/css?family=Poppins&display=swap", :rel => "stylesheet"}/
-    = stylesheet_link_tag    "application", media: :all
-    //= link application.js
-    = javascript_include_tag "application", defer: true
 
   %body
 
     %main
-      = render :partial => "/partial/navigation"
+      = render partial: "/partial/navigation"
       = yield
-      = render :partial => "/partial/footer"
+      = render partial: "/partial/footer"

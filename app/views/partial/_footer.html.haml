@@ -5,35 +5,35 @@
         %h5.font-weight-bold diversify
         %small.d-block.mb-3.text-muted
           %span
-            %a.text-muted{:href => "#"} © 2019
+            = link_to raw('&copy; 2019'), '#', class: 'text-muted'
           %span
-            %a.text-muted{:href => "#"} | Privacy
+            |
+            = link_to 'Privacy', '#', class: 'text-muted'
           %span
-            %a.text-muted{:href => "#"} | Terms
+            |
+            = link_to 'Terms', '#', class: 'text-muted'
       .col-4.col-md
         %ul.list-unstyled.text-small
-          %h6 product
+          %h6 Product
           %li
-            %a.text-muted{:href => "/register"} register
+            = link_to 'Register', register_pages_path, class: "text-muted"
           %li
-            %a.text-muted{:href => "/#features"} features
+            = link_to 'Features', "#{root_path}#features", class: "text-muted"
           %li
-            %a.text-muted{:href => "/pricing#comparison"} comparison
-          %li
-            %a.text-muted{:href => "/pricing"} pricing
+            = link_to 'Pricing', pricing_pages_path, class: "text-muted"
 
       .col-4.col-md
         %ul.list-unstyled.text-small
-          %h6 company
+          %h6 Company
           %li
-            %a.text-muted{:href => "/about"} about us
+            = link_to 'About Us', about_pages_path, class: "text-muted"
           %li
-            %a.text-muted{:href => "/feedback"} feedback
+            = link_to 'Feedback', feedback_pages_path, class: "text-muted"
 
       .col-4.col-md
         %ul.list-unstyled.text-small
-          %h6 support
+          %h6 Support
           %li
-            %a.text-muted{:href => "/about"} F.A.Qs
+            = link_to 'F.A.Qs', contact_pages_path, class: "text-muted"
           %li
-            %a.text-muted{:href => "/contact"} contact us
+            = link_to 'Contact Us', contact_pages_path, class: "text-muted"
