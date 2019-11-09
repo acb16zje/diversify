@@ -137,6 +137,7 @@ nav a:hover{
   max-width: 100%;
   min-width: 360px;
   padding: 25px;
+  margin: auto;
 }
 
 img{
@@ -280,6 +281,9 @@ img{
   table{
     font-size: 10px;
   }
+  .navbar-collapse{
+    background: white;
+  }
 }
 
 @media only screen and (max-width: 380px) {
@@ -288,6 +292,9 @@ img{
   }
   .header{
     padding: 25px;
+  }
+  .navbar-toggler{
+    right: 0;
   }
 
   .row{
