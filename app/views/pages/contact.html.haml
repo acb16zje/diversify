@@ -1,0 +1,33 @@
+#feedback.span
+  .bg-color{:style => 'padding: 50px;margin-bottom: 50px;'}
+    %h1.text-center This is how to contact us!
+    %p.text-center Feel free to get in touch with us!
+    %br
+    %br
+  .container{:style => 'height: 100%'}
+    = render :partial => "/partial/map"
+  %br
+  %br
+  .container
+    .row
+      .col-6.col-md
+        %h1.text-center
+          %span.fas.fa-map-marker-alt
+        %br
+        %p.text-center Epigenesys , floor c
+        %p.text-center Cathedral Court
+        %p.text-center 1 Vicar Lane, Sheffield, S1 2LT
+      .col-6.col-md
+        %h1.text-center
+          %span.fas.fa-phone
+        %br
+        %p.text-center info@epigenesys.org.uk
+        %p.text-center +44 (0)114 222 1888
+      .col-6.col-md
+        %h1.text-center
+          %span
+            %h2.fab.fa-facebook-f
+          %span
+            %h2.fab.fa-instagram
+          %span
+            %h2.fab.fa-twitter

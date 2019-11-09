@@ -171,6 +171,11 @@ img{
   padding: 15px 30px;
 }
 
+#map {
+   height: 400px;
+   width: 100%; 
+  }
+
 #sample{
   width: 550px;
   background-color: white;
