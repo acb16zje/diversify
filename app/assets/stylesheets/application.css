@@ -97,7 +97,8 @@ nav a:hover{
   background-color: var(--button-primary);
   border: none;
   color: white;
-  box-shadow: 0 0 50px #0000003b
+  box-shadow: 0 0 50px #0000003b;
+  text-align: center;
 }
 
 .button:hover{
@@ -200,6 +201,7 @@ img{
 
 #footer{
   border: none;
+  margin: 100px auto;
 }
 
 #pricing, #about, #feedback{
