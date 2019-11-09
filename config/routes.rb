@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   get "/pricing", to: "pages#pricing"
   get "/register", to: "pages#register"
   get "/about", to: "pages#about_us"
+  get "/feedback", to: "pages#feedback"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
