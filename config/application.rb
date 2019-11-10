@@ -6,7 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Project
+module Diversify
   class Application < Rails::Application
     # Send queued jobs to delayed_job
     config.active_job.queue_adapter = :delayed_job
