@@ -1,12 +1,12 @@
 module FormsHelper
 
-  def cancel_button(url, text="Cancel")
+  def cancel_button(url, text='Cancel')
     link_to url, title: text, class: 'btn btn-default' do
       icon 'fas', 'times', text
     end
   end
 
-  def submit_button(text="Save", opts = {})
+  def submit_button(text='Save', opts = {})
     size = opts.delete(:size) || 'md'
     icon = opts.delete(:icon) || 'check'
     content_tag :button, opts.merge(type: :submit, class: "btn btn-#{size} btn-primary", data: { disable_with: disable_with_text(opts.delete(:feedback_text)) }) do
@@ -14,7 +14,7 @@ module FormsHelper
     end
   end
 
-  def search_button(text = "Search")
+  def search_button(text = 'Search')
     content_tag :button, type: :submit, class: 'btn btn-default', data: { disable_with: disable_with_text('Search') } do
       icon 'fas', 'search', text
     end
@@ -26,7 +26,7 @@ module FormsHelper
     end
   end
 
-  def dismiss_modal_button(text = "Close")
+  def dismiss_modal_button(text = 'Close')
     link_to icon('fas', 'times', text), '#', class: 'btn btn-default', data: { dismiss: 'modal' }
   end
 

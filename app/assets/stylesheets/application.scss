@@ -1,25 +1,22 @@
-/*
-  *= require bootstrap_setup
-  *= require font_awesome_setup
-  *= require layout
-  *= require forms
-  *= require warning_page
-  *= require custom_flash
-*/
+@import "bootstrap_setup";
+@import "font_awesome_setup";
+@import "layout";
+@import "forms";
+@import "warning_page";
+@import "custom_flash";
 
 /* Root variables. */
 :root {
- --button-primary: #3e3cd3;
- --button-hover: #615ff1;
- --font-large: 65px;
- --font-medium: 35px;
- --font-nav: 15px;
- --font-small: 12.5px;
- --font-main: #3A4147;
- --font-light: #798793;
- --monochrome-offwhite: #f9f9f9;
+  --button-primary: #3e3cd3;
+  --button-hover: #615ff1;
+  --font-large: 65px;
+  --font-medium: 35px;
+  --font-nav: 15px;
+  --font-small: 12.5px;
+  --font-main: #3A4147;
+  --font-light: #798793;
+  --monochrome-offwhite: #f9f9f9;
 }
-
 
 /* Fix ghost CSS padding or margin */
 html, body {
@@ -28,22 +25,20 @@ html, body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
-  /*#ffc038*/
 }
 
-/* Default Styles */
-body{
+body {
   color: var(--font-main);
   font-family: 'Poppins', sans-serif;
 }
 
-main{
+main {
   width: 100%;
   padding: 75px;
-  margin: 0px;
+  margin: 0;
 }
 
-.header{
+.header {
   width: 100%;
   height: 75px;
   padding: 20px 150px;
@@ -51,58 +46,58 @@ main{
   background: white;
 }
 
-nav{
+nav {
   font-size: small;
-  width:fit-content;
+  width: fit-content;
   float: right;
   padding-right: 100px;
 }
 
-a{
+a {
   color: var(--font-main);
 }
 
-a:hover{
+a:hover {
   text-decoration: none;
   color: var(--font-light);
 }
 
-.logo a{
+.logo a {
   text-decoration: none;
 }
 
-nav a{
+nav a {
   display: inline;
   text-decoration: none;
   color: var(--font-light);
-  padding:5px 20px;
+  padding: 5px 20px;
   border-right: solid var(--button-primary) 3px;
   font-size: var(--font-nav);
 }
 
-nav a:last-child{
+nav a:last-child {
   border-right: none;
 }
 
-nav a:hover{
+nav a:hover {
   text-decoration: none;
   color: var(--button-hover);
-  transition:all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 
-#nav-tabContent{
+#nav-tabContent {
   height: max-content;
 }
 
-#comparison{
+#comparison {
   margin-top: 150px;
 }
 
-.navbar{
+.navbar {
   padding: 0;
 }
 
-.button{
+.button {
   padding: 40px 20px;
   border-radius: 50px;
   background-color: var(--button-primary);
@@ -112,15 +107,15 @@ nav a:hover{
   text-align: center;
 }
 
-.button:hover{
+.button:hover {
   text-decoration: none;
   color: white;
-  box-shadow: #8080802b 0 0 0px 0px;
+  box-shadow: #8080802b 0 0 0 0;
   background-color: var(--button-hover);
   transition: all 0.5s ease-in-out;
 }
 
-.card-button{
+.card-button {
   margin: 0;
   border-radius: 0;
   padding: 20px 5px;
@@ -130,52 +125,52 @@ nav a:hover{
   box-shadow: none;
 }
 
-.card-button:hover{
+.card-button:hover {
   text-decoration: none;
   color: white;
-  box-shadow: #8080802b 0 0 0px 0px;
+  box-shadow: #8080802b 0 0 0 0;
   background-color: var(--button-hover);
 }
 
-.span{
+.span {
   clear: both;
   width: 100%;
   height: max-content;
 }
 
-.col-6{
-  clear:right;
+.col-6 {
+  clear: right;
   max-width: 100%;
   min-width: 360px;
   padding: 25px;
   margin: auto;
 }
 
-img{
+img {
   width: 100%;
 }
 
-.background{
+.background {
   position: absolute;
   top: 930px;
   left: 420px;
 }
 
-.intro{
+.intro {
   padding: 75px 150px;
 }
 
-.center{
+.center {
   margin: auto;
   text-align: center;
 }
 
-.small{
+.small {
   font-size: var(--font-small);
   color: var(--button-hover);
 }
 
-.register{
+.register {
   width: 100%;
   border: solid 3px var(--button-primary);
   border-radius: 50px;
@@ -183,54 +178,54 @@ img{
 }
 
 #map {
-   height: 400px;
-   width: 100%; 
-  }
+  height: 400px;
+  width: 100%;
+}
 
-#sample{
+#sample {
   width: 550px;
   background-color: white;
   box-shadow: 0 0 25px #0000003b;
   margin: 150px auto 0;
 }
 
-#samples{
-  background-image: url(/assets/background_1.png);
+#samples {
+  background-image: url(background_1.png);
   background-size: 1000px;
   background-position: center 50.5px;
   background-repeat: no-repeat;
 }
 
-#feature{
+#feature {
   background-color: white;
   box-shadow: 0 0 25px #0000003b;
   margin: 0 auto 100px;
 }
 
-#feature p{
+#feature p {
   width: 75%;
 }
 
-#features{
+#features {
   width: 100%;
   padding-top: 250px;
 }
 
-#footer{
+#footer {
   border: none;
   margin: 100px auto;
 }
 
-#pricing, #about, #feedback{
+#pricing, #about, #feedback {
   padding: 50px 0 0;
 }
 
-.tabs{
+.tabs {
   width: 100%;
   padding: 0;
 }
 
-.tabs .nav-item{
+.tabs .nav-item {
   width: 320px;
   height: 60px;
   margin: 0 20px;
@@ -238,45 +233,46 @@ img{
   color: white;
 }
 
-.nav-tabs{
+.nav-tabs {
   width: max-content;
   margin: auto;
 }
-.card{
+
+.card {
   margin: auto;
   border: none;
   height: 600px;
   box-shadow: 0 0 25px #0000003b;
 }
 
-.card h2{
+.card h2 {
   margin-top: 120px;
 }
 
-.card-footer{
+.card-footer {
   padding: 0
 }
 
-.motto{
+.motto {
   font-size: var(--font-large);
   margin-bottom: 50px;
   /* width: 650px; */
 }
 
-.info{
+.info {
   font-size: var(--font-small);
   color: var(--font-light);
   margin-bottom: 25px;
   /* width: 650px; */
 }
 
-.logo a{
+.logo a {
   color: var(--font-main);
   float: left;
 }
 
 /* decoration */
-.line{
+.line {
   border-bottom: solid var(--button-primary) 3px;
   width: 45px;
   padding-left: 50px;
@@ -284,50 +280,50 @@ img{
   margin-bottom: 20px;
 }
 
-.line span{
+.line span {
   padding-left: 20px;
 }
 
-.bg-color{
+.bg-color {
   background-color: var(--button-primary);
   color: white;
 }
 
 @media only screen and (max-width: 500px) {
-  table{
+  table {
     font-size: 10px;
   }
-  .navbar-collapse{
+  .navbar-collapse {
     background: white;
   }
 }
 
 @media only screen and (max-width: 380px) {
   main {
-    padding: 0px;
+    padding: 0;
   }
-  .header{
+  .header {
     padding: 25px;
   }
-  .navbar-toggler{
+  .navbar-toggler {
     right: 0;
   }
 
-  .row{
+  .row {
     margin-right: 0
   }
 
-  .col-6{
+  .col-6 {
     padding: 50px;
   }
 
-  .intro{
+  .intro {
     padding: 0;
   }
-  .logo a{
-    margin-left: 0px;
+  .logo a {
+    margin-left: 0;
   }
-  #sample{
+  #sample {
     width: 300px;
   }
 }
