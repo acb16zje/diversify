@@ -1,2 +1,138 @@
-= render partial: "/partial/pricing"
-= render partial: "/partial/comparison"
+- content_for :title, 'Pricing'
+
+#pricing.container
+  .row
+    .col-6.col-md
+      .card.mb-3{style: "max-width: 18rem;"}
+        .card-body
+          %h5.card-title.text-center Casual
+          .container
+            %h2.card-text.bold.text-center Free
+            %br
+            %br
+            .container
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unlimited team members
+              %p.card-text.small
+                %span.fas.fa-check
+                %span free to join projects
+        .card-footer
+          = link_to 'Get started for free', register_pages_path, class: "button card-button"
+    .col-6.col-md
+      .card.mb-3{style: "max-width: 18rem;"}
+        .card-body
+          %h5.card-title.text-center Professional
+          .container
+            %h2.card-text.bold.text-center £ 9.99/month
+            %br
+            %br
+            .container
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unlimited projects
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unlimited team members
+              %p.card-text.small
+                %span.fas.fa-check
+                %span private projects
+        .card-footer
+          = link_to 'Start a 14-day free trial', register_pages_path, class: "button card-button"
+    .col-6.col-md
+      .card.mb-3{style: "max-width: 18rem; border: solid 5px var(--button-hover);"}
+        .card-body
+          %h5.card-title.text-center Enterprise
+          .container
+            %h2.card-text.bold.text-center £ 164.99/year
+            %br
+            %br
+            .container
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unilited accounts
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unilited projects
+              %p.card-text.small
+                %span.fas.fa-check
+                %span unlimited team members
+        .card-footer
+          = link_to 'Start a 14-day free trial', register_pages_path, class: "button card-button"
+
+#comparison.bg-color
+  .container
+    %table.table.table-borderless{style: 'color: white'}
+      %thead
+        %tr
+          %th{scope: "col"}
+          %th.font-weight-bold{scope: "col"} features
+          %th{scope: "col"}
+          %th{scope: "col"}
+          %th.font-weight-bold{scope: "col"} free
+          %th.font-weight-bold{scope: "col"} Profesional
+          %th.font-weight-bold{scope: "col"} enterprise
+      %tbody
+        %tr
+          %th{scope: "row"} 1
+          %td{colspan: "3"} unlimited projects
+          %td
+            %span.fas.fa-times
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 2
+          %td{colspan: "3"} unlimited team members
+          %td
+            %span.fas.fa-times
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 3
+          %td{colspan: "3"} free to join projects
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 4
+          %td{colspan: "3"} public projects
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 5
+          %td{colspan: "3"} private projects
+          %td
+            %span.fas.fa-times
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 6
+          %td{colspan: "3"} team member analysis and feedback
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+          %td
+            %span.fas.fa-check
+        %tr
+          %th{scope: "row"} 7
+          %td{colspan: "3"} multiple accounts
+          %td
+            %span.fas.fa-times
+          %td
+            %span.fas.fa-times
+          %td
+            %span.fas.fa-check

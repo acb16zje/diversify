@@ -14,7 +14,6 @@ gem 'rails'
 gem 'responders'
 gem 'thin'
 
-# gem 'sqlite3', '1.4.1', group: [:development, :test]
 gem 'pg'
 
 gem 'haml-rails'
