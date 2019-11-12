@@ -1,2 +1,0 @@
-class UserPersonality < ApplicationRecord
-end
