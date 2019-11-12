@@ -27,19 +27,24 @@
     %title #{content_for(:title)} | Diversify
 
   %body
+    -# nav bar for the landing page
     #navigation
+      -# enables a fixed with
       .container
         %nav.navbar.navbar-expand-lg.navbar-light
+          -# title
           = link_to :root, class: 'font-weight-bold' do
             %span
-              %img{:alt => "", :height => "30", src: asset_path("favicon/android-chrome-192x192.png"), :width => "30"}
+              = image_tag  "favicon/android-chrome-192x192.png", :height => "30",:width => "30"
             %span Diversify
+          -# toggle button for mobile. custom button with animation
           %button.navbar-toggler{"aria-controls" => "navbarText", "aria-expanded" => "false",
            "aria-label" => "Toggle navigation", "data-target" => "#navbarText",
             "data-toggle" => "collapse", :type => "button", :onclick => 'navButton(this)'}
             .bar1
             .bar2
             .bar3
+          -# navbar with few animations. one javascript function.
           #navbarText.collapse.navbar-collapse
             = link_to :root, class: 'nav-link' do
               %span Home
