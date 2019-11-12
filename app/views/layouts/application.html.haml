@@ -27,6 +27,31 @@
     %title #{content_for(:title)} | Diversify
 
   %body
+    #navigation
+      .container
+        %nav.navbar.navbar-expand-lg.navbar-light
+          = link_to :root, class: 'font-weight-bold' do
+            Diversify
+          %button.navbar-toggler{"aria-controls" => "navbarText", "aria-expanded" => "false",
+           "aria-label" => "Toggle navigation", "data-target" => "#navbarText",
+            "data-toggle" => "collapse", :type => "button", :onclick => 'navButton(this)'}
+            .bar1
+            .bar2
+            .bar3
+          #navbarText.collapse.navbar-collapse
+            = link_to :root, class: 'nav-link' do
+              %span Home
+              %span.line
+            = link_to :root, class: 'nav-link' do
+              %span Pricing
+              %span.line
+            = link_to :root, class: 'nav-link' do
+              %span Contact
+              %span.line
+            = link_to :root, class: 'nav-link' do
+              %span About Us
+              %span.line
+
 
     %main
       = yield
