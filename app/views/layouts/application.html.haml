@@ -62,3 +62,32 @@
 
     %main
       = yield
+
+    #footer.bg-light
+      .container
+        .row
+          .col-12.col-md
+            -# title
+            = link_to :root, class: 'font-weight-bold' do
+              %span
+                = image_tag  "favicon/android-chrome-192x192.png", :height => "30",:width => "30"
+              %span Diversify
+            %small.d-block.mb-3.text-muted © 2017-2018 | Terms | Privacy
+          .col-9.col-md
+            %h5 Features
+            %ul.list-unstyled.text-small
+              %li
+                = link_to :root, class: 'text-muted' do
+                  %span Home
+          .col-9.col-md
+            %h5 Resources
+            %ul.list-unstyled.text-small
+              %li
+                = link_to :root, class: 'text-muted' do
+                  %span Home
+          .col-9.col-md
+            %h5 About
+            %ul.list-unstyled.text-small
+              %li
+                = link_to :root, class: 'text-muted' do
+                  %span Home

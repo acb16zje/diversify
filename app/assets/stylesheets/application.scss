@@ -20,11 +20,23 @@
 }
 
 /* Fix ghost CSS padding or margin */
+// default styles
 html, body {
   width: 100%;
   height: 100%;
   margin: 0;
   font-family: 'Poppins', sans-serif;
+}
+
+a{
+  color: black;
+  text-decoration: none;
+  font-size: large;
+}
+
+a:hover{
+  color: black;
+  text-decoration: none;
 }
 
 // navigation styles
@@ -39,17 +51,9 @@ html, body {
       background: none;
     }
 
-    a{
-      color: black;
-      text-decoration: none;
-      font-size: large;
-    }
-
-    a:hover{
-      text-decoration: none;
-    }
   }
 }
+
 // for less than 900px
 @media only screen and (max-width: 990px) {
   #navigation{
@@ -152,5 +156,17 @@ html, body {
       transition: all 0.5s ease-in-out;
     }
   }
+  }
+}
+
+// footer styles
+#footer{
+  padding: 20px 100px;
+  height: max-content;
+  .row{
+    padding: 0.5rem 1rem;
+  }
+  .col-9{
+    text-align: right;
   }
 }
