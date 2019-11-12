@@ -31,7 +31,9 @@
       .container
         %nav.navbar.navbar-expand-lg.navbar-light
           = link_to :root, class: 'font-weight-bold' do
-            Diversify
+            %span
+              %img{:alt => "", :height => "30", src: asset_path("favicon/android-chrome-192x192.png"), :width => "30"}
+            %span Diversify
           %button.navbar-toggler{"aria-controls" => "navbarText", "aria-expanded" => "false",
            "aria-label" => "Toggle navigation", "data-target" => "#navbarText",
             "data-toggle" => "collapse", :type => "button", :onclick => 'navButton(this)'}
