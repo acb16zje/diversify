@@ -1,9 +1,7 @@
 @import "bootstrap_setup";
 @import "font_awesome_setup";
-@import "layout";
 @import "forms";
 @import "warning_page";
-@import "custom_flash";
 
 /* Root variables. */
 :root {
@@ -28,25 +26,23 @@ html, body {
   font-family: 'Poppins', sans-serif;
 }
 
-a{
+a {
   color: black;
   text-decoration: none;
   font-size: large;
 }
 
-a:hover{
+a:hover {
   color: black;
   text-decoration: none;
 }
 
 // navigation styles
 
-#navigation{
-  padding: 20px;
-
-  nav{
-    .navbar-toggler{
-      border:none;
+#navigation {
+  nav {
+    .navbar-toggler {
+      border: none;
       padding: 0;
       background: none;
     }
@@ -56,33 +52,32 @@ a:hover{
 
 // for less than 900px
 @media only screen and (max-width: 990px) {
-  #navigation{
+  #navigation {
     transition: all 0.5s ease-in-out;
 
-    nav{
-      .nav-link{
+    nav {
+      .nav-link {
         text-align: center;
         font-size: xx-large;
         padding-top: 50px;
 
-        .line{
+        .line {
           transition: all 0.5s ease-in-out;
           position: absolute;
           width: 0;
           left: 50%;
           border-bottom: 3px white solid;
           margin-top: 50px;
-          }
         }
+      }
 
-      .nav-link:hover, a:visited a:active{
-        .line{
+      .nav-link:hover, a:visited a:active {
+        .line {
           transition: all 0.5s ease-in-out;
           width: 10%;
           left: 45%;
-          }
+        }
       }
-
 
       .bar1, .bar2, .bar3 {
         width: 30px;
@@ -93,9 +88,9 @@ a:hover{
         border-radius: var(--radius);
       }
 
-      .change{
+      .change {
         transition: all 0.5s ease-in-out;
-        background-color: none;
+        background-color: transparent;
 
         .bar1 {
           -webkit-transform: rotate(-45deg) translate(-4px, 4px);
@@ -103,7 +98,9 @@ a:hover{
           background-color: white;
         }
 
-        .bar2 {opacity: 0;}
+        .bar2 {
+          opacity: 0;
+        }
 
         .bar3 {
           background-color: white;
@@ -114,14 +111,14 @@ a:hover{
     }
   }
 
-  .change#navigation{
+  .change#navigation {
     height: 100%;
     background: var(--button-primary);
     color: white;
     transition: all 0.5s ease-in-out;
 
-    a{
-        color: white;
+    a {
+      color: white;
     }
   }
 
@@ -129,44 +126,42 @@ a:hover{
 
 // for width greater that 990px
 @media only screen and (min-width: 990px) {
-  #navigation{
-    transition: all 0.5s ease-in-out;
-    padding: 20px 100px;
+  #navigation {
+    padding: 20px 0;
 
-  .navbar-collapse{
-    flex-grow: 0;
-    margin: 0 0 0 auto;
-  }
-
-  .nav-link{
-    .line{
-      width: 0;
-      border-bottom: 3px solid var(--button-primary);
-      display: block;
-      margin-left: 50%;
+    .navbar-collapse {
+      flex-grow: 0;
+      margin: 0 0 0 auto;
     }
-  }
 
-  .nav-link:hover{
-    transition: all 0.5s ease-in-out;
-    color: var(--button-primary);
-    .line{
-      width: 40%;
-      margin-left: 30%;
+    .nav-link {
+      .line {
+        width: 0;
+        border-bottom: 3px solid var(--button-primary);
+        display: block;
+        margin-left: 50%;
+      }
+    }
+
+    .nav-link:hover {
       transition: all 0.5s ease-in-out;
+      color: var(--button-primary);
+
+      .line {
+        width: 40%;
+        margin-left: 30%;
+        transition: all 0.5s ease-in-out;
+      }
     }
-  }
   }
 }
 
 // footer styles
-#footer{
-  padding: 20px 100px;
+#footer {
+  padding: 20px 0;
   height: max-content;
-  .row{
+
+  .row {
     padding: 0.5rem 1rem;
-  }
-  .col-9{
-    text-align: right;
   }
 }

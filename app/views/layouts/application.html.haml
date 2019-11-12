@@ -28,37 +28,34 @@
 
   %body
     -# nav bar for the landing page
-    #navigation
-      -# enables a fixed with
+    %nav#navigation
       .container
+        -# enables a fixed with
         %nav.navbar.navbar-expand-lg.navbar-light
           -# title
-          = link_to :root, class: 'font-weight-bold' do
-            %span
-              = image_tag  "favicon/android-chrome-192x192.png", :height => "30",:width => "30"
-            %span Diversify
+          = link_to root_path, class: 'font-weight-bold' do
+            = image_tag  'logo/logo_horizontal.svg', width: '200'
           -# toggle button for mobile. custom button with animation
-          %button.navbar-toggler{"aria-controls" => "navbarText", "aria-expanded" => "false",
-           "aria-label" => "Toggle navigation", "data-target" => "#navbarText",
-            "data-toggle" => "collapse", :type => "button", :onclick => 'navButton(this)'}
+          %button.navbar-toggler{'aria-controls': 'navbarText', 'aria-expanded': 'false',
+           'aria-label': 'Toggle navigation', 'data-target': '#navbarText',
+            'data-toggle': 'collapse', type: 'button', onclick: 'navButton(this)'}
             .bar1
             .bar2
             .bar3
           -# navbar with few animations. one javascript function.
           #navbarText.collapse.navbar-collapse
-            = link_to :root, class: 'nav-link' do
+            = link_to root_path, class: 'nav-link' do
               %span Home
               %span.line
-            = link_to :root, class: 'nav-link' do
+            = link_to root_path, class: 'nav-link' do
               %span Pricing
               %span.line
-            = link_to :root, class: 'nav-link' do
+            = link_to root_path, class: 'nav-link' do
               %span Contact
               %span.line
-            = link_to :root, class: 'nav-link' do
+            = link_to root_path, class: 'nav-link' do
               %span About Us
               %span.line
-
 
     %main
       = yield
@@ -68,26 +65,24 @@
         .row
           .col-12.col-md
             -# title
-            = link_to :root, class: 'font-weight-bold' do
-              %span
-                = image_tag  "favicon/android-chrome-192x192.png", :height => "30",:width => "30"
-              %span Diversify
-            %small.d-block.mb-3.text-muted © 2017-2018 | Terms | Privacy
+            = link_to root_path, class: 'font-weight-bold' do
+              = image_tag  'logo/logo_vertical.svg', width: '100'
+            %p.d-block.mb-3 &copy; 2019
           .col-9.col-md
-            %h5 Features
+            %h5 Products
             %ul.list-unstyled.text-small
               %li
-                = link_to :root, class: 'text-muted' do
+                = link_to root_path, class: 'text-muted' do
                   %span Home
           .col-9.col-md
-            %h5 Resources
+            %h5 Company
             %ul.list-unstyled.text-small
               %li
-                = link_to :root, class: 'text-muted' do
+                = link_to root_path, class: 'text-muted' do
                   %span Home
           .col-9.col-md
-            %h5 About
+            %h5 Support
             %ul.list-unstyled.text-small
               %li
-                = link_to :root, class: 'text-muted' do
+                = link_to root_path, class: 'text-muted' do
                   %span Home
