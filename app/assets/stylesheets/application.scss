@@ -33,6 +33,34 @@ html, body {
   &.has-spaced-navbar-fixed-top {
     padding-top: 6.815rem;
   }
+
+  .container{
+    max-width: 1000px;
+  }
+
+  .content-tab{
+    display:none;
+  }
+
+  .show{
+    display: block;
+  }
+
+  .tab{
+    border: none;
+    background-color: var(--button-primary);
+    border-radius: 4px 4px 0 0;
+
+    a{
+      color: white;
+    }
+  }
+
+  .is-active{
+    a{
+      color: var(--button-primary);
+    }
+  }
 }
 
 /* Navbar */
@@ -46,11 +74,16 @@ nav.navbar {
 
   .navbar-burger {
     height: initial;
+    margin-right: 1.5rem;
 
     span {
-      height: 2px;
+      height: 3px;
+      border-radius: 10px;
+      width: 30px;
+
     }
   }
+}
 
   /* Desktop Navbar */
   @media screen and (min-width: 1024px) {
@@ -81,6 +114,9 @@ nav.navbar {
 
   /* Mobile Navbar */
   @media screen and (max-width: 1024px) {
+    body{
+      text-align: center;
+    }
     #navbar {
       background-color: $primary;
       text-align: center;
@@ -89,8 +125,10 @@ nav.navbar {
         color: white;
       }
     }
+    .footer{
+      text-align: center;
+    }
   }
-}
 
 /* Footer */
 footer {

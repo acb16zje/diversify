@@ -4,11 +4,50 @@
   .container
     .columns.is-vcentered
       .column
-        %h5.subtitle.is-5.description.has-text-primary Intro
+        %h5.subtitle.is-5.description.has-text-primary.has-text-left Intro
+        %br
         %h1.title.is-1.is-spaced Team work makes the dream work!
         %p.subtitle.is-5 Here to make and manage your team! Don't just make a team, make the Best one ever!
         %p.subtitle.is-5 Join us in our free projects and contribute to the community! Get rated and grow your skills!
-        = link_to root_path, class: 'button is-primary is-large' do
+        %br
+        = link_to 'Pricing', class: 'button is-primary is-large' do
           Get Started for Free
-      .column.has-text-centered
-        = image_tag 'Genesys.png', width: '80%'
+      .column.has-text-centered.is-vcentered
+        = image_tag 'Genesys.png', width: '100%'
+-# Div for the sample section
+%br
+%section.section#title
+  .container
+    .columns.is-vcentered
+      .column
+        %h3.title.is-1.is-spaced.has-text-centered Make the perfect team for every project!
+        %p.subtitle.is-5.has-text-centered  Take advantage of diversity to unleash the full potential of your team!
+%section.section#sample
+  .container
+    .columns.is-vcentered
+      = image_tag 'Diversify_sample.png', width: '100%'
+-# Div for the Feature section
+%section.section#features
+  .container
+    .tabs.is-boxed.is-fullwidth.is-medium
+      %ul
+        %li.tab.is-active{:onclick => "openTab(event,'rate')"}
+          %a Rate
+        %li.tab{:onclick => "openTab(event,'analyse')"}
+          %a Analyse
+        %li.tab{:onclick => "openTab(event,'join')"}
+          %a Join
+  .container.section
+    #rate.content-tab.show
+      .columns.is-vcentered
+        .column
+          %h6.subtitle.has-text-primary Rate
+        .column.is-vcentered
+    #analyse.content-tab
+      .column
+        %h6.subtitle.has-text-primary Analyse
+      .column.is-vcentered
+    #join.content-tab
+      .column
+        %h6.subtitle.has-text-primary Join
+      .column.is-vcentered
