@@ -1,13 +1,11 @@
 //= require jquery
 //= require jquery_ujs
-//= require popper
-//= require bootstrap
-//= require flash_message
-//= require visibility_map
 
-// navbutton adds the change class to divs in the
-// navbar to allow their styles to change.
-function navButton(x) {
-  x.classList.toggle("change");
-  document.getElementById("navigation").classList.toggle('change');
-}
+// Check for click events on the navbar burger icon
+$('.navbar-burger').click(function() {
+
+  // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+  $('.navbar-burger').toggleClass('is-active');
+  $('.navbar-menu').toggleClass('is-active');
+
+});

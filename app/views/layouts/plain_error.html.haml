@@ -2,10 +2,10 @@
 %html
   %head
     %title Project - #{content_for(:title)}
-    %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
     %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
-    = stylesheet_link_tag    "application", media: :all
-    = javascript_include_tag "application"
+    = stylesheet_link_tag    'application', media: :all
+    = javascript_include_tag 'application'
     = favicon_link_tag '/favicon.ico'
 
   %body{ class: environment_notice_body_class }
@@ -33,7 +33,7 @@
       %nav#main-nav.navbar.navbar-default.navbar-fixed-top
         .container
           .navbar-header
-            %button.navbar-toggle{ data: { target: ".navbar-collapse", toggle: :collapse, type: :button } }
+            %button.navbar-toggle{ data: { target: '.navbar-collapse', toggle: :collapse, type: :button } }
               %span.icon-bar
               %span.icon-bar
               %span.icon-bar
@@ -42,7 +42,7 @@
 
           .collapse.navbar-collapse
             %ul.nav.navbar-nav
-              = navbar_link_to :root, title: "Go to the home page", identifier: :home do
+              = navbar_link_to :root, title: 'Go to the home page', identifier: :home do
                 = icon 'fas', 'home'
                 Home
 
