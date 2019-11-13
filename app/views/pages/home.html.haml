@@ -1,3 +1,23 @@
 - content_for :title, 'Home'
-
-%div{style: 'height: 800px'}
+-# Div for the Intro section
+#intro
+  .container
+    .row
+      -#col for text
+      .col-9.col-md
+        %h5.line
+          %span Intro
+        %br
+        %h1.motto.font-weight-bold Team work makes the dream work!
+        %br
+        %h6 Here to make and manage your team! Don't just make a team, make the Best one ever!
+        %h6 Join us in our free projects and contribute to the community! Get rated and grow your skills!
+        %br
+        %br
+        = link_to "/price", class: 'btn btn-primary button' do
+          Get Started For Free!
+        %br
+        %br
+      -# col for image
+      .col-9.col-md
+        = image_tag  "Genesys.png", :width => "100%"

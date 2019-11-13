@@ -1,11 +1,11 @@
+/* Root variables. */
+$primary: #3e3cd3;
+
 @import "bulma";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "forms";
 @import "warning_page";
-
-/* Root variables. */
-$primary-colour: #3e3cd3;
 
 :root {
   --button-primary: #3e3cd3;
@@ -17,7 +17,7 @@ $primary-colour: #3e3cd3;
   --font-main: #3A4147;
   --font-light: #798793;
   --monochrome-offwhite: #f9f9f9;
-  --radius: 50px;
+  --radius: 100px;
 }
 
 /* Fix ghost CSS padding or margin */
@@ -29,6 +29,10 @@ html, body {
   padding: 0;
   overflow-x: hidden;
   font-family: 'Poppins', sans-serif;
+
+  &.has-spaced-navbar-fixed-top {
+    padding-top: 6.815rem;
+  }
 }
 
 /* Navbar */
@@ -59,16 +63,16 @@ nav.navbar {
       font-size: large;
 
       &:after {
-        display:block;
+        display: block;
         content: '';
-        border-bottom: solid 3px $primary-colour;
+        border-bottom: solid 3px $primary;
         transform: scaleX(0);
         transition: transform 250ms ease-in-out;
       }
 
       &:hover:after {
         font-weight: bold;
-        color: $primary-colour;
+        color: $primary;
         transform: scaleX(1);
       }
     }
@@ -78,7 +82,7 @@ nav.navbar {
   /* Mobile Navbar */
   @media screen and (max-width: 1024px) {
     #navbar {
-      background-color: $primary-colour;
+      background-color: $primary;
       text-align: center;
 
       a.navbar-item {
@@ -94,4 +98,16 @@ footer {
     display: block;
     margin-bottom: 0.8rem !important;
   }
+}
+
+
+
+h5.description::before {
+  content: '';
+  display: inline-block;
+  margin-right: 15px;
+  position: relative;
+
+  width: 50px;
+  border-bottom: 2px solid black;
 }
