@@ -1,23 +1,14 @@
 - content_for :title, 'Home'
 -# Div for the Intro section
-#intro
+%section.section#intro
   .container
-    .row
-      -#col for text
-      .col-9.col-md
-        %h5.line
-          %span Intro
-        %br
-        %h1.motto.font-weight-bold Team work makes the dream work!
-        %br
-        %h6 Here to make and manage your team! Don't just make a team, make the Best one ever!
-        %h6 Join us in our free projects and contribute to the community! Get rated and grow your skills!
-        %br
-        %br
-        = link_to "/price", class: 'btn btn-primary button' do
-          Get Started For Free!
-        %br
-        %br
-      -# col for image
-      .col-9.col-md
-        = image_tag  "Genesys.png", :width => "100%"
+    .columns.is-vcentered
+      .column
+        %h5.subtitle.is-5.description.has-text-primary Intro
+        %h1.title.is-1.is-spaced Team work makes the dream work!
+        %p.subtitle.is-5 Here to make and manage your team! Don't just make a team, make the Best one ever!
+        %p.subtitle.is-5 Join us in our free projects and contribute to the community! Get rated and grow your skills!
+        = link_to root_path, class: 'button is-primary is-large' do
+          Get Started for Free
+      .column.has-text-centered
+        = image_tag 'Genesys.png', width: '80%'

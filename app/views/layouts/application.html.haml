@@ -26,7 +26,7 @@
 
     %title #{content_for(:title)} | Diversify
 
-  %body.has-navbar-fixed-top
+  %body.has-spaced-navbar-fixed-top
     %nav.navbar.is-fixed-top.is-spaced
       .container
         .navbar-brand
@@ -43,8 +43,7 @@
             = link_to 'About', root_path, class: 'navbar-item'
             = link_to 'Newsletter', root_path, class: 'navbar-item'
 
-    %main
-      = yield
+    = yield
 
     %footer.footer
       .container
