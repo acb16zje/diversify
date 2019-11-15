@@ -1,0 +1,21 @@
+- content_for :title, 'Home'
+-# Div for the Intro section
+%section.section#intro
+  .container
+    .card
+      %header.card-header
+        %p.card-header-title
+          Component
+      .card-content
+        .content
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
+          = succeed "." do
+            %a{:href => "#"} @bulmaio
+          %a{:href => "#"} #css
+          %a{:href => "#"} #responsive
+          %br/
+          %time{:datetime => "2016-1-1"} 11:09 PM - 1 Jan 2016
+      %footer.card-footer
+        %a.card-footer-item{:href => "#"} Save
+        %a.card-footer-item{:href => "#"} Edit
+        %a.card-footer-item{:href => "#"} Delete
