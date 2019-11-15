@@ -70,6 +70,12 @@ html, body {
       color: var(--button-primary);
     }
   }
+  #intro{
+    .button.is-primary {
+      background-color:
+      #ef247c;
+    }
+  }
 
   #Pricing{
     .card{
