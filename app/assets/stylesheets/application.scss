@@ -91,6 +91,10 @@ html, body {
     .small{
       color: var(--button-primary);
     }
+
+    .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+      background-color: #d8d8e8;
+    }
   }
 }
 
