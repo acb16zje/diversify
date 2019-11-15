@@ -40,10 +40,19 @@ html, body {
 
   .content-tab{
     display:none;
+
+    img{
+      box-shadow: 0 0 15px 5px #00000017;
+    }
+
   }
 
   .show{
     display: block;
+  }
+
+  .border{
+      border: solid 5px var(--button-primary);
   }
 
   .tab{
@@ -61,13 +70,22 @@ html, body {
       color: var(--button-primary);
     }
   }
-  .content-tab{
-    img{
-      box-shadow: 0 0 15px 5px #00000017;
+
+  #Pricing{
+    .card{
+      .card-content{
+        height: 450px;
+      }
+      .button{
+        border-radius: 0;
+        width: 100%;
+      }
+    }
+
+    .small{
+      color: var(--button-primary);
     }
   }
-
-
 }
 
 /* Navbar */
@@ -150,9 +168,8 @@ footer {
 h5.description::before {
   content: '';
   display: inline-block;
-  margin-right: 15px;
+  margin-right: 10px;
   position: relative;
-  bottom: 5px;
-  width: 50px;
-  border-bottom: 2px solid black;
+  width: 25px;
+  border-bottom: 4px solid black;
 }
