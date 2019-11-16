@@ -1,24 +1,12 @@
 /* Root variables. */
 $primary: #3e3cd3;
+$secondary: #f14668;
 
 @import "bulma";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 @import "forms";
 @import "warning_page";
-
-:root {
-  --button-primary: #3e3cd3;
-  --button-hover: #615ff1;
-  --font-large: 65px;
-  --font-medium: 35px;
-  --font-nav: 15px;
-  --font-small: 12.5px;
-  --font-main: #3A4147;
-  --font-light: #798793;
-  --monochrome-offwhite: #f9f9f9;
-  --radius: 100px;
-}
 
 /* Fix ghost CSS padding or margin */
 // default styles
@@ -52,12 +40,15 @@ html, body {
   }
 
   .border{
-      border: solid 5px var(--button-primary);
+      border: solid 5px $primary;
   }
 
+  .border-pink{
+      border: solid 5px $secondary;
+  }
   .tab{
     border: none;
-    background-color: var(--button-primary);
+    background-color: $primary;
     border-radius: 4px 4px 0 0;
 
     a{
@@ -67,21 +58,22 @@ html, body {
 
   .is-active{
     a{
-      color: var(--button-primary);
+      color: $primary;
     }
   }
   #intro{
-    .button.is-primary {
+    .button.is-primary.highlight {
       background-color:
       #ef247c;
     }
   }
 
-  #Pricing{
+  #Pricing, #About{
     .card{
       .card-content{
         height: 450px;
       }
+
       .button{
         border-radius: 0;
         width: 100%;
@@ -89,7 +81,8 @@ html, body {
     }
 
     .small{
-      color: var(--button-primary);
+      color: $primary;
+      text-decoration: none;
     }
 
     .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {

@@ -39,8 +39,8 @@
         #navbar.navbar-menu
           .navbar-end
             = link_to 'Home', root_path, class: 'navbar-item'
-            = link_to 'Pricing', 'pricing', class: 'navbar-item'
-            = link_to 'About', 'about', class: 'navbar-item'
+            = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
+            = link_to 'About', about_pages_path, class: 'navbar-item'
             = link_to 'Newsletter', root_path, class: 'navbar-item'
 
     = yield

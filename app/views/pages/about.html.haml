@@ -8,3 +8,50 @@
         .column
           %h3.title.is-1.is-spaced.has-text-centered Find out who we are and what we do!
           %p.subtitle.is-5.has-text-centered  meet the team and get to know the people brining diversify to you!
+      .columns.is-vcentered
+        .column
+          %h3.title.is-3.is-spaced.has-text-centered Our Values!
+      .tile.is-ancestor
+        .tile.is-vertical.is-8
+          .tile
+            .tile.is-parent.is-vertical
+              %article.tile.is-child.notification.border
+                %p.title Punctuality
+                %p We promise to deliver this project soon. The deadlines are yet to be decided. Be Patient!
+              %article.tile.is-child.notification.border-pink
+                %p.title Quality
+                %p We promise you a quality product that will meet all your requirements.
+            .tile.is-parent
+              %article.tile.is-child.notification.border
+                %h3.title.is-3 Transparency
+                %p We aim to let you, the customer know everything that is goin on with this product.
+                %p
+                This includes
+                %span.small keeping you up to date
+                on everything we will be doing.
+                %p
+                %span
+                  = link_to 'Join our mailing list', register_pages_path, class: " is-5"
+                and get a copy of our newsletter here.
+
+          .tile.is-parent
+            %article.tile.is-child.notification.border-pink
+              %p.title Constant Improvement
+              %p More than anything we expect to consistently improve the services we offer.
+              %p We plan to be on call for any problems experienced on this site.
+              .content
+                / Content
+        .tile.is-parent
+          %article.tile.is-child.notification.border
+            .content
+              %p.title Diversity
+              %p We’re committed to working in a diverse team and to create a healthy working environment that’s inclusive of people of all backgrounds.
+              %p
+              %span
+                = link_to 'Get to know the wonderful team', 'about#team', class: "small-white"
+              who’s building our product, supporting our customers, and creating educational content.
+%section.section#team
+  .container
+    .columns.is-vcentered
+      .column
+        %h3.title.is-3.is-spaced.has-text-centered Meet the Team!
