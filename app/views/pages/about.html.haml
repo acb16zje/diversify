@@ -8,9 +8,51 @@
         .column
           %h3.title.is-1.is-spaced.has-text-centered Find out who we are and what we do!
           %p.subtitle.is-5.has-text-centered  meet the team and get to know the people brining diversify to you!
+
+  %section.section#team
+    .container
+      .columns.is-vcentered
+        .column.is-one-third
+          %img{src: asset_path("jun.png")}
+        .column
+          %h3.title.is-3 Zer Jun Eng
+          %h5.subtitle.is-5 MEng Software Engineering
+          %p Lead Develper
+      %hr
+      .columns.is-vcentered
+        .column
+          %h3.title.is-3 Jia Hua Ng
+          %h5.subtitle.is-5 MEng Software Engineering
+          %p Backend Developer
+        .column.is-one-third
+          %img{src: asset_path("jia.png")}
+
+      %hr
+      .columns.is-vcentered
+        .column.is-one-third
+          %img{src: asset_path("wonwoo.png")}
+        .column
+          %h3.title.is-3Wonwoo Wonwoo Soh
+          %h5.subtitle.is-5 MComp Computer Science
+          %p Backend Developer
+      %hr
+      .columns.is-vcentered
+        .column
+          %h3.title.is-3Neville Neville Kitala
+          %h5.subtitle.is-5 MEng Software Engineering
+          %p Frontend Developer
+        .column.is-one-third
+          %img{src: asset_path("neville.png")}
+      %hr
+      .columns.is-vcentered
+        .column
+
+  .container
+    .container
       .columns.is-vcentered
         .column
           %h3.title.is-3.is-spaced.has-text-centered Our Values!
+          %p.subtitle.is-5.has-text-centered  See what we uphold to ensure you understand what we stand for!
       .tile.is-ancestor
         .tile.is-vertical.is-8
           .tile
@@ -50,8 +92,3 @@
               %span
                 = link_to 'Get to know the wonderful team', 'about#team', class: "small-white"
               who’s building our product, supporting our customers, and creating educational content.
-%section.section#team
-  .container
-    .columns.is-vcentered
-      .column
-        %h3.title.is-3.is-spaced.has-text-centered Meet the Team!

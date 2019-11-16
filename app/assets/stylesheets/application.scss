@@ -1,6 +1,7 @@
 /* Root variables. */
 $primary: #3e3cd3;
 $secondary: #f14668;
+$accents: #acacd5;
 
 @import "bulma";
 @import "font-awesome-sprockets";
@@ -88,6 +89,17 @@ html, body {
     .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
       background-color: #d8d8e8;
     }
+
+    .notification{
+      background: transparent;
+    }
+  }
+
+  #team{
+    img{
+      border-radius: 50%;
+      border: 3px dashed $accents;
+    }
   }
 }
 
@@ -151,6 +163,15 @@ nav.navbar {
 
       a.navbar-item {
         color: white;
+
+        &:after {
+          border-bottom: solid 3px whiote;
+        }
+
+        &:hover:after {
+          color: white;
+        }
+
       }
     }
     .footer{
