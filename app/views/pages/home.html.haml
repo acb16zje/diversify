@@ -1,5 +1,62 @@
 - content_for :title, 'Home'
+-# Div for the Intro section
+%section.section#intro
+  .container
+    .columns.is-vcentered
+      .column
+        %h5.title.is-5.description.has-text-primary.has-text-left Intro
+        %br
+        %h1.title.is-1.is-spaced Team work makes the dream work!
+        %p.subtitle.is-5 Here to make and manage your team! Don't just make a team, make the Best one ever!
+        %p.subtitle.is-5 Join us in our free projects and contribute to the community! Get rated and grow your skills!
+        = link_to 'pricing', class: 'button is-secondary is-large' do
+          Get Started for Free
+      .column.has-text-centered
+        = image_tag 'Genesys.png'
 
-= render partial: "/partial/intro"
-= render partial: "/partial/sample"
-= render partial: "/partial/features"
+-# Div for the sample section
+%section.section#title
+  .container
+    .columns.is-vcentered
+      .column
+        %h3.title.is-1.is-spaced.has-text-centered Make the perfect team for every project!
+        %p.subtitle.is-5.has-text-centered Take advantage of diversity to unleash the full potential of your team!
+%section.section#sample
+  .container
+    .columns.is-vcentered
+      = image_tag 'Diversify_sample.png'
+
+-# Div for the Feature section
+%section.section#features
+  .container
+    .tabs.is-boxed.is-fullwidth.is-medium
+      %ul
+        %li.tab.is-active{onclick: "openTab(event,'join')"}
+          %a Join
+        %li.tab{onclick: "openTab(event,'analyse')"}
+          %a Analyse
+        %li.tab{onclick: "openTab(event,'rate')"}
+          %a Rate
+    #join.content-tab.show
+      .columns
+        .column.is-two-fifths
+          = image_tag 'sample.png', width: '100%'
+        .column
+          %h5.subtitle.is-5.description.has-text-primary.has-text-left Join
+          %p.subtitle.is-5 Join open projects and add members to your own private projects!
+
+    #analyse.content-tab
+      .columns
+        .column.is-two-fifths
+          = image_tag 'sample.png', width: '100%'
+        .column
+          %h5.subtitle.is-5.description.has-text-primary.has-text-left Analyse
+          %p.subtitle.is-5 Get all potential team members on our platform recommended to your for your analysis. Ge the best skills available.
+
+    #rate.content-tab
+      .columns
+        .column.is-two-fifths
+          = image_tag 'sample.png', width: '100%'
+        .column
+          %h5.subtitle.is-5.description.has-text-primary.has-text-left Rate
+          %p.subtitle.is-5 Review your team mates on their performance for other people to see, and to enable them to get more work!

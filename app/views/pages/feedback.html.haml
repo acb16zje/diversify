@@ -1,49 +1,40 @@
-#feedback.span
-  .container{style: 'height: 100%'}
-    %h1.text-center Don't leave without giving us feedback!
-    %p.info.text-center This is the information will help us improve the service we are providing you.
-    %br
-    %form
-      .form-group
-        %label{for: "exampleInputEmail1"} How do you feel about our website?
-        %fieldset.form-group
-        .row
-          .col-sm-4
-            .form-check
-              %input#gridRadios1.form-check-input{checked: "checked", name: "gridRadios", type: "radio", value: "option1"}/
-              %label.form-check-label{for: "gridRadios1"}
-                %span.far.fa-smile{style: 'font-size: var(--font-medium);'}
-          .col-sm-4
-            .form-check
-              %input#gridRadios1.form-check-input{name: "gridRadios", type: "radio", value: "option2"}/
-              %label.form-check-label{for: "gridRadios1"}
-                %span.far.fa-meh{style: 'font-size: var(--font-medium);'}
-          .col-sm-4
-            .form-check
-              %input#gridRadios1.form-check-input{name: "gridRadios", type: "radio", value: "option3"}/
-              %label.form-check-label{for: "gridRadios1"}
-                %span.far.fa-angry{style: 'font-size: var(--font-medium);'}
-      %br
-      %br
-      .form-group
-        %label{for: "exampleInputPassword1"} How did you find our product?
-        %select.form-control.register{style: 'padding: 0 20px; height: 60px;'}
-          %option Search Engines
-          %option Blogs
-          %option Facebook
-          %option Instagram
-          %option twitter
-          %option magazines and newspapers
-          %option email
-        %br
-        %br
-        .form-group
-          %label{for: "exampleInputPassword1"} Would you be interested to use our product in future?
-          %select.form-control.register{style: 'padding: 0 20px; height: 60px;'}
-            %option Yes
-            %option No
-        %br
-        %br
-        %button.button{type: "submit", style: 'padding: 20px 40px'} Submit
-        %br
-        %br
+- content_for :title, 'Feedback'
+
+%section.section#feedback
+  .container
+    %h1.title.is-1.has-text-centered Help us improve
+
+    .box
+      %form
+        .field
+          .control.smiley
+            %label.label How is your experience with our website?
+            %label.radio
+              %input.sad{type: 'radio', name: 'smiley', value: 'sad', required: ''}
+            %label.radio
+              %input.neutral{type: 'radio', name: 'smiley', value: 'neutral'}
+            %label.radio
+              %input.happy{type: 'radio', name: 'smiley', value: 'happy'}
+
+        .field
+          .control
+            %label.label How did you find out our product?
+            .select
+              %select{required: ''}
+                %option
+                %option Social media
+                %option Search engine
+
+        .field
+          .control
+            %label.label Are you interested in using our product?
+            %label.radio
+              %input{type: 'radio', name: 'interest', value: 'yes', required: ''} Yes
+            %label.radio
+              %input{type: 'radio', name: 'interest', value: 'no'} No
+
+        .field
+          .control
+            %button.button.is-success
+              Submit
+

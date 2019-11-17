@@ -17,19 +17,16 @@ gem 'thin'
 gem 'pg'
 
 gem 'haml-rails'
-gem 'sassc', '2.2.0' # 2.2.1 is currently broken on LTSP
 gem 'sassc-rails'
 gem 'uglifier'
 
-gem 'bootstrap', '~> 4.3.1'
-gem 'font-awesome-sass', '~> 5.9.0'
+gem 'bulma-rails', "~> 0.8.0"
 gem 'jquery-rails'
 
 gem 'draper'
 gem 'ransack'
 gem 'simple_form'
 
-gem 'bootstrap-will_paginate'
 gem 'will_paginate'
 
 gem 'cancancan'

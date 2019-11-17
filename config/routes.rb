@@ -17,10 +17,10 @@ Rails.application.routes.draw do
 
     collection do
       get 'pricing'
-      get 'register'
       get 'about'
+      get 'newsletter'
+      get 'love'
       get 'feedback'
-      get 'contact'
     end
 
   end

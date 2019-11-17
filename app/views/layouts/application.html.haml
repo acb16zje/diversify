@@ -22,13 +22,57 @@
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
     = stylesheet_link_tag 'application', media: :all
+    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
+    = javascript_include_tag 'https://platform.twitter.com/widgets.js', defer: true
     = javascript_include_tag 'application', defer: true
 
     %title #{content_for(:title)} | Diversify
 
-  %body
+  %body.has-spaced-navbar-fixed-top
+    %nav.navbar.is-fixed-top.is-spaced
+      .container
+        .navbar-brand
+          = link_to root_path, class: 'navbar-item' do
+            = image_tag 'logo/logo_horizontal.svg', width: 150
+          .navbar-burger.burger{'data-target': 'navbar'}
+            %span
+            %span
+            %span
+        #navbar.navbar-menu
+          .navbar-end
+            = link_to 'Home', root_path, class: 'navbar-item'
+            = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
+            = link_to 'About', about_pages_path, class: 'navbar-item'
+            = link_to 'Customers', love_pages_path, class: 'navbar-item'
+            = link_to 'Newsletter', newsletter_pages_path, class: 'navbar-item'
 
-    %main
-      = render partial: "/partial/navigation"
-      = yield
-      = render partial: "/partial/footer"
+    = yield
+
+    %footer.footer
+      .container
+        .columns.is-mobile.is-multiline
+          .column.has-text-centered
+            = link_to root_path do
+              = image_tag 'logo/logo_vertical.svg', width: 100
+            %p
+              %a.icon.is-large.brand
+                %span.iconify.facebook{'data-icon': 'brandico:facebook'}
+              %a.icon.is-large.brand
+                %span.iconify{'data-icon': 'logos:twitter'}
+              %a.icon.is-large.brand
+                %span.iconify.instagram{'data-icon': 'fa-brands:instagram'}
+              %a.icon.is-large.brand
+                %span.iconify.linkedin{'data-icon': 'brandico:linkedin'}
+            %p Copyright &copy; 2019
+          .column
+            %h5.title.is-5.is-spaced Products
+            = link_to 'Features', root_path, class: 'subtitle is-6'
+            = link_to 'Pricing', root_path, class: 'subtitle is-6'
+            = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
+          .column
+            %h5.title.is-5.is-spaced Company
+            = link_to 'About Us', root_path, class: 'subtitle is-6'
+            = link_to 'Customers', love_pages_path, class: 'subtitle is-6'
+          .column
+            %h5.title.is-5.is-spaced Support
+            = link_to 'Feedback', feedback_pages_path, class: 'subtitle is-6'

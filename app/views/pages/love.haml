@@ -1,0 +1,99 @@
+- content_for :title, 'Love for Diversify'
+
+%main#love
+  %section.hero.is-medium
+    .hero-body
+      .container
+        .box#hastag
+          %h1.title.is-spaced.has-text-centered #diversify
+          %h3.title.is-5.has-text-centered Hear what customers and businesses love about using Diversify
+
+
+  %section.section
+    .container
+      %h1.title.has-text-centered Hear more from people like you
+
+      .columns.is-multiline.is-vcentered
+        .column.is-7
+          .card
+            .card-content
+              .media
+                .media-left
+                  %figure.image.is-48x48
+                    = image_tag 'neville.png'
+                .media-content
+                  %p.title.is-4 Kalvin Howe
+                  %p.subtitle.is-6 @kalvin
+              .content
+                I love using Diversify because of your TEAM! Diversify is the gold standard for team building and
+                public projects. Cheers guys!
+                = succeed '.' do
+                  %a @diversify
+                %a #diversify
+                %a #diversifylove
+                %a #teambuilding
+                %time.is-block{datetime: "2019-10-29"} 11:09 AM - 29 Oct 2019
+        .column.is-5
+          .card
+            .card-content
+              .media
+                .media-left
+                  %figure.image.is-48x48
+                    = image_tag 'wonwoo.png'
+                .media-content
+                  %p.title.is-4 Rojin Pace
+                  %p.subtitle.is-6 @rojin
+              .content
+                New
+                %a @diversify
+                is &#x1F525;
+                %a #skilldiversity
+                %a #culturaldiversity
+                %time.is-block{datetime: "2019-1-7"} 13:05 PM - 7 Jan 2019
+        .column.is-4
+          .card
+            .card-content
+              .media
+                .media-left
+                  %figure.image.is-48x48
+                    = image_tag 'jun.png'
+                .media-content
+                  %p.title.is-4 Mason Reyes
+                  %p.subtitle.is-6 @mason
+              .content
+                %a @diversify
+                &#x1F92F; hands down is the best application I have used that has made my life 1000x easier.
+                %a #taskallocation
+                %a #skillrating
+                %time.is-block{datetime: "2019-5-5"} 20:16 PM - 5 May 2019
+
+        .column.is-8
+          .card
+            .card-content
+              .media
+                .media-left
+                  %figure.image.is-48x48
+                    = image_tag 'jia.png'
+                .media-content
+                  %p.title.is-4 Elvis Stout
+                  %p.subtitle.is-6 @elvis
+              .content
+                Have never seen as open and as transparent a company as
+                %a @diversify
+                , loved browsing your website and looking for public projects to join. Definitely a torch bearer
+                in employee satisfaction, loved your company dashboard.
+                Learnt a lot today ! &#x2B50;&#x2B50;&#x2B50;&#x2B50;&#x2B50;
+                %a #peerreview
+                %a #public
+                %a #projects
+                %time.is-block{datetime: "2019-11-8"} 7:30 AM - 8 Nov 2019
+
+  %section.hero.is-medium
+    .hero-body
+      .container.has-text-centered
+        %h1.title More than 1000 business use Diversify. Join us now.
+
+        = link_to 'pricing', class: 'button is-primary is-large' do
+          Get Started for Free
+
+
