@@ -1,128 +1,138 @@
 - content_for :title, 'Pricing'
--# Div for the Intro section
-%section.section#Pricing
-  -# pricing cards
-  .container
-    %h5.title.is-5.description.has-text-primary.has-text-left Intro
-    .columns.is-vcentered
-      .column
-        .card
-          .card-content
-            .content
-              %h5.card-title.text-center Casual
-              .container
-                %h2.card-text.bold.text-center Free
+
+%main#pricing
+  %section.section
+    -# pricing cards
+    .container
+      .columns.is-vcentered
+        .column
+          .card
+            .card-content
+              .content
+                %h5.title.is-5.has-text-centered Casual
+                %h2.title.is-2.has-text-centered Free
                 %br
                 %br
-                .container
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span unlimited team members
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span free to join projects
-          %footer.card-footer
-          = link_to 'Get started for free', register_pages_path, class: "button is-primary is-medium"
-      .column
-        .card.border
-          .card-content
-            .content
-              %h5.card-title.text-center Proffesional
-              .container
-                %h2.card-text.bold.text-center £ 15 / week
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span unlimited team members
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span free to join projects
+            %footer.card-footer
+            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+        .column
+          .card.border
+            .card-content
+              .content
+                %h5.title.is-5.has-text-centered Professional
+                %h2.title.is-2.has-text-centered £ 15 / month
                 %br
                 %br
-                .container
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span unlimited team members
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span free to join projects
-          %footer.card-footer
-          = link_to 'Get started for free', register_pages_path, class: "button is-primary is-medium"
-      .column
-        .card
-          .card-content
-            .content
-              %h5.card-title.text-center Enterprise
-              .container
-                %h2.card-text.bold.text-center £ 165 / year
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span unlimited team members
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span free to join projects
+            %footer.card-footer
+            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+        .column
+          .card
+            .card-content
+              .content
+                %h5.title.is-5.has-text-centered Enterprise
+                %h2.title.is-2.has-text-centered £ 165 / year
                 %br
                 %br
-                .container
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span unlimited team members
-                  %p.card-text.small
-                    %span.fas.fa-check
-                    %span free to join projects
-          %footer.card-footer
-          = link_to 'Get started for free', register_pages_path, class: "button is-primary is-medium"
--# pricing comparison table
-%section.section#Pricing
-  .container
-    .columns.is-vcentered
-      .column
-        %h3.title.is-1.is-spaced.has-text-centered A comparison for our different payement models!
-        %p.subtitle.is-5.has-text-centered  Take a look at what we are offering you and join us today!
-    %table.table.is-striped.is-fullwidth.has-text-left.border
-      %thead
-        %tr
-          %th
-          %th Features
-          %th
-          %th Casual
-          %th Proffesional
-          %th Enterprise
-      %tbody
-        %tr
-          %th 1
-          %td Unlimited Public projects
-          %td
-          %td
-            .fas.fa-times
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-        %tr
-          %th 2
-          %td Unlimited Private projects
-          %td
-          %td
-            .fas.fa-times
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-        %tr
-          %th 3
-          %td Unlimited Team Members
-          %td
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-        %tr
-          %th 4
-          %td Unlimited Free To Join Projects
-          %td
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-          %td
-            .fas.fa-check.small
-        %tr
-          %th 5
-          %td Multiple Accounts
-          %td
-          %td
-            .fas.fa-times
-          %td
-            .fas.fa-times
-          %td
-            .fas.fa-check.small
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span unlimited team members
+                %p.card-text.small
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span free to join projects
+            %footer.card-footer
+            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+
+  -# pricing comparison table
+  %section.section
+    .container
+      %h3.title.is-1.is-spaced.has-text-centered A comparison for our different payement models!
+      %p.subtitle.is-5.has-text-centered  Take a look at what we are offering you and join us today!
+
+      .table-container
+        %table.table.is-striped.is-fullwidth.has-text-left.border
+          %thead
+            %tr
+              %th
+              %th Features
+              %th{align: 'center'} Casual
+              %th{align: 'center'} Professional
+              %th{align: 'center'} Enterprise
+          %tbody
+            %tr
+              %th 1
+              %td Unlimited Public projects
+              %td{align: 'center'}
+                %span.icon.has-text-danger
+                  %span.iconify{'data-icon': 'fa-solid:times'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 2
+              %td Unlimited Private projects
+              %td{align: 'center'}
+                %span.icon.has-text-danger
+                  %span.iconify{'data-icon': 'fa-solid:times'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 3
+              %td Unlimited Team Members
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 4
+              %td Unlimited Free To Join Projects
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 5
+              %td Multiple Accounts
+              %td{align: 'center'}
+                %span.icon.has-text-danger
+                  %span.iconify{'data-icon': 'fa-solid:times'}
+              %td{align: 'center'}
+                %span.icon.has-text-danger
+                  %span.iconify{'data-icon': 'fa-solid:times'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}

@@ -21,7 +21,6 @@ gem 'sassc-rails'
 gem 'uglifier'
 
 gem 'bulma-rails', "~> 0.8.0"
-gem 'font-awesome-sass'
 gem 'jquery-rails'
 
 gem 'draper'

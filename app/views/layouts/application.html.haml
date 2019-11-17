@@ -22,6 +22,8 @@
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
     = stylesheet_link_tag 'application', media: :all
+    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
+    = javascript_include_tag 'https://platform.twitter.com/widgets.js', defer: true
     = javascript_include_tag 'application', defer: true
 
     %title #{content_for(:title)} | Diversify
@@ -41,13 +43,14 @@
             = link_to 'Home', root_path, class: 'navbar-item'
             = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
             = link_to 'About', about_pages_path, class: 'navbar-item'
-            = link_to 'Newsletter', root_path, class: 'navbar-item'
+            = link_to 'Customers', love_pages_path, class: 'navbar-item'
+            = link_to 'Newsletter', newsletter_pages_path, class: 'navbar-item'
 
     = yield
 
     %footer.footer
       .container
-        .columns
+        .columns.is-mobile
           .column.has-text-centered
             = link_to root_path do
               = image_tag 'logo/logo_vertical.svg', width: 100
@@ -56,11 +59,11 @@
             %h5.title.is-5.is-spaced Products
             = link_to 'Features', root_path, class: 'subtitle is-6'
             = link_to 'Pricing', root_path, class: 'subtitle is-6'
-            = link_to 'Newsletter', root_path, class: 'subtitle is-6'
+            = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
           .column
             %h5.title.is-5.is-spaced Company
             = link_to 'About Us', root_path, class: 'subtitle is-6'
-            = link_to 'Feedback', root_path, class: 'subtitle is-6'
+            = link_to 'Customers', love_pages_path, class: 'subtitle is-6'
           .column
             %h5.title.is-5.is-spaced Support
-            = link_to 'Contact Us', root_path, class: 'subtitle is-6'
+            = link_to 'Feedback', feedback_pages_path, class: 'subtitle is-6'

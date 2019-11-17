@@ -1,6 +1,8 @@
 //= require jquery
 //= require jquery_ujs
 
+'use strict';
+
 // Check for click events on the navbar burger icon
 $('.navbar-burger').click(function() {
 
@@ -9,14 +11,15 @@ $('.navbar-burger').click(function() {
   $('.navbar-menu').toggleClass('is-active');
 
 });
-//
-function openTab(evt, tabName) {
-  $(".content-tab").each(function(){
-    $(this).removeClass("show");
+
+const openTab = (evt, tabName) => {
+  $('.content-tab').each(function() {
+    $(this).removeClass('show');
   });
-  $(".tab").each(function(){
-      $(this).removeClass("is-active");
+  $('.tab').each(function() {
+    $(this).removeClass('is-active');
   });
-  $('#' + tabName).addClass("show");
-  evt.currentTarget.className += " is-active";
-}
+  $('#' + tabName).addClass('show');
+  evt.currentTarget.className += ' is-active';
+};
+

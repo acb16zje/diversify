@@ -1,0 +1,33 @@
+- content_for :title, 'Love for Diversify'
+
+%main#love
+  %section.hero.is-medium
+    .hero-body
+      .container
+        .box#hastag
+          %h1.title.is-spaced.has-text-centered #diversifylove
+          %h3.title.is-5.has-text-centered Hear what customers and businesses love about using Diversify
+
+
+  %section.section
+    .container
+      .columns.is-multiline
+        .column
+          .card
+            .card-content
+              .media
+                .media-left
+                  %figure.image.is-48x48
+                    %img{alt: "Placeholder image", src: "https://bulma.io/images/placeholders/96x96.png"}
+                .media-content
+                  %p.title.is-4 Kalvin Howe
+                  %p.subtitle.is-6 @kalvin
+              .content
+                I love using Diversify because of your TEAM! Diversify is the gold standard for team building and
+                public projects. Cheers guys!
+                = succeed '.' do
+                  %a @diversify
+                %a #diversify
+                %a #diversifylove
+                %a #teambuilding
+                %time{datetime: "2016-1-1"} 11:09 PM - 1 Jan 2016
