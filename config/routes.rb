@@ -25,5 +25,14 @@ Rails.application.routes.draw do
 
   end
 
+  # Class to set constraint to only allow AJAX request
+  class OnlyAjaxRequest
+    def matches?(request)
+      request.xhr?
+    end
+ end
+
+  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new  
+
   root to: "pages#home"
 end

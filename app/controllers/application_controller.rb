@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
   before_action :update_headers_to_disable_caching
   before_action :ie_warning
 
-  around_action :track_time_spent
   after_action :track_action
 
   ## The following are used by our Responder service classes so we can access
@@ -42,17 +41,13 @@ class ApplicationController < ActionController::Base
     super(file, opts)
   end
 
-  def track_time_spent
-    start = Time.now
-    yield
-    duration = Time.now - start
-    ahoy.track "Time Spent", time: "#{controller_name}##{action_name}: #{duration}s"
-  end
-
   protected
 
+  # Ahoy Gem function to track actions
   def track_action
-    ahoy.track "Ran action", request.path_parameters
+    if !request.xhr?
+      ahoy.track "Ran action", request.path_parameters
+    end
   end
 
   private
