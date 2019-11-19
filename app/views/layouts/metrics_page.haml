@@ -1,0 +1,45 @@
+!!!
+%html{lang: 'en'}
+  %head
+    = render 'partials/head'
+
+    -# CSS and JavaScript
+    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
+    = stylesheet_link_tag 'metrics_page', media: :all
+    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
+    = javascript_include_tag 'application', defer: true
+
+  %body.has-spaced-navbar-fixed-top
+    %nav.navbar.is-fixed-top.is-spaced
+      .container
+        .navbar-brand
+          = link_to metrics_path, class: 'navbar-item' do
+            = image_tag 'logo/logo_horizontal.svg', width: 150
+          = link_to 'Landing Page', root_path, class: 'navbar-item'
+
+    %section.section
+      .container
+        .columns
+          .column.is-3
+            %aside.menu
+              %p.menu-label
+                General
+              %ul.menu-list
+                %li
+                  = link_to 'Dashboard', metrics_path, class: "#{current_class?(metrics_path)}"
+              %p.menu-label
+                Traffic
+              %ul.menu-list
+                %li
+                  = link_to 'Overview', traffic_metrics_path, class: "#{current_class?(traffic_metrics_path)}"
+              %p.menu-label
+                Newsletter
+              %ul.menu-list
+                %li
+                  = link_to 'Overview', newsletter_metrics_path, class: "#{current_class?(newsletter_metrics_path)}"
+                %li
+                  = link_to 'Send newsletter', '#', class: ""
+          .column.is-9
+            = yield
+
+

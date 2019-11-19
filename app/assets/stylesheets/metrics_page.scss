@@ -1,0 +1,27 @@
+@import "application";
+
+html {
+  background-color: #f7f8f9;
+}
+
+a.navbar-item {
+  font-size: 18px;
+}
+
+aside.menu {
+  .menu-label {
+    color: $primary;
+    font-size: 18px;
+  }
+
+  li a {
+    font-size: 17px;
+    border: 1px solid transparent;
+
+    &:hover {
+      border: 1px solid #808080;
+    }
+  }
+}
+
+

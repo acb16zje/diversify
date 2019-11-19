@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
 
+  layout 'landing_page'
   skip_authorization_check
 
   def home

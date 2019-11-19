@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get :ie_warning, to: 'errors#ie_warning'
   get :javascript_warning, to: 'errors#javascript_warning'
 
+  # /:page
   resources :pages, path: '', only: [] do
 
     collection do
@@ -30,9 +31,20 @@ Rails.application.routes.draw do
     def matches?(request)
       request.xhr?
     end
- end
+  end
 
-  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new  
+  #/track_time, for analytics
+  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new 
+
+  # /metrics/:page
+  resources :metrics, only: :index do
+
+    collection do
+      get 'newsletter'
+      get 'traffic'
+    end
+
+  end
 
   root to: "pages#home"
 end
