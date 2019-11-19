@@ -22,8 +22,10 @@
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
     = stylesheet_link_tag 'application', media: :all
+    = stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css'
     = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
     = javascript_include_tag 'https://platform.twitter.com/widgets.js', defer: true
+    = javascript_include_tag 'https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js', defer: true
     = javascript_include_tag 'application', defer: true
 
     %title #{content_for(:title)} | Diversify
@@ -40,7 +42,6 @@
             %span
         #navbar.navbar-menu
           .navbar-end
-            = link_to 'Home', root_path, class: 'navbar-item'
             = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
             = link_to 'About', about_pages_path, class: 'navbar-item'
             = link_to 'Customers', love_pages_path, class: 'navbar-item'

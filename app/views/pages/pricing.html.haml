@@ -60,8 +60,17 @@
             %footer.card-footer
             = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
 
+  %section.hero.is-medium#break
+    .hero-body
+      .container.has-text-centered
+        %h1.title.has-text-white-bis Get a good look at our features!
+        %h1.title.has-text-white-bis Analyze, Rate, Join!
+
+        = link_to 'pricing', class: 'button is-primary is-large is-light' do
+          Get Started for Free
+
   -# pricing comparison table
-  %section.section
+  %section.section#pricing
     .container
       %h3.title.is-1.is-spaced.has-text-centered A comparison for our different payement models!
       %p.subtitle.is-5.has-text-centered  Take a look at what we are offering you and join us today!
@@ -78,10 +87,10 @@
           %tbody
             %tr
               %th 1
-              %td Unlimited Public projects
+              %td Join unlimited Public projects
               %td{align: 'center'}
-                %span.icon.has-text-danger
-                  %span.iconify{'data-icon': 'fa-solid:times'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
@@ -90,22 +99,22 @@
                   %span.iconify{'data-icon': 'fa-solid:check'}
             %tr
               %th 2
-              %td Unlimited Private projects
+              %td Create public projects
+              %td{align: 'center'}
+                %span.icon
+                  %span 5
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+            %tr
+              %th 3
+              %td Create private projects
               %td{align: 'center'}
                 %span.icon.has-text-danger
                   %span.iconify{'data-icon': 'fa-solid:times'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-            %tr
-              %th 3
-              %td Unlimited Team Members
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
@@ -114,7 +123,43 @@
                   %span.iconify{'data-icon': 'fa-solid:check'}
             %tr
               %th 4
-              %td Unlimited Free To Join Projects
+              %td No. of accounts
+              %td{align: 'center'}
+                %span.icon
+                  %span 1
+              %td{align: 'center'}
+                %span.icon
+                  %span 1
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+            %tr
+              %th 5
+              %td Members per project
+              %td{align: 'center'}
+                %span.icon
+                  %span 10
+              %td{align: 'center'}
+                %span.icon
+                  %span 50
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+            %tr
+              %th 6
+              %td Praise
+              %td{align: 'center'}
+                %span.icon.has-text-danger
+                  %span.iconify{'data-icon': 'fa-solid:times'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 7
+              %td Team Creator
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
@@ -125,14 +170,50 @@
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
             %tr
-              %th 5
-              %td Multiple Accounts
+              %th 8
+              %td SKillset Manager
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+            %tr
+              %th 9
+              %td Task Allocation
+              %td{align: 'center'}
+                %span.icon
+                  %span Manual
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span Auto/Manual
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span Auto/Manual
+            %tr
+              %th 10
+              %td No. of active tasks
+              %td{align: 'center'}
+                %span.icon
+                  %span 15
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span unlimited
+            %tr
+              %th 11
+              %td Issues Board
               %td{align: 'center'}
                 %span.icon.has-text-danger
                   %span.iconify{'data-icon': 'fa-solid:times'}
               %td{align: 'center'}
-                %span.icon.has-text-danger
-                  %span.iconify{'data-icon': 'fa-solid:times'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
