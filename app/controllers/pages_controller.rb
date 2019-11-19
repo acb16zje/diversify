@@ -6,4 +6,7 @@ class PagesController < ApplicationController
     @current_nav_identifier = :home
   end
 
+  def newsletter
+    ahoy.track "Clicked pricing link", type: params[:type]
+  end
 end

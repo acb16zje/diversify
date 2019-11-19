@@ -140,7 +140,9 @@ ActiveRecord::Schema.define(version: 2019_11_19_015119) do
     t.string "visibility", default: "public", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "category_id"
     t.bigint "user_id"
+    t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
@@ -212,9 +214,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_015119) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
-    t.bigint "user_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
-    t.index ["user_id"], name: "index_teams_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -236,6 +236,7 @@ ActiveRecord::Schema.define(version: 2019_11_19_015119) do
   add_foreign_key "licenses", "subscriptions"
   add_foreign_key "licenses", "users"
   add_foreign_key "preferences", "users"
+  add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users"
   add_foreign_key "reviews", "projects"
   add_foreign_key "skill_levels", "skills"
@@ -245,5 +246,4 @@ ActiveRecord::Schema.define(version: 2019_11_19_015119) do
   add_foreign_key "tasks", "skills", column: "skills_id"
   add_foreign_key "tasks", "users"
   add_foreign_key "teams", "projects"
-  add_foreign_key "teams", "users"
 end

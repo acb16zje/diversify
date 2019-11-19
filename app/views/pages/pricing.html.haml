@@ -22,7 +22,7 @@
                     %span.iconify{'data-icon': 'fa-solid:check'}
                   %span free to join projects
             %footer.card-footer
-            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+            = link_to 'Get started for free', newsletter_pages_path(:type => "Free"), class: "button is-primary is-medium"
         .column
           .card.border
             .card-content
@@ -40,7 +40,7 @@
                     %span.iconify{'data-icon': 'fa-solid:check'}
                   %span free to join projects
             %footer.card-footer
-            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+            = link_to 'Get started for free', newsletter_pages_path(:type => "Pro"), class: "button is-primary is-medium"
         .column
           .card
             .card-content
@@ -58,7 +58,7 @@
                     %span.iconify{'data-icon': 'fa-solid:check'}
                   %span free to join projects
             %footer.card-footer
-            = link_to 'Get started for free', newsletter_pages_path, class: "button is-primary is-medium"
+            = link_to 'Get started for free', newsletter_pages_path(:type => "Enterprise"), class: "button is-primary is-medium"
 
   -# pricing comparison table
   %section.section

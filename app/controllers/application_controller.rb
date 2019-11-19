@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
   before_action :update_headers_to_disable_caching
   before_action :ie_warning
 
+  around_action :track_time_spent
+  after_action :track_action
+
   ## The following are used by our Responder service classes so we can access
   ## the instance variable for the current resource easily via a standard method
   def resource_name
@@ -37,6 +40,19 @@ class ApplicationController < ActionController::Base
     response.headers['Pragma'] = 'cache'
     response.headers['Expires'] = '0'
     super(file, opts)
+  end
+
+  def track_time_spent
+    start = Time.now
+    yield
+    duration = Time.now - start
+    ahoy.track "Time Spent", time: "#{controller_name}##{action_name}: #{duration}s"
+  end
+
+  protected
+
+  def track_action
+    ahoy.track "Ran action", request.path_parameters
   end
 
   private
