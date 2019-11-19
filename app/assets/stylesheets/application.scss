@@ -66,6 +66,27 @@ html, body {
   }
 }
 
+.break-is-purple{
+  background-color: #00d1b2;
+  background-image: linear-gradient(141deg, #00459e 0, #ab28f4 71%, #a57cff 100%);
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.break-is-danger{
+  background-color: #00d1b2;
+  background-image: linear-gradient(141deg, $secondary 0, #ff0055 71%, #ff0094 100%);
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.full{
+  width: 100%;
+}
 /* Navbar */
 nav.navbar {
   align-items: center;
@@ -186,7 +207,7 @@ h5.description::before {
   border: solid 5px $primary;
 }
 
-.border-pink {
+.border-danger{
   border: solid 5px $secondary;
 }
 
@@ -231,23 +252,12 @@ h5.description::before {
   .notification {
     background: transparent;
   }
-
-  #break{
-    background-color: #00d1b2;
-    background-image: linear-gradient(141deg, #00459e 0, #ab28f4 71%, #a57cff 100%);
-
-    .title {
-      font-size: 2.5rem;
-    }
-  }
 }
 
 /* About page */
 #about {
+  padding-top: 100px;
   .container {
-    .hero-carousel{
-      overflow: hidden;
-    }
     .columns {
       padding: 2rem 0;
 
