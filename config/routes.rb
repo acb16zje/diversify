@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get :ie_warning, to: 'errors#ie_warning'
   get :javascript_warning, to: 'errors#javascript_warning'
 
+  # /:page
   resources :pages, path: '', only: [] do
 
     collection do
@@ -21,6 +22,16 @@ Rails.application.routes.draw do
       get 'newsletter'
       get 'love'
       get 'feedback'
+    end
+
+  end
+
+  # /metrics/:page
+  resources :metrics, only: :index do
+
+    collection do
+      get 'newsletter'
+      get 'traffic'
     end
 
   end

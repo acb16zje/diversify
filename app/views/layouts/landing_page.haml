@@ -1,34 +1,13 @@
 !!!
 %html{lang: 'en'}
   %head
-    %meta{content: 'text/html; charset=UTF-8', 'http-equiv': 'Content-Type'}
-    %meta{content: 'IE=edge', 'http-equiv': 'X-UA-Compatible'}
-    %meta{content: 'width=device-width, initial-scale=1', name: 'viewport'}
-    = csrf_meta_tags
-
-    -# Favicon
-    = favicon_link_tag 'favicon/apple-touch-icon.png', rel: 'apple-touch-icon', sizes: '180x180'
-    = favicon_link_tag 'favicon/favicon-32x32.png', rel: 'icon', sizes: '32x32', type: 'image/png'
-    = favicon_link_tag 'favicon/favicon-16x16.png', rel: 'icon', sizes: '16x16', type: 'image/png'
-    = favicon_link_tag 'favicon/site.webmanifest', rel: 'manifest'
-    = favicon_link_tag 'favicon/safari-pinned-tab.svg', rel: 'mask-icon', color: '#5bbad5'
-    = favicon_link_tag 'favicon/favicon.ico', rel: 'shortcut icon'
-    %meta{name: 'apple-mobile-web-app-title', content: 'Diversify'}
-    %meta{name: 'application-name', content: 'Diversify'}
-    %meta{name: 'msapplication-TileColor', content: '#da532c'}
-    %meta{name: 'msapplication-config', content: "#{asset_path 'favicon/browserconfig.xml'}"}
-    %meta{name: 'theme-color', content: '#ffffff'}
+    = render 'partials/head'
 
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
-    = stylesheet_link_tag 'application', media: :all
-    = stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css'
+    = stylesheet_link_tag 'landing_page', media: :all
     = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
-    = javascript_include_tag 'https://platform.twitter.com/widgets.js', defer: true
-    = javascript_include_tag 'https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js', defer: true
     = javascript_include_tag 'application', defer: true
-
-    %title #{content_for(:title)} | Diversify
 
   %body.has-spaced-navbar-fixed-top
     %nav.navbar.is-fixed-top.is-spaced

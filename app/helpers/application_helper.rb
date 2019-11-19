@@ -25,4 +25,8 @@ module ApplicationHelper
     lookup_context.exists?(partial_name, prefixes, true)
   end
 
+
+  def current_class?(path)
+    request.fullpath == path ? 'is-active' : ''
+  end
 end

@@ -1,0 +1,350 @@
+@import "application";
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Bulma adjustments */
+.container {
+  max-width: 1000px;
+}
+
+/* Desktop Navbar */
+@media screen and (min-width: 1024px) {
+  .navbar-end a.navbar-item {
+    color: black;
+    display: inline-block;
+    border-radius: 0 !important;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: large;
+
+    &:after {
+      display: block;
+      content: '';
+      border-bottom: solid 3px $primary;
+      transform: scaleX(0);
+      transition: transform 250ms ease-in-out;
+    }
+
+    &:hover:after {
+      font-weight: bold;
+      color: $primary;
+      transform: scaleX(1);
+    }
+  }
+
+}
+
+/* Mobile Navbar */
+@media screen and (max-width: 1024px) {
+  #navbar {
+    background-color: $primary;
+    text-align: center;
+
+    a.navbar-item {
+      color: white;
+
+      &:after {
+        border-bottom: solid 3px white;
+      }
+
+      &:hover:after {
+        color: white;
+      }
+    }
+  }
+}
+
+/* Footer */
+footer.footer {
+  a {
+    &.subtitle {
+      display: block;
+      margin-bottom: 0.8rem !important;
+    }
+
+    &.brand .iconify {
+      font-size: 25px;
+
+      &.facebook {
+        color: #3b5998;
+      }
+
+      &.instagram {
+        color: #4c68d7;
+      }
+
+      &.linkedin {
+        color: #0976b4;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .columns {
+      .column:first-child {
+        width: 100% !important;
+        flex-basis: 100% !important;
+      }
+
+      .column {
+        flex-basis: auto;
+      }
+    }
+  }
+}
+
+/* General styles */
+h5.description::before {
+  content: '';
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  bottom: 5px;
+  width: 25px;
+  border-bottom: 3px solid black;
+}
+
+.border {
+  border: solid 5px $primary;
+}
+
+.border-danger {
+  border: solid 5px $secondary;
+}
+
+.is-active {
+  a {
+    color: $primary;
+  }
+}
+
+.break-is-purple {
+  background-image: linear-gradient(141deg, #00459e 0, #ab28f4 71%, #a57cff 100%);
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+.break-is-danger {
+  background: linear-gradient(141deg, #cc0028 1%, #e34c6b 55%, #fa549d 100%);
+
+  .title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Home page */
+#features {
+  .content-tab {
+    display: none;
+
+    &.show {
+      display: block;
+    }
+
+    img {
+      box-shadow: 0 0 15px 5px #00000017;
+    }
+  }
+}
+
+/* Pricing page */
+#pricing {
+  .card {
+    .card-content {
+      height: 450px;
+    }
+
+    .button {
+      border-radius: 0;
+      width: 100%;
+    }
+  }
+
+  .table.is-striped tbody tr:not(.is-selected):nth-child(2n) {
+    background-color: #dedeee;
+  }
+
+  .notification {
+    background: transparent;
+  }
+}
+
+/* About page */
+#about {
+  #team {
+    .columns {
+      padding: 2rem 0;
+
+      .column {
+        width: 100%;
+        flex-basis: auto;
+
+        @media screen and (min-width: 450px) {
+          width: 50%;
+        }
+
+        @media screen and (min-width: 800px) {
+          flex-basis: 0;
+        }
+      }
+
+      .card {
+        height: 100%;
+      }
+    }
+  }
+
+  .notification {
+    background: transparent;
+    box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
+  }
+
+  #contact {
+    h3 {
+      margin-bottom: 3rem;
+    }
+
+    .columns {
+      h3 {
+        margin-bottom: 1rem;
+
+        &:not(:first-child) {
+          margin-top: 2rem;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .column:first-child {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+/* Newsletter page */
+#newsletter {
+  @media screen and (min-width: 1024px) {
+    form {
+      width: 80%;
+    }
+  }
+}
+
+/* Feedback page */
+#feedback {
+  .box {
+    margin: auto;
+    max-width: 500px;
+  }
+
+  .field:not(:last-child) {
+    margin-bottom: 3rem;
+  }
+
+  .radio + .radio {
+    margin-left: 1rem;
+  }
+
+  input[type="radio"] {
+    margin-right: 10px;
+  }
+
+  .control.smiley {
+    input[type="radio"] {
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      width: 3rem;
+      height: 3rem;
+      cursor: pointer;
+      filter: grayscale(100%);
+
+      &:hover, &:checked {
+        filter: grayscale(0);
+      }
+
+      &:focus {
+        outline: 0;
+      }
+
+      &.sad {
+        background: url('https://api.iconify.design/emojione:frowning-face.svg') no-repeat center center / contain;
+      }
+
+      &.neutral {
+        background: url('https://api.iconify.design/emojione:neutral-face.svg') no-repeat center center / contain;
+      }
+
+      &.happy {
+        background: url('https://api.iconify.design/emojione:smiling-face.svg') no-repeat center center / contain;
+      }
+    }
+  }
+}
+
+/* Customer reviews (love) page */
+#love {
+  section.hero:first-child {
+    position: relative;
+
+    &::after {
+      content: "";
+      background: url("confetti.png");
+      background-size: contain;
+      opacity: 0.3;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      position: absolute;
+      z-index: -1;
+    }
+
+    .hero-body {
+
+      #hastag {
+        box-shadow: none;
+        border: none;
+        width: fit-content;
+        margin: auto;
+        background: rgba(255, 255, 255, 0.8);
+        color: black !important;
+
+        h1.title {
+          font-size: 4rem;
+
+          @media screen and (max-width: 550px) {
+            font-size: 2em;
+          }
+
+          &:after {
+            content: 'love';
+            color: red;
+          }
+        }
+      }
+    }
+  }
+
+  section.hero:last-child {
+    background-color: #00d1b2;
+    background-image: linear-gradient(141deg, #009e6c 0, #00d1b2 71%, #00e7eb 100%);
+
+    .title {
+      color: white;
+      font-size: 2.5rem;
+    }
+  }
+
+  .media-content {
+    p.subtitle {
+      color: #3273dc !important;
+      cursor: pointer;
+    }
+  }
+}
