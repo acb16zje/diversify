@@ -67,13 +67,14 @@
             %p Copyright &copy; 2019
           .column
             %h5.title.is-5.is-spaced Products
-            = link_to 'Features', root_path, class: 'subtitle is-6'
-            = link_to 'Pricing', root_path, class: 'subtitle is-6'
+            = link_to 'Features', "#{root_path}#features", class: 'subtitle is-6'
+            = link_to 'Pricing', pricing_pages_path, class: 'subtitle is-6'
             = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
           .column
             %h5.title.is-5.is-spaced Company
-            = link_to 'About Us', root_path, class: 'subtitle is-6'
+            = link_to 'About Us', about_pages_path, class: 'subtitle is-6'
             = link_to 'Customers', love_pages_path, class: 'subtitle is-6'
           .column
             %h5.title.is-5.is-spaced Support
+            = link_to 'Contact Us', "#{about_pages_path}#contact", class: 'subtitle is-6'
             = link_to 'Feedback', feedback_pages_path, class: 'subtitle is-6'

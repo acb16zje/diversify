@@ -1,0 +1,136 @@
+- content_for :title, 'About'
+
+%main#about
+  %section.section#team
+    .container
+      %h3.title.is-1.is-spaced.has-text-centered Our Team
+      %p.subtitle.is-5
+        Get to know the wonderful team who’s building our product,
+        supporting our customers, and creating constructive content.
+
+      .columns.is-mobile.is-multiline
+        .column
+          .card
+            .card-image
+              %figure.image
+                = image_tag 'avatar/large/zerjun.png'
+            .card-content
+              %h4.title.is-4 Zer Jun Eng
+              %h5.subtitle.is-6 MEng Software Engineering
+              %p Lead Developer
+
+        .column
+          .card
+            .card-image
+              %figure.image
+                = image_tag 'avatar/large/jiahua.jpg'
+            .card-content
+              %h4.title.is-4 Jia Hua Ng
+              %h5.subtitle.is-6 Meng Software Engineering
+              %p Back-end developer
+
+        .column
+          .card
+            .card-image
+              %figure.image
+                = image_tag 'avatar/large/neville.jpg'
+            .card-content
+              %h4.title.is-4 Neville Kitala
+              %h5.subtitle.is-6 Meng Software Engineering
+              %p Front-end Developer
+
+        .column
+          .card
+            .card-image
+              %figure.image
+                = image_tag 'avatar/large/wonwoo.jpg'
+            .card-content
+              %h4.title.is-4 Wonwoo Soh
+              %h5.subtitle.is-6 MComp Computer Science
+              %p Back-end developer
+
+  %section.hero.is-medium.break-is-danger
+    .hero-body
+      .container.has-text-centered
+        %h1.title.has-text-white-bis Support the diversify movement and help us improve
+        = link_to 'feedback', class: 'button is-large is-primary' do
+          Give us feedback
+
+  %section.section
+    .container
+      .columns.is-vcentered
+        .column
+          %h3.title.is-3.is-spaced.has-text-centered Our Values
+          %p.subtitle.is-5.has-text-centered See what we uphold to ensure you understand what we stand for!
+      .tile.is-ancestor
+        .tile.is-vertical.is-8
+          .tile
+            .tile.is-parent.is-vertical
+              %article.tile.is-child.notification.border
+                %p.title Punctuality
+                %p
+                  We promise to deliver this project soon.
+                  = link_to 'Sign up', newsletter_pages_path, class: " is-5"
+                  for our newsletter to stay up-to-date.
+              %article.tile.is-child.notification.border-danger
+                %p.title Quality
+                %p We promise you a quality product that will meet all your requirements.
+            .tile.is-parent
+              %article.tile.is-child.notification.border
+                %h3.title.is-3 Transparency
+                %p We aim to let you, the customer know everything that is goin on with this product.
+                %p
+                This includes
+                %span.small keeping you up to date
+                on everything we will be doing.
+                %p
+                %span
+                  = link_to 'Join our mailing list', newsletter_pages_path, class: " is-5"
+                and get a copy of our newsletter here.
+
+          .tile.is-parent
+            %article.tile.is-child.notification.border-danger
+              %p.title Constant Improvement
+              %p More than anything we expect to consistently improve the services we offer.
+              %p We plan to be on call for any problems experienced on this site.
+              .content
+                / Content
+        .tile.is-parent
+          %article.tile.is-child.notification.border
+            .content
+              %p.title Diversity
+              %p We’re committed to working in a diverse team and to create a healthy working environment that’s inclusive of people of all backgrounds.
+              %p
+              %span
+                = link_to 'Get to know the wonderful team', 'about#team', class: "small-white"
+              who’s building our product, supporting our customers, and creating educational content.
+
+  %section.section#contact
+    .container
+      %h3.title.is-3.has-text-centered Contact Us
+
+      .columns
+        .column
+          %h3.title.is-3
+            %span.icon
+              %span.iconify{'data-icon': 'gridicons:location'}
+            Address
+          %p epiGenesys, Floor C, Cathedral Court
+          %p 1 Vicar Lane, Sheffield,
+          %p S1 2LT
+
+          %h3.title.is-3
+            %span.icon
+              %span.iconify{'data-icon': 'dashicons:email-alt'}
+            Email
+          = link_to 'info@epigenesys.org.uk', 'mailto:info@epigenesys.org.uk'
+
+          %h3.title.is-3
+            %span.icon
+              %span.iconify{'data-icon': 'el:phone'}
+            Phone
+          = link_to '+44 (0)114 222 1888', 'tel:+441142221888'
+
+        .column
+          %iframe.full{allowfullscreen: "", frameborder: "0", width: "100%", height: "450", src: "https://www.google.com/maps/embed/v1/place?q=53.3826314,-1.4710145&zoom=18&key=AIzaSyAPqSliBEobE2LSUoHvTSK_B5MdEfjkysY", style: "border:0"}
+
