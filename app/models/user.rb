@@ -29,7 +29,7 @@ class User < ApplicationRecord
   belongs_to :teams
   belongs_to :reviews
   has_one :preference
-  has_one :subscription_plan
+  has_one :license
 
   validates_presence_of :email, :admin, :encrypted_password
   validates :email, uniqueness: true, format: {with: URI::MailTo::EMAIL_REGEXP}

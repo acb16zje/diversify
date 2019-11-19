@@ -26,9 +26,9 @@
 #
 
 class Task < ApplicationRecord
-    belongs_to: project
-    has_one: user
-    has_many: skills
+    belongs_to :project
+    has_one :user
+    has_many :skills
 
     validates_presence_of :name, :experience
     validates :experience, greater_than: 0
