@@ -22,9 +22,12 @@
         %h1.title Subscriptions
       .column.is-right
         .select.is-pulled-right
-          %select
+          %select#index-graph-select{:onchange => "changeIndexGraph()"}
             %option Subscription Ratio
             %option Subscriptions by Date
-    .content#index-graph
-      = pie_chart @subscriptions.group("properties -> 'type'").count
-
+    -if @subscriptions.present?
+      .content
+        #index-pie-graph= pie_chart @subscriptions.group("properties -> 'type'").count
+        #index-line-graph= line_chart @subscriptions.group("properties -> 'type'").group_by_day(:time).count
+    -else
+      %p No Data

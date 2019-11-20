@@ -42,6 +42,7 @@ gem 'whenever'
 
 gem 'ahoy_matey'
 gem 'chartkick'
+gem 'groupdate'
 
 group :development, :test do
   gem 'byebug'

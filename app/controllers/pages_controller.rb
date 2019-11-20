@@ -18,9 +18,11 @@ class PagesController < ApplicationController
   #Function to track time spent in a page
   def track_time
 
-    if params.has_key?(:time)
-      time = params[:time]
-      ahoy.track "Time Spent", time: time
+    if params.has_key?(:time) && params.has_key?(:location)
+      unless (params[:location].include? "metrics")
+        time = params[:time]
+        ahoy.track "Time Spent", time: time
+      end
       head 200, content_type: "text/html"
     else
       head 500

@@ -1,7 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require chartkick
-//= require Chart.bundle
 
 'use strict';
 
@@ -39,7 +37,7 @@ function trackTime(event) {
     dataType: 'json',
     type: 'post',
     contentType: 'application/json',
-    data: JSON.stringify({"time": endTime - startTime }),
+      data: JSON.stringify({"time": endTime - startTime, "location": window.location.href}),
       error: function (xhr, status, error) {
       console.log(error);
     }
