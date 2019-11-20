@@ -17,10 +17,14 @@ class PagesController < ApplicationController
 
   #Function to track time spent in a page
   def track_time
-    print "yay"
-    time = params[:time]
-    ahoy.track "Time Spent", time: time
-    head 200, content_type: "text/html"
+
+    if params.has_key?(:time)
+      time = params[:time]
+      ahoy.track "Time Spent", time: time
+      head 200, content_type: "text/html"
+    else
+      head 500
+    end
   end
 
 end
