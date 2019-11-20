@@ -22,6 +22,10 @@ html, body {
       padding-top: 6rem;
     }
   }
+
+  .is-long{
+    width: 150px;
+  }
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -69,6 +73,10 @@ nav.navbar {
     max-height: initial;
   }
 
+  .navbar-item{
+    padding: 0.5rem 1.75rem
+  }
+
   .navbar-burger {
     height: initial;
     margin-right: 1.5rem;
@@ -76,5 +84,11 @@ nav.navbar {
     span {
       height: 2px;
     }
+  }
+
+  .navbar-center{
+    margin: auto;
+    width: max-content;
+    display: inline;
   }
 }
