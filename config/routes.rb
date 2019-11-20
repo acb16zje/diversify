@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       get 'newsletter'
       get 'love'
       get 'feedback'
+      get 'features'
     end
 
   end
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
   end
 
   #/track_time, for analytics
-  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new 
+  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new
 
   # /metrics/:page
   resources :metrics, only: :index do
