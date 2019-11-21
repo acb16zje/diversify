@@ -18,16 +18,19 @@
 %section.section
   .container
     .columns.is-vcentered
-      .column
+      .column.is-two-fifths
         %h1.title Subscriptions
-      .column.is-right
+      .column.is-right.is-two-fifths
+        %input.input.single-calendar#index-graph-date{:type => "date"}
+      .column.is-right.is-one-quarter
         .select.is-pulled-right
           %select#index-graph-select{:onchange => "changeIndexGraph()"}
             %option Subscription Ratio
             %option Subscriptions by Date
+
     -if @subscriptions.present?
       .content
-        #index-pie-graph= pie_chart @subscriptions.group("properties -> 'type'").count
-        #index-line-graph= line_chart @subscriptions.group("properties -> 'type'").group_by_day(:time).count
+        #index-pie-div= render partial: "piechart", locals: {data: @subscriptions}
+        #index-line-div= render partial: "linegraph", locals: {data: @subscriptions}
     -else
       %p No Data

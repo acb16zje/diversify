@@ -39,7 +39,7 @@ function trackTime(event) {
     contentType: 'application/json',
       data: JSON.stringify({"time": endTime - startTime, "location": window.location.href}),
       error: function (xhr, status, error) {
-      console.log(error);
+          console.log(error);
     }
   });
 }

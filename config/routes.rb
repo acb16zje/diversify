@@ -34,7 +34,9 @@ Rails.application.routes.draw do
   end
 
   #/track_time, for analytics
-  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new 
+  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new
+  #/update_graph_time, receives JSON of date and gets values for graphs
+  post "/update_graph_time", to: "metrics#update_graph_time", constraint: OnlyAjaxRequest.new
 
   # /metrics/:page
   resources :metrics, only: :index do
