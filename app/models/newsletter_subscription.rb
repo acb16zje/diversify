@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: newletter_subscriptions
+# Table name: newsletter_subscriptions
 #
 #  id              :bigint           not null, primary key
 #  date_subscribed :date             not null

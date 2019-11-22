@@ -16,7 +16,12 @@ class MetricsController < ApplicationController
     end
 
     @subscriptions = Ahoy::Event.where(name: "Clicked pricing link")
-    print(@subscriptions.group("properties -> 'type'").group_by_day(:time).count)
+  end
+
+  def traffic
+    @device_count = Ahoy::Visit.all.group(:device_type).count
+    @browser_count = Ahoy::Visit.all.group(:browser).count
+    @country_count = Ahoy::Visit.all.group(:country).count
   end
 
   def update_graph_time
@@ -25,27 +30,33 @@ class MetricsController < ApplicationController
       when "index-graph-date"
         @subscriptions = Ahoy::Event.where(name: "Clicked pricing link")
         if params[:time].present? && @subscriptions.present?
-          @time_constraint_subs = @subscriptions.where(time: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
-          if @time_constraint_subs.present?
-            respond_to do |format|
-              format.json { render :json => [
-                  generate_json_response("#index-pie-div", 'metrics/_piechart.haml',
-                                         @time_constraint_subs),
-                  generate_json_response("#index-line-div", 'metrics/_linegraph.haml',
-                                         @time_constraint_subs)
-              ], :status => 200 }
-            end
-          else
-            respond_to do |format|
-              format.json { render :json => [
-                  {:title => "#index-pie-div", :html => "<p>No Data</p>"},
-                  {:title => "#index-line-div", :html => "<p>No Data</p>"}
-              ], :status => 200 }
-            end
-          end
+          @time_constraint_subs = @subscriptions
+                            .where(time: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
+          return_partial(@time_constraint_subs,
+               %w(#index-pie-div #index-line-div),
+            %w(metrics/_piechart.haml metrics/_linegraph.haml))
         end
       else
         head 500
+      end
+    end
+  end
+
+  def return_partial(time_data,title_array, template_array)
+    response = []
+    title_array.zip(template_array).each do |title, template|
+      response.append(generate_json_response(title, template, time_data))
+    end
+    if time_data.present?
+      respond_to do |format|
+        format.json { render :json => response, :status => 200 }
+      end
+    else
+      respond_to do |format|
+        format.json { render :json => [
+            {:title => "#index-pie-div", :html => "<p>No Data</p>"},
+            {:title => "#index-line-div", :html => "<p>No Data</p>"}
+        ], :status => 200 }
       end
     end
   end

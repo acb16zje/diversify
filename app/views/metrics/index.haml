@@ -30,7 +30,7 @@
 
     -if @subscriptions.present?
       .content
-        #index-pie-div= render partial: "piechart", locals: {data: @subscriptions}
-        #index-line-div= render partial: "linegraph", locals: {data: @subscriptions}
+        #index-pie-div.box= render partial: "piechart", locals: {data: @subscriptions}
+        #index-line-div.box= render partial: "linegraph", locals: {data: @subscriptions}
     -else
       %p No Data

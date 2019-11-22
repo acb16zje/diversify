@@ -1,0 +1,13 @@
+%section.info-tiles
+  %h1.title Demographics
+  .columns.is-vcentered.box.has-text-centered
+    .column.is-one-third
+      = pie_chart @device_count, id: "traffic-device-graph"
+      %p.subtitle Device Types
+    .column.is-one-third
+      = pie_chart @browser_count, id: "traffic-browser-graph"
+      %p.subtitle Browser Types
+    .column.is-one-third
+      = pie_chart @country_count, id: "traffic-country-graph"
+      %p.subtitle Countries
+  %h1.title Landing Page

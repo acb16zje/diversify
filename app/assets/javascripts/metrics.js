@@ -2,14 +2,21 @@
 //= require Chart.bundle
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    changeIndexGraph();
+    switch(window.location.pathname){
+        case '/metrics':
+            changeIndexGraph();
+            break;
+        default:
+            console.log(window.location.href);
+    }
+
 
     const singleCalendars = flatpickr(".single-calendar", {
         mode: "range",
         dateFormat: "d.m.Y",
         maxDate: "today"
     });
-    if (Array.isArray(singleCalendars)) {
+    if (singleCalendars.length > 0 && Array.isArray(singleCalendars)) {
         for (var i = 0; i < singleCalendars.length + 1; i++) {
             singleCalendars[i].config.onChange.push(function (selectedDates, dateStr, instance) {
                 updateGraphRequest(selectedDates, dateStr, instance)
