@@ -21,7 +21,7 @@
       .column.is-two-fifths
         %h1.title Subscriptions
       .column.is-right.is-two-fifths
-        %input.input.single-calendar#graph-date{:type => "date"}
+        %input.input.single-calendar#graph-date{type: "date", placeholder: "Select a Date"}
       .column.is-right.is-one-quarter
         .select.is-pulled-right
           %select#graph-select{:onchange => "changeIndexGraph()"}
@@ -30,7 +30,6 @@
 
     -if @subscriptions.present?
       .content#graph-div.box
-        = render partial: "piechart", locals: {data: @subscriptions}
-        -##index-line-div.box= render partial: "linegraph", locals: {data: @subscriptions}
+        = render partial: "piechart", locals: {data: @subscriptions, group_by: "properties -> 'type'"}
     -else
       %p No Data

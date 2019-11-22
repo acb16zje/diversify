@@ -21,9 +21,9 @@ class PagesController < ApplicationController
     if params.has_key?(:time) && params.has_key?(:location)
       unless (params[:location].include? "metrics")
         time = params[:time]
-        ahoy.track "Time Spent", time: time
+        ahoy.track "Time Spent", time_spent: time.to_f.round/1000, location: params[:location]
       end
-      head 200, content_type: "text/html"
+      render :json => {}
     else
       head 500
     end

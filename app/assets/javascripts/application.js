@@ -37,7 +37,8 @@ function trackTime(event) {
     dataType: 'json',
     type: 'post',
     contentType: 'application/json',
-      data: JSON.stringify({"time": endTime - startTime, "location": window.location.href}),
+      data: JSON.stringify({"time": endTime - startTime, "location": window.location.pathname}),
+      success: function() {},
       error: function (xhr, status, error) {
           console.log(error);
     }
