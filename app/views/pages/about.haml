@@ -53,7 +53,7 @@
     .hero-body
       .container.has-text-centered
         %h1.title.has-text-white-bis Support the diversify movement and help us improve
-        = link_to 'feedback', class: 'button is-large is-primary has-text-danger is-light' do
+        = link_to feedback_pages_path, class: 'button is-large', id: 'feedback-button' do
           Give us feedback
 
   %section.section
@@ -61,7 +61,7 @@
       .columns.is-vcentered
         .column
           %h3.title.is-3.is-spaced.has-text-centered Our Values
-          %p.subtitle.is-5.has-text-centered See what we uphold to ensure you understand what we stand for!
+          %p.subtitle.is-5.has-text-centered See what we uphold to ensure you understand what we stand for
       .tile.is-ancestor
         .tile.is-vertical.is-8
           .tile
@@ -78,7 +78,7 @@
             .tile.is-parent
               %article.tile.is-child.notification.border
                 %h3.title.is-3 Transparency
-                %p We aim to let you, the customer know everything that is goin on with this product.
+                %p We aim to let you, the customer know everything that is going on with this product.
                 %p
                 This includes
                 %span.small keeping you up to date
@@ -93,8 +93,7 @@
               %p.title Constant Improvement
               %p More than anything we expect to consistently improve the services we offer.
               %p We plan to be on call for any problems experienced on this site.
-              .content
-                / Content
+
         .tile.is-parent
           %article.tile.is-child.notification.border
             .content
@@ -111,7 +110,7 @@
 
       .columns
         .column
-          %h3.title.is-3
+          %h3.title.is-6.has-text-danger
             %span.icon
               %span.iconify{'data-icon': 'gridicons:location'}
             Address
@@ -119,13 +118,13 @@
           %p 1 Vicar Lane, Sheffield,
           %p S1 2LT
 
-          %h3.title.is-3
+          %h3.title.is-6.has-text-danger
             %span.icon
               %span.iconify{'data-icon': 'dashicons:email-alt'}
             Email
           = link_to 'info@epigenesys.org.uk', 'mailto:info@epigenesys.org.uk'
 
-          %h3.title.is-3
+          %h3.title.is-6.has-text-danger
             %span.icon
               %span.iconify{'data-icon': 'el:phone'}
             Phone

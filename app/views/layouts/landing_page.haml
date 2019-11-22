@@ -20,11 +20,13 @@
             %span
             %span
         #navbar.navbar-menu
-          .navbar-end
+          .navbar-end.navbar-center
             = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
             = link_to 'About', about_pages_path, class: 'navbar-item'
             = link_to 'Customers', love_pages_path, class: 'navbar-item'
-            = link_to 'Newsletter', newsletter_pages_path, class: 'navbar-item'
+            = link_to 'Features', features_pages_path, class: 'navbar-item'
+          .navbar-end
+            = link_to 'Newsletter', newsletter_pages_path, class: 'button is-secondary is-medium', id: 'newsletter-button'
 
     = yield
 
@@ -46,7 +48,7 @@
             %p Copyright &copy; 2019
           .column
             %h5.title.is-5.is-spaced Products
-            = link_to 'Features', "#{root_path}#features", class: 'subtitle is-6'
+            = link_to 'Features', features_pages_path, class: 'subtitle is-6'
             = link_to 'Pricing', pricing_pages_path, class: 'subtitle is-6'
             = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
           .column

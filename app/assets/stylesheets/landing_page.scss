@@ -9,6 +9,11 @@ html, body {
   max-width: 1000px;
 }
 
+/* Navbar */
+#newsletter-button {
+  background-color: #CE0929;
+}
+
 /* Desktop Navbar */
 @media screen and (min-width: 1024px) {
   .navbar-end a.navbar-item {
@@ -136,21 +141,6 @@ h5.description::before {
   }
 }
 
-/* Home page */
-#features {
-  .content-tab {
-    display: none;
-
-    &.show {
-      display: block;
-    }
-
-    img {
-      box-shadow: 0 0 15px 5px #00000017;
-    }
-  }
-}
-
 /* Pricing page */
 #pricing {
   .card {
@@ -198,6 +188,12 @@ h5.description::before {
     }
   }
 
+  #feedback-button {
+    border: none;
+    color: black;
+    background-color: #FAEE06 !important;
+  }
+
   .notification {
     background: transparent;
     box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
@@ -222,6 +218,15 @@ h5.description::before {
           text-align: center;
         }
       }
+    }
+  }
+}
+
+/* Features page */
+#features {
+  .columns {
+    .media-left.has-centered {
+      margin: auto;
     }
   }
 }
