@@ -25,38 +25,44 @@ class MetricsController < ApplicationController
   end
 
   def update_graph_time
-    if params.has_key?(:time) && params.has_key?(:graph_name)
+    if params.has_key?(:graph_name)
       case params[:graph_name]
-      when "index-graph-date"
-        @subscriptions = Ahoy::Event.where(name: "Clicked pricing link")
-        if params[:time].present? && @subscriptions.present?
-          @time_constraint_subs = @subscriptions
-                            .where(time: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
-          return_partial(@time_constraint_subs,
-               %w(#index-pie-div #index-line-div),
-            %w(metrics/_piechart.haml metrics/_linegraph.haml))
-        end
-      else
-        head 500
+      when "Subscription Ratio"
+        @data = Ahoy::Event.where(name: "Clicked pricing link")
+        @id = "#graph-div"
+        @layout = "metrics/_piechart.haml"
+      when "Subscriptions by Date"
+        @data = Ahoy::Event.where(name: "Clicked pricing link")
+        @id = "#graph-div"
+        @layout = "metrics/_linegraph.haml"
       end
+      if @data.present? && params[:time].length() == 2
+        @data = @data.where(time: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
+      elsif @data.present? && params[:time].length() == 1
+        @data = @data.where(time: DateTime.parse(params[:time]))
+      end
+      if @data.present?
+        return_partial(@data, @id, @layout)
+      else
+        return_partial(nil, @id, @layout)
+      end
+    else
+      head 500
     end
   end
 
-  def return_partial(time_data,title_array, template_array)
-    response = []
-    title_array.zip(template_array).each do |title, template|
-      response.append(generate_json_response(title, template, time_data))
-    end
+  def return_partial(time_data, id, layout)
+    print("time data: #{time_data.present?}")
     if time_data.present?
+      response = generate_json_response(id, layout, time_data)
       respond_to do |format|
         format.json { render :json => response, :status => 200 }
       end
     else
+      print("HELLO PLS REPLY")
       respond_to do |format|
-        format.json { render :json => [
-            {:title => "#index-pie-div", :html => "<p>No Data</p>"},
-            {:title => "#index-line-div", :html => "<p>No Data</p>"}
-        ], :status => 200 }
+        format.json { render :json => {:title => "#graph-div", :html => "<p>No Data</p>"},
+                             :status => 200 }
       end
     end
   end

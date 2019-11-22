@@ -2,13 +2,13 @@
 //= require Chart.bundle
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    switch(window.location.pathname){
-        case '/metrics':
-            changeIndexGraph();
-            break;
-        default:
-            console.log(window.location.href);
-    }
+    // switch(window.location.pathname){
+    //     case '/metrics':
+    //         changeIndexGraph();
+    //         break;
+    //     default:
+    //         console.log(window.location.href);
+    // }
 
 
     const singleCalendars = flatpickr(".single-calendar", {
@@ -19,55 +19,43 @@ document.addEventListener("DOMContentLoaded", function (event) {
     if (singleCalendars.length > 0 && Array.isArray(singleCalendars)) {
         for (var i = 0; i < singleCalendars.length + 1; i++) {
             singleCalendars[i].config.onChange.push(function (selectedDates, dateStr, instance) {
-                updateGraphRequest(selectedDates, dateStr, instance)
+                const graph = document.getElementById("graph-select").value;
+                updateGraphRequest(graph, selectedDates, dateStr, graph)
             });
         }
     } else {
         singleCalendars.config.onChange.push(function (selectedDates, dateStr, instance) {
-            updateGraphRequest(selectedDates, dateStr, instance)
+            if (selectedDates.length == 2) {
+                const graph = document.getElementById("graph-select").value;
+                updateGraphRequest(selectedDates, dateStr, graph)
+            }
         });
     }
 
 
 });
 
-function updateGraphRequest(selectedDates, dateStr, instance) {
-    if (selectedDates.length === 2) {
+function updateGraphRequest(selectedDates, dateStr, graph) {
         $.ajax({
             url: '/update_graph_time',
             dataType: 'json',
             type: 'post',
             contentType: 'application/json',
-            data: JSON.stringify({"time": selectedDates, "graph_name": instance.element.id}),
-            success: function (results) {
-
-                results.forEach(result => {
-                    if (result.html != undefined) {
-                        $(result.title).html(result.html);
-                    }
-                });
+            data: JSON.stringify({"time": selectedDates, "graph_name": graph}),
+            success: function (result) {
+                $(result.title).html(result.html);
             },
             error: function (xhr, status, error) {
-                $("#index-line-div").html("<p>No Data</p>");
-                $("#index-pie-div").html("<p>No Data</p>");
+                $("#graph-div").html("<p>No Data</p>");
+                // $("#index-pie-div").html("<p>No Data</p>");
             }
         });
-    }
 };
 
 function changeIndexGraph() {
-    const value = document.getElementById("index-graph-select").value;
-    const pie = document.getElementById("index-pie-div");
-    const line = document.getElementById("index-line-div");
-    if (pie != null && line != null) {
-        if (value == "Subscription Ratio") {
-            pie.style.display = "block";
-            line.style.display = "none";
-        } else if (value == "Subscriptions by Date") {
-            line.style.display = "block";
-            pie.style.display = "none";
-        }
-    }
+    const graph = document.getElementById("graph-select").value;
+    const date = document.querySelector(".single-calendar")._flatpickr.selectedDates;
+    updateGraphRequest(date, null, graph);
 }
 
 
