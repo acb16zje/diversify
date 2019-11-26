@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
 
   # Ahoy Gem function to track actions
   def track_action
-    if !request.xhr?
+    if !request.xhr? && !(request.path_parameters[:controller] == "metrics")
       ahoy.track "Ran action", request.path_parameters
     end
   end

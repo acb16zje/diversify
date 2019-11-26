@@ -3,3 +3,4 @@
 //= link favicon/browserconfig.xml
 //= link_directory ../stylesheets .css
 //= link application.js
+//= link metrics.js

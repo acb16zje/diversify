@@ -8,9 +8,28 @@
         %p.subtitle newsletter subscribers
     .tile.is-parent
       %article.tile.is-child.box
-        %p.title 59k
+        %p.title= "#{@today_visits}"
         %p.subtitle page visits today
     .tile.is-parent
       %article.tile.is-child.box
-        %p.title 59k
+        %p.title= "#{@total_visits_count}"
         %p.subtitle total page visits
+
+%section.section
+  .container
+    .columns.is-vcentered
+      .column.is-two-fifths
+        %h1.title Subscriptions
+      .column.is-right.is-two-fifths
+        %input.input.single-calendar#graph-date{type: "date", placeholder: "Select a Date"}
+      .column.is-right.is-one-quarter
+        .select.is-pulled-right
+          %select#graph-select{:onchange => "changeIndexGraph()"}
+            %option Subscription Ratio
+            %option Subscriptions by Date
+
+    -if @subscriptions.present?
+      .content#graph-div.box
+        = render partial: "piechart", locals: {data: @subscriptions, group_by: "properties -> 'type'"}
+    -else
+      %p No Data

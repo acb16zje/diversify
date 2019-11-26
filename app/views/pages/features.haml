@@ -1,34 +1,42 @@
 - content_for :title, 'Love for Diversify'
 
-%section.section#join
+%section.section#features
   -# Join feature
   .container
     .columns.is-vcentered
       .column
         %h5.title.is-6.description.has-text-primary.has-text-left  Join and Collaborate
         %br
-        %h1.title.is-1.is-spaced Join teams and create your own!
-        %p.subtitle.is-6 With our free account you can create teams of upto 10, of your own choice! Enjoy our team reccomendation systems that will give you the best diverse teams possible!
+        %h1.title.is-1.is-spaced Join teams and create your own
+        %p.subtitle.is-6
+          With our free account you can create teams of up to 10, of your own choice.
+          Enjoy our team recommendation system that will give you the best diverse teams possible.
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'typcn:group-outline'}
-            %h2.title.is-6 Reccomend
-            %p.is-7 We will reccommend you the best team members available to you!
+            %h2.title.is-6 Recommend
+            %p.is-7 We will recommend you the best team members available to you
           .column
             %h2.title.is-2.has-text-danger.iconify{'data-icon': 'feather:pen-tool'}
             %h2.title.is-6 Create
-            %p.is-7 Select the best team possible, according to their diversity!
+            %p.is-7 Select the best team possible, according to their diversity
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'ant-design:user-add-outline'}
             %h2.title.is-6 Join
-            %p.is-7 Feel free to join any of the active public projects on the app!
+            %p.is-7 Feel free to join any of the active public projects on the website
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'ant-design:usergroup-add-outline'}
             %h2.title.is-6 Add
+<<<<<<< HEAD
             %p.is-7 Add members to your team, as many as you like!
       .column.is-two-thirds.has-text-centered
         = image_tag 'join.png'
+=======
+            %p.is-7 Add members to your team, as many as you like
+      .column.has-text-centered
+        = image_tag 'Genesys.png'
+>>>>>>> 2374cf1e41c69112c33d299b8629ce977350da05
   -# break
   %section.hero.is-medium
     .hero-body
@@ -36,9 +44,9 @@
         .columns
           .column
             .media
-              .media-left
+              .media-left.has-centered
                 %figure.image.is-128x128
-                  = image_tag 'avatar/small/daniel.jpg', class: 'is-rounded'
+                  = image_tag 'avatar/large/daniel.jpg', class: 'is-rounded'
 
           .column.is-two-thirds
 
@@ -48,7 +56,7 @@
             .media
               .media-left
                 .media-content
-                  %p.subtitle.is-4 Kalvin Howe
+                  %p.subtitle.is-4.is-marginless Kalvin Howe
                   %p.subtitle.is-5 @kalvin
 
   -# Analyse feature
@@ -59,22 +67,22 @@
       .column
         %h5.title.is-6.description.has-text-primary.has-text-left  Analyse and Maintain
         %br
-        %h1.title.is-1.is-spaced Analyse your teams performance and maintain your projects!
-        %p.subtitle.is-6 You can now view your likely team performance with the members you have through out the project!
+        %h1.title.is-1.is-spaced Analyse your teams performance and maintain your projects
+        %p.subtitle.is-6 You can now view your likely team performance with the members you have through out the project
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'entypo:circular-graph'}
             %h2.title.is-6 Team Analysis
-            %p.is-7 See how your team stacks up throught the project!
+            %p.is-7 See how your team stacks up through the project
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'simple-icons:graphql'}
             %h2.title.is-6 Individual analysis
-            %p.is-7 Analyse each members performance through out the project!
+            %p.is-7 Analyse each members performance throughout the project
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'ant-design:issues-close-outline'}
             %h2.title.is-6 Solve team issues
-            %p.is-7 Disscuss team problems on our issues board to get you back to optimum!
+            %p.is-7 Discuss team problems on our issues board to get you back to optimum
           .column
   -# break
   %section.hero.is-medium
@@ -83,9 +91,9 @@
         .columns
           .column
             .media
-              .media-left
+              .media-left.has-centered
                 %figure.image.is-128x128
-                  = image_tag 'avatar/small/steve.jpg', class: 'is-rounded'
+                  = image_tag 'avatar/large/steve.jpg', class: 'is-rounded'
 
           .column.is-two-thirds
 
@@ -95,7 +103,7 @@
             .media
               .media-left
                 .media-content
-                  %p.subtitle.is-4 Elvis Stout
+                  %p.subtitle.is-4.is-marginless Elvis Stout
                   %p.subtitle.is-5 @elvis
   -# Join feature
   .container
@@ -103,22 +111,22 @@
       .column
         %h5.title.is-6.description.has-text-primary.has-text-left  Rate and Review
         %br
-        %h1.title.is-1.is-spaced Leave feedback for your teamates and update their stats
+        %h1.title.is-1.is-spaced Leave feedback for your teammates and update their stats
         %p.subtitle.is-6 Get feedback on the go from your team mates on how you performed on the team.
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'ic:baseline-comment'}
             %h2.title.is-6 Review
-            %p.is-7 Tell team members what you thought about their performance!
+            %p.is-7 Tell team members what you thought about their performance
           .column
             %h2.title.is-2.has-text-danger.iconify{'data-icon': 'foundation:graph-bar'}
             %h2.title.is-6 Update Performance
-            %p.is-7 Get your stats and skills updated after every project!
+            %p.is-7 Get your stats and skills updated after every project
         .columns
           .column
             %h2.title.is-1.has-text-danger.iconify{'data-icon': 'mdi:eye'}
             %h2.title.is-6 View Skills
-            %p.is-7 View in realitime what your current skills are!
+            %p.is-7 View in realtime what your current skills are
           .column
       .column.is-two-thirds.has-text-centered
         = image_tag 'review.png'
