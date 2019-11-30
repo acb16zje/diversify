@@ -43,6 +43,10 @@ gem 'whenever'
 gem 'ahoy_matey'
 gem 'chartkick'
 gem 'groupdate'
+gem 'geocoder'
+
+gem 'ckeditor', github: 'galetahub/ckeditor'
+gem 'mini_magick'
 
 group :development, :test do
   gem 'byebug'
