@@ -69,8 +69,11 @@ nav.navbar {
     max-height: initial;
   }
 
-  .navbar-item {
-    padding: 0.5rem 1.75rem
+  .navbar-item{
+    padding: 0.5rem 1.75rem;
+    @media screen and (max-width: 1024px) {
+      margin: 1rem 0;
+    }
   }
 
   .navbar-burger {
@@ -85,5 +88,12 @@ nav.navbar {
     margin: auto;
     width: max-content;
     display: inline;
+  }
+
+  .button{
+    @media screen and (max-width: 1024px) {
+      width: 200px;
+      margin: 1rem 0;
+    }
   }
 }
