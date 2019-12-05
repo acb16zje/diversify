@@ -7,7 +7,7 @@ class PagesController < ApplicationController
     @current_nav_identifier = :home
   end
 
-  #Function to track subcriptions
+  #Function to track subscriptions
   #should be changed once proper subscription system has been completed
   def newsletter
     if params.has_key?(:type)
@@ -19,9 +19,9 @@ class PagesController < ApplicationController
   def track_time
 
     if params.has_key?(:time) && params.has_key?(:location)
-      unless (params[:location].include? "metrics")
+      unless params[:location].include? "metrics"
         time = params[:time]
-        ahoy.track "Time Spent", time_spent: time.to_f.round/1000, location: params[:location]
+        ahoy.track "Time Spent", time_spent: time.to_f.round / 1000, location: params[:location]
       end
       render :json => {}
     else

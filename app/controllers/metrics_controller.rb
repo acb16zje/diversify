@@ -73,7 +73,7 @@ class MetricsController < ApplicationController
 
       #Check if theres is still valid data, else return "No Data"
       if @data.present?
-        return_partial( @id, @layout,{data: @data, group_by: @group,time: @time, average: @average})
+        return_partial(@id, @layout, {data: @data, group_by: @group, time: @time, average: @average})
       else
         return_partial(nil, nil, {})
       end
@@ -83,7 +83,7 @@ class MetricsController < ApplicationController
   end
 
   # def return_partial(time_data, id, layout, group, time)
-  def return_partial( id, layout,locals)
+  def return_partial(id, layout, locals)
     print("HERE LIES THE GREAT LOCALS #{locals}")
     if locals[:data].present?
       response = generate_json_response(id, layout, locals)
@@ -98,7 +98,7 @@ class MetricsController < ApplicationController
     end
   end
 
-  def generate_json_response(title, template,locals)
+  def generate_json_response(title, template, locals)
     json = {:title => title,
             # Renders the ERB partial to a string
             :html => render_to_string(

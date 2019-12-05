@@ -1,0 +1,38 @@
+image: epigenesys/rails:ruby2.6.3
+services:
+  - "postgres:9.6"
+
+cache:
+  key: 'continuous-delivery'
+  paths:
+    - vendor/gems
+
+variables:
+  POSTGRES_DB: ci_test
+  POSTGRES_USER: runner
+  POSTGRES_PASSWORD: password
+
+.db-setup: &db-setup |
+  cat > config/database.yml << EOF
+  test:
+    adapter:  postgresql
+    host:     postgres
+    database: ci_test
+    username: runner
+    password: password
+  EOF
+
+test:
+  script:
+    - *db-setup
+    - 'bundle config gems.shefcompsci.org.uk gitlab:${GEM_SERVER_KEY}'
+    - bundle check --path vendor/gems || bundle install --path vendor/gems --jobs $(nproc)
+    - bundle exec rake db:reset RAILS_ENV=test
+    - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
+#    - bundle exec rake
+    - rspec spec/features
+  artifacts:
+    paths:
+      - coverage
+      - log
+    expire_in: '1 week'
