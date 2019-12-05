@@ -30,7 +30,7 @@ test:
     - bundle exec rake db:reset RAILS_ENV=test
     - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
 #    - bundle exec rake
-    - rspec spec/features
+    - bundle exec rake rspec spec/features
   artifacts:
     paths:
       - coverage
