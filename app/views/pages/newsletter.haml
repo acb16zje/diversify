@@ -8,10 +8,18 @@
         %h1.title.is-1.is-spaced Subscribe to our newsletter
         %p.subtitle.is-5 Get the latest news and updates sent to your inbox
 
+        #fb-root
+
+        .field.is-grouped
+          .control.fb-share-button{'data-href': 'https://team07.demo1.genesys.shefcompsci.org.uk', 'data-layout': 'button', 'data-size': 'large'}
+          %a.control.twitter-share-button{'data-lang': 'en', 'data-show-count': 'false', 'data-size': 'large', href: 'https://twitter.com/share?ref_src=twsrc%5Etfw'} Tweet
+          %script{async: '', charset: 'utf-8', src: 'https://platform.twitter.com/widgets.js'}
+
+
         %form#newsletter_form
           .field
             .control
-              %input.input{placeholder: "Your email address", type: "email", required: 'required'}
+              %input.input{placeholder: 'Your email address', type: 'email', required: 'required'}
 
           .field
             .control
