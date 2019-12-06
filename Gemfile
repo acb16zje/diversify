@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '2.6.2'
+
 source "https://gems.shefcompsci.org.uk" do
   gem 'airbrake'
   gem 'capybara-select2', group: :test

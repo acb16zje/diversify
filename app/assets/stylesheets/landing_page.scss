@@ -50,12 +50,8 @@ html, body {
     a.navbar-item {
       color: white;
 
-      &:after {
-        border-bottom: solid 3px white;
-      }
-
-      &:hover:after {
-        color: white;
+      &:hover {
+        color: $primary;
       }
     }
   }
