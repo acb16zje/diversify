@@ -1,2 +1,18 @@
-%form
-  = cktext_area :page, :info, cols: 40, ckeditor: { uiColor: '#AADC6E', toolbar: 'mini' }
+%section.section
+  .container
+    .columns.is-vcentered
+      .column.is-two-fifths
+        %h1.title Newsletter Page
+      .column.is-right.is-two-fifths
+        %input.input.single-calendar#graph-date{:type => "date", placeholder: "Select a Date"}
+      .column.is-right.is-one-quarter
+        .select.is-pulled-right
+          %select#graph-select
+            %option 
+            %option 
+
+    -if @data.present?
+      .content#graph-div.box
+        = render partial: "linegraph", locals: {data: @data, group_by: "referrer"}
+    -else
+      %p No Data

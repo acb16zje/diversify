@@ -2,14 +2,6 @@
 //= require Chart.bundle
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    // switch(window.location.pathname){
-    //     case '/metrics':
-    //         changeIndexGraph();
-    //         break;
-    //     default:
-    //         console.log(window.location.href);
-    // }
-
 
     const singleCalendars = flatpickr(".single-calendar", {
         mode: "range",
@@ -23,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 updateGraphRequest(graph, selectedDates, dateStr, graph)
             });
         }
-    } else {
+    } else if (singleCalendars.length > 0) {
+        console.log(singleCalendars)
         singleCalendars.config.onChange.push(function (selectedDates, dateStr, instance) {
             if (selectedDates.length == 2) {
                 const graph = document.getElementById("graph-select").value;
@@ -32,7 +25,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
 
-
+    $('#newsletterTable').DataTable({
+        responsive: true,
+        dom: 'B<"clear">lfrtip',
+        "columns": [
+            null,
+            null
+        ]
+    });
 });
 
 function updateGraphRequest(selectedDates, dateStr, graph) {
@@ -47,7 +47,6 @@ function updateGraphRequest(selectedDates, dateStr, graph) {
             },
             error: function (xhr, status, error) {
                 $("#graph-div").html("<p>No Data</p>");
-                // $("#index-pie-div").html("<p>No Data</p>");
             }
         });
 };

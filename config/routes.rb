@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :newsletters
   mount Ckeditor::Engine => '/ckeditor'
   resources :tasks
   resources :reviews
@@ -25,7 +26,6 @@ Rails.application.routes.draw do
       get 'feedback'
       get 'features'
     end
-
   end
 
   # Class to set constraint to only allow AJAX request

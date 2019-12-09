@@ -7,11 +7,14 @@
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
     = stylesheet_link_tag 'metrics_page', media: :all
     = stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
+    = stylesheet_link_tag '//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css'
     = javascript_include_tag Ckeditor.cdn_url
     = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
     = javascript_include_tag 'https://cdn.jsdelivr.net/npm/flatpickr'
-    = javascript_include_tag 'application', defer: true
+    = javascript_include_tag 'application', defer: false
+    = javascript_include_tag '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js' 
     = javascript_include_tag 'metrics', defer: false
+  
 
   %body.has-spaced-navbar-fixed-top
     %nav.navbar.is-fixed-top.is-spaced
@@ -42,7 +45,9 @@
                 %li
                   = link_to 'Overview', newsletter_metrics_path, class: "#{current_class?(newsletter_metrics_path)}"
                 %li
-                  = link_to 'Send newsletter', '#', class: ""
+                  = link_to 'Send newsletter', new_newsletter_path, class: "#{current_class?(new_newsletter_path)}"
+                %li
+                  = link_to "Newsletter Archive", newsletters_path, class: "#{current_class?(newsletters_path)}"
           .column.is-9
             = yield
 

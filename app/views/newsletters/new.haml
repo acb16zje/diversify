@@ -1,0 +1,10 @@
+%h1.title Send Newsletter
+
+= simple_form_for(@newsletter, remote: true) do |f|
+  .field
+    = f.input :title, placeholder: 'Newsletter Title'
+  .field
+    = f.cktext_area :content, placeholder: 'Type your newsletter here...', ckeditor: { uiColor: '#AADC6E', toolbar: 'mini' }
+  .field
+    .control
+      = f.button :submit, class: 'button is-primary'

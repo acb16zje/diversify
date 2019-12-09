@@ -1,0 +1,12 @@
+%h1.title Newsletter Archive
+%table.table#newsletterTable{style: 'width: 100%;'}
+  %thead
+    %tr
+      %th Title
+      %th
+  %tbody
+    - @newsletters.each do |newsletter|
+      %tr
+        %td= newsletter.title
+        %td
+        
