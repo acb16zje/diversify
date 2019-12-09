@@ -57,6 +57,41 @@ function changeIndexGraph() {
     updateGraphRequest(date, null, graph);
 }
 
+function showModal(id) {
+    $.ajax({
+        url: '/newsletters/'+id,
+        type:'get',
+        contentType: 'application/json',
+        success: function (result) {
+            const modal = document.querySelector('.modal');  // assuming you have only 1
+            const html = document.querySelector('html');
+            
+            modal.classList.add('is-active');
+            html.classList.add('is-clipped');
+
+            modal.querySelector('.modal-background').addEventListener('click', function(e) {
+                e.preventDefault();
+                closemodal();
+            });
+
+            modal.querySelector('.delete').addEventListener('click', function(e) {
+                e.preventDefault();
+                closemodal();
+            });
+
+            const title = document.querySelector('.modal-card-title')
+            const content = document.querySelector('.modal-card-body')
+            title.innerHTML = result.title;
+            content.innerHTML = result.content;
+        }
+    });
+}
+
+function closemodal() {
+    document.querySelector('.modal').classList.remove('is-active');
+    document.querySelector('html').classList.remove('is-clipped');
+}
+
 
 
 

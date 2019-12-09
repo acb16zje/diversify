@@ -3,10 +3,20 @@
   %thead
     %tr
       %th Title
-      %th
+      %th Time
   %tbody
     - @newsletters.each do |newsletter|
-      %tr
+      %tr{onclick: "showModal(#{newsletter.id})"}
         %td= newsletter.title
-        %td
+        %td= newsletter.created_at
+
+.modal.animated.fadeIn.faster
+  .modal-background
+  .modal-card
+    %header.modal-card-head
+      %p.modal-card-title 
+      %button.delete{"aria-label" => "close"}
+    %section.modal-card-body
+     
+        
         
