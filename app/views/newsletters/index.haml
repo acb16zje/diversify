@@ -1,12 +1,12 @@
 %h1.title Newsletter Archive
-%table.table#newsletterTable{style: 'width: 100%;'}
+%table.table.is-hoverable#newsletterTable{style: 'width: 100%;'}
   %thead
     %tr
       %th Title
       %th Time
   %tbody
     - @newsletters.each do |newsletter|
-      %tr{onclick: "showModal(#{newsletter.id})"}
+      %tr{onclick: "showModal('/newsletters/#{newsletter.id}')"}
         %td= newsletter.title
         %td= newsletter.created_at
 

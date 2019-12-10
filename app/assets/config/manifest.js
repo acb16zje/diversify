@@ -4,5 +4,8 @@
 //= link_directory ../stylesheets .css
 //= link application.js
 //= link metrics.js
+//= link modal.js
 //= link ckeditor/application.css
 //= link ckeditor/application.js
+//= link dataTables.bulma.min.css
+//= link dataTables.bulma.min.js 
