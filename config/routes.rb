@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get :ie_warning, to: 'errors#ie_warning'
   get :javascript_warning, to: 'errors#javascript_warning'
 
+  # match 'newsletters' => 'newsletters#create', :via => :post, :as => :create_newsletter
+
   # /:page
   resources :pages, path: '', only: [] do
 
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
     end
   end
 
+  
+
   # Class to set constraint to only allow AJAX request
   class OnlyAjaxRequest
     def matches?(request)
@@ -39,6 +43,7 @@ Rails.application.routes.draw do
   post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new
   #/update_graph_time, receives JSON of date and gets values for graphs
   post "/update_graph_time", to: "metrics#update_graph_time", constraint: OnlyAjaxRequest.new
+
 
   # /metrics/:page
   resources :metrics, only: :index do

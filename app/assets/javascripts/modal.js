@@ -44,9 +44,9 @@ function closeModal() {
 }
 
 /**
- * Listener to close modal on clicking close button
+ * Listener to close notfication
  */
 $(document).on('click', '.notification > button.delete', function () {
-    closeModal();
+    $(this).parent().addClass('is-hidden');
     return false;
 });

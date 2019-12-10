@@ -2,7 +2,7 @@
 
 = simple_form_for(@newsletter) do |f|
   .field
-    = f.input :title, placeholder: 'Newsletter Title', required: true, error: 'Username is mandatory, please specify one'
+    = f.input :title, placeholder: 'Newsletter Title', required: true, error: 'Title is mandatory, please specify one'
   .field
     = f.cktext_area :content,required: true, placeholder: 'Type your newsletter here...', ckeditor: { uiColor: '#AADC6E', toolbar: 'mini' }
   .field

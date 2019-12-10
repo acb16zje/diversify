@@ -28,12 +28,13 @@
             = image_tag 'logo/logo_horizontal.svg', width: 150
           = link_to 'Landing Page', root_path, class: 'navbar-item'
 
-    - flash.each do |key, value|
-      %div{class: flash_class(key)}
-        %button.delete
-        = value
+    
 
     %section.section
+      - flash.each do |key, value|
+        %div#notification{class: flash_class(key), style: "margin: 0.5% 1%;"}
+          %button.delete
+          = value
       .container
         .columns
           .column.is-3
@@ -52,11 +53,11 @@
                 Newsletter
               %ul.menu-list
                 %li
-                  = link_to 'Overview', newsletter_metrics_path, class: "#{current_class?(newsletter_metrics_path)}"
+                  = link_to 'Overview', newsletter_metrics_path, class: "#{current_class?(newsletter_metrics_path) }"
                 %li
-                  = link_to 'Send newsletter', new_newsletter_path, class: "#{current_class?(new_newsletter_path)}"
+                  = link_to "Newsletter Archive", newsletters_path, class: "#{action?("index")}"
                 %li
-                  = link_to "Newsletter Archive", newsletters_path, class: "#{current_class?(newsletters_path)}"
+                  = link_to 'Send newsletter', new_newsletter_path, class: "#{action?("new")} #{action?("create")}"
           .column.is-9
             = yield
 

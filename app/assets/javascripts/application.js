@@ -32,6 +32,12 @@ const openTab = (evt, tabName) => {
   evt.currentTarget.className += ' is-active';
 };
 
+document.addEventListener("DOMContentLoaded", function (event) {
+  const notification = document.getElementById('notification');
+  if (notification != null) {
+    setTimeout(function(){notification.remove()}, 3000);
+  }
+});
 /**
  * Ajax call to send time spent when user enters another page
  */

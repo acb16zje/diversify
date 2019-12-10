@@ -14,11 +14,11 @@ class NewslettersController < ApplicationController
         @newsletter = Newsletter.new(newsletter_params)
 
         if @newsletter.save
-           flash['success'] = "Newsletter Sent"
-           redirect_to(newsletters_path)
+           NewsletterMailer.send_newsletter(@newsletter).deliver_now
+           redirect_to newsletters_path, :flash => { 'success' => 'Newsletter was successfully sent.' } 
         else
-            flash['error'] = "Newsletter Failed"
-            render 'new'
+            flash.now['error'] = 'Newsletter failed.'
+            render 'new' 
         end
     end
 

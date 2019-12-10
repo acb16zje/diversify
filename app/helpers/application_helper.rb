@@ -37,4 +37,9 @@ module ApplicationHelper
   def current_class?(path)
     request.fullpath == path ? 'is-active' : ''
   end
+
+  def action?(*action)
+    print params[:action]
+    action.include?(params[:action]) ? 'is-active' : ''
+  end
 end
