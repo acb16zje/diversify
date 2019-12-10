@@ -1,20 +1,5 @@
-# project
----
+# COM4525 Genesys
 
-### Description
-Describe your app here...
+## Team 7 - Helping teams to improve their performance through diversity
 
-### Significant Features/Technology
-The system has the following:
-
-* Some significant thing...
-* Another one...
-
-### Special Development Pre-requisites
-None.
-
-### Deployment
-*QA -> Demo -> Production* using the `epi-deploy` gem.
-
-### Customer Contact
-Some Customer <some.customer@epigenesys.co.uk>
+#### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
