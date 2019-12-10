@@ -25,6 +25,11 @@
             = image_tag 'logo/logo_horizontal.svg', width: 150
           = link_to 'Landing Page', root_path, class: 'navbar-item'
 
+    - flash.each do |key, value|
+      %div{class: flash_class(key)}
+        %button.delete
+        = value
+
     %section.section
       .container
         .columns

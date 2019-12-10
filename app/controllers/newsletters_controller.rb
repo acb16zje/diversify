@@ -14,7 +14,11 @@ class NewslettersController < ApplicationController
         @newsletter = Newsletter.new(newsletter_params)
 
         if @newsletter.save
-            print (@newsletter)
+           flash['success'] = "Newsletter Sent"
+           redirect_to(newsletters_path)
+        else
+            flash['error'] = "Newsletter Failed"
+            render 'new'
         end
     end
 

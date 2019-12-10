@@ -92,6 +92,11 @@ function closemodal() {
     document.querySelector('html').classList.remove('is-clipped');
 }
 
+$(document).on('click', '.notification > button.delete', function() {
+    $(this).parent().addClass('is-hidden');
+    return false;
+});
+
 
 
 
