@@ -12,16 +12,19 @@
               .content
                 %h5.title.is-5.has-text-centered Casual
                 %h2.title.is-2.has-text-centered Free
-                %br
-                %br
-                %p.card-text.small
+
+                %p.card-text.small.is-flex
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                  %span Join unlimited projects
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span Unlimited team members
-                %p.card-text.small
+                  %span Automated team building
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span free to join projects
+                  %span Skill set manager
             %footer.card-footer
             = link_to 'Get started for free', newsletter_pages_path(:type => "Free"), class: "button is-primary is-medium"
         .column
@@ -30,16 +33,28 @@
               .content
                 %h5.title.is-5.has-text-centered Professional
                 %h2.title.is-2.has-text-centered £ 15 / month
-                %br
-                %br
-                %p.card-text.small
+
+                %p.card-text.small.is-flex
+                  %span.icon
+                    %span.iconify{'data-icon': 'dashicons:arrow-left-alt'}
+                  %span Everything included in Free
+                %hr
+                %p.card-text.small.is-flex
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                  %span Create unlimited projects
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span Unlimited team members
-                %p.card-text.small
+                  %span Automated task allocation
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span free to join projects
+                  %span Peer review system
+                %p.card-text.small.is-flex
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span Issue board
             %footer.card-footer
             = link_to 'Start 14-days free trial', newsletter_pages_path(type: 'Pro'), class: 'button is-primary is-medium'
         .column
@@ -48,16 +63,24 @@
               .content
                 %h5.title.is-5.has-text-centered Enterprise
                 %h2.title.is-2.has-text-centered £ 165 / year
-                %br
-                %br
-                %p.card-text.small
+
+                %p.card-text.small.is-flex
+                  %span.icon
+                    %span.iconify{'data-icon': 'dashicons:arrow-left-alt'}
+                  %span Everything included in Pro
+                %hr
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span Unlimited team members
-                %p.card-text.small
+                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                  %span Unlimited members per project
+                %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
-                  %span free to join projects
+                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                  %span Unlimited sub-accounts
+                %p.card-text.small.is-flex
+                  %span.icon.has-text-success
+                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                  %span Unlimited active tasks
             %footer.card-footer
             = link_to 'Start 14-days free trial', newsletter_pages_path(type: 'Enterprise'), class: 'button is-primary is-medium'
 
@@ -67,8 +90,7 @@
         %h1.title.has-text-white-bis Get a good look at our features
         %h1.title.has-text-white-bis Analyze, Rate, Join!
 
-        = link_to 'pricing', class: 'button is-primary is-large is-light' do
-          Get Started for Free
+        = link_to 'Learn more', features_pages_path, class: 'button is-primary is-large is-light'
 
   -# pricing comparison table
   %section.section#pricing_table
@@ -90,7 +112,7 @@
           %tbody
             %tr
               %th 1
-              %td Join unlimited public projects
+              %td Join unlimited projects
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
@@ -113,29 +135,32 @@
               %td{align: 'center'}
                 %span.icon.has-text-danger
                   %span.iconify{'data-icon': 'fa-solid:times'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'} Unlimited
+              %td{align: 'center'} Unlimited
+
             %tr
               %th 4
-              %td No. of accounts
-              %td{align: 'center'} 1
-              %td{align: 'center'} 1
+              %td Members per project
+              %td{align: 'center'} 10
+              %td{align: 'center'} 50
               %td{align: 'center'} Unlimited
 
             %tr
               %th 5
-              %td Members per project
-              %td{align: 'center'} 10
-              %td{align: 'center'} 10
-              %td{align: 'center'} Unlimited
+              %td Automated team building
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
+              %td{align: 'center'}
+                %span.icon.has-text-success
+                  %span.iconify{'data-icon': 'fa-solid:check'}
 
             %tr
               %th 6
-              %td Create teams
+              %td Skill set manager
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
@@ -145,9 +170,22 @@
               %td{align: 'center'}
                 %span.icon.has-text-success
                   %span.iconify{'data-icon': 'fa-solid:check'}
-
             %tr
               %th 7
+              %td Task allocation
+              %td{align: 'center'} Manual
+              %td{align: 'center'} Auto / Manual
+              %td{align: 'center'} Auto / Manual
+
+            %tr
+              %th 8
+              %td No. of active tasks
+              %td{align: 'center'} 15
+              %td{align: 'center'} 100
+              %td{align: 'center'} Unlimited
+
+            %tr
+              %th 9
               %td Peer review system
               %td{align: 'center'}
                 %span.icon.has-text-danger
@@ -160,34 +198,8 @@
                   %span.iconify{'data-icon': 'fa-solid:check'}
 
             %tr
-              %th 8
-              %td Skill set manager
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
-                %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-            %tr
-              %th 9
-              %td Task allocation
-              %td{align: 'center'} Manual
-              %td{align: 'center'} Auto / Manual
-              %td{align: 'center'} Auto / Manual
-
-            %tr
               %th 10
-              %td No. of active tasks
-              %td{align: 'center'} 15
-              %td{align: 'center'} 100
-              %td{align: 'center'} Unlimited
-
-            %tr
-              %th 11
-              %td Issues Board
+              %td Issue Board
               %td{align: 'center'}
                 %span.icon.has-text-danger
                   %span.iconify{'data-icon': 'fa-solid:times'}
