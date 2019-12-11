@@ -1,3 +1,10 @@
+# Class to set constraint to only allow AJAX request
+class OnlyAjaxRequest
+  def matches?(request)
+    request.xhr?
+  end
+end
+
 Rails.application.routes.draw do
 
   resources :newsletters
@@ -17,7 +24,7 @@ Rails.application.routes.draw do
 
   # match 'newsletters' => 'newsletters#create', :via => :post, :as => :create_newsletter
 
-  # /:page
+  # /:path
   resources :pages, path: '', only: [] do
 
     collection do
@@ -27,32 +34,22 @@ Rails.application.routes.draw do
       get 'love'
       get 'feedback'
       get 'features'
+
+      # For analytics
+      post 'track_time', constraint: OnlyAjaxRequest.new
     end
   end
 
-  
-
-  # Class to set constraint to only allow AJAX request
-  class OnlyAjaxRequest
-    def matches?(request)
-      request.xhr?
-    end
-  end
-
-  #/track_time, for analytics
-  post "/track_time", to: "pages#track_time", constraint: OnlyAjaxRequest.new
-  #/update_graph_time, receives JSON of date and gets values for graphs
-  post "/update_graph_time", to: "metrics#update_graph_time", constraint: OnlyAjaxRequest.new
-
-
-  # /metrics/:page
+  # /metrics/:path
   resources :metrics, only: :index do
 
     collection do
       get 'newsletter'
       get 'traffic'
-    end
 
+      # Receives JSON of date and gets values for graphs
+      post 'update_graph_time', constraint: OnlyAjaxRequest.new
+    end
   end
 
   root to: "pages#home"

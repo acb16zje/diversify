@@ -7,19 +7,19 @@
     %meta{content: 'Automated team building tool', property: 'og:description'}
     %meta{content: 'assets/logo/logo_vertical.svg', property: 'og:image'}
 
-    / Search Engine
+    -# Search Engine
     %meta{content: 'Automated team building software', name: 'description'}
     %meta{content: '/assets/logo/logo_vertical.svg', name: 'image'}
-    / Schema.org for Google
+    -# Schema.org for Google
     %meta{content: 'Diversify', itemprop: 'name'}
     %meta{content: 'Automated team building software', itemprop: 'description'}
     %meta{content: '/assets/logo/logo_vertical.svg', itemprop: 'image'}
-    / Twitter
+    -# Twitter
     %meta{content: 'summary', name: 'twitter:card'}
     %meta{content: 'Diversify', name: 'twitter:title'}
     %meta{content: 'Automated team building software', name: 'twitter:description'}
     %meta{content: '/assets/logo/logo_vertical.svg', name: 'twitter:image:src'}
-    / Open Graph general (Facebook, Pinterest & Google+)
+    -# Open Graph general (Facebook, Pinterest & Google+)
     %meta{content: 'Diversify', name: 'og:title'}
     %meta{content: 'Automated team building software', name: 'og:description'}
     %meta{content: '/assets/logo/logo_vertical.svg', name: 'og:image'}
@@ -29,10 +29,9 @@
 
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
-    = stylesheet_link_tag 'landing_page', media: :all
+    = stylesheet_link_tag 'landing_page'
     = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
-    = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: true, id: 'cookieinfo',
-        'data-bg': '#645862', 'data-fg': '#fff', 'data-link': '#f1d600', 'data-close-text': 'OK'
+    = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: true, id: 'cookieinfo', 'data-bg': '#645862', 'data-fg': '#fff', 'data-link': '#f1d600', 'data-close-text': 'OK'
     = javascript_include_tag 'application', defer: true
 
   %body.has-spaced-navbar-fixed-top

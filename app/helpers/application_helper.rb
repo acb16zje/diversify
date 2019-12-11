@@ -3,7 +3,7 @@ module ApplicationHelper
     arg_id = block_given? ? 1 : 2
     identifier = args[arg_id].delete(:identifier)
     args[arg_id][:class] ||= ''
-    args[arg_id][:class]   = (args[arg_id][:class].split(' ') << 'nav-link').join(' ')
+    args[arg_id][:class] = (args[arg_id][:class].split(' ') << 'nav-link').join(' ')
     content_tag :li, class: "nav-item #{'active' if identifier == current_identifier}" do
       link_to(*args, &block)
     end
@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def no_record_tr(colspan, text = 'No records to display')
-    content_tag(:tr, content_tag(:td, text, colspan: colspan, class: 'text-center text-muted' ), class: 'tr-no-record')
+    content_tag(:tr, content_tag(:td, text, colspan: colspan, class: 'text-center text-muted'), class: 'tr-no-record')
   end
 
   def partial_exist?(partial_name, prefixes = lookup_context.prefixes)
@@ -27,14 +27,18 @@ module ApplicationHelper
 
   def flash_class(level)
     case level
-        when 'notice' then "notification is-primary"
-        when 'success' then "notification is-success"
-        when 'error' then "notification is-danger"
-        when 'alert' then "notification alert-warning"
+    when 'notice'
+      "notification is-primary"
+    when 'success'
+      "notification is-success"
+    when 'error'
+      "notification is-danger"
+    when 'alert'
+      "notification alert-warning"
     end
   end
 
-  def current_class?(path)
+  def is_active?(path)
     request.fullpath == path ? 'is-active' : ''
   end
 

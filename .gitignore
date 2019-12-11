@@ -2,6 +2,11 @@
 # Created by https://www.gitignore.io/api/ruby,rails,rubymine+all
 # Edit at https://www.gitignore.io/?templates=ruby,rails,rubymine+all
 
+### Node ###
+node_modules/
+package-lock.json
+.eslintrc
+
 ### Rails ###
 *.rbc
 capybara-*.html

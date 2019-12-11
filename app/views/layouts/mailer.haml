@@ -1,0 +1,37 @@
+!!!
+%html{lang: 'en'}
+  %head
+    %meta{content: 'text/html; charset=UTF-8', 'http-equiv': 'Content-Type'}
+    %meta{content: 'IE=edge', 'http-equiv': 'X-UA-Compatible'}
+    %meta{content: 'width=device-width, initial-scale=1', name: 'viewport'}
+    = csrf_meta_tags
+
+  %body.has-background-grey-lighter
+    = stylesheet_link_tag 'email'
+
+    %header.container.has-text-centered
+      .columns
+        .column
+          = link_to root_url do
+            = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.webp', width: 100
+
+    %section.container
+      .columns
+        .column
+          = yield
+
+    %footer.container.has-text-centered
+      .columns
+        .column
+          %p
+            %a.icon.is-large.brand
+              %span.iconify.facebook
+            %a.icon.is-large.brand
+              %span.iconify.twitter
+            %a.icon.is-large.brand
+              %span.iconify.instagram
+            %a.icon.is-large.brand
+              %span.iconify.linkedin
+
+          %p Copyright &copy; 2019 Diversify
+
