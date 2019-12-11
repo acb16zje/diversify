@@ -19,7 +19,7 @@ class PagesController < ApplicationController
   def track_time
 
     if params.has_key?(:time) && params.has_key?(:location)
-      unless params[:location].include? "metrics"
+      unless (params[:location].include? "metrics") || (params[:location].include? "newsletters")
         time = params[:time]
         ahoy.track "Time Spent", time_spent: time.to_f.round / 1000, location: params[:location]
       end

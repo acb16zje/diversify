@@ -1,5 +1,6 @@
 class NewslettersController < ApplicationController
 
+    skip_after_action :track_action
     layout 'metrics_page'
 
     def index

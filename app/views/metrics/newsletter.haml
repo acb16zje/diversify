@@ -7,12 +7,13 @@
         %input.input.single-calendar#graph-date{:type => "date", placeholder: "Select a Date"}
       .column.is-right.is-one-quarter
         .select.is-pulled-right
-          %select#graph-select
-            %option 
-            %option 
+          %select#graph-select{:onchange => "changeIndexGraph()"}
+            %option Newsletter Subscriptions by Date
+            %option Subscriptions by Newsletter
+            %option Unsubscription Reas
 
     -if @data.present?
       .content#graph-div.box
-        = render partial: "linegraph", locals: {data: @data, group_by: "referrer"}
+        = render partial: "linegraph", locals: {data: @data, time: "created_at",group_by: ""}
     -else
       %p No Data

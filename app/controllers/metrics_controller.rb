@@ -1,5 +1,6 @@
 class MetricsController < ApplicationController
 
+  skip_after_action :track_action
   layout 'metrics_page'
 
   def index
@@ -26,6 +27,10 @@ class MetricsController < ApplicationController
     @data = Ahoy::Visit.all
   end
 
+  def newsletter
+    @data = [{title: "Subscription", data:NewsletterSubscription.all},{title:"Unsubscription", data: NewsletterFeedback.all}]
+  end
+
   def update_graph_time
     if params.has_key?(:graph_name)
       @id = "#graph-div"
@@ -39,7 +44,12 @@ class MetricsController < ApplicationController
       end
 
       #decide on Data and Grouping
-      if params[:graph_name].include? "Subscription"
+      if params[:graph_name].include? "Newsletter"
+        @newsletter_data = Newsletter.all
+        @sub_data = NewsletterSubscription.all
+        @unsub_data = NewsletterFeedback.all
+        @time = "created_at"
+      elsif params[:graph_name].include? "Subscription"
         @data = Ahoy::Event.where(name: "Clicked pricing link")
         @group = "properties -> 'type'"
         @time = "time"
@@ -61,19 +71,31 @@ class MetricsController < ApplicationController
         if @data.present? && params[:time].length() == 2
           @data = @data.where(started_at: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
         elsif @data.present? && params[:time].length() == 1
-          @data = @data.where(started_at: DateTime.parse(params[:time]))
+          @data = @data.where(started_at: DateTime.parse(params[:time][0]))
+        end
+      elsif params[:graph_name].include? "Newsletter"
+        if (@sub_data.present? || @unsub_data.present?) && params[:time].length() == 2
+          @sub_data = @sub_data.where(created_at: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
+          @unsub_data = @unsub_data.where(created_at: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
+          @newsletter_data = @newsletter_data.where(created_at: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
+        elsif (@sub_data.present? || @unsub_data.present?) && params[:time].length() == 1
+          @sub_data = @sub_data.where(created_at: DateTime.parse(params[:time][0]))
+          @unsub_data = @unsub_data.where(created_at: DateTime.parse(params[:time][0]))
+          @newsletter_data = @newsletter_data.where(created_at: DateTime.parse(params[:time][0]))
         end
       else
         if @data.present? && params[:time].length() == 2
           @data = @data.where(time: DateTime.parse(params[:time][0])..DateTime.parse(params[:time][1]) + 1.days)
         elsif @data.present? && params[:time].length() == 1
-          @data = @data.where(time: DateTime.parse(params[:time]))
+          @data = @data.where(time: DateTime.parse(params[:time][0]))
         end
       end
 
       #Check if theres is still valid data, else return "No Data"
       if @data.present?
         return_partial(@id, @layout, {data: @data, group_by: @group, time: @time, average: @average})
+      elsif @sub_data.present? || @unsub_data.present?
+        return_partial(@id, @layout, {data: [{title: "Subscription", data:@sub_data},{title:"Unsubscription", data: @unsub_data}], group_by: "", time: @time})
       else
         return_partial(nil, nil, {})
       end
@@ -84,7 +106,6 @@ class MetricsController < ApplicationController
 
   # def return_partial(time_data, id, layout, group, time)
   def return_partial(id, layout, locals)
-    print("HERE LIES THE GREAT LOCALS #{locals}")
     if locals[:data].present?
       response = generate_json_response(id, layout, locals)
       respond_to do |format|

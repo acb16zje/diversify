@@ -10,13 +10,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         maxDate: "today"
     });
 
-    if (singleCalendars.length > 0 && Array.isArray(singleCalendars)) {
-        for (var i = 0; i < singleCalendars.length + 1; i++) {
-            singleCalendars[i].config.onChange.push(function (selectedDates, dateStr, instance) {
-                const graph = document.getElementById("graph-select").value;
-                updateGraphRequest(graph, selectedDates, dateStr, graph)
-            });
-        }
+    if (singleCalendars) {
+        singleCalendars.config.onChange.push(function (selectedDates, dateStr, instance) {
+            const graph = document.getElementById("graph-select").value;
+            updateGraphRequest(selectedDates, dateStr, graph)
+        });
     }
 
     //initialise datatable

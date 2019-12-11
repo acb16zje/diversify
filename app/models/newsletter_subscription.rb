@@ -9,5 +9,5 @@
 #  updated_at      :datetime         not null
 #
 
-class NewletterSubscription < ApplicationRecord
+class NewsletterSubscription < ApplicationRecord
 end

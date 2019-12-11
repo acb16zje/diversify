@@ -38,8 +38,7 @@ module ApplicationHelper
     request.fullpath == path ? 'is-active' : ''
   end
 
-  def action?(*action)
-    print params[:action]
-    action.include?(params[:action]) ? 'is-active' : ''
+  def action?(controller,action)
+   (action.include?(params[:action]) && controller.include?(params[:controller])) ? 'is-active' : ''
   end
 end
