@@ -30,10 +30,8 @@ footer {
     }
   }
 
-  table.iconify {
-    align-items: center;
+  a.icon {
     display: inline-flex;
-    justify-content: center;
     width: 48px;
     height: 48px;
     border: 1px solid #cbcbcb;
@@ -44,21 +42,10 @@ footer {
       margin-right: 10px;
     }
 
-    //&.facebook {
-    //  background: url('https://api.iconify.design/brandico:facebook.svg?color=%233b5998&width=20&height=20') no-repeat center center
-    //}
-    //
-    //&.twitter {
-    //  background: url('https://api.iconify.design/logos:twitter.svg?width=20&height=20') no-repeat center center
-    //}
-    //
-    //&.instagram {
-    //  background: url('https://api.iconify.design/fa-brands:instagram.svg?color=%234c68d7&width=20&height=20') no-repeat center center
-    //}
-    //
-    //&.linkedin {
-    //  background: url('https://api.iconify.design/brandico:linkedin.svg?color=%230976b4&width=20&height=20') no-repeat center center
-    //}
+    img {
+      height: 20px;
+      margin: auto  ;
+    }
   }
 }
 

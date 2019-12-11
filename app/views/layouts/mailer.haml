@@ -1,54 +1,34 @@
-!!!
-%html{lang: 'en'}
-  %head
-    %meta{content: 'text/html; charset=UTF-8', 'http-equiv': 'Content-Type'}
-    %meta{content: 'IE=edge', 'http-equiv': 'X-UA-Compatible'}
-    %meta{content: 'width=device-width, initial-scale=1', name: 'viewport'}
-    = csrf_meta_tags
+= stylesheet_link_tag 'email'
 
-    = stylesheet_link_tag 'email'
+%table.outer{width: '100%', height: '100%'}
+  %tr
+    %td{width: '100%', height: '100%', bgcolor: 'gray', align: 'center'}
+      %table.inner{width: '550px', height: '100%', bgcolor: 'white'}
+        %tr
+          %td
+            %header
+              = link_to root_url do
+                = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.webp', width: 200
 
-  %table.outer{width: '100%', height: '100%'}
-    %tr
-      %td{width: '100%', height: '100%', bgcolor: 'gray', align: 'center'}
-        %table.inner{width: '550px', height: '100%', bgcolor: 'white'}
-          %tr
-            %td
-              %header
-                = link_to root_url do
-                  = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.webp', width: 200
-                  -#= image_tag 'logo/logo_horizontal.svg', width: 200
+            %section
+              = yield
 
-              %section
-                = yield
+            %footer
+              %p
+                %a.icon.brand{href: '#'}
+                  = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/facebook.webp'
+                %a.icon.brand{href: '#'}
+                  = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/twitter.webp'
+                %a.icon.brand{href: '#'}
+                  = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/instagram.webp'
+                %a.icon.brand{href: '#'}
+                  = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/linkedin.webp'
 
-              %footer
-                -#%table.iconify.facebook{width: '20px', height: '20px', style: "background: url('https://api.iconify.design/brandico:facebook.svg?color=%233b5998&width=20&height=20') no-repeat center center"}
-                -#%table.iconify.facebook{width: '20px', height: '20px', style: "background: url('https://api.iconify.design/logos:twitter.svg?width=20&height=20') no-repeat center center"}
-                -#%table.iconify.facebook{width: '20px', height: '20px', style: "background: url('https://api.iconify.design/fa-brands:instagram.svg?color=%234c68d7&width=20&height=20') no-repeat center center"}
-                -#%table.iconify.facebook{width: '20px', height: '20px', style: "background: url('https://api.iconify.design/brandico:linkedin.svg?color=%230976b4&width=20&height=20') no-repeat center center"}
+              %p
+                This email was sent to
+                = link_to 'someone@gmail.com', "someone@gmail.com#{}"
+                %strong
+                  = surround('(', ')') do
+                    = link_to 'unsubscribe', unsubscribe_newsletters_url
 
-                %table.iconify.facebook{width: '20px', height: '20px', background: 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/facebook.webp'}
-                %table.iconify.twitter{width: '20px', height: '20px', background: 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/twitter.webp'}
-                %table.iconify.instagram{width: '20px', height: '20px', background: 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/instagram.webp'}
-                %table.iconify.linkedin{width: '20px', height: '20px', background: 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/iconify/linkedin.webp'}
-
-                -#%table.iconify.facebook{width: '20px', height: '20px'}
-                -#  %tr
-                -#    %td
-                -#      = image_tag 'https://api.iconify.design/brandico:facebook.svg?color=%233b5998&width=20&height=20'
-                -#%table.iconify.facebook{width: '20px', height: '20px'}
-                -#  %tr
-                -#    %td
-                -#      = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/avatar/small/ade.jpg'
-                -#%table.iconify.facebook{width: '20px', height: '20px'}
-                -#  %tr
-                -#    %td
-                -#      = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/avatar/small/ade.jpg', width: 48, height: 48
-                -#%table.iconify.facebook{width: '20px', height: '20px'}
-                -#  %tr
-                -#    %td
-                -#      = image_tag 'https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/avatar/small/ade.jpg', width: 48, height: 48
-
-                %p Copyright &copy; 2019 Diversify
-
+              %p Copyright &copy; 2019 Diversify

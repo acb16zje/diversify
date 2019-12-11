@@ -8,7 +8,7 @@ class PagesController < ApplicationController
   def home
     @current_nav_identifier = :home
   end
-  
+
   #Function to track subscriptions
   #should be changed once proper subscription system has been completed
   def newsletter
@@ -28,7 +28,7 @@ class PagesController < ApplicationController
         @message = 'Subscription Failed'
         @class = flash_class('error')
       end
-    else 
+    else
       @message = 'No Email'
       @class = flash_class('error')
     end
