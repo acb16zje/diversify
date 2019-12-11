@@ -54,8 +54,8 @@
                 %li
                   = link_to 'Overview', newsletter_metrics_path, class: "#{is_active?(newsletter_metrics_path)}"
                 %li
-                  = link_to "Newsletter Archive", newsletters_path, class: "#{is_active?(newsletters_path)}"
+                  = link_to "Newsletter Archive", newsletters_path, class: "#{action?("newsletters","index")}"
                 %li
-                  = link_to 'Send newsletter', new_newsletter_path, class: "#{is_active?(new_newsletter_path)}"
+                  = link_to 'Send newsletter', new_newsletter_path, class: "#{action?("newsletters","new")} #{action?("newsletters","create")}"
           .column.is-9
             = yield
