@@ -31,7 +31,7 @@
 
     %section.section
       - flash.each do |key, value|
-        %div#notification{class: flash_class(key), style: "margin: 0.5% 1%;"}
+        %div#flash{class: 'notification is-success', style: "margin: 0.5% 1%;"}
           %button.delete
           = value
       .container

@@ -25,19 +25,6 @@ module ApplicationHelper
     lookup_context.exists?(partial_name, prefixes, true)
   end
 
-  def flash_class(level)
-    case level
-    when 'notice'
-      "notification is-primary"
-    when 'success'
-      "notification is-success"
-    when 'error'
-      "notification is-danger"
-    when 'alert'
-      "notification alert-warning"
-    end
-  end
-
   def is_active?(path)
     request.fullpath == path ? 'is-active' : ''
   end

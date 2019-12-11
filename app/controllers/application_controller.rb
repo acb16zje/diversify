@@ -50,6 +50,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def flash_class(level)
+    case level
+    when 'notice'
+      "notification is-primary"
+    when 'success'
+      "notification is-success"
+    when 'error'
+      "notification is-danger"
+    when 'alert'
+      "notification is-warning"
+    end
+  end
+
   private
 
   def update_headers_to_disable_caching

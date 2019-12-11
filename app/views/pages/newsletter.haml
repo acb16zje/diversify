@@ -1,10 +1,9 @@
 - content_for :title, 'Newsletter'
 
 %section.section#newsletter
-  - flash.each do |key, value|
-    %div#notification{class: flash_class(key), style: "margin: 0.5% 1%;"}
-      %button.delete
-      = value
+  %div.is-hidden#notification{style: "margin: 0.5% 1%;"}
+    %button.delete
+    %p
   .container
     .columns.is-vcentered
       .column
@@ -16,7 +15,7 @@
           %iframe.control{allow: 'encrypted-media', allowtransparency: 'true', frameborder: '0', height: '28', scrolling: 'no', src: 'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk&layout=button&size=large&width=77&height=28&appId', style: 'border:none;overflow:hidden', width: '77'}
           %iframe#twitter-widget-0.control.twitter-share-button.twitter-share-button-rendered.twitter-tweet-button{allowfullscreen: 'true', allowtransparency: 'true', frameborder: '0', scrolling: 'no', src: 'https://platform.twitter.com/widgets/tweet_button.69e02060c7c44baddf1b5629549acc0c.en.html#dnt=false&id=twitter-widget-0&lang=en&size=l&text=Diversify&type=share&url=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk', style: 'position: static; visibility: visible; width: 76px; height: 28px;'}
 
-        = form_with(url: newsletter_subscriptions_pages_path, method: "post") do |f|
+        = form_with(url: newsletter_subscriptions_pages_path, method: "post", remote: true, id: 'newsletterSubForm') do |f|
           .field
             .control
               = f.text_field :email ,class: 'input', placeholder: 'Your email address', type: 'email', required: true

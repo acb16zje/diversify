@@ -1,10 +1,14 @@
+%div.is-hidden#notification{style: "margin: 0.5% 1%;"}
+  %button.delete
+  %p
+
 %h1.title Send Newsletter
 
-= simple_form_for(@newsletter) do |f|
+= form_with(id: 'newsletterSubForm',model: @newsletter, remote: false) do |f|
   .field
-    = f.input :title, placeholder: 'Newsletter Title', required: true, error: 'Title is mandatory, please specify one'
+    = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: true, error: 'Title is mandatory, please specify one'
   .field
     = f.cktext_area :content,required: true, placeholder: 'Type your newsletter here...', ckeditor: { uiColor: "#acacd5", toolbar: 'mini' }
   .field
     .control
-      = f.button :submit, class: 'button is-primary'
+      = f.submit :submit, class: 'button is-primary'

@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     maxDate: 'today',
   });
 
-  if (singleCalendars) {
+  if (singleCalendars.length > 0) {
     singleCalendars.config.onChange.push((selectedDates, dateStr, instance) => {
       const graph = document.getElementById('graph-select').value;
       updateGraphRequest(selectedDates, dateStr, graph);
@@ -29,6 +29,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
       null,
     ],
   });
+
+  $('#newsletterSubForm').on('ajax:success', function(event, data) {
+    if (data.message) {
+      $('#notification').addClass(data.class)
+      $('#notification > p').text(data.message)
+      $('#notification').toggleClass('is-hidden')
+      hideNotification('#notification',data.class); 
+    }
+  });
+
+  if (document.body.contains(document.getElementById("flash"))) {
+    hideNotification('#flash','is-success');
+  }
 });
 
 /**
@@ -58,4 +71,14 @@ function changeIndexGraph() {
   const graph = document.getElementById('graph-select').value;
   const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
   updateGraphRequest(date, null, graph);
+}
+
+/**
+ * 
+ */
+function hideNotification(id,classList) {
+  setTimeout(() => {
+    $(id).toggleClass('is-hidden')
+    $(id).removeClass(classList)},
+      3000);
 }

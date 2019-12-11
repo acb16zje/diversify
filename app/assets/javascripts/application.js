@@ -8,15 +8,23 @@ $('.navbar-burger').click(() => {
   $('.navbar-menu').toggleClass('is-active');
 });
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  const notification = document.getElementById('notification');
-  if (notification != null) {
-    setTimeout(() => {
-      notification.remove();
-    }, 3000);
-  }
+$("#newsletterSubForm").on("submit", function(event){
+  event.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: this.action,
+    data: $(this).serialize(),
+    success: function(response) {
+      $('#notification').addClass(response.class)
+      $('#notification > p').text(response.message)
+      $('#notification').toggleClass('is-hidden')
+      setTimeout(() => {
+        $('#notification').toggleClass('is-hidden')
+        $('#notification').removeClass(response.class)
+      }, 3000);
+    }
+  }); 
 });
-
 /**
  * Ajax call to send time spent when user enters another page
  */

@@ -16,10 +16,14 @@ class NewslettersController < ApplicationController
 
     if @newsletter.save
       NewsletterMailer.send_newsletter(@newsletter).deliver_now
-      redirect_to newsletters_path, flash: {success: 'Newsletter was successfully sent.'}
+      respond_to do |format|
+        flash['success'] = "Newsletter Sent"
+        format.js { render js: "window.location='#{newsletters_path.to_s}'"}
+      end
     else
-      flash.now['error'] = 'Newsletter failed.'
-      render 'new'
+      respond_to do |format|
+        format.json { render json: {message: 'Send Failed', class: flash_class('error')},status: 200 } 
+      end
     end
   end
 
@@ -33,7 +37,6 @@ class NewslettersController < ApplicationController
 
 
   def newsletter_params
-    params.require(:newsletter).permit(:title, :content)
+    params.require(:newsletter).permit(:title, :content)  
   end
-
 end
