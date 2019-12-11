@@ -7,7 +7,6 @@ end
 
 Rails.application.routes.draw do
 
-  resources :newsletters
   mount Ckeditor::Engine => '/ckeditor'
   resources :tasks
   resources :reviews
@@ -18,11 +17,6 @@ Rails.application.routes.draw do
   match "/404", to: "errors#error_404", via: :all
   match "/422", to: "errors#error_422", via: :all
   match "/500", to: "errors#error_500", via: :all
-
-  get :ie_warning, to: 'errors#ie_warning'
-  get :javascript_warning, to: 'errors#javascript_warning'
-
-  # match 'newsletters' => 'newsletters#create', :via => :post, :as => :create_newsletter
 
   # /:path
   resources :pages, path: '', only: [] do
@@ -50,6 +44,14 @@ Rails.application.routes.draw do
 
       # Receives JSON of date and gets values for graphs
       post 'update_graph_time', constraint: OnlyAjaxRequest.new
+    end
+  end
+
+  # /newsletters/:path
+  resources :newsletters, only: [:index, :create, :new, :show] do
+
+    collection do
+      get 'unsubscribe'
     end
   end
 

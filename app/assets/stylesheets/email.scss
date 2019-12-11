@@ -1,0 +1,65 @@
+table.outer {
+  padding: 2.5em 0;
+}
+
+table.inner {
+  margin: 3rem auto;
+  text-align: center;
+  border-radius: 15px;
+
+  td {
+    padding: 1rem;
+  }
+}
+
+section {
+  padding-top: 3rem !important;
+  padding-bottom: 3rem !important;
+}
+
+footer {
+  p {
+    margin: 0;
+
+    &:first-of-type {
+      margin-top: 1em;
+
+      &:not(:last-of-type) {
+        margin-bottom: 1.5em;
+      }
+    }
+  }
+
+  table.iconify {
+    align-items: center;
+    display: inline-flex;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #cbcbcb;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
+
+    //&.facebook {
+    //  background: url('https://api.iconify.design/brandico:facebook.svg?color=%233b5998&width=20&height=20') no-repeat center center
+    //}
+    //
+    //&.twitter {
+    //  background: url('https://api.iconify.design/logos:twitter.svg?width=20&height=20') no-repeat center center
+    //}
+    //
+    //&.instagram {
+    //  background: url('https://api.iconify.design/fa-brands:instagram.svg?color=%234c68d7&width=20&height=20') no-repeat center center
+    //}
+    //
+    //&.linkedin {
+    //  background: url('https://api.iconify.design/brandico:linkedin.svg?color=%230976b4&width=20&height=20') no-repeat center center
+    //}
+  }
+}
+
+
