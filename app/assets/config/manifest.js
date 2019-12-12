@@ -1,11 +1,5 @@
 //= link_tree ../images
-//= link favicon/site.webmanifest
-//= link favicon/browserconfig.xml
-//= link_directory ../stylesheets .css
-//= link application.js
-//= link metrics.js
-//= link modal.js
+//= link_tree ../stylesheets .scss
+//= link_tree ../javascripts .js
 //= link ckeditor/application.css
 //= link ckeditor/application.js
-//= link dataTables.bulma.min.css
-//= link dataTables.bulma.min.js 
