@@ -19,10 +19,10 @@
 #
 
 class Skill < ApplicationRecord
-    belongs_to :category
-    belongs_to :tasks
-    belongs_to :skill_levels
+  belongs_to :category
+  has_and_belongs_to_many :tasks
+  has_and_belongs_to_many :skill_levels
 
-    validates_presence_of :name, :description
-    validates_uniqueness_of :name
+  validates_presence_of :name, :description
+  validates_uniqueness_of :name
 end

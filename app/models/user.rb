@@ -27,7 +27,7 @@ class User < ApplicationRecord
   has_many :tasks
   has_many :skill_levels
   belongs_to :teams
-  belongs_to :reviews
+  has_and_belongs_to_many :reviews
   has_one :preference
   has_one :license
 
@@ -36,5 +36,5 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-  
+
 end

@@ -25,6 +25,6 @@ class Ahoy::Event < ApplicationRecord
   belongs_to :visit
   belongs_to :user, optional: true
 
-  scope :onDate, ->(time) { where("time BETWEEN ? AND ?", DateTime.parse(time),DateTime.parse(time)+1.days)}
-  scope :betweenDate, ->(time1,time2) { where("time BETWEEN ? AND ?", DateTime.parse(time1),DateTime.parse(time2)+1.days)}
+  scope :onDate, ->(time) { where("time BETWEEN ? AND ?", DateTime.parse(time), DateTime.parse(time) + 1.days) }
+  scope :betweenDate, ->(time1, time2) { where("time BETWEEN ? AND ?", DateTime.parse(time1), DateTime.parse(time2) + 1.days) }
 end

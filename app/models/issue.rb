@@ -23,8 +23,6 @@
 #
 
 class Issue < ApplicationRecord
-    belongs_to :user
-    belongs_to :project
-
-    validates_presence_of :start_date
+  belongs_to :user
+  belongs_to :project
 end

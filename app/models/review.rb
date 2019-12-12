@@ -22,8 +22,8 @@
 #
 
 class Review < ApplicationRecord
-    belongs_to :project
-    has_many :users
+  belongs_to :project
+  has_many :users
 
-    validates :rating, numericality: true, greater_than: 0
+  validates :rating, numericality: {greater_than: 0}
 end

@@ -10,5 +10,5 @@
 #
 
 class Newsletter < ApplicationRecord
-    validates :content, :title, presence: true
+  validates :content, :title, presence: true
 end

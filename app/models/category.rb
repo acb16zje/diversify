@@ -9,8 +9,8 @@
 #
 
 class Category < ApplicationRecord
-    has_many :skills
-    has_many :projects
-    
-    validates :name, uniqueness: true
+  has_many :skills
+  has_many :projects
+
+  validates :name, uniqueness: true
 end

@@ -22,9 +22,9 @@
 #
 
 class SkillLevel < ApplicationRecord
-    has_one :user
-    has_one :skill
+  has_one :user
+  has_one :skill
 
-    validates :experience, numericality: true, greater_than_or_equal_to: 0
-    validates :level , numericality: true, greater_than_or_equal_to: 0
+  validates :experience, numericality: {greater_than_or_equal_to: 0}
+  validates :level, numericality: {greater_than_or_equal_to: 0}
 end

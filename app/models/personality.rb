@@ -16,8 +16,7 @@
 #
 
 class Personality < ApplicationRecord
-    belongs_to :users
-    has_and_belongs_to_many :personalities
+  has_and_belongs_to_many :users
 
-    validates :trait, presence: true, uniqueness: true
+  validates :trait, presence: true, uniqueness: true
 end

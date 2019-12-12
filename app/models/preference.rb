@@ -19,8 +19,8 @@
 #
 
 class Preference < ApplicationRecord
-    has_and_belongs_to_many :users
+  has_and_belongs_to_many :users
 
-    validates :group_size, numericality: true, greater_than: 0
-    validates_presence_of :preferred_tasks
+  validates :group_size, numericality: {greater_than: 0}
+  validates_presence_of :preferred_tasks
 end

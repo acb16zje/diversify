@@ -10,7 +10,7 @@
 #
 
 class Subscription < ApplicationRecord
-    has_many :licenses
+  has_many :licenses
 
-    validates_presence_of :monthly_cost, :subscription
+  validates_presence_of :monthly_cost, :subscription
 end

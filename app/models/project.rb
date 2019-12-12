@@ -24,11 +24,11 @@
 #
 
 class Project < ApplicationRecord
-    belongs_to :user
-    belongs_to :category
-    has_many :teams
-    has_many :reviews
-    has_many :tasks
+  belongs_to :user
+  belongs_to :category
+  has_many :teams
+  has_many :reviews
+  has_many :tasks
 
-    validates_presence_of :name, :status, :visibility
+  validates_presence_of :name, :status, :visibility
 end

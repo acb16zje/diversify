@@ -21,8 +21,8 @@
 #
 
 class License < ApplicationRecord
-    belongs_to :user
-    belongs_to :subscription
+  belongs_to :user
+  belongs_to :subscription
 
-    validates_presence_of :start_date
+  validates_presence_of :start_date
 end
