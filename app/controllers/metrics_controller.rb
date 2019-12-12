@@ -16,7 +16,7 @@ class MetricsController < ApplicationController
       @today_visits = 0
     end
 
-    @subscriptions = [Ahoy::Event.where(name: "Clicked pricing link")]
+    @subscriptions = [{title:'Subscription',data:Ahoy::Event.where(name: "Clicked pricing link")}]
   end
 
   def traffic
@@ -24,52 +24,59 @@ class MetricsController < ApplicationController
     @browser_count = Ahoy::Visit.all.group(:browser).count
     @country_count = Ahoy::Visit.all.group(:country).count
 
-    @data = [Ahoy::Visit.all]
+    @data = [{title:'Referrers',data:Ahoy::Visit.all}]
   end
 
   def newsletter
-    @data = [NewsletterSubscription.all, NewsletterFeedback.all]
+    @data = [{title:'Subscription',data: NewsletterSubscription.all},{title:'Unsubscription', data: NewsletterFeedback.all}]
   end
 
   def update_graph_time
     if params.has_key?(:graph_name)
-      @id = "#graph-div"
-      # decide on layout
-      @layout = decide_layout(params[:graph_name])
+      id = "#graph-div"
 
+      # decide on layout
+      layout = decide_layout(params[:graph_name])
+      
       #decide on Data and Grouping
-      if params[:graph_name].include? "Newsletter"
-        @data = [Newsletter.all, NewsletterSubscription.all,NewsletterFeedback.all]
-        @time = "created_at"
-      elsif params[:graph_name].include? "Subscription"
-        @data = [Ahoy::Event.where(name: "Clicked pricing link")]
-        @group = "properties -> 'type'"
-        @time = "time"
-      elsif params[:graph_name].include? "Visits"
-        @data = [Ahoy::Event.where(name: "Ran action")]
-        @group = "properties -> 'action'"
-      elsif params[:graph_name].include? "Average Time Spent"
-        @data = [Ahoy::Event.where(name: "Time Spent")]
-        @group = "properties -> 'location'"
-        @average = "cast(properties ->> 'time' as float)"
-      elsif params[:graph_name].include? "Referrers"
-        @data = [Ahoy::Visit.all]
-        @group = "referrer"
-        @time = "started_at"
+      case params[:graph_name]
+      when /by Newsletter/
+        time_data = ActiveRecord::Base.connection.execute("SELECT newsletters.title, newsletters.created_at, COUNT(newsletter_feedbacks)
+        as feedback_count FROM newsletters JOIN newsletter_feedbacks ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
+        AND newsletters.created_at+interval'7 days' GROUP BY newsletters.id")
+        data = [{title: 'Unsubscription', data: time_data.collect{|i| ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",i['feedback_count']]}}]
+      when /Newsletter/
+        data = [{title:'Subscription',data: NewsletterSubscription.all},{title:'Unsubscription', data: NewsletterFeedback.all}]
+        time = "created_at"
+      when /Subscription/
+        data = [{title:'Subscription',data: Ahoy::Event.where(name: "Clicked pricing link")}]
+        group = "properties -> 'type'"
+        time = "time"
+      when /Visits/
+        data = [{title:'Visit',data:Ahoy::Event.where(name: "Ran action")}]
+        group = "properties -> 'action'"
+      when /Average Time Spent/
+        data = [{title:'Time Spent',data: Ahoy::Event.where(name: "Time Spent")}]
+        group = "properties -> 'location'"
+        average = "cast(properties ->> 'time' as float)"
+      when /Referrers/
+        data = [{title:'Referrers',data:Ahoy::Visit.all}]
+        group = "referrer"
+        time = "started_at"
       end
 
       # set time constraint to graphs if exist
-      @data.each_index do |i|
+      data.each_index do |i|
         if params[:time].length() == 2
-          @data[i] = @data[i].betweenDate(params[:time][0],params[:time][1])
+          data[i][:data] = data[i][:data].betweenDate(params[:time][0],params[:time][1])
         elsif params[:time].length() == 1
-          @data[i] = @data[i].onDate(params[:time][0])
+          data[i][:data] = data[i][:data].onDate(params[:time][0])
         end
       end
 
       #Check if theres is still valid data, else return "No Data"
-      if is_there_data?(@data)
-        return_partial(@id, @layout, {data: @data, group_by: @group, time: @time, average: @average})
+      if is_there_data?(data)
+        return_partial(id, layout, {data: data, group_by: group, time: time, average: average})
       else
         return_partial(nil, nil, {})
       end
@@ -107,9 +114,10 @@ class MetricsController < ApplicationController
 
   private
     def decide_layout(option)
-      if params[:graph_name].include? "by Date"
+      case option
+      when /by Date/
         return "metrics/_linegraph.haml"
-      elsif params[:graph_name].include? "per Page"
+      when /per Page|Newsletter/
         return "metrics/_barchart.haml"
       else
         return "metrics/_piechart.haml"
