@@ -1,9 +1,9 @@
 class NewsletterMailer < ApplicationMailer
-  default from: 'no-reply@sheffield.ac.uk'
+  default from: 'Diversify <no-reply@sheffield.ac.uk>'
 
-  def send_newsletter(newsletter)
+  def send_newsletter(emails, newsletter)
     @content = newsletter.content
 
-    mail(to: "ngjiahua97@gmail.com", subject: newsletter.title, content_type: "text/html")
+    mail(to: 'no-reply@sheffield.ac.uk', bcc: emails, subject: newsletter.title, content_type: "text/html")
   end
 end
