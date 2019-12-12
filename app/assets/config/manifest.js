@@ -1,3 +1,5 @@
+//= link favicon/site.webmanifest
+//= link favicon/browserconfig.xml
 //= link_tree ../images
 //= link_tree ../stylesheets .scss
 //= link_tree ../javascripts .js
