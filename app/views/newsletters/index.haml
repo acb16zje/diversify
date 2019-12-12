@@ -1,24 +1,23 @@
+- content_for :title, 'Newsletters Archive'
+
+%h1.title Newsletters Archive
+.table-container
+  %table.table.is-hoverable#newsletterTable{style: 'width: 100%;'}
+    %thead
+      %tr
+        %th Title
+        %th Time
+    %tbody
+      - @newsletters.each do |newsletter|
+        %tr{onclick: "showModal('/newsletters/#{newsletter.id}')"}
+          %td= newsletter.title
+          %td= newsletter.created_at
 
 
-%h1.title Newsletter Archive
-%table.table.is-hoverable#newsletterTable{style: 'width: 100%;'}
-  %thead
-    %tr
-      %th Title
-      %th Time
-  %tbody
-    - @newsletters.each do |newsletter|
-      %tr{onclick: "showModal('/newsletters/#{newsletter.id}')"}
-        %td= newsletter.title
-        %td= newsletter.created_at
-
-.modal.animated.fadeIn.faster
+.modal
   .modal-background
   .modal-card
     %header.modal-card-head
-      %p.modal-card-title 
-      %button.delete{"aria-label" => "close"}
+      %p.modal-card-title
+      %button.delete{'aria-label': 'close'}
     %section.modal-card-body
-     
-        
-        

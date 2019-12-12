@@ -1,10 +1,10 @@
-- content_for :title, 'Metrics Home'
+- content_for :title, 'Metrics Dashboard'
 
 %section.info-tiles
   .tile.is-ancestor.has-text-centered
     .tile.is-parent
       %article.tile.is-child.box
-        %p.title 439k
+        %p.title= "#{@total_subscribers}"
         %p.subtitle newsletter subscribers
     .tile.is-parent
       %article.tile.is-child.box

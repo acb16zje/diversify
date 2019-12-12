@@ -1,4 +1,5 @@
 image: epigenesys/rails:ruby2.6.3
+
 services:
   - "postgres:9.6"
 

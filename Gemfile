@@ -4,7 +4,6 @@ source "https://gems.shefcompsci.org.uk" do
   gem 'airbrake'
   gem 'capybara-select2', group: :test
   gem 'epi_deploy', group: :development
-  gem 'epi_js'
   gem 'rubycas-client'
 end
 

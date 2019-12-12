@@ -8,22 +8,24 @@ $('.navbar-burger').click(() => {
   $('.navbar-menu').toggleClass('is-active');
 });
 
-$("#newsletterSubForm").on("submit", function(event){
+$('#newsletterSubForm').on('submit', function (event) {
   event.preventDefault();
   $.ajax({
-    type: "POST",
+    type: 'POST',
     url: this.action,
     data: $(this).serialize(),
-    success: function(response) {
-      $('#notification').addClass(response.class)
-      $('#notification > p').text(response.message)
-      $('#notification').toggleClass('is-hidden')
+    success(response) {
+      const notification = $('#notification');
+
+      notification.addClass(response.class);
+      notification.find('p').text(response.message);
+      notification.toggleClass('is-hidden');
       setTimeout(() => {
-        $('#notification').toggleClass('is-hidden')
-        $('#notification').removeClass(response.class)
+        notification.toggleClass('is-hidden');
+        notification.removeClass(response.class);
       }, 3000);
-    }
-  }); 
+    },
+  });
 });
 /**
  * Ajax call to send time spent when user enters another page

@@ -1,5 +1,3 @@
-
-
 class PagesController < ApplicationController
 
   layout 'landing_page'
@@ -42,7 +40,7 @@ class PagesController < ApplicationController
     if params.has_key?(:time) && params.has_key?(:location)
       if is_valid_location?(params[:location])
         time = params[:time]
-        ahoy.track "Time Spent", time_spent: millisec_to_sec(time) , location: params[:location]
+        ahoy.track "Time Spent", time_spent: millisec_to_sec(time), location: params[:location]
       end
       render :json => {}
     else
@@ -50,7 +48,8 @@ class PagesController < ApplicationController
     end
   end
 
-  private 
+  private
+
   def millisec_to_sec(time)
     return time.to_f.round / 1000
   end

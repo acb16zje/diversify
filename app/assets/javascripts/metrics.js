@@ -1,5 +1,7 @@
 //= require chartkick
 //= require Chart.bundle
+//= require plugins/dataTables.bulma.min
+//= require modal
 
 document.addEventListener('DOMContentLoaded', (event) => {
   // initalise timepicker
@@ -24,23 +26,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
       searchPlaceholder: 'Search',
       search: '',
     },
+    order: [[1, 'desc']],
     columns: [
       null,
       null,
     ],
   });
 
-  $('#newsletterSubForm').on('ajax:success', function(event, data) {
+  $('#newsletterSubForm').on('ajax:success', (event, data) => {
     if (data.message) {
-      $('#notification').addClass(data.class)
-      $('#notification > p').text(data.message)
-      $('#notification').toggleClass('is-hidden')
-      hideNotification('#notification',data.class); 
+      $('#notification').addClass(data.class);
+      $('#notification > p').text(data.message);
+      $('#notification').toggleClass('is-hidden');
+      hideNotification('#notification', data.class);
     }
   });
 
-  if (document.body.contains(document.getElementById("flash"))) {
-    hideNotification('#flash','is-success');
+  if (document.body.contains(document.getElementById('flash'))) {
+    hideNotification('#flash', 'is-success');
   }
 });
 
@@ -69,16 +72,17 @@ function updateGraphRequest(selectedDates, dateStr, graph) {
  */
 function changeIndexGraph() {
   const graph = document.getElementById('graph-select').value;
-  const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
+  const date = document.querySelector(
+      '.single-calendar')._flatpickr.selectedDates;
   updateGraphRequest(date, null, graph);
 }
 
 /**
- * 
+ *
  */
-function hideNotification(id,classList) {
+function hideNotification(id, classList) {
   setTimeout(() => {
-    $(id).toggleClass('is-hidden')
-    $(id).removeClass(classList)},
-      3000);
+    $(id).toggleClass('is-hidden');
+    $(id).removeClass(classList);
+  }, 3000);
 }

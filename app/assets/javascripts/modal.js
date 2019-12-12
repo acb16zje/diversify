@@ -13,7 +13,7 @@ function showModal(url) {
       const html = document.querySelector('html');
 
       modal.classList.add('is-active');
-      html.classList.add('is-clipped');
+
 
       modal.querySelector('.modal-background')
         .addEventListener('click', (e) => {
@@ -28,7 +28,7 @@ function showModal(url) {
 
       const title = document.querySelector('.modal-card-title');
       const content = document.querySelector('.modal-card-body');
-      title.innerHTML = result.title;
+      title.textContent = result.title;
       content.innerHTML = result.content;
     },
   });
@@ -39,7 +39,6 @@ function showModal(url) {
  */
 function closeModal() {
   document.querySelector('.modal').classList.remove('is-active');
-  document.querySelector('html').classList.remove('is-clipped');
 }
 
 /**
