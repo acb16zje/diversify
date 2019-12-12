@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     maxDate: 'today',
   });
 
-  if (singleCalendars.length > 0) {
+  if (!Array.isArray(singleCalendars) || singleCalendars.length > 0) {
     singleCalendars.config.onChange.push((selectedDates, dateStr, instance) => {
       const graph = document.getElementById('graph-select').value;
       updateGraphRequest(selectedDates, dateStr, graph);

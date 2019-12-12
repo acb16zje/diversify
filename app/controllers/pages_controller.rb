@@ -40,9 +40,9 @@ class PagesController < ApplicationController
   #Function to track time spent in a page
   def track_time
     if params.has_key?(:time) && params.has_key?(:location)
-      unless (params[:location].include? "metrics") || (params[:location].include? "newsletters")
+      if is_valid_location?(params[:location])
         time = params[:time]
-        ahoy.track "Time Spent", time_spent: time.to_f.round / 1000, location: params[:location]
+        ahoy.track "Time Spent", time_spent: millisec_to_sec(time) , location: params[:location]
       end
       render :json => {}
     else
@@ -50,4 +50,12 @@ class PagesController < ApplicationController
     end
   end
 
+  private 
+  def millisec_to_sec(time)
+    return time.to_f.round / 1000
+  end
+
+  def is_valid_location?(location)
+    return !(location.include? "metrics") && !(location.include? "newsletters")
+  end
 end
