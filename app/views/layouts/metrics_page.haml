@@ -5,19 +5,15 @@
 
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
-    = stylesheet_link_tag 'metrics_page', media: :all
-    = stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
-    = stylesheet_link_tag '//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css'
-    = stylesheet_link_tag 'animate'
-    = stylesheet_link_tag 'dataTables.bulma.min'
+    = stylesheet_link_tag 'metrics_page'
+    = stylesheet_link_tag '//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
+
     = javascript_include_tag Ckeditor.cdn_url
-    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: true
+    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js'
     = javascript_include_tag 'https://cdn.jsdelivr.net/npm/flatpickr'
-    = javascript_include_tag 'application', defer: false
+    = javascript_include_tag 'application'
     = javascript_include_tag '//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js'
-    = javascript_include_tag 'dataTables.bulma.min'
-    = javascript_include_tag 'metrics', defer: false
-    = javascript_include_tag 'modal', defer: true
+    = javascript_include_tag 'metrics'
 
 
   %body.has-spaced-navbar-fixed-top
