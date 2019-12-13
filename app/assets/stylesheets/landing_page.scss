@@ -303,7 +303,7 @@ footer.footer {
 
     &::after {
       content: "";
-      background: url("confetti.png");
+      background: asset_url("confetti.png");
       background-size: contain;
       opacity: 0.3;
       top: 0;

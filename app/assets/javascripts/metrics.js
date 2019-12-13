@@ -1,13 +1,19 @@
+//= require application
 //= require chartkick
 //= require Chart.bundle
-//= require plugins/dataTables.bulma.min
+//= require plugins/jquery.dataTables
+//= require plugins/dataTables.bulma
+//= require plugins/flatpickr
 //= require modal
 
-document.addEventListener('DOMContentLoaded', (event) => {
+/**
+ * Initialise Flatpickr (date picker)
+ */
+function initFlatpickr() {
   // initalise timepicker
   const singleCalendars = flatpickr('.single-calendar', {
     mode: 'range',
-    dateFormat: 'd.m.Y',
+    dateFormat: 'd/m/Y',
     maxDate: 'today',
   });
 
@@ -17,6 +23,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
       updateGraphRequest(selectedDates, dateStr, graph);
     });
   }
+
+  $('#date-clear').click(() => singleCalendars.clear());
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  initFlatpickr();
 
   // initialise datatable
   $('#newsletterTable').DataTable({
@@ -87,3 +99,29 @@ function hideNotification(id, classList) {
   }, 3000);
 }
 
+$('#unsubscribeForm').submit(function(event) {
+  event.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url: this.action,
+    data: $(this).serialize(),
+    success(response) {
+      const notification = $('#notification');
+
+      if (response.hasOwnProperty('class')) {
+        console.log(response);
+        notification.addClass(response.class);
+        notification.find('p').text(response.message);
+        notification.toggleClass('is-hidden');
+        setTimeout(() => {
+          notification.toggleClass('is-hidden');
+          notification.removeClass(response.class);
+        }, 3000);
+      } else {
+        console.log(response);
+        const container = $('#formContainer');
+        container.html(response.html);
+      }
+    },
+  });
+});

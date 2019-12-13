@@ -6,11 +6,13 @@
 
 %h1.title Send Newsletter
 
-= form_with(id: 'newsletterSubForm',model: @newsletter, remote: false) do |f|
-  .field
-    = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: true, error: 'Title is mandatory, please specify one'
-  .field
-    = f.cktext_area :content,required: true, placeholder: 'Type your newsletter here...', ckeditor: { uiColor: "#acacd5", toolbar: 'mini' }
+= form_with(id: 'newsletterSubForm', model: @newsletter, remote: false) do |f|
   .field
     .control
-      = f.submit :submit, class: 'button is-primary'
+      = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: ''
+  .field
+    .control
+      = f.cktext_area :content, required: '', placeholder: 'Type your newsletter here...', ckeditor: { uiColor: "#acacd5", toolbar: 'mini' }
+  .field
+    .control
+      = submit_tag('Send newsletter', class: 'button is-primary')

@@ -1,35 +1,44 @@
 - content_for :title, 'Traffic Overview'
 
-%section.info-tiles
-  %h1.title Demographics
-  .columns.is-vcentered.box.has-text-centered
-    .column.is-one-third
-      = pie_chart @device_count, id: "traffic-device-graph"
-      %p.subtitle Device Types
-    .column.is-one-third
-      = pie_chart @browser_count, id: "traffic-browser-graph"
-      %p.subtitle Browser Types
-    .column.is-one-third
-      = pie_chart @country_count, id: "traffic-country-graph"
-      %p.subtitle Countries
+#metrics
+  %h1.title.has-text-centered Demographics
+  .box
+    .columns.has-text-centered
+      .column.is-4
+        = pie_chart @device_count, id: 'traffic-device-graph'
+        %p.subtitle Device Types
+      .column.is-4
+        = pie_chart @browser_count, id: 'traffic-browser-graph'
+        %p.subtitle Browser Types
+      .column.is-4
+        = pie_chart @country_count, id: 'traffic-country-graph'
+        %p.subtitle Countries
 
-%section.section
-  .container
-    .columns.is-vcentered
-      .column.is-two-fifths
-        %h1.title Landing Page
-      .column.is-right.is-two-fifths
-        %input.input.single-calendar#graph-date{:type => "date", placeholder: "Select a Date"}
-      .column.is-right.is-one-quarter
-        .select.is-pulled-right
-          %select#graph-select{:onchange => "changeIndexGraph()"}
-            %option Referrers Ratio
-            %option Referrers by Date
-            %option Average Time Spent per Page
-            %option Number of Visits per Page
 
-    -if @data.present?
-      .content#graph-div.box
-        = render partial: "piechart", locals: {data: @data, group_by: "referrer"}
-    -else
-      %p No Data
+  %section.section
+    .container
+      %h1.title.has-text-centered Landing Page
+
+      .columns
+        .column
+          .field.has-addons
+            .control.is-expanded
+              %input.input.single-calendar#graph-date{type: 'date', placeholder: 'Select a Date'}
+            .control
+              %button.button#date-clear
+                %span.icon.is-small
+                  %span.iconify{'data-icon': "emojione-v1:cross-mark"}
+
+        .column
+          .select.is-pulled-right
+            %select#graph-select{onchange: 'changeIndexGraph()'}
+              %option Referrers Ratio
+              %option Referrers by Date
+              %option Average Time Spent per Page
+              %option Number of Visits per Page
+
+      -if @data.present?
+        .content#graph-div.box
+          = render partial: 'piechart', locals: {data: @data, group_by: 'referrer'}
+      -else
+        %p No Data

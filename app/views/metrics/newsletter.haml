@@ -1,21 +1,29 @@
 - content_for :title, 'Newsletters Overview'
 
-%section.section
-  .container
-    .columns.is-vcentered
-      .column.is-two-fifths
-        %h1.title Newsletter Page
-      .column.is-right.is-two-fifths
-        %input.input.single-calendar#graph-date{:type => "date", placeholder: "Select a Date"}
-      .column.is-right.is-one-quarter
-        .select.is-pulled-right
-          %select#graph-select{:onchange => "changeIndexGraph()"}
-            %option Newsletter Subscriptions by Date
-            %option Subscriptions by Newsletter
-            %option Unsubscription Reason
+#metrics
+  %section.section.newsletter
+    .container
+      %h1.title.has-text-centered Newsletter Page
 
-    -if @data.present?
-      .content#graph-div.box
-        = render partial: "linegraph", locals: {data: @data, time: "created_at",group_by: ""}
-    -else
-      %p No Data
+      .columns
+        .column
+          .field.has-addons
+            .control.is-expanded
+              %input.input.single-calendar#graph-date{type: 'date', placeholder: 'Select a Date'}
+            .control
+              %button.button#date-clear
+                %span.icon.is-small
+                  %span.iconify{'data-icon': "emojione-v1:cross-mark"}
+
+        .column
+          .select.is-pulled-right
+            %select#graph-select{:onchange => "changeIndexGraph()"}
+              %option Newsletter Subscriptions by Date
+              %option Subscriptions by Newsletter
+              %option Unsubscription Reason
+
+      -if @data.present?
+        .content#graph-div.box
+          = render partial: "linegraph", locals: {data: @data, time: "created_at",group_by: ""}
+      -else
+        %p No Data

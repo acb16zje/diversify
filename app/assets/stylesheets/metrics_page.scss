@@ -1,5 +1,6 @@
 @import "application";
-@import "plugins/dataTables.bulma.min";
+@import "plugins/dataTables.bulma";
+@import "plugins/flatpickr";
 
 html {
   background-color: #f7f8f9;
@@ -9,6 +10,7 @@ a.navbar-item {
   font-size: 18px;
 }
 
+/* Side panel menu */
 aside.menu {
   .menu-label {
     color: $primary;
@@ -24,6 +26,30 @@ aside.menu {
     }
   }
 }
+
+/* Metrics page */
+#metrics {
+  section {
+    padding-top: 1.5rem;
+    padding-left: 0;
+    padding-right: 0;
+
+    &.newsletter {
+      padding-top: 0;
+    }
+
+    .columns {
+      justify-content: flex-end;
+
+      @media screen and (max-width: 768px) {
+        .select.is-pulled-right {
+          float: none !important;
+        }
+      }
+    }
+  }
+}
+
 
 /* Unsubscribe page */
 #unsubscribe {

@@ -44,6 +44,13 @@ html, body {
   background-color: $secondary;
 }
 
+.column > .has-equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
 .tab {
   border: none;
   border-radius: 4px 4px 0 0;
