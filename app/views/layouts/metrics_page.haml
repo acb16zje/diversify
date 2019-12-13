@@ -20,11 +20,13 @@
           = link_to 'Landing Page', root_path, class: 'navbar-item'
 
 
-    %section.section
-      - flash.each do |key, value|
-        %div#flash{class: 'notification is-success', style: "margin: 0.5% 1%;"}
+    - flash.each do |key, value|
+      #notification
+        .notification.is-success
           %button.delete
           = value
+
+    %section.section
       .container
         .columns
           .column.is-3

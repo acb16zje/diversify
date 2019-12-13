@@ -6,7 +6,6 @@ $accents: #acacd5;
 @import "bulma";
 
 /* Fix ghost CSS padding or margin */
-// default styles
 html, body {
   width: 100%;
   min-height: 100%;
@@ -101,6 +100,28 @@ nav.navbar {
     @media screen and (max-width: 1024px) {
       width: 200px;
       margin: 1rem 0;
+    }
+  }
+}
+
+/* Notification */
+#notification {
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+
+  .notification {
+    position: relative;
+    left: -50%;
+  }
+
+  @media screen and (max-width: 450px) {
+    left: 0;
+    width: 100%;
+    padding: 20px;
+
+    .notification {
+      left: 0;
     }
   }
 }

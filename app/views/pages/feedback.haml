@@ -1,13 +1,15 @@
 - content_for :title, 'Feedback'
 
+#notification.is-hidden
+  .notification
+    %button.delete
+    %p
+
 %section.section#feedback
   .container
     %h1.title.is-1.has-text-centered Help us improve
 
     .box
-      %div.is-hidden#notification{style: 'margin: 0.5% 1%;'}
-        %button.delete
-        %p
       = form_with(url: feedback_submission_pages_path, method: 'post', id:'feedbackForm') do
         .field
           .control.smiley

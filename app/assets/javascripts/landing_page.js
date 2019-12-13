@@ -1,23 +1,6 @@
 //= require application
 
-$('form').on('ajax:success', (event, data) => {
-  // event.preventDefault();
-  // $.ajax({
-  //   type: 'post',
-  //   url: this.action,
-  //   data: $(this).serialize(),
-  //   success(response) {
-  const notification = $('#notification');
-
-  notification.addClass(data.class);
-  notification.find('p').text(data.message);
-  notification.toggleClass('is-hidden');
-  setTimeout(() => {
-    notification.toggleClass('is-hidden');
-    notification.removeClass(data.class);
-  }, 3000);
-    
-});
+$('form').on('ajax:success', (event, data) => showNotification(data.class, data.message));
 
 /**
  * Ajax call to send time spent when user enters another page

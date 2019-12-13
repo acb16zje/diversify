@@ -11,11 +11,13 @@
     = javascript_include_tag 'metrics', defer: ''
 
   %body.has-text-centered
+    #notification.is-hidden
+      .notification
+        %button.delete
+        %p
+
     %section.section#unsubscribe
       .container.box
-        %div.is-hidden#notification{style: 'margin: 0.5% 1%;'}
-          %button.delete
-          %p
         .columns
           .column
             = image_tag 'logo/logo_horizontal.svg', width: 200

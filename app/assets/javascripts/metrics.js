@@ -47,15 +47,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   $('#newsletterSubForm').on('ajax:success', (event, data) => {
     if (data.message) {
-      $('#notification').addClass(data.class);
-      $('#notification > p').text(data.message);
-      $('#notification').toggleClass('is-hidden');
-      hideNotification('#notification', data.class);
+      showNotification(data.class, data.message);
     }
   });
 
-  if (document.body.contains(document.getElementById('flash'))) {
-    hideNotification('#flash', 'is-success');
+  if (document.body.contains(document.getElementById('notification'))) {
+    hideNotification($('#notification'), $('#notification > .notification'), 'is-success');
   }
 });
 
@@ -84,19 +81,8 @@ function updateGraphRequest(selectedDates, dateStr, graph) {
  */
 function changeIndexGraph() {
   const graph = document.getElementById('graph-select').value;
-  const date = document.querySelector(
-      '.single-calendar')._flatpickr.selectedDates;
+  const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
   updateGraphRequest(date, null, graph);
-}
-
-/**
- * Function to hide notification
- */
-function hideNotification(id, classList) {
-  setTimeout(() => {
-    $(id).toggleClass('is-hidden');
-    $(id).removeClass(classList);
-  }, 3000);
 }
 
 $('#unsubscribeForm').submit(function(event) {
