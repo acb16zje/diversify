@@ -16,27 +16,28 @@ module Diversify
 
     I18n.enforce_available_locales = false
     config.generators do |g|
-      g.orm                 :active_record
-      g.template_engine     :haml
+      g.orm :active_record
+      g.template_engine :haml
       g.fixture_replacement :factory_bot,
-                              dir: 'spec/factories'
-      g.test_framework      :rspec,
-                              fixture: true,
-                              helper_specs: true,
-                              routing_specs: false,
-                              controller_specs: false,
-                              view_specs: false,
-                              integration_tool: false
+                            dir: 'spec/factories'
+      g.test_framework :rspec,
+                       fixture: true,
+                       helper_specs: true,
+                       routing_specs: false,
+                       controller_specs: false,
+                       view_specs: false,
+                       integration_tool: false
     end
 
+    config.action_mailer.logger = nil
     config.action_mailer.smtp_settings = {
-      address:              'mailhost.shef.ac.uk',
-      port:                 587,
-      enable_starttls_auto: true,
-      openssl_verify_mode:  OpenSSL::SSL::VERIFY_PEER,
-      openssl_verify_depth: 3,
-      ca_file:              '/etc/ssl/certs/ca-certificates.crt',
-      domain:               'student-app.demo.shefcompsci.org.uk',
+        address: 'mailhost.shef.ac.uk',
+        port: 587,
+        enable_starttls_auto: true,
+        openssl_verify_mode: OpenSSL::SSL::VERIFY_PEER,
+        openssl_verify_depth: 3,
+        ca_file: '/etc/ssl/certs/ca-certificates.crt',
+        domain: 'team07.demo1.genesys.shefcompsci.org.uk',
     }
 
     # Initialize configuration defaults for originally generated Rails version.

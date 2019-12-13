@@ -3,7 +3,6 @@ Rails.application.configure do
   app_url = 'team07.demo1.genesys.shefcompsci.org.uk/'
   config.action_mailer.default_url_options    = { host: app_url, protocol: 'https' }
   config.action_mailer.asset_host             = "https://#{app_url}"
-  config.action_mailer.smtp_settings[:domain] = app_url
 
   # Code is not reloaded between requests.
   config.cache_classes = true

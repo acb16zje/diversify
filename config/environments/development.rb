@@ -6,13 +6,6 @@ Rails.application.configure do
   # Preview email in the browser instead of sending it
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :letter_opener
-  #config.action_mailer.delivery_method = :smtp
-  #config.action_mailer.smtp_settings = {
-  #    address: 'mailhost.shef.ac.uk',
-  #    port: 25,
-  #    domain: 'team07.demo1.genesys.shefcompsci.org.uk',
-  #    enable_starttls_auto: false
-  #}
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

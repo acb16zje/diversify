@@ -14,4 +14,15 @@ class NewsletterSubscription < ApplicationRecord
 
   scope :onDate, ->(time) { where("created_at BETWEEN ? AND ?", DateTime.parse(time), DateTime.parse(time) + 1.days) }
   scope :betweenDate, ->(time1, time2) { where("created_at BETWEEN ? AND ?", DateTime.parse(time1), DateTime.parse(time2) + 1.days) }
+
+  def self.all_emails
+    pluck(:email)
+  end
+
+  def self.send_newsletter(newsletter)
+    all_emails.each_slice(50) do |emails|
+      NewsletterMailer.send_newsletter(emails, newsletter).deliver_later
+    end
+  end
+
 end

@@ -12,7 +12,7 @@
       = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: ''
   .field
     .control
-      = f.cktext_area :content, required: '', placeholder: 'Type your newsletter here...', ckeditor: { uiColor: "#acacd5", toolbar: 'mini' }
+      = f.cktext_area :content, required: '', placeholder: 'Type your newsletter here...', ckeditor: { toolbar: 'mini' }
   .field
     .control
       = submit_tag('Send newsletter', class: 'button is-primary')
