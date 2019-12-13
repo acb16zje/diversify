@@ -10,6 +10,10 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_newsletter_subscriptions_on_email  (email) UNIQUE
+#
 
 # NewsletterSubscription Model
 class NewsletterSubscription < ApplicationRecord

@@ -33,9 +33,10 @@
             %select#graph-select{onchange: 'changeIndexGraph()'}
               %option Subscription Ratio
               %option Subscriptions by Date
+              %option Landing Page Feedback
 
-      -if @subscriptions.present?
-        .content#graph-div.box
+      .content#graph-div.box
+        -if @subscriptions[0][:data].present?
           = render partial: 'piechart', locals: {data: @subscriptions, group_by: 'properties -> \'type\''}
-      -else
-        %p No Data
+        -else
+          %p No Data

@@ -1,1 +1,4 @@
-= pie_chart data[0][:data].group(group_by).count, title: data[0][:title], id: 'index-pie-graph'
+- if group_by.present?
+  = pie_chart data[0][:data].group(group_by).count, title: data[0][:title], id: 'index-pie-graph'
+- else
+  = pie_chart data[0][:data], title: data[0][:title], id: 'index-pie-graph'

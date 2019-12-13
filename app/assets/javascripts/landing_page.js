@@ -1,7 +1,12 @@
 //= require application
 
 $('form').on('ajax:success', (event, data) => {
-  showNotification(data.class, data.message);
+  if (data.hasOwnProperty('class')) {
+    showNotification(data.class, data.message)
+  } else {
+    const container = $('#formContainer');
+    container.html(data.html);
+  }
 });
 
 /**
@@ -17,6 +22,6 @@ window.addEventListener('unload', () => {
     type: 'post',
     async: false,
     contentType: 'application/json',
-    data: JSON.stringify({time: endTime - startTime}),
+    data: JSON.stringify({time: endTime - startTime, location: window.location.pathname})
   });
 }, false);

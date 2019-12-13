@@ -25,8 +25,10 @@ class MetricsController < ApplicationController
   end
 
   def newsletter
-    @data = [{ title: 'Subscription', data: NewsletterSubscription.all },
-             { title: 'Unsubscription', data: NewsletterFeedback.all }]
+    sub = NewsletterSubscription.all
+    feedback = NewsletterFeedback.all
+    @data = [{ title: 'Subscription', data: sub },
+             { title: 'Unsubscription', data: feedback }]
   end
 
   def update_graph_time
@@ -36,12 +38,11 @@ class MetricsController < ApplicationController
 
       # decide on Data and Grouping
       data, config = data_setter(params[:graph_name])
-
       # set time constraint to graphs if exist
-      if (params.key? [:date]) && (params[:graph_name].include? 'by Newsletter')
+      if (params[:graph_name].include? 'by Newsletter') && !params[:time].empty?
         date1, date2 = params[:time]
         data = data.select do |v|
-          if date2.nil?
+          if !date2.nil?
             DateTime.parse(date1) < v[:created_at] &&
               v[:created_at] < DateTime.parse(date2) + 1.days
           else
@@ -49,14 +50,17 @@ class MetricsController < ApplicationController
               v[:created_at] < DateTime.parse(date1) + 1.days
           end
         end
+      elsif !params[:time].empty?
+        data = time_constraint(data)
+      end
+
+      if params[:graph_name].include? 'by Newsletter'
         data = [{ title: 'Unsubscription', data: data.collect do |i|
           ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
            i['feedback_count']]
         end }]
-      elsif params.key? [:date]
-        data = time_constraint(data)
       end
-
+      puts data
       # Check if there is still valid data, else return "No Data"
       if there_data?(data)
         config[:data] = data
@@ -71,9 +75,6 @@ class MetricsController < ApplicationController
 
   # def return_partial(time_data, id, layout, group, time)
   def return_partial(id, layout, locals)
-    respond_to do |format|
-      format.json { render json: locals[:data].present? }
-    end
     if locals[:data].present?
       response = generate_json_response(id, layout, locals)
       respond_to do |format|
@@ -105,6 +106,8 @@ class MetricsController < ApplicationController
   # Helper function to decide layout based on selected graph
   def decide_layout(option)
     case option
+    when /Landing Page/
+      'metrics/_feedback.haml'
     when /by Date/
       'metrics/_linegraph.haml'
     when /per Page|Newsletter/
@@ -116,6 +119,7 @@ class MetricsController < ApplicationController
 
   # loops through arrays and check if there is at least one array has data
   def there_data?(array)
+    puts array
     array.each do |data|
       return false unless data[:data].present?
     end
@@ -126,8 +130,8 @@ class MetricsController < ApplicationController
   def time_constraint(data)
     date1, date2 = params[:time]
     data.each_index do |i|
-      data[i][:data] = if date2.is_nil?
-                         data[i][:data].between_date(date1, date2)
+      data[i][:data] = if !date2.nil?
+                         data[i][:data].betweenDate(date1, date2)
                        else
                          data[i][:data] = data[i][:data].on_date(date1)
                        end
@@ -135,8 +139,18 @@ class MetricsController < ApplicationController
     data
   end
 
+  # set
   def data_setter(option)
     case option
+    when /Reason/
+      data = NewsletterFeedback.select(:reason)
+      data = [{ title: 'Reason', data: NewsletterFeedback.count_reason(data) }]
+      config = { time: nil, average: nil, group_by: nil }
+    when /Landing Page/
+      data = [{ title: 'Sastifaction', data: LandingFeedback.select(:smiley) },
+              { title: 'Channel', data: LandingFeedback.select(:channel) },
+              { title: 'Recommend', data: LandingFeedback.select(:interest) }]
+      config = { time: nil, average: nil, group_by: nil }
     when /by Newsletter/
       data = Newsletter.find_by_sql('SELECT newsletters.title,
          newsletters.created_at, COUNT(newsletter_feedbacks)

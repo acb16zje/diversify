@@ -22,8 +22,8 @@
               %option Subscriptions by Newsletter
               %option Unsubscription Reason
 
-      -if @data.present?
-        .content#graph-div.box
-          = render partial: 'linegraph', locals: {data: @data, time: 'created_at',group_by: ''}
-      -else
-        %p No Data
+      .content#graph-div.box
+        -if @data[0][:data].present?
+          = render partial: "linegraph", locals: {data: @data, time: "created_at",group_by: ""}
+        -else
+          %p No Data

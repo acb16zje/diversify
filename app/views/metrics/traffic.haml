@@ -5,13 +5,22 @@
   .box
     .columns.has-text-centered
       .column.is-4
-        = pie_chart @device_count, id: 'traffic-device-graph'
+        -if @device_count.present?
+          = pie_chart @device_count, id: 'traffic-device-graph'
+        -else
+          %p No Data
         %p.subtitle Device Types
       .column.is-4
-        = pie_chart @browser_count, id: 'traffic-browser-graph'
+        -if @browser_count.present?
+          = pie_chart @browser_count, id: 'traffic-browser-graph'
+        -else
+          %p No Data
         %p.subtitle Browser Types
       .column.is-4
-        = pie_chart @country_count, id: 'traffic-country-graph'
+        -if @country_count.present?
+          = pie_chart @country_count, id: 'traffic-country-graph'
+        -else
+          %p No Data
         %p.subtitle Countries
 
 
@@ -37,8 +46,8 @@
               %option Average Time Spent per Page
               %option Number of Visits per Page
 
-      -if @data.present?
-        .content#graph-div.box
+      .content#graph-div.box
+        -if @data[0][:data].present?
           = render partial: 'piechart', locals: {data: @data, group_by: 'referrer'}
-      -else
-        %p No Data
+        -else
+          %p No Data
