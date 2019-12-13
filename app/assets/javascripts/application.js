@@ -1,6 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require plugins/iconify
 
 // Check for click events on the navbar burger icon
 $('.navbar-burger').click(() => {

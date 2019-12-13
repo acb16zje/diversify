@@ -27,9 +27,12 @@
 
     = render 'partials/head'
 
-    -# CSS and JavaScript
+    -# CSS
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
     = stylesheet_link_tag 'landing_page'
+
+    -# JavaScript
+    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: ''
     = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', 'data-bg': '#645862', 'data-fg': '#fff', 'data-link': '#f1d600', 'data-close-text': 'OK'
     = javascript_include_tag 'landing_page', defer: ''
 

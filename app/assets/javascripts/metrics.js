@@ -1,9 +1,6 @@
 //= require application
 //= require chartkick
 //= require Chart.bundle
-//= require plugins/jquery.dataTables
-//= require plugins/dataTables.bulma
-//= require plugins/flatpickr
 //= require modal
 
 /**

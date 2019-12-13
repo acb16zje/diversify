@@ -13,17 +13,17 @@
             .control
               %button.button#date-clear
                 %span.icon.is-small
-                  %span.iconify{'data-icon': "emojione-v1:cross-mark"}
+                  %span.iconify{'data-icon': 'emojione-v1:cross-mark'}
 
         .column
           .select.is-pulled-right
-            %select#graph-select{:onchange => "changeIndexGraph()"}
+            %select#graph-select{onchange: 'changeIndexGraph()'}
               %option Newsletter Subscriptions by Date
               %option Subscriptions by Newsletter
               %option Unsubscription Reason
 
       -if @data.present?
         .content#graph-div.box
-          = render partial: "linegraph", locals: {data: @data, time: "created_at",group_by: ""}
+          = render partial: 'linegraph', locals: {data: @data, time: 'created_at',group_by: ''}
       -else
         %p No Data
