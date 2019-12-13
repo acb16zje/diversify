@@ -78,7 +78,7 @@ function changeIndexGraph() {
 }
 
 /**
- *
+ * Function to hide notification
  */
 function hideNotification(id, classList) {
   setTimeout(() => {
@@ -86,3 +86,4 @@ function hideNotification(id, classList) {
     $(id).removeClass(classList);
   }, 3000);
 }
+

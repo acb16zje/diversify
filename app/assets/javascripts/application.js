@@ -27,6 +27,34 @@ $('#newsletterSubForm').on('submit', function (event) {
     },
   });
 });
+
+$('#unsubscribeForm').on('submit', function (event) {
+  event.preventDefault();
+  $.ajax({
+    type: 'POST',
+    url: this.action,
+    data: $(this).serialize(),
+    success(response) {
+      const notification = $('#notification');
+
+      if (response.hasOwnProperty('class')) {
+        console.log(response)
+        notification.addClass(response.class);
+        notification.find('p').text(response.message);
+        notification.toggleClass('is-hidden');
+        setTimeout(() => {
+          notification.toggleClass('is-hidden');
+          notification.removeClass(response.class);
+        }, 3000);
+      } else {
+        console.log(response)
+        const container = $('#formContainer');
+        container.html(response.html);
+      }
+    }
+  })
+})
+
 /**
  * Ajax call to send time spent when user enters another page
  */

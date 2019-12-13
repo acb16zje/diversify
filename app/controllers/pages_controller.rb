@@ -11,13 +11,13 @@ class PagesController < ApplicationController
   #should be changed once proper subscription system has been completed
   def newsletter
     @newsletter_subscription = NewsletterSubscription.new
-    if params.has_key?(:type)
+    if params.key?(:type)
       ahoy.track "Clicked pricing link", type: params[:type]
     end
   end
 
   def newsletter_subscriptions
-    if params.has_key?(:email)
+    if params.key?(:email)
       @newsletter_subscription = NewsletterSubscription.new(date_subscribed: Time.now(), email: params[:email])
       if @newsletter_subscription.save
         @message = 'Newsletter Subscribed!'
@@ -37,7 +37,7 @@ class PagesController < ApplicationController
 
   #Function to track time spent in a page
   def track_time
-    if params.has_key?(:time) && params.has_key?(:location)
+    if params.key?(:time) && params.key?(:location)
       if is_valid_location?(params[:location])
         time = params[:time]
         ahoy.track "Time Spent", time_spent: millisec_to_sec(time), location: params[:location]

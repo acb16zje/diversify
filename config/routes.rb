@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Class to set constraint to only allow AJAX request
 class OnlyAjaxRequest
   def matches?(request)
@@ -13,10 +14,10 @@ Rails.application.routes.draw do
   resources :teams
   resources :projects
   devise_for :users
-  match "/403", to: "errors#error_403", via: :all
-  match "/404", to: "errors#error_404", via: :all
-  match "/422", to: "errors#error_422", via: :all
-  match "/500", to: "errors#error_500", via: :all
+  match '/403', to: 'errors#error_403', via: :all
+  match '/404', to: 'errors#error_404', via: :all
+  match '/422', to: 'errors#error_422', via: :all
+  match '/500', to: 'errors#error_500', via: :all
 
   # /:path
   resources :pages, path: '', only: [] do
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
 
       # For analytics
       post 'track_time', constraint: OnlyAjaxRequest.new
-      post 'newsletter_subscriptions', :as => :newsletter_subscriptions
+      post 'newsletter_subscriptions', as: :newsletter_subscriptions
     end
   end
 
@@ -48,12 +49,13 @@ Rails.application.routes.draw do
   end
 
   # /newsletters/:path
-  resources :newsletters, only: [:index, :create, :new, :show] do
+  resources :newsletters, only: %i[index create new show] do
 
     collection do
       get 'unsubscribe'
+      post 'unsubscribe', to: 'newsletters#create_unsubscribe'
     end
   end
 
-  root to: "pages#home"
+  root to: 'pages#home'
 end

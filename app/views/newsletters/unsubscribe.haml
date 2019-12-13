@@ -13,6 +13,9 @@
   %body.has-text-centered
     %section.section#unsubscribe
       .container.box
+        %div.is-hidden#notification{style: 'margin: 0.5% 1%;'}
+          %button.delete
+          %p
         .columns
           .column
             = image_tag 'logo/logo_horizontal.svg', width: 200
@@ -21,8 +24,8 @@
         %h3.subtitle.has-text-centered.is-5 Please let us know why you want to unsubscribe
 
         .columns
-          .column
-            = form_with(url: unsubscribe_newsletters_path, method: 'post') do
+          .column#formContainer
+            = form_with(url: unsubscribe_newsletters_path, method: 'post',id: 'unsubscribeForm') do
               .field
                 .control
                   = text_field_tag :email, nil, class: 'input', placeholder: 'Your email address', type: 'email', required: true
