@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for landing pages
 class PagesController < ApplicationController
   layout 'landing_page'
   skip_authorization_check
@@ -42,8 +43,9 @@ class PagesController < ApplicationController
 
   def feedback_submission
     feedback = LandingFeedback.new(
-               smiley: params[:smiley], channel: params[:channel],
-               interest: ActiveModel::Type::Boolean.new.cast(params[:interest]))
+      smiley: params[:smiley], channel: params[:channel],
+      interest: ActiveModel::Type::Boolean.new.cast(params[:interest])
+    )
     respond_to do |format|
       format.json do
         render json: (
@@ -58,12 +60,9 @@ class PagesController < ApplicationController
 
   # Function to track time spent in a page
   def track_time
-    if params.key?(:time) && params.key?(:location)
-      if valid_location?(params[:location])
-        time = params[:time]
-        ahoy.track 'Time Spent', time_spent: millisec_to_sec(time), location: params[:location]
-      end
-      render json: {}
+    if params.key?(:time)
+      time = params[:time]
+      ahoy.track 'Time Spent', time_spent: millisec_to_sec(time), location: params[:location]
     else
       head 500
     end
@@ -75,9 +74,9 @@ class PagesController < ApplicationController
     time.to_f.round / 1000
   end
 
-  def valid_location?(location)
-    !(location.include? 'metrics') && !(location.include? 'newsletters')
-  end
+  #def valid_location?(location)
+  #  !(location.include? 'metrics') && !(location.include? 'newsletters')
+  #end
 
   def feedback_params
     params.key?(:smiley) && params.key?(:channel) && params.key?(:interest)

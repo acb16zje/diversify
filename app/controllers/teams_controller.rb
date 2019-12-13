@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: %i[show edit update destroy]
 
   # GET /teams
   def index
@@ -7,8 +9,7 @@ class TeamsController < ApplicationController
   end
 
   # GET /teams/1
-  def show
-  end
+  def show; end
 
   # GET /teams/new
   def new
@@ -16,8 +17,7 @@ class TeamsController < ApplicationController
   end
 
   # GET /teams/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /teams
   def create

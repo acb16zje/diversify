@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ReviewsController < ApplicationController
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_review, only: %i[show edit update destroy]
 
   # GET /reviews
   def index
@@ -7,8 +9,7 @@ class ReviewsController < ApplicationController
   end
 
   # GET /reviews/1
-  def show
-  end
+  def show; end
 
   # GET /reviews/new
   def new
@@ -16,8 +17,7 @@ class ReviewsController < ApplicationController
   end
 
   # GET /reviews/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /reviews
   def create

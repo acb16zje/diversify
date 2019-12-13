@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Default application controller
 class ApplicationController < ActionController::Base
   # Ensure that CanCanCan is correctly configured
   # and authorising actions on each controller
@@ -45,21 +48,21 @@ class ApplicationController < ActionController::Base
 
   # Ahoy Gem function to track actions
   def track_action
-    if !request.xhr? && request.path_parameters[:controller] != 'metrics'
-      ahoy.track 'Ran action', request.path_parameters
-    end
+    return if request.xhr? || request.path_parameters[:controller] == 'metrics'
+
+    ahoy.track 'Ran action', request.path_parameters
   end
 
   def flash_class(level)
     case level
     when 'notice'
-      'notification is-primary'
+      'is-primary'
     when 'success'
-      'notification is-success'
+      'is-success'
     when 'error'
-      'notification is-danger'
+      'is-danger'
     when 'alert'
-      'notification is-warning'
+      'is-warning'
     end
   end
 
@@ -72,6 +75,8 @@ class ApplicationController < ActionController::Base
   end
 
   def ie_warning
-    return redirect_to(ie_warning_path) if request.user_agent.to_s =~ /MSIE [6-7]/ && request.user_agent.to_s !~ /Trident\/7.0/
+    if request.user_agent.to_s =~ /MSIE [6-7]/ && request.user_agent.to_s !~ %r{Trident/7.0}
+      redirect_to(ie_warning_path)
+    end
   end
 end

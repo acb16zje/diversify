@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for metrics
 class MetricsController < ApplicationController
   skip_after_action :track_action
   layout 'metrics_page'

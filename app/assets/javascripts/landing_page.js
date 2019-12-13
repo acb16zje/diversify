@@ -1,6 +1,8 @@
 //= require application
 
-$('form').on('ajax:success', (event, data) => showNotification(data.class, data.message));
+$('form').on('ajax:success', (event, data) => {
+  showNotification(data.class, data.message);
+});
 
 /**
  * Ajax call to send time spent when user enters another page
@@ -12,13 +14,9 @@ window.addEventListener('unload', () => {
   const endTime = performance.now();
   $.ajax({
     url: '/track_time',
-    dataType: 'json',
     type: 'post',
     async: false,
     contentType: 'application/json',
-    data: JSON.stringify({
-      time: endTime - startTime,
-      location: window.location.pathname,
-    }),
+    data: JSON.stringify({time: endTime - startTime}),
   });
 }, false);
