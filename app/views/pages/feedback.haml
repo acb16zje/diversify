@@ -5,36 +5,31 @@
     %h1.title.is-1.has-text-centered Help us improve
 
     .box
-      %form
+      %div.is-hidden#notification{style: 'margin: 0.5% 1%;'}
+        %button.delete
+        %p
+      = form_with(url: feedback_submission_pages_path, method: 'post', id:'feedbackForm') do
         .field
           .control.smiley
             %label.label How is your experience with our website?
             %label.radio
-              %input.sad{type: 'radio', name: 'smiley', value: 'sad', required: ''}
+              = radio_button_tag :smiley, 'sad', false, class: 'sad'
             %label.radio
-              %input.neutral{type: 'radio', name: 'smiley', value: 'neutral'}
+              = radio_button_tag :smiley, 'neutral', false, class: 'neutral'
             %label.radio
-              %input.happy{type: 'radio', name: 'smiley', value: 'happy'}
-
+              = radio_button_tag :smiley,'happy', false, class: 'happy'
         .field
           .control
             %label.label How did you find out our product?
             .select
-              %select{required: ''}
-                %option
-                %option Social media
-                %option Search engine
-
+              = select_tag :channel, options_for_select([ "Social Media", "Search Engine" ])
         .field
           .control
             %label.label Are you interested in using our product?
-            %label.radio
-              %input{type: 'radio', name: 'interest', value: 'yes', required: ''} Yes
-            %label.radio
-              %input{type: 'radio', name: 'interest', value: 'no'} No
-
+            %label.radio Yes
+            = radio_button_tag :interest, true
+            %label.radio No
+            = radio_button_tag :interest, false
         .field
           .control
-            %button.button.is-success
-              Submit
-
+            = submit_tag('Submit', class: 'button is-success')

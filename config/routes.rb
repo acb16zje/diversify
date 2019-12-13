@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       # For analytics
       post 'track_time', constraint: OnlyAjaxRequest.new
       post 'newsletter_subscriptions', as: :newsletter_subscriptions
+      post 'feedback_submission', as: :feedback_submission
     end
   end
 
