@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: personalities
@@ -15,6 +17,7 @@
 #  index_personalities_on_incompatible_id  (incompatible_id)
 #
 
+# Personality model
 class Personality < ApplicationRecord
   has_and_belongs_to_many :users
 

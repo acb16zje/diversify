@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: licenses
@@ -20,6 +22,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# License model
 class License < ApplicationRecord
   belongs_to :user
   belongs_to :subscription

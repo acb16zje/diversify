@@ -45,21 +45,21 @@ class ApplicationController < ActionController::Base
 
   # Ahoy Gem function to track actions
   def track_action
-    if !request.xhr? && !(request.path_parameters[:controller] == "metrics")
-      ahoy.track "Ran action", request.path_parameters
+    if !request.xhr? && request.path_parameters[:controller] != 'metrics'
+      ahoy.track 'Ran action', request.path_parameters
     end
   end
 
   def flash_class(level)
     case level
     when 'notice'
-      "notification is-primary"
+      'notification is-primary'
     when 'success'
-      "notification is-success"
+      'notification is-success'
     when 'error'
-      "notification is-danger"
+      'notification is-danger'
     when 'alert'
-      "notification is-warning"
+      'notification is-warning'
     end
   end
 

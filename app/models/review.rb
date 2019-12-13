@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+#
 # == Schema Information
 #
 # Table name: reviews
@@ -21,9 +24,10 @@
 #  fk_rails_...  (project_id => projects.id)
 #
 
+# Review model
 class Review < ApplicationRecord
   belongs_to :project
   has_many :users
 
-  validates :rating, numericality: {greater_than: 0}
+  validates :rating, numericality: { greater_than: 0 }
 end

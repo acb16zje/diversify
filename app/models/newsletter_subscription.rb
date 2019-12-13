@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: newsletter_subscriptions
@@ -9,11 +11,23 @@
 #  updated_at      :datetime         not null
 #
 
+# NewsletterSubscription Model
 class NewsletterSubscription < ApplicationRecord
-  validates :email, uniqueness: true, format: {with: URI::MailTo::EMAIL_REGEXP}
+  validates :email,
+            uniqueness: true,
+            format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  scope :onDate, ->(time) { where("created_at BETWEEN ? AND ?", DateTime.parse(time), DateTime.parse(time) + 1.days) }
-  scope :betweenDate, ->(time1, time2) { where("created_at BETWEEN ? AND ?", DateTime.parse(time1), DateTime.parse(time2) + 1.days) }
+  scope :onDate, lambda { |time|
+    where('created_at BETWEEN ? AND ?',
+          DateTime.parse(time),
+          DateTime.parse(time) + 1.days)
+  }
+
+  scope :betweenDate, lambda { |time1, time2|
+    where('created_at BETWEEN ? AND ?',
+          DateTime.parse(time1),
+          DateTime.parse(time2) + 1.days)
+  }
 
   def self.all_emails
     pluck(:email)
@@ -24,5 +38,4 @@ class NewsletterSubscription < ApplicationRecord
       NewsletterMailer.send_newsletter(emails, newsletter).deliver_later
     end
   end
-
 end

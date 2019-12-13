@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: categories
@@ -8,6 +10,7 @@
 #  updated_at :datetime         not null
 #
 
+# Category model
 class Category < ApplicationRecord
   has_many :skills
   has_many :projects

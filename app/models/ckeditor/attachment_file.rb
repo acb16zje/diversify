@@ -18,7 +18,7 @@
 #  index_ckeditor_assets_on_type  (type)
 #
 
-
+# Ckeditor attachment model
 class Ckeditor::AttachmentFile < Ckeditor::Asset
   # for validation, see https://github.com/igorkasyanchuk/active_storage_validations
 

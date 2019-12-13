@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: teams
@@ -18,10 +20,11 @@
 #  fk_rails_...  (project_id => projects.id)
 #
 
+# Team model
 class Team < ApplicationRecord
   has_many :users
   belongs_to :project
 
   validates_presence_of :name, :team_size
-  validates :team_size, numericality: {greater_than_or_equal_to: 0}
+  validates :team_size, numericality: { greater_than_or_equal_to: 0 }
 end

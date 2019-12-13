@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: preferences
@@ -18,9 +20,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# Preference model
 class Preference < ApplicationRecord
   has_and_belongs_to_many :users
 
-  validates :group_size, numericality: {greater_than: 0}
+  validates :group_size, numericality: { greater_than: 0 }
   validates_presence_of :preferred_tasks
 end

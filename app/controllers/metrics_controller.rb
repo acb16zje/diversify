@@ -56,7 +56,7 @@ class MetricsController < ApplicationController
         data = time_constraint(data)
       end
 
-      # Check if theres is still valid data, else return "No Data"
+      # Check if there is still valid data, else return "No Data"
       if there_data?(data)
         config[:data] = data
         return_partial('#graph-div', layout, config)
@@ -126,9 +126,9 @@ class MetricsController < ApplicationController
     date1, date2 = params[:time]
     data.each_index do |i|
       data[i][:data] = if date2.is_nil?
-                         data[i][:data].betweenDate(date1, date2)
+                         data[i][:data].between_date(date1, date2)
                        else
-                         data[i][:data] = data[i][:data].onDate(date1)
+                         data[i][:data] = data[i][:data].on_date(date1)
                        end
     end
     data

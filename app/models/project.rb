@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: projects
@@ -23,6 +25,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# Project model
 class Project < ApplicationRecord
   belongs_to :user
   belongs_to :category

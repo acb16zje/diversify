@@ -18,7 +18,7 @@
 #  index_ckeditor_assets_on_type  (type)
 #
 
-
+# Ckeditor asset model
 class Ckeditor::Asset < ActiveRecord::Base
   include Ckeditor::Orm::ActiveRecord::AssetBase
   include Ckeditor::Backend::ActiveStorage

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: issues
@@ -22,6 +24,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# Issue model
 class Issue < ApplicationRecord
   belongs_to :user
   belongs_to :project

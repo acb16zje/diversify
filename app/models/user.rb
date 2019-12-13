@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -19,6 +21,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
+# User model
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -26,15 +29,16 @@ class User < ApplicationRecord
   has_many :personalities
   has_many :tasks
   has_many :skill_levels
-  belongs_to :teams
+  has_and_belongs_to_many :teams
   has_and_belongs_to_many :reviews
   has_one :preference
   has_one :license
 
   validates_presence_of :email, :admin, :encrypted_password
-  validates :email, uniqueness: true, format: {with: URI::MailTo::EMAIL_REGEXP}
+  validates :email,
+            uniqueness: true,
+            format: { with: URI::MailTo::EMAIL_REGEXP }
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
 end

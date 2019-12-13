@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tasks
@@ -25,11 +27,12 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# Task model
 class Task < ApplicationRecord
   belongs_to :project
   has_one :user
   has_many :skills
 
   validates_presence_of :name, :experience
-  validates :experience, numericality: {greater_than: 0}
+  validates :experience, numericality: { greater_than: 0 }
 end

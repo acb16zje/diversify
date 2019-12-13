@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: skill_levels
@@ -21,10 +23,11 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
+# SkillLevel model
 class SkillLevel < ApplicationRecord
   has_one :user
   has_one :skill
 
-  validates :experience, numericality: {greater_than_or_equal_to: 0}
-  validates :level, numericality: {greater_than_or_equal_to: 0}
+  validates :experience, numericality: { greater_than_or_equal_to: 0 }
+  validates :level, numericality: { greater_than_or_equal_to: 0 }
 end

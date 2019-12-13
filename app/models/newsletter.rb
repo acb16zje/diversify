@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: newsletters
@@ -9,6 +11,7 @@
 #  updated_at :datetime         not null
 #
 
+# Newsletter model
 class Newsletter < ApplicationRecord
-  validates :content, :title, presence: true
+  validates_presence_of :title, :content
 end

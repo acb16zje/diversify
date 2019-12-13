@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: subscriptions
@@ -9,6 +11,7 @@
 #  updated_at   :datetime         not null
 #
 
+# Subscription model
 class Subscription < ApplicationRecord
   has_many :licenses
 
