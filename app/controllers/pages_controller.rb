@@ -20,6 +20,7 @@ class PagesController < ApplicationController
     if params.key?(:email)
       @newsletter_subscription = NewsletterSubscription.new(date_subscribed: Time.now(), email: params[:email])
       if @newsletter_subscription.save
+        NewsletterMailer.send_welcome(params[:email]).deliver_now
         @message = 'Newsletter Subscribed!'
         @class = flash_class('success')
       else

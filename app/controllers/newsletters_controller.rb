@@ -21,10 +21,11 @@ class NewslettersController < ApplicationController
       @emails.each_slice(50) do |email|
         NewsletterMailer.send_newsletter(email, @newsletter).deliver_later
       end
-
       respond_to do |format|
         flash['success'] = 'Newsletter Sent'
-        format.js { render js: "window.location='#{newsletters_path.to_s}'" }
+        format.js do
+          render js: "window.location='#{newsletters_path}'"
+        end
       end
     else
       respond_to do |format|
@@ -52,29 +53,38 @@ class NewslettersController < ApplicationController
   end
 
   def create_unsubscribe
-    if params.key?(:email)
-      reason = ''
-      params.each do |key, value|
-        reason += " #{key}" if value == '1'
-      end
-      feedback = NewsletterFeedback.new(email: params[:email],
-                                        reason: reason)
-      subscription = NewsletterSubscription.find_by(email: params[:email])
-      if reason != '' && feedback.save && !subscription.nil?
-        NewsletterSubscription.destroy(subscription.id)
-      end
-      respond_to do |format|
-        format.json do
-          render json:
-                 if reason != '' && feedback.save && !subscription.nil?
-                   { html: 'Newsletter Unsubscribed! Hope to see you again' }
-                 else
-                   { message: 'Request Failed', class: flash_class('error') }
-                 end,
-                 status: 200
-        end
+    return unless params.key?(:email)
+
+    reason = ''
+    params.each do |key, value|
+      reason += " #{key}" if value == '1'
+    end
+    feedback = NewsletterFeedback.new(email: params[:email],
+                                      reason: reason)
+    subscription = NewsletterSubscription.find_by(email: params[:email])
+    json = unsubscribe_json(reason, feedback, subscription)
+    respond_to do |format|
+      format.json do
+        render json: json, status: 200
       end
     end
+  end
+
+  private
+
+  def unsubscribe_json(reason, feedback, subscription)
+    if reason != '' && feedback.save && !subscription.nil?
+      NewsletterSubscription.destroy(subscription.id)
+      json = { html: 'Newsletter Unsubscribed! Hope to see you again' }
+    else
+      json = if subscription.nil?
+               { message: 'This email is not subscribed to the newsletter!',
+                 class: flash_class('error') }
+             else { message: 'Please select a reason!',
+                    class: flash_class('error') }
+             end
+    end
+    json
   end
 
   def newsletter_params

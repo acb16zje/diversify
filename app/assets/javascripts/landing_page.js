@@ -3,7 +3,7 @@
 $('#newsletterSubForm').submit(function(event) {
   event.preventDefault();
   $.ajax({
-    type: 'POST',
+    type: 'post',
     url: this.action,
     data: $(this).serialize(),
     success(response) {
