@@ -29,8 +29,8 @@
 # Review model
 class Review < ApplicationRecord
   belongs_to :project
-  belongs_to :reviewer, class_name: User
-  belongs_to :reviewee, class_name: User
+  belongs_to :reviewer, class_name: 'User'
+  belongs_to :reviewee, class_name: 'User'
 
   validates :rating, numericality: { greater_than: 0 }
 end
