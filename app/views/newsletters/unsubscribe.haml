@@ -27,7 +27,7 @@
 
         .columns
           .column#formContainer
-            = form_with(url: unsubscribe_newsletters_path, method: 'post',id: 'unsubscribeForm') do
+            = form_with(url: unsubscribe_newsletters_path, method: 'post', id: 'newsletterSubForm') do
               .field
                 .control
                   = text_field_tag :email, nil, class: 'input', placeholder: 'Your email address', type: 'email', required: true

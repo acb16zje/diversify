@@ -32,8 +32,7 @@ Rails.application.routes.draw do
 
       # For analytics
       post 'track_time', constraint: OnlyAjaxRequest.new
-      post 'newsletter_subscriptions', as: :newsletter_subscriptions
-      post 'feedback_submission', as: :feedback_submission
+      post 'submit_feedback', constraint: OnlyAjaxRequest.new
     end
   end
 
@@ -53,6 +52,8 @@ Rails.application.routes.draw do
   resources :newsletters, only: %i[index create new show] do
 
     collection do
+      post 'subscribe', constraint: OnlyAjaxRequest.new
+
       get 'unsubscribe'
       post 'unsubscribe', to: 'newsletters#create_unsubscribe'
     end

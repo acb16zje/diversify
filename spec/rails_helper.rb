@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 SimpleCov.start 'rails'
 
-ENV["RAILS_ENV"] ||= 'test'
+ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -14,7 +16,7 @@ require 'rspec/rails'
 # run twice. It is recommended that you do not name files matching this glob to
 # end with _spec.rb. You can configure this pattern with the --pattern
 # option on the command line or in ~/.rspec, .rspec or `.rspec-local`.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # If the test database needs migrating, load in the current schema
 if ActiveRecord::Base.connection.migration_context.needs_migration?
@@ -32,7 +34,7 @@ RSpec.configure do |config|
   config.include Warden::Test::Helpers      # Let's us do login_as(user)
   config.include Rails.application.routes.url_helpers
   config.include Capybara::Select2
-  config.include Devise::TestHelpers, type: :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.after(:each) do
     Warden.test_reset!
@@ -41,7 +43,7 @@ RSpec.configure do |config|
   config.mock_with :rspec
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation, { pre_count: true, reset_ids: false, except: %w(ar_internal_metadata) })
+    DatabaseCleaner.clean_with(:truncation, pre_count: true, reset_ids: false, except: %w[ar_internal_metadata])
   end
 
   config.before(:each) do
@@ -49,7 +51,7 @@ RSpec.configure do |config|
   end
 
   config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation, { pre_count: true, reset_ids: false, except: %w(ar_internal_metadata) }
+    DatabaseCleaner.strategy = :truncation, { pre_count: true, reset_ids: false, except: %w[ar_internal_metadata] }
   end
 
   config.after(:each, js: true) do
@@ -67,7 +69,6 @@ RSpec.configure do |config|
   config.before(:each) do
     ActionMailer::Base.deliveries.clear
   end
-
 
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
@@ -91,15 +92,13 @@ Capybara.register_driver :chrome do |app|
 
   # LTSP has multiple versions of Chrome installed, so prefer Chromium
   LTSP_BIN = '/usr/bin/chromium-browser'
-   if File.exist?(LTSP_BIN)
-     chrome_options.binary = LTSP_BIN
-   end
+  chrome_options.binary = LTSP_BIN if File.exist?(LTSP_BIN)
 
-   # Rails takes a little time to start, so wait ~2 mins before failing
-   client = Selenium::WebDriver::Remote::Http::Default.new
-   client.read_timeout = 120 # seconds
+  # Rails takes a little time to start, so wait ~2 mins before failing
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.read_timeout = 120 # seconds
 
-   Capybara::Selenium::Driver.new app, browser: :chrome, options: chrome_options, http_client: client
+  Capybara::Selenium::Driver.new app, browser: :chrome, options: chrome_options, http_client: client
 end
 
 Capybara.configure do |config|
@@ -113,6 +112,7 @@ def wait_for_ajax
   Timeout.timeout(Capybara.default_max_wait_time) do
     loop do
       break if page.evaluate_script('jQuery.active') == 0
+
       sleep 0.5
     end
   end

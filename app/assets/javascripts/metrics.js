@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     ],
   });
 
-  $('#newsletterSubForm').on('ajax:success', (event, data) => {
+  $('#newsletterSendForm').on('ajax:success', (event, data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
@@ -63,7 +63,7 @@ function updateGraphRequest(selectedDates, dateStr, graph) {
     dataType: 'json',
     type: 'post',
     contentType: 'application/json',
-    data: JSON.stringify({time: selectedDates, graph_name: graph}),
+    data: JSON.stringify({ time: selectedDates, graph_name: graph }),
     success(result) {
       $(result.title).html(result.html);
     },
@@ -81,5 +81,3 @@ function changeIndexGraph() {
   const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
   updateGraphRequest(date, null, graph);
 }
-
-

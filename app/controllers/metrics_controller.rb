@@ -8,7 +8,7 @@ class MetricsController < ApplicationController
   def index
     @total_visits_count = Ahoy::Visit.count
     @today_visits = Ahoy::Visit.where(
-      started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+        started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
     ).size
     @total_subscribers = NewsletterSubscription.count
 
@@ -44,10 +44,10 @@ class MetricsController < ApplicationController
         data = data.select do |v|
           if !date2.nil?
             DateTime.parse(date1) < v[:created_at] &&
-              v[:created_at] < DateTime.parse(date2) + 1.days
+                v[:created_at] < DateTime.parse(date2) + 1.days
           else
             DateTime.parse(date1) < v[:created_at] &&
-              v[:created_at] < DateTime.parse(date1) + 1.days
+                v[:created_at] < DateTime.parse(date1) + 1.days
           end
         end
       elsif !params[:time].empty?
@@ -94,10 +94,10 @@ class MetricsController < ApplicationController
     { title: title,
       # Renders the ERB partial to a string
       html: render_to_string(
-        template: template, # The ERB partial
-        formats: :html, # The string format
-        layout: false, # Skip the application layout
-        locals: locals
+          template: template, # The ERB partial
+          formats: :html, # The string format
+          layout: false, # Skip the application layout
+          locals: locals
       ) } # Pass the model object with errors
   end
 

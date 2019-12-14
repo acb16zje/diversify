@@ -10,7 +10,7 @@
     %h1.title.is-1.has-text-centered Help us improve
 
     .box
-      = form_with(url: feedback_submission_pages_path, method: 'post', id:'feedbackForm') do
+      = form_with(url: submit_feedback_pages_path, method: 'post', id:'feedbackForm') do
         .field
           .control.smiley
             %label.label How is your experience with our website?

@@ -1,8 +1,9 @@
 //= require application
 
-$('form').on('ajax:success', (event, data) => {
+
+$('#newsletterSubForm').on('ajax:success', (event, data) => {
   if (data.hasOwnProperty('class')) {
-    showNotification(data.class, data.message)
+    showNotification(data.class, data.message);
   } else {
     const container = $('#formContainer');
     container.html(data.html);
@@ -22,6 +23,6 @@ window.addEventListener('unload', () => {
     type: 'post',
     async: false,
     contentType: 'application/json',
-    data: JSON.stringify({time: endTime - startTime, location: window.location.pathname})
+    data: JSON.stringify({ time: endTime - startTime }),
   });
 }, false);
