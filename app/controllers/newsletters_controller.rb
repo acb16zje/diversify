@@ -43,7 +43,7 @@ class NewslettersController < ApplicationController
         date_subscribed: Time.now, email: params[:email], subscribed: true
       )
       if newsletter_subscription.save
-        NewsletterMailer.send_welcome(params[:email]).deliver_now
+        NewsletterMailer.send_welcome(params[:email]).deliver_later
         message = 'Newsletter Subscribed'
         class_card = flash_class('success')
       else

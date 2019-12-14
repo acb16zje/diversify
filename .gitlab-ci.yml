@@ -32,6 +32,7 @@ test:
     - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
 #    - bundle exec rake
     - bundle exec rspec spec/features
+  coverage: '/LOC \((\d+\.\d+%)\) covered.$/'
   artifacts:
     paths:
       - coverage

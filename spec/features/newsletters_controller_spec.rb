@@ -1,10 +1,26 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'spec_helper'
 
 describe NewslettersController do
   include NewsletterHelper
+
+  describe '#new', :js do
+    before do
+      visit new_newsletter_path
+      FactoryBot.create(:subscriber)
+    end
+
+    specify '#create (send newsletter)' do
+      send_newsletter
+      expect(page).to have_content('rspec title')
+    end
+
+    specify '#create, Newsletter model validation' do
+      send_newsletter(false)
+      expect(page).to have_content('Send Failed')
+    end
+  end
 
   describe '#subscribe', :js do
     before do

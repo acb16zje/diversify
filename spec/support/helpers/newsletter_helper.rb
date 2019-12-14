@@ -1,6 +1,24 @@
 # frozen_string_literal: true
 
 module NewsletterHelper
+  def fill_in_ckeditor(locator, opts)
+    content = opts.fetch(:with).to_json # convert to a safe javascript string
+    page.execute_script <<-SCRIPT
+    CKEDITOR.instances['#{locator}'].setData(#{content});
+    $('textarea##{locator}').text(#{content});
+    SCRIPT
+  end
+
+  def send_newsletter(has_content = true)
+    fill_in 'newsletter_title', with: 'rspec title'
+
+    if has_content
+      fill_in_ckeditor 'newsletter_content', with: 'random content'
+    end
+
+    click_button 'Send newsletter'
+  end
+
   def subscribe(email_presence = false)
     if email_presence
       fill_in 'email', with: FactoryBot.create(:subscriber).email
