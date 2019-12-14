@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 2019_12_14_151142) do
     t.date "date_subscribed", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "subscribed"
+    t.boolean "subscribed", default: true, null: false
     t.index ["email"], name: "index_newsletter_subscriptions_on_email", unique: true
   end
 

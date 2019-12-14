@@ -8,7 +8,7 @@ class MetricsController < ApplicationController
   def index
     @total_visits_count = Ahoy::Visit.count
     @today_visits = Ahoy::Visit.where(
-        started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
+      started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
     ).size
     @total_subscribers = NewsletterSubscription.count
 
@@ -77,17 +77,9 @@ class MetricsController < ApplicationController
 
   def return_partial(id, layout, locals)
     if locals[:data].present?
-      response = generate_json_response(id, layout, locals)
-      respond_to do |format|
-        format.json { render json: response, status: 200 }
-      end
+      render json: generate_json_response(id, layout, locals)
     else
-      respond_to do |format|
-        format.json do
-          render json: { title: '#graph-div', html: '<p>No Data</p>' },
-                 status: 200
-        end
-      end
+      render json: { title: '#graph-div', html: '<p>No Data</p>' }
     end
   end
 
@@ -173,7 +165,7 @@ class MetricsController < ApplicationController
     when /Average Time Spent/
       data = [{ title: 'Time Spent',
                 data: Ahoy::Event.where(name: 'Time Spent') }]
-      config = { group_by: "properties -> 'location'",
+      config = { group_by: "properties -> 'pathname'",
                  average: "cast(properties ->> 'time' as float)", time: 'time' }
     when /Referrers/
       data = [{ title: 'Referrers', data: Ahoy::Visit.all }]

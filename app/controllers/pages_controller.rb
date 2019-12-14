@@ -14,12 +14,16 @@ class PagesController < ApplicationController
 
   # Function to track time spent in a page
   def track_time
-    if params.key?(:time)
-      time = params[:time]
-      ahoy.track 'Time Spent', time_spent: millisec_to_sec(time), location: params[:location]
-    else
-      head 500
-    end
+    head 500 unless params.key?(:time) && params.key?(:pathname)
+
+    pathname = params[:pathname]
+    time = params[:time]
+
+    return unless valid_pathname?(pathname)
+
+    ahoy.track 'Time Spent',
+               time_spent: millisec_to_sec(time),
+               pathname: pathname
   end
 
   def submit_feedback
@@ -27,22 +31,24 @@ class PagesController < ApplicationController
       smiley: params[:smiley], channel: params[:channel],
       interest: ActiveModel::Type::Boolean.new.cast(params[:interest])
     )
-    respond_to do |format|
-      format.json do
-        render json: (
-        if feedback_params && feedback.save
-          { message: 'Feedback Submitted', class: flash_class('success') }
-        else
-          { message: 'Submission Failed', class: flash_class('error') }
-        end), status: 200
+
+    render json: (
+      if feedback_params && feedback.save
+        { message: 'Feedback Submitted', class: flash_class('success') }
+      else
+        { message: 'Submission Failed', class: flash_class('error') }
       end
-    end
+    ), status: 200
   end
 
   private
 
   def millisec_to_sec(time)
     time.to_f.round / 1000
+  end
+
+  def valid_pathname?(pathname)
+    !pathname.include?('metrics') && !pathname.include?('newsletters')
   end
 
   def feedback_params

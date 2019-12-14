@@ -23,6 +23,9 @@ window.addEventListener('unload', () => {
     type: 'post',
     async: false,
     contentType: 'application/json',
-    data: JSON.stringify({ time: endTime - startTime }),
+    data: JSON.stringify({
+      time: endTime - startTime,
+      pathname: window.location.pathname,
+    }),
   });
 }, false);

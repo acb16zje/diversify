@@ -19,19 +19,10 @@ class NewslettersController < ApplicationController
     if newsletter.save
 
       NewsletterSubscription.delay.send_newsletter(newsletter)
-
-      respond_to do |format|
-        flash['success'] = 'Newsletter Sent'
-        format.js do
-          render js: "window.location='#{newsletters_path}'"
-        end
-      end
+      flash['success'] = 'Newsletter Sent'
+      render js: "window.location='#{newsletters_path}'"
     else
-      respond_to do |format|
-        format.json do
-          render json: { message: 'Send Failed', class: flash_class('error') }, status: 200
-        end
-      end
+      render json: { message: 'Send Failed', class: flash_class('error') }
     end
   end
 
