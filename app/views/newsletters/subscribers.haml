@@ -1,0 +1,16 @@
+- content_for :title, 'Newsletter Subscribers'
+
+%h1.title Newsletter Subscribers
+.table-container
+  %table.table.is-hoverable#newsletterTable{style: 'width: 100%;'}
+    %thead
+      %tr
+        %th Title
+        %th Time
+        %th 
+    %tbody
+      - @subscribers.each do |subscriber|
+        %tr
+          %td= subscriber.email
+          %td= subscriber.date_subscribed
+          %td= = link_to 'Delete'

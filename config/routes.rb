@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       post 'subscribe', constraint: OnlyAjaxRequest.new
 
       get 'unsubscribe'
+      get 'subscribers'
       post 'unsubscribe', to: 'newsletters#create_unsubscribe'
     end
   end

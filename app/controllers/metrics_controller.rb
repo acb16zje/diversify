@@ -50,8 +50,8 @@ class MetricsController < ApplicationController
                 v[:created_at] < DateTime.parse(date1) + 1.days
           end
         end
-      elsif !params[:time].empty?
-        data = time_constraint(data)
+      elsif !params[:time].empty? && !(params[:graph_name].include? 'Reason')
+        data = time_constraint(config[:time],data)
       end
 
       if params[:graph_name].include? 'by Newsletter'
@@ -59,8 +59,10 @@ class MetricsController < ApplicationController
           ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
            i['feedback_count']]
         end }]
+      elsif params[:graph_name].include? 'Reason'
+        data[0][:data] = NewsletterFeedback.count_reason(data[0][:data])
       end
-      puts data
+
       # Check if there is still valid data, else return "No Data"
       if there_data?(data)
         config[:data] = data
@@ -73,7 +75,6 @@ class MetricsController < ApplicationController
     end
   end
 
-  # def return_partial(time_data, id, layout, group, time)
   def return_partial(id, layout, locals)
     if locals[:data].present?
       response = generate_json_response(id, layout, locals)
@@ -127,13 +128,13 @@ class MetricsController < ApplicationController
   end
 
   # set time_constraint to data based on the number of time constraint selected
-  def time_constraint(data)
+  def time_constraint(time, data)
     date1, date2 = params[:time]
     data.each_index do |i|
       data[i][:data] = if !date2.nil?
-                         data[i][:data].betweenDate(date1, date2)
+                         data[i][:data].between_date(time,date1, date2)
                        else
-                         data[i][:data] = data[i][:data].on_date(date1)
+                         data[i][:data] = data[i][:data].on_date(time,date1)
                        end
     end
     data
@@ -144,13 +145,13 @@ class MetricsController < ApplicationController
     case option
     when /Reason/
       data = NewsletterFeedback.select(:reason)
-      data = [{ title: 'Reason', data: NewsletterFeedback.count_reason(data) }]
+      data = [{ title: 'Reason', data: data }]
       config = { time: nil, average: nil, group_by: nil }
     when /Landing Page/
       data = [{ title: 'Sastifaction', data: LandingFeedback.select(:smiley) },
               { title: 'Channel', data: LandingFeedback.select(:channel) },
               { title: 'Recommend', data: LandingFeedback.select(:interest) }]
-      config = { time: nil, average: nil, group_by: nil }
+      config = { time: 'started_at', average: nil, group_by: nil }
     when /by Newsletter/
       data = Newsletter.find_by_sql('SELECT newsletters.title,
          newsletters.created_at, COUNT(newsletter_feedbacks)
@@ -168,12 +169,12 @@ class MetricsController < ApplicationController
       config = { group_by: "properties -> 'type'", time: 'time', average: nil }
     when /Visits/
       data = [{ title: 'Visit', data: Ahoy::Event.where(name: 'Ran action') }]
-      config = { group_by: "properties -> 'action'", average: nil, time: nil }
+      config = { group_by: "properties -> 'action'", average: nil, time: 'time' }
     when /Average Time Spent/
       data = [{ title: 'Time Spent',
                 data: Ahoy::Event.where(name: 'Time Spent') }]
       config = { group_by: "properties -> 'location'",
-                 average: "cast(properties ->> 'time' as float)", time: nil }
+                 average: "cast(properties ->> 'time' as float)", time: 'time' }
     when /Referrers/
       data = [{ title: 'Referrers', data: Ahoy::Visit.all }]
       config = { group_by: 'referrer', time: 'started_at', average: nil }

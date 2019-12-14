@@ -49,7 +49,7 @@ class NewslettersController < ApplicationController
   def subscribe
     if params.key?(:email)
       newsletter_subscription = NewsletterSubscription.new(
-        date_subscribed: Time.now, email: params[:email]
+        date_subscribed: Time.now, email: params[:email], subscribed: true
       )
       if newsletter_subscription.save
         NewsletterMailer.send_welcome(params[:email]).deliver_now
@@ -80,19 +80,18 @@ class NewslettersController < ApplicationController
     end
     feedback = NewsletterFeedback.new(email: params[:email], reason: reason)
     subscription = NewsletterSubscription.find_by(email: params[:email])
-    json = unsubscribe_json(reason, feedback, subscription)
-    respond_to do |format|
-      format.json do
-        render json: json, status: 200
-      end
-    end
+    render json: unsubscribe_json(reason, feedback, subscription)
+  end
+
+  def subscribers
+    @subscribers = NewsletterSubscription.all
   end
 
   private
 
   def unsubscribe_json(reason, feedback, subscription)
     if reason != '' && !subscription.nil? && feedback.save
-      NewsletterSubscription.destroy(subscription.id)
+      subscription.update(subscribed: false)
       json = { html: 'Newsletter Unsubscribed! Hope to see you again' }
     else
       json = if subscription.nil?
