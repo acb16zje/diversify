@@ -25,8 +25,8 @@
 
 # SkillLevel model
 class SkillLevel < ApplicationRecord
-  has_one :user
-  has_one :skill
+  belongs_to :user
+  belongs_to :skill
 
   validates :experience, numericality: { greater_than_or_equal_to: 0 }
   validates :level, numericality: { greater_than_or_equal_to: 0 }

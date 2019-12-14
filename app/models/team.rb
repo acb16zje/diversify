@@ -22,8 +22,8 @@
 
 # Team model
 class Team < ApplicationRecord
-  has_many :users
   belongs_to :project
+  has_many :users
 
   validates_presence_of :name, :team_size
   validates :team_size, numericality: { greater_than_or_equal_to: 0 }

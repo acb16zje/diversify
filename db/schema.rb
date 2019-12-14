@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_13_151517) do
+ActiveRecord::Schema.define(version: 2019_12_14_043648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,10 +114,10 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
     t.string "name", null: false
     t.text "description", null: false
     t.string "status", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "project_id"
     t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_issues_on_project_id"
     t.index ["user_id"], name: "index_issues_on_user_id"
   end
@@ -132,11 +132,11 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
 
   create_table "licenses", force: :cascade do |t|
     t.date "start_date", null: false
+    t.bigint "user_id"
+    t.bigint "subscription_plan_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
-    t.bigint "subscription_id"
-    t.index ["subscription_id"], name: "index_licenses_on_subscription_id"
+    t.index ["subscription_plan_id"], name: "index_licenses_on_subscription_plan_id"
     t.index ["user_id"], name: "index_licenses_on_user_id"
   end
 
@@ -166,18 +166,14 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
     t.string "trait", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "compatible_id"
-    t.bigint "incompatible_id"
-    t.index ["compatible_id"], name: "index_personalities_on_compatible_id"
-    t.index ["incompatible_id"], name: "index_personalities_on_incompatible_id"
   end
 
   create_table "preferences", force: :cascade do |t|
     t.integer "group_size", default: 0, null: false
     t.text "preferred_tasks", default: "", null: false
+    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "user_id"
     t.index ["user_id"], name: "index_preferences_on_user_id"
   end
 
@@ -186,24 +182,24 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
     t.text "description", default: "", null: false
     t.string "status", default: "active", null: false
     t.string "visibility", default: "public", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "category_id"
     t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
     t.integer "rating", null: false
+    t.bigint "project_id"
+    t.bigint "reviewer_id"
+    t.bigint "reviewee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "interviewee_id"
-    t.bigint "interviewer_id"
-    t.bigint "project_id"
-    t.index ["interviewee_id"], name: "index_reviews_on_interviewee_id"
-    t.index ["interviewer_id"], name: "index_reviews_on_interviewer_id"
     t.index ["project_id"], name: "index_reviews_on_project_id"
+    t.index ["reviewee_id"], name: "index_reviews_on_reviewee_id"
+    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -218,10 +214,10 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
   create_table "skill_levels", force: :cascade do |t|
     t.integer "experience", default: 0, null: false
     t.integer "level", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id"
     t.bigint "skill_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["skill_id"], name: "index_skill_levels_on_skill_id"
     t.index ["user_id"], name: "index_skill_levels_on_user_id"
   end
@@ -229,28 +225,29 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
   create_table "skills", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
+    t.bigint "category_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "category_id"
     t.index ["category_id"], name: "index_skills_on_category_id"
   end
 
-  create_table "subscriptions", force: :cascade do |t|
-    t.string "subscription", null: false
+  create_table "subscription_plans", force: :cascade do |t|
+    t.string "name", null: false
     t.float "monthly_cost", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_subscription_plans_on_name", unique: true
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
     t.integer "experience", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
     t.bigint "skills_id"
     t.bigint "user_id"
     t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["skills_id"], name: "index_tasks_on_skills_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
@@ -259,10 +256,19 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
   create_table "teams", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.integer "team_size", null: false
+    t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "project_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
+  end
+
+  create_table "user_personalities", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "personality_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["personality_id"], name: "index_user_personalities_on_personality_id"
+    t.index ["user_id"], name: "index_user_personalities_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -282,12 +288,14 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
-  add_foreign_key "licenses", "subscriptions"
+  add_foreign_key "licenses", "subscription_plans"
   add_foreign_key "licenses", "users"
   add_foreign_key "preferences", "users"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users"
   add_foreign_key "reviews", "projects"
+  add_foreign_key "reviews", "users", column: "reviewee_id"
+  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "skill_levels", "skills"
   add_foreign_key "skill_levels", "users"
   add_foreign_key "skills", "categories"
@@ -295,4 +303,6 @@ ActiveRecord::Schema.define(version: 2019_12_13_151517) do
   add_foreign_key "tasks", "skills", column: "skills_id"
   add_foreign_key "tasks", "users"
   add_foreign_key "teams", "projects"
+  add_foreign_key "user_personalities", "personalities"
+  add_foreign_key "user_personalities", "users"
 end

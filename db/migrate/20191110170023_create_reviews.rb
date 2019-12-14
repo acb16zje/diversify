@@ -1,12 +1,13 @@
 class CreateReviews < ActiveRecord::Migration[6.0]
   def change
     create_table :reviews do |t|
-      t.integer :rating,  null: false
+      t.integer :rating, null: false
+
+      t.references :project, foreign_key: true
+      t.references :reviewer, foreign_key: { to_table: :users }
+      t.references :reviewee, foreign_key: { to_table: :users }
 
       t.timestamps
     end
-    add_reference :reviews, :interviewee, references: :user, index: true
-    add_reference :reviews, :interviewer, references: :user, index: true
-    add_reference :reviews, :project, foreign_key: true, index: true
   end
 end

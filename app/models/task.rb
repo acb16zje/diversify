@@ -30,7 +30,7 @@
 # Task model
 class Task < ApplicationRecord
   belongs_to :project
-  has_one :user
+  belongs_to :user
   has_many :skills
 
   validates_presence_of :name, :experience

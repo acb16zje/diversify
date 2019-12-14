@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Date scoping module
+# see https://api.rubyonrails.org/classes/ActiveSupport/Concern.html
 module DateScope
   extend ActiveSupport::Concern
 

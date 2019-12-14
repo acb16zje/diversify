@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: user_personalities
@@ -19,8 +21,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-FactoryBot.define do
-  factory :user_personality do
-    
-  end
+# UserPersonality model
+class UserPersonality < ApplicationRecord
+  belongs_to :user
+  belongs_to :personality
 end

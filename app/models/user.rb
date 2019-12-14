@@ -26,12 +26,13 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_many :projects
-  has_many :personalities
+  has_many :user_personalities
+  has_many :personalities, through: :user_personalities
+  has_many :preferences
   has_many :tasks
   has_many :skill_levels
   has_and_belongs_to_many :teams
-  has_and_belongs_to_many :reviews
-  has_one :preference
+  has_many :reviews
   has_one :license
 
   validates_presence_of :email, :admin, :encrypted_password

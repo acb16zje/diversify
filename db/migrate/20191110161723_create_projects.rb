@@ -6,9 +6,11 @@ class CreateProjects < ActiveRecord::Migration[6.0]
       t.string :status,      null: false, default: "active"
       t.string :visibility,  null: false, default: "public"
 
+      t.references :category, foreign_key: true
+      t.references :user, foreign_key: true
+
       t.timestamps
     end
-    add_reference :projects, :category, foreign_key: true, index: true
-    add_reference :projects, :user, foreign_key: true, index: true
+
   end
 end

@@ -4,9 +4,10 @@ class CreateSkillLevels < ActiveRecord::Migration[6.0]
       t.integer :experience,   null: false,default: 0
       t.integer :level,        null: false,default: 0
 
+      t.references :user, foreign_key: true
+      t.references :skill, foreign_key: true
+
       t.timestamps
     end
-    add_reference :skill_levels, :user, foreign_key: true, index: true
-    add_reference :skill_levels, :skill, foreign_key: true, index: true
   end
 end

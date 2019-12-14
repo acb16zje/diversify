@@ -4,9 +4,11 @@ class CreateIssues < ActiveRecord::Migration[6.0]
       t.string :name,      null: false
       t.text :description, null: false
       t.string :status,    null: false
+
+      t.references :project, foreign_key: true
+      t.references :user, foreign_key: true
+
       t.timestamps
     end
-    add_reference :issues, :project, foreign_key: true, index: true
-    add_reference :issues, :user, foreign_key: true, index: true
   end
 end

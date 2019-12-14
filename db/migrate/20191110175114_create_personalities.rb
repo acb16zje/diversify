@@ -5,7 +5,5 @@ class CreatePersonalities < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-      add_reference :personalities, :compatible, references: :personalities, index: true
-      add_reference :personalities, :incompatible, references: :personalities, index: true
   end
 end

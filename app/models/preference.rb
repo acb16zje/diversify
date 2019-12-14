@@ -22,7 +22,7 @@
 
 # Preference model
 class Preference < ApplicationRecord
-  has_and_belongs_to_many :users
+  belongs_to :user
 
   validates :group_size, numericality: { greater_than: 0 }
   validates_presence_of :preferred_tasks
