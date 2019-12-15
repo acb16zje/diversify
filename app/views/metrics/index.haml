@@ -36,7 +36,3 @@
               %option Landing Page Feedback
 
       .content#graph-div.box
-        -if @subscriptions[0][:data].present?
-          = render partial: 'piechart', locals: {data: @subscriptions, group_by: 'properties -> \'type\''}
-        -else
-          %p No Data

@@ -15,9 +15,6 @@ class MetricsController < ApplicationController
       ).size,
       NewsletterSubscription.count
     ]
-    
-    @subscriptions = [{ title: 'Subscription',
-                        data: Ahoy::Event.where(name: 'Clicked pricing link') }]
   end
 
   def traffic
@@ -26,21 +23,12 @@ class MetricsController < ApplicationController
       Ahoy::Visit.all.group(:browser).count,
       Ahoy::Visit.all.group(:country).count
     ] 
-
-    @data = [{ title: 'Referrers', data: Ahoy::Visit.all }]
-  end
-
-  def newsletter
-    sub = NewsletterSubscription.all
-    feedback = NewsletterFeedback.all
-    @data = [{ title: 'Subscription', data: sub },
-             { title: 'Unsubscription', data: feedback }]
   end
 
   def update_graph_time
-    if params.key?(:graph_name)
+    if graph_params
       # decide on layout
-      layout = decide_layout(params[:graph_name])
+      layout = helpers.decide_layout(params[:graph_name])
 
       # decide on Data and Grouping
       data, config = data_setter(params[:graph_name])
@@ -56,8 +44,8 @@ class MetricsController < ApplicationController
                 v[:created_at] < DateTime.parse(date1) + 1.days
           end
         end
-      elsif !params[:time].empty? && !(params[:graph_name].include? 'Reason')
-        data = time_constraint(config[:time],data)
+      elsif !params[:time].empty?
+        data = helpers.time_constraint(config[:time],data)
       end
 
       if params[:graph_name].include? 'by Newsletter'
@@ -70,7 +58,7 @@ class MetricsController < ApplicationController
       end
 
       # Check if there is still valid data, else return "No Data"
-      if there_data?(data)
+      if helpers.there_data?(data)
         config[:data] = data
         return_partial('#graph-div', layout, config)
       else
@@ -104,9 +92,9 @@ class MetricsController < ApplicationController
   def data_setter(option)
     case option
     when /Reason/
-      data = NewsletterFeedback.select(:reason)
+      data = NewsletterFeedback.select(:reason,:created_at)
       data = [{ title: 'Reason', data: data }]
-      config = { time: nil, average: nil, group_by: nil }
+      config = { time: 'created_at', average: nil, group_by: nil }
     when /Landing Page/
       data = [{ title: 'Sastifaction', data: LandingFeedback.select(:smiley) },
               { title: 'Channel', data: LandingFeedback.select(:channel) },
@@ -143,5 +131,11 @@ class MetricsController < ApplicationController
       config = []
     end
     [data, config]
+  end
+
+  private
+
+  def graph_params
+    params.require(:metric)
   end
 end

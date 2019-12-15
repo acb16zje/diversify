@@ -47,7 +47,3 @@
               %option Number of Visits per Page
 
       .content#graph-div.box
-        -if @data[0][:data].present?
-          = render partial: 'piechart', locals: {data: @data, group_by: 'referrer'}
-        -else
-          %p No Data

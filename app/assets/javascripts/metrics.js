@@ -9,7 +9,7 @@
 function changeIndexGraph() {
   const graph = document.getElementById("graph-select").value;
   const date = document.querySelector(".single-calendar")._flatpickr.selectedDates;
-  updateGraphRequest(date, null, graph);
+  updateGraphRequest(date, graph);
 }
 
 function tableOptions(setting) {
@@ -38,7 +38,7 @@ function initFlatpickr() {
   if (!Array.isArray(singleCalendars) || singleCalendars.length > 0) {
     singleCalendars.config.onChange.push((selectedDates, dateStr, instance) => {
       const graph = document.getElementById('graph-select').value;
-      updateGraphRequest(selectedDates, dateStr, graph);
+      updateGraphRequest(selectedDates, graph);
     });
   }
 
@@ -48,7 +48,7 @@ function initFlatpickr() {
 document.addEventListener("DOMContentLoaded", (event) => {
   initFlatpickr();
 
-  const options = 
+  changeIndexGraph();
 
   // initialise datatable
   $("#newsletterTable").dataTable(tableOptions(true));
@@ -76,7 +76,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
  * AJAX function to update graph
  * Send the selected date and graph and return with partial html
  */
-function updateGraphRequest(selectedDates, dateStr, graph) {
+function updateGraphRequest(selectedDates, graph) {
   $.ajax({
     url: "/metrics/update_graph_time",
     dataType: "json",
