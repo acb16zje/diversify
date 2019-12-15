@@ -5,20 +5,20 @@
   .box
     .columns.has-text-centered
       .column.is-4
-        -if @device_count.present?
-          = pie_chart @device_count, id: 'traffic-device-graph'
+        -if @static_data[0].present?
+          = pie_chart @static_data[0], id: 'traffic-device-graph'
         -else
           %p No Data
         %p.subtitle Device Types
       .column.is-4
-        -if @browser_count.present?
-          = pie_chart @browser_count, id: 'traffic-browser-graph'
+        -if @static_data[1].present?
+          = pie_chart @static_data[1], id: 'traffic-browser-graph'
         -else
           %p No Data
         %p.subtitle Browser Types
       .column.is-4
-        -if @country_count.present?
-          = pie_chart @country_count, id: 'traffic-country-graph'
+        -if @static_data[2].present?
+          = pie_chart @static_data[2], id: 'traffic-country-graph'
         -else
           %p No Data
         %p.subtitle Countries

@@ -4,15 +4,15 @@
   .columns.has-text-centered
     .column
       .box.has-equal-height
-        %p.title= "#{@total_subscribers}"
+        %p.title= "#{@static_data[0]}"
         %p.subtitle newsletter subscribers
     .column
       .box.has-equal-height
-        %p.title= "#{@today_visits}"
+        %p.title= "#{@static_data[1]}"
         %p.subtitle page visits today
     .column
       .box.has-equal-height
-        %p.title= "#{@total_visits_count}"
+        %p.title= "#{@static_data[2]}"
         %p.subtitle total page visits
 
   %section.section

@@ -34,8 +34,8 @@ class NewslettersController < ApplicationController
     end
 
     newsletter = Newsletter.where('id = ?', params[:id]).first
-
-    render json: { title: newsletter.title, content: newsletter.content }
+    content = ActionController::Base.helpers.sanitize(newsletter.content)
+    render json: { title: newsletter.title, content: content }
   end
 
   def subscribe
