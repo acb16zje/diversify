@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tasks
@@ -27,6 +29,5 @@
 
 FactoryBot.define do
   factory :task do
-    
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: landing_feedbacks
@@ -12,6 +14,5 @@
 
 FactoryBot.define do
   factory :landing_feedback do
-    
   end
 end

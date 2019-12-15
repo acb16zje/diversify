@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: newsletter_feedbacks
@@ -11,6 +13,5 @@
 
 FactoryBot.define do
   factory :newsletter_feedback do
-    
   end
 end
