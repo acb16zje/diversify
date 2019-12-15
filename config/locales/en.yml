@@ -3,7 +3,7 @@ en:
     order:
       - :day
       - :month
-      - :year    
+      - :year
     formats:
       default: "%d/%m/%Y"
       full: "%a %e %B %Y"
