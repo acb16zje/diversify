@@ -41,8 +41,8 @@ class NewslettersController < ApplicationController
   def subscribe
     if params.key?(:email)
       if NewsletterSubscription.where(subscribed: false).exists?(
-         email: params[:email]
-       )
+        email: params[:email]
+      )
         newsletter_subscription =
           NewsletterSubscription.where(email: params[:email]).first
         newsletter_subscription.subscribed = true

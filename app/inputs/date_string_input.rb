@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DateStringInput < SimpleForm::Inputs::Base
   def input(wrapper_options = nil)
     date = @builder.object.send attribute_name
