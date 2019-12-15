@@ -52,7 +52,7 @@ class NewslettersController < ApplicationController
         subscribe_success_action
       else
         subscribe_failure_action('Subscription Failed')
-        
+
       end
     else
       subscribe_failure_action('No Email')
