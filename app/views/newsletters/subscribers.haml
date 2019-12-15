@@ -1,8 +1,13 @@
 - content_for :title, 'Newsletter Subscribers'
 
+#notification.is-hidden
+  .notification
+    %button.delete
+    %p
+
 %h1.title Newsletter Subscribers
 .table-container
-  %table.table.is-hoverable#newsletterTable{style: 'width: 100%;'}
+  %table.table.is-hoverable#subscriberTable{style: 'width: 100%;'}
     %thead
       %tr
         %th Title
@@ -10,7 +15,7 @@
         %th 
     %tbody
       - @subscribers.each do |subscriber|
-        %tr
+        %tr{id: subscriber.id}
           %td= subscriber.email
           %td= subscriber.date_subscribed
-          %td= = link_to 'Delete'
+          %td= link_to 'Unsubscribe' , unsubscribe_newsletters_path(email: subscriber.email, admin: 1), method: 'post', data: { confirm: 'Are you sure?' }, remote: true, class: 'delete_sub'

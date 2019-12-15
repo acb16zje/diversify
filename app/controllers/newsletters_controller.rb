@@ -3,6 +3,7 @@
 # Controller for newsletter
 class NewslettersController < ApplicationController
   skip_after_action :track_action
+  skip_before_action :track_ahoy_visit, only: %i[index create new show subscribers]
   layout 'metrics_page'
 
   def index
@@ -39,23 +40,23 @@ class NewslettersController < ApplicationController
 
   def subscribe
     if params.key?(:email)
-      newsletter_subscription = NewsletterSubscription.new(
-        date_subscribed: Time.now, email: params[:email], subscribed: true
-      )
-      if newsletter_subscription.save
-        NewsletterMailer.send_welcome(params[:email]).deliver_later
-        message = 'Newsletter Subscribed'
-        class_card = flash_class('success')
+
+      if NewsletterSubscription.where(subscribed: false).exists?(email: params[:email])
+        newsletter_subscription = NewsletterSubscription.where(email: params[:email]).first
+        newsletter_subscription.subscribed = true
       else
-        message = 'Subscription Failed'
-        class_card = flash_class('error')
+        newsletter_subscription = NewsletterSubscription.new( date_subscribed: Time.now, email: params[:email], subscribed: true)
+      end
+
+      if newsletter_subscription.save
+        subscribe_success_action
+      else
+        subscribe_failure_action('Subscription Failed')
+        
       end
     else
-      message = 'No Email'
-      class_card = flash_class('error')
+      subscribe_failure_action('No Email')
     end
-
-    render json: { message: message, class: class_card }
   end
 
   def unsubscribe
@@ -75,7 +76,7 @@ class NewslettersController < ApplicationController
   end
 
   def subscribers
-    @subscribers = NewsletterSubscription.all
+    @subscribers = NewsletterSubscription.where(subscribed: true)
   end
 
   private
@@ -97,5 +98,18 @@ class NewslettersController < ApplicationController
 
   def newsletter_params
     params.require(:newsletter).permit(:title, :content)
+  end
+
+  def subscribe_success_action
+    NewsletterMailer.send_welcome(params[:email]).deliver_now
+    message = 'Newsletter Subscribed'
+    class_card = flash_class('success')
+
+    render json: { message: message, class: class_card }
+  end
+
+  def subscribe_failure_action(message)
+    class_card = flash_class('error')
+    render json: { message: message, class: class_card }
   end
 end

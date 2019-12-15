@@ -41,11 +41,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
       null,
     ],
   });
+  
+  $('#subscriberTable').DataTable({
+    responsive: true,
+    dom: 'B<"clear">lfrtip',
+    language: {
+      searchPlaceholder: 'Search',
+      search: '',
+    },
+    order: [[1, 'desc']],
+    columns: [
+      null,
+      null,
+      { "searchable": false,"orderable": false }
+    ],
+  });
+
+  
 
   $('#newsletterSendForm').on('ajax:success', (event, data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
+  });
+
+  $('.delete_sub').on('ajax:success', (event, data) => {
+      showNotification('is-success', 'Email Unsubscribed!');
+
+      $('#subscriberTable').DataTable().row( $(event.target).closest('tr') ).remove().draw();
   });
 
   if (document.body.contains(document.getElementById('notification'))) {

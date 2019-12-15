@@ -3,6 +3,8 @@
 # Controller for metrics
 class MetricsController < ApplicationController
   skip_after_action :track_action
+  skip_before_action :track_ahoy_visit
+
   layout 'metrics_page'
 
   def index
@@ -112,11 +114,10 @@ class MetricsController < ApplicationController
 
   # loops through arrays and check if there is at least one array has data
   def there_data?(array)
-    puts array
     array.each do |data|
-      return false unless data[:data].present?
+      return true if data[:data].any?
     end
-    true
+    false
   end
 
   # set time_constraint to data based on the number of time constraint selected
@@ -150,7 +151,7 @@ class MetricsController < ApplicationController
          as feedback_count FROM newsletters JOIN newsletter_feedbacks
          ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
          AND newsletters.created_at+interval\'7 days\' GROUP BY newsletters.id')
-      config = { time: nil, average: nil, group_by: nil }
+      config = { time: 'created_at', average: nil, group_by: nil }
     when /Newsletter/
       data = [{ title: 'Subscription', data: NewsletterSubscription.all },
               { title: 'Unsubscription', data: NewsletterFeedback.all }]
