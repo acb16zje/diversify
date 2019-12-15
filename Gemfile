@@ -9,9 +9,9 @@ end
 
 gem 'activerecord-session_store'
 gem 'bootsnap'
+gem 'puma'
 gem 'rails'
 gem 'responders'
-gem 'thin'
 
 gem 'pg'
 

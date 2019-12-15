@@ -7,7 +7,7 @@
 
 %h1.title Send Newsletter
 
-= form_with(id: 'newsletterSendForm', model: @newsletter, remote: false) do |f|
+= form_with(id: 'newsletterSendForm', model: @newsletter) do |f|
   .field
     .control
       = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: ''

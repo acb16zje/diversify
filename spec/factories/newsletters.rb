@@ -12,6 +12,8 @@
 #
 
 FactoryBot.define do
-  factory :newsletter do
+  factory :newsletter, class: Newsletter.name do
+    title { 'email subject' }
+    content { 'some content of the email' }
   end
 end

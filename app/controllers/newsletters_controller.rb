@@ -20,6 +20,7 @@ class NewslettersController < ApplicationController
 
     if newsletter.save
       NewsletterSubscription.delay.send_newsletter(newsletter)
+
       flash['success'] = 'Newsletter Sent'
       render js: "window.location='#{newsletters_path}'"
     else
@@ -28,14 +29,12 @@ class NewslettersController < ApplicationController
   end
 
   def show
-    unless request.xhr?
-      render 'errors/error_404'
-      return
-    end
+    @newsletter = Newsletter.find_by_id(params[:id])
 
-    newsletter = Newsletter.where('id = ?', params[:id]).first
-    content = ActionController::Base.helpers.sanitize(newsletter.content)
-    render json: { title: newsletter.title, content: content }
+    return unless request.xhr?
+
+    content = ActionController::Base.helpers.sanitize(@newsletter.content)
+    render json: { title: @newsletter.title, content: content }
   end
 
   def subscribe
@@ -44,7 +43,7 @@ class NewslettersController < ApplicationController
         email: params[:email]
       )
         newsletter_subscription =
-          NewsletterSubscription.where(email: params[:email]).first
+          NewsletterSubscription.find_by_email(params[:email])
         newsletter_subscription.subscribed = true
       else
         newsletter_subscription =

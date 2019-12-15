@@ -19,9 +19,7 @@ describe PagesController do
   end
 
   describe 'visit /about, the about page' do
-    before do
-      visit about_pages_path
-    end
+    before { visit about_pages_path }
 
     it 'can see team members' do
       expect(page).to have_content 'Our Team'

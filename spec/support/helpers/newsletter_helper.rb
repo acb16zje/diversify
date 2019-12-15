@@ -10,7 +10,7 @@ module NewsletterHelper
   end
 
   def send_newsletter(has_content = true)
-    fill_in 'newsletter_title', with: 'rspec title'
+    fill_in 'newsletter_title', with: 'random title'
 
     if has_content
       fill_in_ckeditor 'newsletter_content', with: 'random content'
@@ -19,12 +19,15 @@ module NewsletterHelper
     click_button 'Send newsletter'
   end
 
-  def subscribe(email_presence = false)
-    if email_presence
-      fill_in 'email', with: FactoryBot.create(:subscriber).email
-    else
-      fill_in 'email', with: 'not_presence@mail.com'
-    end
+  def subscribe(email_presence = false, unsubscribed = false)
+    subscriber =
+      if unsubscribed
+        FactoryBot.create(:subscriber, :unsubscribed)
+      else
+        FactoryBot.create(:subscriber)
+      end
+
+    fill_in 'email', with: email_presence ? subscriber.email : 'null@null.com'
 
     click_button 'Subscribe'
     wait_for_ajax

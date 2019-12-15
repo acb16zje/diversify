@@ -30,13 +30,16 @@ RSpec.configure do |config|
   config.include Shoulda::Matchers::ActiveRecord
   config.include Shoulda::Matchers::ActiveModel
 
-  config.include Capybara::DSL              # Let's us use the capybara stuf in our specs
-  config.include Warden::Test::Helpers      # Let's us do login_as(user)
+  config.include Capybara::DSL # Let's us use the capybara stuf in our specs
+  config.include Warden::Test::Helpers # Let's us do login_as(user)
   config.include Rails.application.routes.url_helpers
   config.include Capybara::Select2
   config.include Devise::Test::ControllerHelpers, type: :controller
 
-  config.after(:each) do
+  # Include custom helpers
+  config.include NewsletterHelper
+
+  config.after do
     Warden.test_reset!
   end
 
@@ -46,7 +49,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation, pre_count: true, reset_ids: false, except: %w[ar_internal_metadata])
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.strategy = :transaction
   end
 
@@ -58,15 +61,15 @@ RSpec.configure do |config|
     expect(current_path).to eq current_path
   end
 
-  config.before(:each) do
+  config.before do
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 
-  config.before(:each) do
+  config.before do
     ActionMailer::Base.deliveries.clear
   end
 
@@ -104,16 +107,11 @@ end
 Capybara.configure do |config|
   config.asset_host = 'http://localhost:3000'
   config.javascript_driver = :chrome
-  config.server = :webrick
   config.match = :prefer_exact
 end
 
 def wait_for_ajax
   Timeout.timeout(Capybara.default_max_wait_time) do
-    loop do
-      break if page.evaluate_script('jQuery.active') == 0
-
-      sleep 0.5
-    end
+    loop until page.evaluate_script('jQuery.active').zero?
   end
 end

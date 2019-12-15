@@ -9,16 +9,16 @@
  */
 function updateGraphRequest(selectedDates, graph) {
   $.ajax({
-    url: "/metrics/update_graph_time",
-    dataType: "json",
-    type: "post",
-    contentType: "application/json",
+    url: '/metrics/update_graph_time',
+    dataType: 'json',
+    type: 'post',
+    contentType: 'application/json',
     data: JSON.stringify({ time: selectedDates, graph_name: graph }),
     success(result) {
       $(result.title).html(result.html);
     },
     error(xhr, status, error) {
-      $("#graph-div").html("<p>No Data</p>");
+      $('#graph-div').html('<p>No Data</p>');
     },
   });
 }
@@ -27,21 +27,22 @@ function updateGraphRequest(selectedDates, graph) {
  * Function to update graph
  */
 function changeIndexGraph() {
-  const graph = document.getElementById("graph-select").value;
-  const date = document.querySelector(".single-calendar")._flatpickr.selectedDates;
+  const graph = document.getElementById('graph-select').value;
+  const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
   updateGraphRequest(date, graph);
 }
 
 function tableOptions(setting) {
-  return { responsive: true,
-            dom: "B<'clear'>lfrtip",
-            language: {
-              searchPlaceholder: "Search",
-              search: "",
-            },
-            order: [[1, "desc"]],
-            columns: setting ? [null,null] : [null, null, { "searchable": false,"orderable": false }]
-  }
+  return {
+    responsive: true,
+    dom: "B<'clear'>lfrtip",
+    language: {
+      searchPlaceholder: 'Search',
+      search: '',
+    },
+    order: [[1, 'desc']],
+    columns: setting ? [null, null] : [null, null, { searchable: false, orderable: false }],
+  };
 }
 
 /**
@@ -49,10 +50,10 @@ function tableOptions(setting) {
  */
 function initFlatpickr() {
   // initalise timepicker
-  const singleCalendars = flatpickr(".single-calendar", {
-    mode: "range",
-    dateFormat: "d/m/Y",
-    maxDate: "today",
+  const singleCalendars = flatpickr('.single-calendar', {
+    mode: 'range',
+    dateFormat: 'd/m/Y',
+    maxDate: 'today',
   });
 
   if (!Array.isArray(singleCalendars) || singleCalendars.length > 0) {
@@ -62,34 +63,35 @@ function initFlatpickr() {
     });
   }
 
-  $("#date-clear").click(() => singleCalendars.clear());
+  $('#date-clear').click(() => singleCalendars.clear());
 }
 
-document.addEventListener("DOMContentLoaded", (event) => {
+document.addEventListener('DOMContentLoaded', (event) => {
   initFlatpickr();
 
   if ($('.graph-select').length) {
     changeIndexGraph();
   }
-  
-  // initialise datatable
-  $("#newsletterTable").dataTable(tableOptions(true));
-  
-  $("#subscriberTable").dataTable(tableOptions(false));
 
-  $("#newsletterSendForm").on("ajax:success", (event, data) => {
+  // initialise datatable
+  $('#newsletterTable').dataTable(tableOptions(true));
+
+  $('#subscriberTable').dataTable(tableOptions(false));
+
+  $('#newsletterSendForm').on('ajax:success', (event, data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
   });
 
-  $(".delete_sub").on("ajax:success", (event, data) => {
-      showNotification("is-success", "Email Unsubscribed!");
+  $('.delete_sub').on('ajax:success', (event, data) => {
+    showNotification('is-success', 'Email Unsubscribed!');
 
-      $("#subscriberTable").dataTable().row( $(event.target).closest("tr") ).remove().draw();
+    $('#subscriberTable').dataTable().row($(event.target).closest('tr')).remove()
+      .draw();
   });
 
-  if (document.body.contains(document.getElementById("notification"))) {
-    hideNotification($("#notification"), $("#notification > .notification"), "is-success");
+  if (document.body.contains(document.getElementById('notification'))) {
+    hideNotification($('#notification'), $('#notification > .notification'), 'is-success');
   }
 });

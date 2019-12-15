@@ -2,7 +2,7 @@
  * Function to close modal
  */
 function closeModal() {
-  document.querySelector(".modal").classList.remove("is-active");
+  document.querySelector('.modal').classList.remove('is-active');
 }
 
 /**
@@ -13,37 +13,29 @@ function closeModal() {
 function showModal(url) {
   $.ajax({
     url,
-    type: "get",
-    contentType: "application/json",
+    type: 'get',
+    contentType: 'application/json',
     success(result) {
-      const modal = document.querySelector(".modal"); // assuming you have only 1
-      const html = document.querySelector("html");
+      const modal = document.querySelector('.modal'); // assuming you have only 1
+      const html = document.querySelector('html');
 
-      modal.classList.add("is-active");
+      modal.classList.add('is-active');
 
-      modal.querySelector(".modal-background")
-        .addEventListener("click", (e) => {
+      modal.querySelector('.modal-background')
+        .addEventListener('click', (e) => {
           e.preventDefault();
           closeModal();
         });
 
-      modal.querySelector(".delete").addEventListener("click", (e) => {
+      modal.querySelector('.delete').addEventListener('click', (e) => {
         e.preventDefault();
         closeModal();
       });
 
-      const title = document.querySelector(".modal-card-title");
-      const content = document.querySelector(".modal-card-body");
+      const title = document.querySelector('.modal-card-title');
+      const content = document.querySelector('.modal-card-body');
       title.textContent = result.title;
       content.innerHTML = DOMPurify.sanitize(result.content);
     },
   });
 }
-
-/**
- * Listener to close notfication
- */
-$(document).on("click", ".notification > button.delete", function () {
-  $(this).parent().addClass("is-hidden");
-  return false;
-});

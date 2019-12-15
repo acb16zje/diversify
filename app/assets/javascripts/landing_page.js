@@ -1,11 +1,11 @@
 //= require application
 
 
-$("#newsletterSubForm").on("ajax:success", (event, data) => {
-  if (data.hasOwnProperty("class")) {
+$('#newsletterSubForm').on('ajax:success', (event, data) => {
+  if (data.hasOwnProperty('class')) {
     showNotification(data.class, data.message);
   } else {
-    const container = $("#formContainer");
+    const container = $('#formContainer');
     container.html(data.html);
   }
 });
@@ -16,13 +16,13 @@ $("#newsletterSubForm").on("ajax:success", (event, data) => {
 const startTime = performance.now();
 
 // Track time
-window.addEventListener("unload", () => {
+window.addEventListener('unload', () => {
   const endTime = performance.now();
   $.ajax({
-    url: "/track_time",
-    type: "post",
+    url: '/track_time',
+    type: 'post',
     async: false,
-    contentType: "application/json",
+    contentType: 'application/json',
     data: JSON.stringify({
       time: endTime - startTime,
       pathname: window.location.pathname,

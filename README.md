@@ -2,7 +2,9 @@
 
 ## Team 7 - Helping teams to improve their performance through diversity
 
-#### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
+### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
+
+---
 
 ![pipeline](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/pipeline.svg)
 ![coverage](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/coverage.svg)

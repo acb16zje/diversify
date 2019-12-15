@@ -9,12 +9,9 @@ class MetricsController < ApplicationController
 
   def index
     @static_data = [
-      Ahoy::Visit.count,
-      Ahoy::Visit.where(
-        started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
-      )
-                 .size,
-      NewsletterSubscription.count
+      NewsletterSubscription.count,
+      Ahoy::Visit.today_count,
+      Ahoy::Visit.count
     ]
   end
 

@@ -4,7 +4,6 @@
 
 ### Node ###
 package-lock.json
-.eslintrc
 
 ### Rails ###
 *.rbc

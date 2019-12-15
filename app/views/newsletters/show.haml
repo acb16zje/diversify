@@ -1,0 +1,9 @@
+- content_for :title, @newsletter.title
+
+%section.section
+  .container
+    %h3.title.is-3.is-spaced
+      = @newsletter.title
+
+    .content
+      =raw @newsletter.content
