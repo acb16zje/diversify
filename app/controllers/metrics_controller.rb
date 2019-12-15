@@ -13,7 +13,7 @@ class MetricsController < ApplicationController
       Ahoy::Visit.where(
         started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day
       )
-        .size,
+                 .size,
       NewsletterSubscription.count
     ]
   end
