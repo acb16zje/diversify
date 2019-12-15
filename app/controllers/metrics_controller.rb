@@ -22,7 +22,7 @@ class MetricsController < ApplicationController
       Ahoy::Visit.all.group(:device_type).count,
       Ahoy::Visit.all.group(:browser).count,
       Ahoy::Visit.all.group(:country).count
-    ] 
+    ]
   end
 
   def update_graph_time
