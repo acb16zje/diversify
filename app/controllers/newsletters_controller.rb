@@ -3,7 +3,8 @@
 # Controller for newsletter
 class NewslettersController < ApplicationController
   skip_after_action :track_action
-  skip_before_action :track_ahoy_visit, only: %i[index create new show subscribers]
+  skip_before_action :track_ahoy_visit,
+                     only: %i[index create new show subscribers]
   layout 'metrics_page'
 
   def index
@@ -18,7 +19,6 @@ class NewslettersController < ApplicationController
     newsletter = Newsletter.new(newsletter_params)
 
     if newsletter.save
-
       NewsletterSubscription.delay.send_newsletter(newsletter)
       flash['success'] = 'Newsletter Sent'
       render js: "window.location='#{newsletters_path}'"
@@ -40,19 +40,23 @@ class NewslettersController < ApplicationController
 
   def subscribe
     if params.key?(:email)
-
-      if NewsletterSubscription.where(subscribed: false).exists?(email: params[:email])
-        newsletter_subscription = NewsletterSubscription.where(email: params[:email]).first
+      if NewsletterSubscription.where(subscribed: false).exists?(
+        email: params[:email]
+      )
+        newsletter_subscription =
+          NewsletterSubscription.where(email: params[:email]).first
         newsletter_subscription.subscribed = true
       else
-        newsletter_subscription = NewsletterSubscription.new( date_subscribed: Time.now, email: params[:email], subscribed: true)
+        newsletter_subscription =
+          NewsletterSubscription.new(
+            date_subscribed: Time.now, email: params[:email], subscribed: true
+          )
       end
 
       if newsletter_subscription.save
         subscribe_success_action
       else
         subscribe_failure_action('Subscription Failed')
-
       end
     else
       subscribe_failure_action('No Email')
@@ -67,9 +71,7 @@ class NewslettersController < ApplicationController
     return unless params.key?(:email)
 
     reason = ''
-    params.each do |key, value|
-      reason += " #{key}" if value == '1'
-    end
+    params.each { |key, value| reason += " #{key}" if value == '1' }
     feedback = NewsletterFeedback.new(email: params[:email], reason: reason)
     subscription = NewsletterSubscription.find_by(email: params[:email])
     render json: unsubscribe_json(reason, feedback, subscription)
@@ -86,12 +88,15 @@ class NewslettersController < ApplicationController
       subscription.update(subscribed: false)
       json = { html: 'Newsletter Unsubscribed! Hope to see you again' }
     else
-      json = if subscription.nil?
-               { message: 'This email is not subscribed to the newsletter',
-                 class: flash_class('error') }
-             else
-               { message: 'Please select a reason', class: flash_class('error') }
-             end
+      json =
+        if subscription.nil?
+          {
+            message: 'This email is not subscribed to the newsletter',
+            class: flash_class('error')
+          }
+        else
+          { message: 'Please select a reason', class: flash_class('error') }
+        end
     end
     json
   end

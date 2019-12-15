@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: user_personalities
@@ -21,6 +23,5 @@
 
 FactoryBot.define do
   factory :user_personality do
-
   end
 end
