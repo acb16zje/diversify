@@ -4,6 +4,26 @@
 //= require modal
 
 /**
+ * AJAX function to update graph
+ * Send the selected date and graph and return with partial html
+ */
+function updateGraphRequest(selectedDates, graph) {
+  $.ajax({
+    url: "/metrics/update_graph_time",
+    dataType: "json",
+    type: "post",
+    contentType: "application/json",
+    data: JSON.stringify({ time: selectedDates, graph_name: graph }),
+    success(result) {
+      $(result.title).html(result.html);
+    },
+    error(xhr, status, error) {
+      $("#graph-div").html("<p>No Data</p>");
+    },
+  });
+}
+
+/**
  * Function to update graph
  */
 function changeIndexGraph() {
@@ -48,8 +68,10 @@ function initFlatpickr() {
 document.addEventListener("DOMContentLoaded", (event) => {
   initFlatpickr();
 
-  changeIndexGraph();
-
+  if ($('.graph-select').length) {
+    changeIndexGraph();
+  }
+  
   // initialise datatable
   $("#newsletterTable").dataTable(tableOptions(true));
   
@@ -71,23 +93,3 @@ document.addEventListener("DOMContentLoaded", (event) => {
     hideNotification($("#notification"), $("#notification > .notification"), "is-success");
   }
 });
-
-/**
- * AJAX function to update graph
- * Send the selected date and graph and return with partial html
- */
-function updateGraphRequest(selectedDates, graph) {
-  $.ajax({
-    url: "/metrics/update_graph_time",
-    dataType: "json",
-    type: "post",
-    contentType: "application/json",
-    data: JSON.stringify({ time: selectedDates, graph_name: graph }),
-    success(result) {
-      $(result.title).html(result.html);
-    },
-    error(xhr, status, error) {
-      $("#graph-div").html("<p>No Data</p>");
-    },
-  });
-}
