@@ -69,7 +69,7 @@ function initFlatpickr() {
 document.addEventListener('DOMContentLoaded', () => {
   initFlatpickr();
 
-  if ($('#graph-select').length) {
+  if ($('#graph-select').length > 0) {
     changeIndexGraph();
   }
 
