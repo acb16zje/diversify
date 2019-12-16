@@ -13,5 +13,7 @@
 
 # Newsletter model
 class Newsletter < ApplicationRecord
+  include DateScope
+  
   validates_presence_of :title, :content
 end

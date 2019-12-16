@@ -17,7 +17,7 @@ function updateGraphRequest(selectedDates, graph) {
     success(result) {
       $(result.title).html(result.html);
     },
-    error(xhr, status, error) {
+    error() {
       $('#graph-div').html('<p>No Data</p>');
     },
   });
@@ -66,10 +66,10 @@ function initFlatpickr() {
   $('#date-clear').click(() => singleCalendars.clear());
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
   initFlatpickr();
 
-  if ($('.graph-select').length) {
+  if ($('#graph-select').length) {
     changeIndexGraph();
   }
 
@@ -78,14 +78,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
   $('#subscriberTable').dataTable(tableOptions(false));
 
-  $('#newsletterSendForm').on('ajax:success', (event, data) => {
+  $("#newsletterSendForm").on("ajax:success", (data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
   });
 
-  $('.delete_sub').on('ajax:success', (event, data) => {
-    showNotification('is-success', 'Email Unsubscribed!');
+  $('.delete_sub').on('ajax:success', (event) => {
+      showNotification('is-success', 'Email Unsubscribed!');
 
     $('#subscriberTable').dataTable().row($(event.target).closest('tr')).remove()
       .draw();

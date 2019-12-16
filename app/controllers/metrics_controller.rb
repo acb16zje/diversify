@@ -30,36 +30,20 @@ class MetricsController < ApplicationController
 
       # decide on Data and Grouping
       data, config = data_setter(params[:graph_name])
+      
       # set time constraint to graphs if exist
-      if (params[:graph_name].include? 'by Newsletter') && !params[:time].empty?
-        date1, date2 = params[:time]
-        data =
-          data.select do |v|
-            if !date2.nil?
-              DateTime.parse(date1) < v[:created_at] &&
-                v[:created_at] < DateTime.parse(date2) + 1.days
-            else
-              DateTime.parse(date1) < v[:created_at] &&
-                v[:created_at] < DateTime.parse(date1) + 1.days
-            end
-          end
-      elsif !params[:time].empty?
+      if !params[:time].empty?
         data = helpers.time_constraint(config[:time], data)
       end
 
       if params[:graph_name].include? 'by Newsletter'
-        data = [
-          {
-            title: 'Unsubscription',
-            data:
-              data.collect do |i|
+        data[0][:data] = 
+              data[0][:data].collect do |i|
                 [
                   "#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
                   i['feedback_count']
                 ]
               end
-          }
-        ]
       elsif params[:graph_name].include? 'Reason'
         data[0][:data] = NewsletterFeedback.count_reason(data[0][:data])
       end
@@ -107,60 +91,42 @@ class MetricsController < ApplicationController
     when /Reason/
       data = NewsletterFeedback.select(:reason, :created_at)
       data = [{ title: 'Reason', data: data }]
-      config = { time: 'created_at', average: nil, group_by: nil }
     when /Landing Page/
       data = [
         { title: 'Sastifaction', data: LandingFeedback.select(:smiley) },
         { title: 'Channel', data: LandingFeedback.select(:channel) },
         { title: 'Recommend', data: LandingFeedback.select(:interest) }
       ]
-      config = { time: 'started_at', average: nil, group_by: nil }
     when /by Newsletter/
-      data =
-        Newsletter.find_by_sql(
+      data = [
+        {
+          title: 'Unsubscription',
+          data: Newsletter.find_by_sql(
           "SELECT newsletters.title,
          newsletters.created_at, COUNT(newsletter_feedbacks)
          as feedback_count FROM newsletters JOIN newsletter_feedbacks
          ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
-         AND newsletters.created_at+interval'7 days' GROUP BY newsletters.id"
-        )
-      config = { time: 'created_at', average: nil, group_by: nil }
-    when /Newsletter/
-      data = [
-        { title: 'Subscription', data: NewsletterSubscription.all },
-        { title: 'Unsubscription', data: NewsletterFeedback.all }
-      ]
-      config = { time: 'created_at', average: nil, group_by: nil }
-    when /Subscription/
-      data = [
-        {
-          title: 'Subscription',
-          data: Ahoy::Event.where(name: 'Clicked pricing link')
+         AND newsletters.created_at+interval\'7 days\' GROUP BY newsletters.id")
         }
       ]
-      config = { group_by: "properties -> 'type'", time: 'time', average: nil }
+    when /Newsletter/
+      data = [{ title: 'Subscription', data: NewsletterSubscription.all },
+              { title: 'Unsubscription', data: NewsletterFeedback.all }]
+    when /Subscription/
+      data = [{ title: 'Subscription',
+                data: Ahoy::Event.where(name: 'Clicked pricing link') }]
     when /Visits/
       data = [{ title: 'Visit', data: Ahoy::Event.where(name: 'Ran action') }]
-      config = {
-        group_by: "properties -> 'action'", average: nil, time: 'time'
-      }
-    when /Average Time Spent/
-      data = [
-        { title: 'Time Spent', data: Ahoy::Event.where(name: 'Time Spent') }
-      ]
-      config = {
-        group_by: "properties -> 'pathname'",
-        average: "cast(properties ->> 'time' as float)",
-        time: 'time'
-      }
+    when /Average Time Spent/ 
+      data = [{ title: 'Time Spent',
+                data: Ahoy::Event.where(name: 'Time Spent') }]
     when /Referrers/
       data = [{ title: 'Referrers', data: Ahoy::Visit.all }]
-      config = { group_by: 'referrer', time: 'started_at', average: nil }
     else
       data = []
-      config = []
     end
-    [data, config]
+
+    [data, helpers.config_setter(option)]
   end
 
   private
