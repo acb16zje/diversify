@@ -10,7 +10,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :update_headers_to_disable_caching
-  before_action :ie_warning
 
   after_action :track_action
 
@@ -72,11 +71,5 @@ class ApplicationController < ActionController::Base
     response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
     response.headers['Pragma'] = 'no-cache'
     response.headers['Expires'] = '-1'
-  end
-
-  def ie_warning
-    if request.user_agent.to_s =~ /MSIE [6-7]/ && request.user_agent.to_s !~ %r{Trident/7.0}
-      redirect_to(ie_warning_path)
-    end
   end
 end
