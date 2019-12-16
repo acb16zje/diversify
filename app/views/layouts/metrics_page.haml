@@ -41,22 +41,22 @@
                 General
               %ul.menu-list
                 %li
-                  = link_to 'Dashboard', metrics_path, class: "#{is_active?(metrics_path)}"
+                  = link_to 'Dashboard', metrics_path, class: "#{active?(metrics_path)}"
               %p.menu-label
                 Traffic
               %ul.menu-list
                 %li
-                  = link_to 'Overview', traffic_metrics_path, class: "#{is_active?(traffic_metrics_path)}"
+                  = link_to 'Overview', traffic_metrics_path, class: "#{active?(traffic_metrics_path)}"
               %p.menu-label
                 Newsletter
               %ul.menu-list
                 %li
-                  = link_to 'Overview', newsletter_metrics_path, class: "#{is_active?(newsletter_metrics_path)}"
+                  = link_to 'Overview', newsletter_metrics_path, class: "#{active?(newsletter_metrics_path)}"
                 %li
                   = link_to "Newsletter Archive", newsletters_path, class: "#{action?("newsletters","index")}"
                 %li
                   = link_to 'Send newsletter', new_newsletter_path, class: "#{action?("newsletters","new")} #{action?("newsletters","create")}"
                 %li
-                  = link_to 'Subscriber Management', subscribers_newsletters_path, class: "#{is_active?(subscribers_newsletters_path)}"
+                  = link_to 'Subscriber Management', subscribers_newsletters_path, class: "#{active?(subscribers_newsletters_path)}"
           .column.is-9
             = yield

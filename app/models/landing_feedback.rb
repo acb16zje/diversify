@@ -14,4 +14,8 @@
 
 class LandingFeedback < ApplicationRecord
   include DateScope
+
+  scope :smiley, -> { select(:smiley) }
+  scope :channel, -> { select(:channel) }
+  scope :interest, -> { select(:interest) }
 end

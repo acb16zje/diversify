@@ -25,32 +25,22 @@ class MetricsController < ApplicationController
 
   def update_graph_time
     if graph_params
+      name = params[:graph_name]
+
       # decide on layout
-      layout = helpers.decide_layout(params[:graph_name])
+      layout = helpers.decide_layout(name)
 
       # decide on Data and Grouping
-      data, config = data_setter(params[:graph_name])
-      
-      # set time constraint to graphs if exist
-      if !params[:time].empty?
-        data = helpers.time_constraint(config[:time], data)
-      end
+      data, config = setter(name)
 
-      if params[:graph_name].include? 'by Newsletter'
-        data[0][:data] = 
-              data[0][:data].collect do |i|
-                [
-                  "#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
-                  i['feedback_count']
-                ]
-              end
-      elsif params[:graph_name].include? 'Reason'
-        data[0][:data] = NewsletterFeedback.count_reason(data[0][:data])
-      end
+      # set time constraint to graphs if exist
+      helpers.time_constraint(config[:time], data) unless params[:time].empty?
+
+      data[0][:data] = extra_processing(data[0][:data])
+      config[:data] = data
 
       # Check if there is still valid data, else return "No Data"
       if helpers.there_data?(data)
-        config[:data] = data
         return_partial('#graph-div', layout, config)
       else
         return_partial(nil, nil, {})
@@ -86,50 +76,23 @@ class MetricsController < ApplicationController
   end
 
   # set
-  def data_setter(option)
-    case option
-    when /Reason/
-      data = NewsletterFeedback.select(:reason, :created_at)
-      data = [{ title: 'Reason', data: data }]
-    when /Landing Page/
-      data = [
-        { title: 'Sastifaction', data: LandingFeedback.select(:smiley) },
-        { title: 'Channel', data: LandingFeedback.select(:channel) },
-        { title: 'Recommend', data: LandingFeedback.select(:interest) }
-      ]
-    when /by Newsletter/
-      data = [
-        {
-          title: 'Unsubscription',
-          data: Newsletter.find_by_sql(
-          "SELECT newsletters.title,
-         newsletters.created_at, COUNT(newsletter_feedbacks)
-         as feedback_count FROM newsletters JOIN newsletter_feedbacks
-         ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
-         AND newsletters.created_at+interval\'7 days\' GROUP BY newsletters.id")
-        }
-      ]
-    when /Newsletter/
-      data = [{ title: 'Subscription', data: NewsletterSubscription.all },
-              { title: 'Unsubscription', data: NewsletterFeedback.all }]
-    when /Subscription/
-      data = [{ title: 'Subscription',
-                data: Ahoy::Event.where(name: 'Clicked pricing link') }]
-    when /Visits/
-      data = [{ title: 'Visit', data: Ahoy::Event.where(name: 'Ran action') }]
-    when /Average Time Spent/ 
-      data = [{ title: 'Time Spent',
-                data: Ahoy::Event.where(name: 'Time Spent') }]
-    when /Referrers/
-      data = [{ title: 'Referrers', data: Ahoy::Visit.all }]
-    else
-      data = []
-    end
-
-    [data, helpers.config_setter(option)]
+  def setter(option)
+    [helpers.data_setter(option), helpers.config_setter(option)]
   end
 
   private
+
+  def extra_processing(datalist)
+    if params[:graph_name].include? 'by Newsletter'
+      datalist = datalist.collect do |i|
+        ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
+         i['feedback_count']]
+      end
+    elsif params[:graph_name].include? 'Reason'
+      datalist = NewsletterFeedback.count_reason(datalist)
+    end
+    datalist
+  end
 
   def graph_params
     params.require(:metric)

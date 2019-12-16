@@ -23,6 +23,8 @@ class NewsletterFeedback < ApplicationRecord
                   inappropriate: 'The emails are inappropriate',
                   not_interested: 'I am not interested anymore' }
 
+  scope :graph, -> { select(:reason, :created_at) }
+
   def self.count_reason(feedbacks)
     arr = []
     feedbacks.each do |feedback|

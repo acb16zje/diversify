@@ -26,6 +26,9 @@ class Ahoy::Event < ApplicationRecord
 
   self.table_name = 'ahoy_events'
 
+  scope :subscriptions, -> { where(name: 'Clicked pricing link') }
+  scope :action, -> { where(name: 'Ran action') }
+
   belongs_to :visit
   belongs_to :user, optional: true
 end
