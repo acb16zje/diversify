@@ -15,7 +15,7 @@
           .control.smiley
             %label.label How is your experience with our website?
             %label.radio
-              = radio_button_tag :smiley, 'sad', false, class: 'sad'
+              = radio_button_tag :smiley, 'sad', false, class: 'sad', required: ''
             %label.radio
               = radio_button_tag :smiley, 'neutral', false, class: 'neutral'
             %label.radio
@@ -24,12 +24,12 @@
           .control
             %label.label How did you find out our product?
             .select
-              = select_tag :channel, options_for_select([ "Social Media", "Search Engine" ])
+              = select_tag :channel, options_for_select([ '', 'Social Media', 'Search Engine', 'Newspaper', 'Recommended by others' ]), required: ''
         .field
           .control
             %label.label Are you interested in using our product?
             %label.radio Yes
-            = radio_button_tag :interest, true
+            = radio_button_tag :interest, true, required: ''
             %label.radio No
             = radio_button_tag :interest, false
         .field
