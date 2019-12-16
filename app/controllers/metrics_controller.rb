@@ -9,7 +9,7 @@ class MetricsController < ApplicationController
 
   def index
     @static_data = [
-      NewsletterSubscription.count,
+      NewsletterSubscription.where(subscribed: true).count,
       Ahoy::Visit.today_count,
       Ahoy::Visit.count
     ]
@@ -39,6 +39,7 @@ class MetricsController < ApplicationController
       data[0][:data] = extra_processing(data[0][:data])
       config[:data] = data
 
+      puts "CONFIG #{config}"
       # Check if there is still valid data, else return "No Data"
       if helpers.there_data?(data)
         return_partial('#graph-div', layout, config)

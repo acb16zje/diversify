@@ -14,8 +14,10 @@ module MetricsHelper
   }.freeze
 
   def config_setter(option)
-    val = GRAPH_CONFIG.keys.select { |key| option.include? key }
-    GRAPH_CONFIG.fetch(val[0], time: 'created_at', average: nil, group_by: nil)
+    val = GRAPH_CONFIG.stringify_keys.keys.select { |key| option.include? key }
+    puts "VAL #{val}"
+    GRAPH_CONFIG.stringify_keys.fetch(val[0], 
+      { time: 'created_at', average: nil, group_by: nil } )
   end
 
   def data_setter(option)
@@ -74,8 +76,7 @@ module MetricsHelper
     data.each_index do |i|
       datalist = data[i][:data]
       data[i][:data] = if datalist.instance_of? Array
-                         custom_date_scope(datalist, date1,
-                                           DateTime.parse(date2))
+                         custom_date_scope(datalist, date1, date2)
                        elsif !date2.nil?
                          datalist.between_date(time, date1,
                                                DateTime.parse(date2))
@@ -90,7 +91,7 @@ module MetricsHelper
       if date2.nil?
         v[:created_at].between?(date1, date1 + 1.days)
       else
-        v[:created_at].between?(date1, date2 + 1.days)
+        v[:created_at].between?(date1, DateTime.parse(date2) + 1.days)
       end
     end
   end
