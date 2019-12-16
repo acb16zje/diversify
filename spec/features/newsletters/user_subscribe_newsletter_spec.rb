@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-describe NewslettersController, '#subscribe', :js do
+describe 'Landing page Newsletter > Subscribe', :js, type: :feature do
 
   before { visit newsletter_pages_path }
 
-  context 'with t.subscribed = false' do
+  describe 'never subscribed before' do
     it 'can subscribe newsletter' do
       subscribe
       expect(page).to have_content('Newsletter Subscribed')
@@ -23,7 +23,7 @@ describe NewslettersController, '#subscribe', :js do
     end
   end
 
-  context 'with t.subscribed = true' do
+  describe 'subscribed before, but unsubscribed' do
     it 'can subscribe again if unsubscribed before' do
       subscribe(true, true)
       expect(page).to have_content('Newsletter Subscribed')

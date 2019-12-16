@@ -22,9 +22,9 @@ module NewsletterHelper
   def subscribe(email_presence = false, unsubscribed = false)
     subscriber =
       if unsubscribed
-        FactoryBot.create(:subscriber, :unsubscribed)
+        create(:subscriber, :unsubscribed)
       else
-        FactoryBot.create(:subscriber)
+        create(:subscriber)
       end
 
     fill_in 'email', with: email_presence ? subscriber.email : 'null@null.com'
@@ -44,7 +44,7 @@ module NewsletterHelper
 
   def unsubscribe(email_presence = true, reason_presence = true)
     if email_presence
-      fill_in 'email', with: FactoryBot.create(:subscriber).email
+      fill_in 'email', with: create(:subscriber).email
     else
       fill_in 'email', with: 'not_presence@mail.com'
     end

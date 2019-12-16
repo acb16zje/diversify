@@ -2,10 +2,10 @@
 
 require 'rails_helper'
 
-describe NewslettersController, '#subscribers', :js do
+describe 'Metrics > Subscriber Management', :js, type: :feature do
 
   context 'with subscribers' do
-    let(:subscriber) { FactoryBot.create(:subscriber) }
+    let(:subscriber) { create(:subscriber) }
 
     before do
       subscriber
@@ -14,6 +14,11 @@ describe NewslettersController, '#subscribers', :js do
 
     specify 'can see subscribers' do
       expect(page).to have_content(subscriber.email)
+    end
+
+    specify 'can unsubscribe user' do
+      accept_confirm { find("tr#subscriber#{subscriber.id} td a").click }
+      expect(page).to have_no_content(subscriber.email)
     end
   end
 
