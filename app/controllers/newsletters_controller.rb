@@ -29,7 +29,7 @@ class NewslettersController < ApplicationController
   end
 
   def show
-    @newsletter = Newsletter.find_by_id(params[:id])
+    @newsletter = Newsletter.find(params[:id])
 
     return unless request.xhr?
 
@@ -47,9 +47,7 @@ class NewslettersController < ApplicationController
         newsletter_subscription.subscribed = true
       else
         newsletter_subscription =
-          NewsletterSubscription.new(
-            date_subscribed: Time.now, email: params[:email], subscribed: true
-          )
+          NewsletterSubscription.new(email: params[:email], subscribed: true)
       end
 
       if newsletter_subscription.save
@@ -105,7 +103,7 @@ class NewslettersController < ApplicationController
   end
 
   def subscribe_success_action
-    NewsletterMailer.send_welcome(params[:email]).deliver_now
+    NewsletterMailer.send_welcome(params[:email]).deliver_later
     message = 'Newsletter Subscribed'
     class_card = flash_class('success')
 
