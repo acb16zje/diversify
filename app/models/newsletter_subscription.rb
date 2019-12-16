@@ -24,12 +24,11 @@ class NewsletterSubscription < ApplicationRecord
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  def self.all_emails
-    pluck(:email)
-  end
+  scope :all_subscribed_emails, -> { where(subscribed: true).pluck(:email) }
+  scope :previously_subscribed, -> { where(subscribed: false) }
 
   def self.send_newsletter(newsletter)
-    all_emails.each_slice(50) do |emails|
+    all_subscribed_emails.each_slice(50) do |emails|
       NewsletterMailer.send_newsletter(emails, newsletter).deliver_later
     end
   end

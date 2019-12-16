@@ -29,20 +29,19 @@ class PagesController < ApplicationController
 
   def submit_feedback
     feedback = LandingFeedback.new(
-      smiley: params[:smiley], channel: params[:channel],
+      smiley: params[:smiley],
+      channel: params[:channel],
       interest: ActiveModel::Type::Boolean.new.cast(params[:interest])
     )
 
     if feedback_params && feedback.save
-      render json: {
-        message: 'Feedback Submitted',
-        class: flash_class('success')
-      }
+      render json: { message: 'Feedback Submitted',
+                     class: flash_class('success')
+                    }
     else
-      render json: {
-        message: 'Submission Failed',
-        class: flash_class('error')
-      }, status: 400
+      render json: { message: 'Submission Failed',
+                     class: flash_class('error')
+                   }, status: 400
     end
   end
 
@@ -63,6 +62,6 @@ class PagesController < ApplicationController
   end
 
   def feedback_params
-    params.key?(:smiley) && params.key?(:channel) && params.key?(:interest)
+    !params[:smiley].blank? && !params[:channel].blank? && !params[:interest].blank?
   end
 end

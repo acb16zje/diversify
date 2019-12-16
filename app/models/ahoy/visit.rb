@@ -46,8 +46,5 @@ class Ahoy::Visit < ApplicationRecord
   has_many :events, class_name: 'Ahoy::Event'
   belongs_to :user, optional: true
 
-  def self.today_count
-    where(started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
-      .size
-  end
+  scope :today_count, -> { where(started_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day).size }
 end

@@ -2,7 +2,6 @@
   .column.is-one-third
     .box.has-equal-height
       = pie_chart data[0][:data].group(:smiley).count, title: data[0][:title]
-
   .column.is-one-third
     .box.has-equal-height
       = pie_chart data[1][:data].group(:channel).count, title: data[1][:title]

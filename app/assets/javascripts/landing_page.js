@@ -19,6 +19,13 @@ $('#feedbackForm').on('ajax:success', function (event, data) {
   }
 });
 
+$('#feedbackForm').on('ajax:error', function (event, data) {
+  console.log(data)
+  if (data.responseJSON.hasOwnProperty('class')) {
+    showNotification(data.responseJSON.class, data.responseJSON.message);
+  }
+});
+
 /**
  * Ajax call to send time spent when user enters another page
  */

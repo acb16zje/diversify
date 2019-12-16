@@ -54,14 +54,12 @@ class ApplicationController < ActionController::Base
 
   def flash_class(level)
     case level
-    when 'notice'
-      'is-primary'
     when 'success'
       'is-success'
     when 'error'
       'is-danger'
-    when 'alert'
-      'is-warning'
+    else
+      'is-primary'
     end
   end
 

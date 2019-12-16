@@ -39,24 +39,16 @@ class NewslettersController < ApplicationController
 
   def subscribe
     if params.key?(:email)
-      if NewsletterSubscription.where(subscribed: false).exists?(
-        email: params[:email]
-      )
-        newsletter_subscription =
-          NewsletterSubscription.find_by_email(params[:email])
-        newsletter_subscription.subscribed = true
+      email = params[:email]
+      if NewsletterSubscription.previously_subscribed.exists?(email: email)
+        sub = NewsletterSubscription.find_by_email(email)
+        sub.subscribed = true
       else
-        newsletter_subscription =
-          NewsletterSubscription.new(email: params[:email], subscribed: true)
+        sub = NewsletterSubscription.new(email: email, subscribed: true)
       end
-
-      if newsletter_subscription.save
-        subscribe_success_action
-      else
-        subscribe_failure_action('Subscription Failed')
-      end
+      sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
     else
-      subscribe_failure_action('No Email')
+      sub_fail_action('No Email')
     end
   end
 
@@ -83,26 +75,20 @@ class NewslettersController < ApplicationController
   def unsubscribe_json(reason, feedback, subscription)
     if reason != '' && !subscription.nil? && feedback.save
       subscription.update(subscribed: false)
-      json = { html: 'Newsletter Unsubscribed! Hope to see you again' }
+      { html: 'Newsletter Unsubscribed! Hope to see you again' }
+    elsif subscription.nil?
+      { message: 'This email is not subscribed to the newsletter',
+        class: flash_class('error') }
     else
-      json =
-        if subscription.nil?
-          {
-            message: 'This email is not subscribed to the newsletter',
-            class: flash_class('error')
-          }
-        else
-          { message: 'Please select a reason', class: flash_class('error') }
-        end
+      { message: 'Please select a reason', class: flash_class('error') }
     end
-    json
   end
 
   def newsletter_params
     params.require(:newsletter).permit(:title, :content)
   end
 
-  def subscribe_success_action
+  def sub_pass_action
     NewsletterMailer.send_welcome(params[:email]).deliver_later
     message = 'Newsletter Subscribed'
     class_card = flash_class('success')
@@ -110,7 +96,7 @@ class NewslettersController < ApplicationController
     render json: { message: message, class: class_card }
   end
 
-  def subscribe_failure_action(message)
+  def sub_fail_action(message)
     class_card = flash_class('error')
     render json: { message: message, class: class_card }
   end

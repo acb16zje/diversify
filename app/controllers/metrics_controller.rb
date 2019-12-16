@@ -36,10 +36,9 @@ class MetricsController < ApplicationController
       # set time constraint to graphs if exist
       helpers.time_constraint(config[:time], data) unless params[:time].empty?
 
-      data[0][:data] = extra_processing(data[0][:data])
+      extra_processing(name, data)
       config[:data] = data
 
-      puts "CONFIG #{config}"
       # Check if there is still valid data, else return "No Data"
       if helpers.there_data?(data)
         return_partial('#graph-div', layout, config)
@@ -83,16 +82,17 @@ class MetricsController < ApplicationController
 
   private
 
-  def extra_processing(datalist)
-    if params[:graph_name].include? 'by Newsletter'
+  def extra_processing(name, data)
+    datalist = data[0][:data]
+    if name.include? 'by Newsletter'
       datalist = datalist.collect do |i|
         ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
          i['feedback_count']]
       end
-    elsif params[:graph_name].include? 'Reason'
+    elsif name.include? 'Reason'
       datalist = NewsletterFeedback.count_reason(datalist)
     end
-    datalist
+    data[0][:data] = datalist
   end
 
   def graph_params

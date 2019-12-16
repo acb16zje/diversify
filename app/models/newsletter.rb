@@ -15,8 +15,7 @@
 class Newsletter < ApplicationRecord
   include DateScope
 
-  scope :graph, -> {
-                  find_by_sql(
+  scope :graph, -> { find_by_sql(
                     "SELECT newsletters.title,
            newsletters.created_at, COUNT(newsletter_feedbacks)
            as feedback_count FROM newsletters JOIN newsletter_feedbacks
