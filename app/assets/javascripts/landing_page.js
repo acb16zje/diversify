@@ -10,6 +10,15 @@ $('#newsletterSubForm').on('ajax:success', (event, data) => {
   }
 });
 
+$('#feedbackForm').on('ajax:success', function (event, data) {
+  if (data.hasOwnProperty('class')) {
+    showNotification(data.class, data.message);
+    this.innerHTML = `
+      <p class="subtitle is-5 has-text-centered">Thank you for your feedback</p>
+    `;
+  }
+});
+
 /**
  * Ajax call to send time spent when user enters another page
  */
