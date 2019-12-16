@@ -13,7 +13,7 @@ describe 'Metrics > Newsletter Archive', type: :feature do
 
     it 'can show newsletter modal', :js do
       visit newsletters_path
-      find('tr', text: newsletter.title).cl2ick
+      find('tr', text: newsletter.title).click
       expect(page).to have_content(newsletter.content)
     end
 
