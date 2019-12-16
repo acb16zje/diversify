@@ -28,20 +28,24 @@ function updateGraphRequest(selectedDates, graph) {
  */
 function changeIndexGraph() {
   const graph = document.getElementById('graph-select').value;
-  const date = document.querySelector('.single-calendar')._flatpickr.selectedDates;
+  const date = document.querySelector('.single-calendar')
+    ._flatpickr.selectedDates;
   updateGraphRequest(date, graph);
 }
 
 function tableOptions(setting) {
   return {
     responsive: true,
-    dom: "B<'clear'>lfrtip",
+    dom: 'B<\'clear\'>lfrtip',
     language: {
       searchPlaceholder: 'Search',
       search: '',
     },
     order: [[1, 'desc']],
-    columns: setting ? [null, null] : [null, null, { searchable: false, orderable: false }],
+    columns: setting ? [null, null] : [
+      null,
+      null,
+      { searchable: false, orderable: false }],
   };
 }
 
@@ -66,7 +70,7 @@ function initFlatpickr() {
   $('#date-clear').click(() => singleCalendars.clear());
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+$(document).ready(function() {
   initFlatpickr();
 
   if ($('#graph-select').length > 0) {
@@ -74,21 +78,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // initialise datatable
-  $('#newsletterTable').dataTable(tableOptions(true));
+  $('#newsletterTable').DataTable(tableOptions(true));
 
-  $('#subscriberTable').dataTable(tableOptions(false));
+  const subscriberTable = $('#subscriberTable').DataTable(tableOptions(false));
 
-  $("#newsletterSendForm").on("ajax:success", (event,data) => {
+  $('#newsletterSendForm').on('ajax:success', (event, data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
   });
 
   $('.delete_sub').on('ajax:success', (event) => {
-      showNotification('is-success', 'Email Unsubscribed!');
+    showNotification('is-success', 'Email Unsubscribed!');
 
-    $('#subscriberTable').dataTable().row($(event.target).closest('tr')).remove()
-      .draw();
+    subscriberTable.row($(event.target).closest('tr')).remove().draw();
   });
 
   if (document.body.contains(document.getElementById('notification'))) {
