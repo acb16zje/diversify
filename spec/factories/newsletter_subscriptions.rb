@@ -3,7 +3,7 @@
 # Table name: newsletter_subscriptions
 #
 #  id              :bigint           not null, primary key
-#  date_subscribed :date             not null
+#  date_subscribed :date             default(Mon, 16 Dec 2019), not null
 #  email           :string           not null
 #  subscribed      :boolean          default(TRUE), not null
 #  created_at      :datetime         not null
@@ -17,7 +17,6 @@
 FactoryBot.define do
   factory :subscriber, class: NewsletterSubscription.name do
     email { 'test@test.com' }
-    date_subscribed { Time.now }
 
     trait :unsubscribed do
       subscribed { false }

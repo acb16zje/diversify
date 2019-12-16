@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
+# Helper for MetricsController
 module MetricsHelper
   GRAPH_CONFIG = {
-    'Newsletter' => { time: 'created_at', average: nil, group_by: nil },
-    'Subscription' => { group_by: "properties -> 'type'",
-                        time: 'time', average: nil },
-    'Visits' => { group_by: "properties -> 'action'", average: nil,
-                  time: 'time' },
-    'Average Time Spent' => { group_by: "properties -> 'pathname'",
-                              average: "cast(properties ->> 'time' as float)",
-                              time: 'time' },
-    'Referrers' => { group_by: 'referrer', time: 'started_at', average: nil }
+    Newsletter: { time: 'created_at', average: nil, group_by: nil },
+    Subscription: { group_by: "properties -> 'type'",
+                    time: 'time', average: nil },
+    Visits: { group_by: "properties -> 'action'", average: nil, time: 'time' },
+    'Average Time Spent': { group_by: "properties -> 'pathname'",
+                            average: "cast(properties ->> 'time' as float)",
+                            time: 'time' },
+    Referrers: { group_by: 'referrer', time: 'started_at', average: nil }
   }.freeze
 
   def config_setter(option)
     val = GRAPH_CONFIG.keys.select { |key| option.include? key }
     GRAPH_CONFIG.fetch(val[0], time: 'created_at', average: nil, group_by: nil)
   end
-  
+
   def data_setter(option)
     case option
     when /Reason/
@@ -87,10 +87,10 @@ module MetricsHelper
 
   def custom_date_scope(data, date1, date2)
     data.select do |v|
-      if !date2.nil?
-        v[:created_at].between?(date1, date2 + 1.days)
-      else
+      if date2.nil?
         v[:created_at].between?(date1, date1 + 1.days)
+      else
+        v[:created_at].between?(date1, date2 + 1.days)
       end
     end
   end

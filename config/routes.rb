@@ -1,18 +1,8 @@
 # frozen_string_literal: true
-# Class to set constraint to only allow AJAX request
-class OnlyAjaxRequest
-  def matches?(request)
-    request.xhr?
-  end
-end
 
 Rails.application.routes.draw do
 
   mount Ckeditor::Engine => '/ckeditor'
-  resources :tasks
-  resources :reviews
-  resources :teams
-  resources :projects
   devise_for :users
   match '/403', to: 'errors#error_403', via: :all
   match '/404', to: 'errors#error_404', via: :all
@@ -31,8 +21,8 @@ Rails.application.routes.draw do
       get 'features'
 
       # For analytics
-      post 'track_time', constraint: OnlyAjaxRequest.new
-      post 'submit_feedback', constraint: OnlyAjaxRequest.new
+      post 'track_time'
+      post 'submit_feedback'
     end
   end
 
@@ -44,7 +34,7 @@ Rails.application.routes.draw do
       get 'traffic'
 
       # Receives JSON of date and gets values for graphs
-      post 'update_graph_time', constraint: OnlyAjaxRequest.new
+      post 'update_graph_time'
     end
   end
 
@@ -52,7 +42,7 @@ Rails.application.routes.draw do
   resources :newsletters, only: %i[index create new show] do
 
     collection do
-      post 'subscribe', constraint: OnlyAjaxRequest.new
+      post 'subscribe'
 
       get 'unsubscribe'
       get 'subscribers'

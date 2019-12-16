@@ -14,7 +14,7 @@ class PagesController < ApplicationController
 
   # Function to track time spent in a page
   def track_time
-    head 500 unless params.key?(:time) && params.key?(:pathname)
+    head :bad_request unless valid_request?(params)
 
     pathname = params[:pathname]
     time = params[:time]
@@ -24,6 +24,7 @@ class PagesController < ApplicationController
     ahoy.track 'Time Spent',
                time_spent: millisec_to_sec(time),
                pathname: pathname
+    head :ok
   end
 
   def submit_feedback
@@ -32,13 +33,17 @@ class PagesController < ApplicationController
       interest: ActiveModel::Type::Boolean.new.cast(params[:interest])
     )
 
-    render json: (
-      if feedback_params && feedback.save
-        { message: 'Feedback Submitted', class: flash_class('success') }
-      else
-        { message: 'Submission Failed', class: flash_class('error') }
-      end
-    ), status: 200
+    if feedback_params && feedback.save
+      render json: {
+        message: 'Feedback Submitted',
+        class: flash_class('success')
+      }
+    else
+      render json: {
+        message: 'Submission Failed',
+        class: flash_class('error')
+      }, status: 400
+    end
   end
 
   private
@@ -47,8 +52,14 @@ class PagesController < ApplicationController
     time.to_f.round / 1000
   end
 
+  def valid_request?(params)
+    params.key?(:time) && params.key?(:pathname)
+  end
+
   def valid_pathname?(pathname)
-    !pathname.include?('metrics') && !pathname.include?('newsletters')
+    pathname.present? &&
+      !pathname.include?('metrics') &&
+      !pathname.include?('newsletters')
   end
 
   def feedback_params
