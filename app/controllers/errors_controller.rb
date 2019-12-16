@@ -2,7 +2,6 @@
 
 # Error controller
 class ErrorsController < ApplicationController
-  skip_before_action :ie_warning
   skip_before_action :verify_authenticity_token, only: [:error_422]
   skip_authorization_check
 
@@ -14,9 +13,5 @@ class ErrorsController < ApplicationController
 
   def error_422; end
 
-  def error_500
-    render
-  rescue StandardError
-    render layout: 'landing_page'
-  end
+  def error_500; end
 end

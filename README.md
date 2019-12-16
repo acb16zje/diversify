@@ -6,8 +6,8 @@
 
 ---
 
-![pipeline](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/pipeline.svg)
-![coverage](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/coverage.svg)
+[![pipeline](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/pipeline.svg)](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/pipelines)
+[![coverage](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/coverage.svg)](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/-/jobs)
 
 [![CodeFactor](https://www.codefactor.io/repository/github/juneezee/project/badge)](https://www.codefactor.io/repository/github/juneezee/project)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d609b36fd4534ca48d8c86e762fa0d51)](https://www.codacy.com/manual/Juneezee/project?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Juneezee/project&amp;utm_campaign=Badge_Grade)

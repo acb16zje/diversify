@@ -30,8 +30,7 @@ test:
     - bundle check --path vendor/gems || bundle install --path vendor/gems --jobs $(nproc)
     - bundle exec rake db:reset RAILS_ENV=test
     - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
-#    - bundle exec rake
-    - bundle exec rspec spec/features
+    - bundle exec rspec spec
   coverage: '/LOC \((\d+\.\d+%)\) covered.$/'
   artifacts:
     paths:
