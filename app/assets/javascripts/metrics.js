@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('#subscriberTable').dataTable(tableOptions(false));
 
-  $("#newsletterSendForm").on("ajax:success", (data) => {
+  $("#newsletterSendForm").on("ajax:success", (event,data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
