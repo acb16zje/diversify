@@ -13,34 +13,13 @@ class ApplicationController < ActionController::Base
 
   after_action :track_action
 
-  ## The following are used by our Responder service classes so we can access
-  ## the instance variable for the current resource easily via a standard method
-  def resource_name
-    controller_name.demodulize.singularize
-  end
-
-  def current_resource
-    instance_variable_get(:"@#{resource_name}")
-  end
-
-  def current_resource=(val)
-    instance_variable_set(:"@#{resource_name}", val)
-  end
-
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
   rescue_from ActiveRecord::RecordNotFound do
     render template: 'errors/error_404', status: 404
   end
+
   rescue_from CanCan::AccessDenied do
     render template: 'errors/error_403', status: 403
-  end
-
-  # IE over HTTPS will not download if browser caching is off, so allow browser caching when sending files
-  def send_file(file, opts = {})
-    response.headers['Cache-Control'] = 'private, proxy-revalidate' # Still prevent proxy caching
-    response.headers['Pragma'] = 'cache'
-    response.headers['Expires'] = '0'
-    super(file, opts)
   end
 
   protected

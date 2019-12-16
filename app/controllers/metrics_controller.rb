@@ -40,7 +40,7 @@ class MetricsController < ApplicationController
       config[:data] = data
 
       # Check if there is still valid data, else return "No Data"
-      if helpers.there_data?(data)
+      if helpers.has_data?(data)
         return_partial('#graph-div', layout, config)
       else
         return_partial(nil, nil, {})
@@ -76,8 +76,8 @@ class MetricsController < ApplicationController
   end
 
   # set
-  def setter(option)
-    [helpers.data_setter(option), helpers.config_setter(option)]
+  def setter(graph)
+    [helpers.data_setter(graph), helpers.config_setter(graph)]
   end
 
   private

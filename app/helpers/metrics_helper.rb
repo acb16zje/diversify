@@ -13,15 +13,16 @@ module MetricsHelper
     Referrers: { group_by: 'referrer', time: 'started_at', average: nil }
   }.freeze
 
-  def config_setter(option)
-    val = GRAPH_CONFIG.stringify_keys.keys.select { |key| option.include? key }
-    puts "VAL #{val}"
-    GRAPH_CONFIG.stringify_keys.fetch(val[0], 
-      { time: 'created_at', average: nil, group_by: nil } )
+  def config_setter(graph)
+    val = GRAPH_CONFIG.stringify_keys.keys.select { |key| graph.include? key }
+
+    GRAPH_CONFIG.stringify_keys.fetch(
+      val[0], time: 'created_at', average: nil, group_by: nil
+    )
   end
 
-  def data_setter(option)
-    case option
+  def data_setter(graph)
+    case graph
     when /Reason/
       [{ title: 'Reason', data: NewsletterFeedback.graph }]
     when /Landing Page/
@@ -62,11 +63,8 @@ module MetricsHelper
   end
 
   # loops through arrays and check if there is at least one array has data
-  def there_data?(array)
-    array.each do |data|
-      return true if data[:data].any?
-    end
-    false
+  def has_data?(array)
+    array.any? { |data| data[:data].any? }
   end
 
   # set time_constraint to data based on the number of time constraint selected
@@ -88,11 +86,10 @@ module MetricsHelper
 
   def custom_date_scope(data, date1, date2)
     data.select do |v|
-      if date2.nil?
-        v[:created_at].between?(date1, date1 + 1.days)
-      else
-        v[:created_at].between?(date1, DateTime.parse(date2) + 1.days)
-      end
+      v[:created_at].between?(
+        date1,
+        date2.nil? ? date1 + 1.days : DateTime.parse(date2) + 1.days
+      )
     end
   end
 end

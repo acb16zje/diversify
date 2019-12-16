@@ -1,4 +1,7 @@
-class ProjectDecorator < Draper::Decorator
+# frozen_string_literal: true
+
+# Decorate for Newsletter
+class NewsletterSubscriptionDecorator < Draper::Decorator
   delegate_all
 
   # Define presentation-specific methods here. Helpers are accessed through
@@ -10,4 +13,7 @@ class ProjectDecorator < Draper::Decorator
   #     end
   #   end
 
+  def created_at
+    l object.created_at, format: :date
+  end
 end

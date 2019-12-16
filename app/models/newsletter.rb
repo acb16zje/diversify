@@ -15,14 +15,15 @@
 class Newsletter < ApplicationRecord
   include DateScope
 
-  scope :graph, -> { find_by_sql(
-                    "SELECT newsletters.title,
-           newsletters.created_at, COUNT(newsletter_feedbacks)
-           as feedback_count FROM newsletters JOIN newsletter_feedbacks
-           ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
-           AND newsletters.created_at+interval\'7 days\' GROUP BY newsletters.id"
-                  )
-                }
+  scope :graph, lambda {
+    find_by_sql(
+      "SELECT newsletters.title,
+         newsletters.created_at, COUNT(newsletter_feedbacks)
+         as feedback_count FROM newsletters JOIN newsletter_feedbacks
+         ON newsletter_feedbacks.created_at BETWEEN newsletters.created_at
+         AND newsletters.created_at+interval\'7 days\' GROUP BY newsletters.id"
+    )
+  }
 
   validates_presence_of :title, :content
 end

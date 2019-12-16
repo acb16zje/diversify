@@ -13,6 +13,13 @@
 #
 
 FactoryBot.define do
-  factory :landing_feedback do
+  factory :landing_feedback, class: LandingFeedback.name do
+    smiley { 'neutral' }
+    interest { true }
+    channel { 'Social Media' }
+
+    trait :yesterday do
+      created_at { Time.now - 1.days }
+    end
   end
 end

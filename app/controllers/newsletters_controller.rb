@@ -67,7 +67,7 @@ class NewslettersController < ApplicationController
   end
 
   def subscribers
-    @subscribers = NewsletterSubscription.where(subscribed: true)
+    @subscribers = NewsletterSubscription.where(subscribed: true).decorate
   end
 
   private
