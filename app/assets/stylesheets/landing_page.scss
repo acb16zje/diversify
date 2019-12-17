@@ -242,6 +242,15 @@ footer.footer {
       width: 80%;
     }
   }
+
+  #social {
+    display: flex;
+    align-items: center;
+
+    .iconify {
+      font-size: 36px;
+    }
+  }
 }
 
 /* Feedback page */

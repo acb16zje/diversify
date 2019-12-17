@@ -72,7 +72,7 @@ class PagesController < ApplicationController
   end
 
   def valid_social_type?(params)
-    %w(Facebook Twitter).include? params
+    %w(Facebook Twitter Email).include? params
   end
 
   def feedback_params

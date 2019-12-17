@@ -1,6 +1,6 @@
 //= require application
 
-//Response on newsletter subscription success/fail
+// Response on newsletter subscription success/fail
 $('#newsletterSubForm').on('ajax:success', (event, data) => {
   if (data.hasOwnProperty('class')) {
     showNotification(data.class, data.message);
@@ -10,40 +10,46 @@ $('#newsletterSubForm').on('ajax:success', (event, data) => {
   }
 });
 
-//Show notification on landing page feedback submission success/fail
-$('#feedbackForm').on('ajax:success', function (event, data) {
+// Show notification on landing page feedback submission success/fail
+$('#feedbackForm').on('ajax:success', function(event, data) {
   if (data.hasOwnProperty('class')) {
     showNotification(data.class, data.message);
     this.innerHTML = `
       <p class="subtitle is-5 has-text-centered">Thank you for your feedback</p>
     `;
   }
-}).on('ajax:error', function (event, data) {
+}).on('ajax:error', (event, data) => {
   if (data.responseJSON.hasOwnProperty('class')) {
     showNotification(data.responseJSON.class, data.responseJSON.message);
   }
 });
 
-//Event listeners for iframe social share button
-$(document).ready(function() {
-  //Sends a function whenever a iframe is focused
-  window.addEventListener('blur',function(){
-    if(document.activeElement instanceof HTMLIFrameElement){
-        $.ajax({
-        url: '/track_social',
-        type: 'post',
-        contentType: 'application/json',
-        data: JSON.stringify({
-          value: document.activeElement.dataset.value
-        }),
-      });
+function track_social(value) {
+  $.ajax({
+    url: '/track_social',
+    type: 'post',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      value: value,
+    }),
+  });
+}
+
+// Event listeners for iframe social share button
+$(document).ready(() => {
+  // Sends a function whenever a iframe is focused
+  window.addEventListener('blur', () => {
+    if (document.activeElement instanceof HTMLIFrameElement) {
+      track_social(document.activeElement.dataset.value);
+    } else if (document.activeElement.id === 'email') {
+      track_social('Email');
     }
   });
-  
-  //Resets focus when user moves from button
-  $(window).on('touchend mouseover',function(){
-    window.focus()
-  })
+
+  // Resets focus when user moves from button
+  $(window).on('touchend mouseover', () => {
+    window.focus();
+  });
 });
 
 /**
