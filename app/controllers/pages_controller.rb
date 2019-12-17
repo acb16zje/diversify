@@ -9,8 +9,15 @@ class PagesController < ApplicationController
   # should be changed once proper subscription system has been completed
   def newsletter
     @newsletter_subscription = NewsletterSubscription.new
-    ahoy.track 'Clicked pricing link', type: params[:type] if params.key?(:type)
+    ahoy.track 'Clicked pricing link', type: params[:type] if valid_sub_type?(params[:type])
   end
+
+  def track_social
+    
+    ahoy.track 'Click Social', type: params[:value] if valid_social_type?(params[:value])
+    head :ok
+  end
+
 
   # Function to track time spent in a page
   def track_time
@@ -59,6 +66,14 @@ class PagesController < ApplicationController
     pathname.present? &&
       !pathname.include?('metrics') &&
       !pathname.include?('newsletters')
+  end
+
+  def valid_sub_type?(params)
+    ['Free', 'Pro', 'Enterprise'].include? params
+  end
+
+  def valid_social_type?(params)
+    ['Facebook', 'Twitter'].include? params
   end
 
   def feedback_params

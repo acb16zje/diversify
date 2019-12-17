@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       get 'features'
 
       # For analytics
+      post 'track_social'
       post 'track_time'
       post 'submit_feedback'
     end
@@ -32,7 +33,7 @@ Rails.application.routes.draw do
     collection do
       get 'newsletter'
       get 'traffic'
-
+      get 'social'
       # Receives JSON of date and gets values for graphs
       post 'update_graph_time'
     end

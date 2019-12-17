@@ -26,6 +26,28 @@ $('#feedbackForm').on('ajax:error', function (event, data) {
   }
 });
 
+$(document).ready(function() {
+  var myConfObj = {
+    iframeMouseOver : false
+  }
+  window.addEventListener('blur',function(){
+    if(document.activeElement instanceof HTMLIFrameElement){
+        $.ajax({
+        url: '/track_social',
+        type: 'post',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          value: document.activeElement.dataset.value
+        }),
+      });
+    }
+  });
+  
+  $(window).on('touchend mouseover',function(){
+    window.focus()
+  })
+})
+
 /**
  * Ajax call to send time spent when user enters another page
  */

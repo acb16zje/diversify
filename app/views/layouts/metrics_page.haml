@@ -42,6 +42,9 @@
               %ul.menu-list
                 %li
                   = link_to 'Dashboard', metrics_path, class: "#{active?(metrics_path)}"
+                %li
+                  = link_to 'Social Media', social_metrics_path, class: "#{active?(social_metrics_path)}"
+
               %p.menu-label
                 Traffic
               %ul.menu-list

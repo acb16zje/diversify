@@ -28,6 +28,7 @@ class Ahoy::Event < ApplicationRecord
 
   scope :subscriptions, -> { where(name: 'Clicked pricing link') }
   scope :action, -> { where(name: 'Ran action') }
+  scope :social, -> { where(name: 'Click Social') }
 
   belongs_to :visit
   belongs_to :user, optional: true

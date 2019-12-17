@@ -33,12 +33,14 @@ class MetricsController < ApplicationController
       # decide on Data and Grouping
       data, config = setter(name)
 
+      puts "PRE DATA #{data}"
       # set time constraint to graphs if exist
       helpers.time_constraint(config[:time], data) unless params[:time].empty?
-
+      puts "DATA #{data}"
       extra_processing(name, data)
       config[:data] = data
 
+      
       # Check if there is still valid data, else return "No Data"
       if helpers.has_data?(data)
         return_partial('#graph-div', layout, config)

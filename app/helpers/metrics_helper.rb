@@ -3,6 +3,7 @@
 # Helper for MetricsController
 module MetricsHelper
   GRAPH_CONFIG = {
+    Social: { group_by: "properties -> 'type'", time: 'time', average: nil },
     Newsletter: { time: 'created_at', average: nil, group_by: nil },
     Subscription: { group_by: "properties -> 'type'",
                     time: 'time', average: nil },
@@ -23,6 +24,8 @@ module MetricsHelper
 
   def data_setter(graph)
     case graph
+    when /Social/
+      [{title: 'Social Media', data: Ahoy::Event.social }]
     when /Reason/
       [{ title: 'Reason', data: NewsletterFeedback.graph }]
     when /Landing Page/
