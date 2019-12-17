@@ -35,14 +35,16 @@ function track_social(value) {
   });
 }
 
+$('#email-widget').click(() => {
+  track_social('Email');
+})
+
 // Event listeners for iframe social share button
 $(document).ready(() => {
   // Sends a function whenever a iframe is focused
   window.addEventListener('blur', () => {
     if (document.activeElement instanceof HTMLIFrameElement) {
       track_social(document.activeElement.dataset.value);
-    } else if (document.activeElement.id === 'email') {
-      track_social('Email');
     }
   });
 
