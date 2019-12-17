@@ -31,8 +31,9 @@ class ApplicationController < ActionController::Base
     ahoy.track 'Ran action', request.path_parameters
   end
 
-  def flash_class(level)
-    case level
+  # Returns the class for notification
+  def flash_class(type)
+    case type
     when 'success'
       'is-success'
     when 'error'

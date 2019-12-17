@@ -69,11 +69,11 @@ class PagesController < ApplicationController
   end
 
   def valid_sub_type?(params)
-    ['Free', 'Pro', 'Enterprise'].include? params
+    %w(Free Pro Enterprise).include? params
   end
 
   def valid_social_type?(params)
-    ['Facebook', 'Twitter'].include? params
+    %w(Facebook Twitter).include? params
   end
 
   def feedback_params

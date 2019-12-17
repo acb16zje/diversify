@@ -31,16 +31,14 @@ class MetricsController < ApplicationController
       layout = helpers.decide_layout(name)
 
       # decide on Data and Grouping
-      data, config = setter(name)
+      data, config = getter(name)
 
-      puts "PRE DATA #{data}"
       # set time constraint to graphs if exist
       helpers.time_constraint(config[:time], data) unless params[:time].empty?
-      puts "DATA #{data}"
+      
       extra_processing(name, data)
       config[:data] = data
 
-      
       # Check if there is still valid data, else return "No Data"
       if helpers.has_data?(data)
         return_partial('#graph-div', layout, config)
@@ -52,15 +50,15 @@ class MetricsController < ApplicationController
     end
   end
 
-  def return_partial(id, layout, locals)
+  def return_partial(id, layout, config)
     if locals[:data].present?
-      render json: generate_json_response(id, layout, locals)
+      render json: generate_json_response(id, layout, config)
     else
       render json: { title: '#graph-div', html: '<p>No Data</p>' }
     end
   end
 
-  def generate_json_response(title, template, locals)
+  def generate_json_response(title, template, config)
     {
       title: title,
       html:
@@ -72,14 +70,13 @@ class MetricsController < ApplicationController
           # The string format
           layout: false,
           # Skip the application layout
-          locals: locals
+          locals: config
         )
     } # Pass the model object with errors
   end
 
-  # set
-  def setter(graph)
-    [helpers.data_setter(graph), helpers.config_setter(graph)]
+  def getter(graph)
+    [helpers.data_getter(graph), helpers.config_getter(graph)]
   end
 
   private

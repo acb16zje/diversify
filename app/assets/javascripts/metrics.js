@@ -33,6 +33,10 @@ function changeIndexGraph() {
   updateGraphRequest(date, graph);
 }
 
+/**
+ * Function to setup datatable
+ * @param {*} setting boolean to set configuration
+ */
 function tableOptions(setting) {
   return {
     responsive: true,
@@ -82,12 +86,14 @@ $(document).ready(function() {
 
   const subscriberTable = $('#subscriberTable').DataTable(tableOptions(false));
 
+  //Display notification on newsletter ajax success
   $('#newsletterSendForm').on('ajax:success', (event, data) => {
     if (data.message) {
       showNotification(data.class, data.message);
     }
   });
 
+  //Refreshes datatable on data delete
   $('.delete_sub').on('ajax:success', (event) => {
     showNotification('is-success', 'Email Unsubscribed!');
 

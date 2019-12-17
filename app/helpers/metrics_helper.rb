@@ -14,15 +14,15 @@ module MetricsHelper
     Referrers: { group_by: 'referrer', time: 'started_at', average: nil }
   }.freeze
 
-  def config_setter(graph)
-    val = GRAPH_CONFIG.stringify_keys.keys.select { |key| graph.include? key }
+  def config_getter(graph)
+    val = (GRAPH_CONFIG.stringify_keys.keys.select { |key| graph.include? key })[0]
 
     GRAPH_CONFIG.stringify_keys.fetch(
-      val[0], time: 'created_at', average: nil, group_by: nil
+      val, time: 'created_at', average: nil, group_by: nil
     )
   end
 
-  def data_setter(graph)
+  def data_getter(graph)
     case graph
     when /Social/
       [{title: 'Social Media', data: Ahoy::Event.social }]
@@ -71,7 +71,7 @@ module MetricsHelper
   end
 
   # set time_constraint to data based on the number of time constraint selected
-  def time_constraint(time, data)
+  def time_constraint(time_column, data)
     date1, date2 = params[:time]
     date1 = DateTime.parse(date1)
     data.each_index do |i|
@@ -79,16 +79,16 @@ module MetricsHelper
       data[i][:data] = if datalist.instance_of? Array
                          custom_date_scope(datalist, date1, date2)
                        elsif !date2.nil?
-                         datalist.between_date(time, date1,
+                         datalist.between_date(time_column, date1,
                                                DateTime.parse(date2))
                        else
-                         datalist.on_date(time, date1)
+                         datalist.on_date(time_column, date1)
                        end
     end
   end
 
-  def custom_date_scope(data, date1, date2)
-    data.select do |v|
+  def custom_date_scope(datalist, date1, date2)
+    datalist.select do |v|
       v[:created_at].between?(
         date1,
         date2.nil? ? date1 + 1.days : DateTime.parse(date2) + 1.days

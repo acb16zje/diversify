@@ -3,32 +3,32 @@
 require 'rails_helper'
 
 describe MetricsHelper do
-  describe '#config_setter' do
+  describe '#config_getter' do
     let(:graph) { MetricsHelper::GRAPH_CONFIG }
 
-    it { expect(helper.config_setter('Newsletter')).to eq(graph[:Newsletter]) }
+    it { expect(helper.config_getter('Newsletter')).to eq(graph[:Newsletter]) }
 
-    it { expect(helper.config_setter('Null')).to eq(graph[:Newsletter]) }
+    it { expect(helper.config_getter('Null')).to eq(graph[:Newsletter]) }
   end
 
-  describe '#data_setter' do
-    it { expect(helper.data_setter('Reason').size).to eq(1) }
+  describe '#data_getter' do
+    it { expect(helper.data_getter('Reason').size).to eq(1) }
 
-    it { expect(helper.data_setter('Landing Page').size).to eq(3) }
+    it { expect(helper.data_getter('Landing Page').size).to eq(3) }
 
-    it { expect(helper.data_setter('by Newsletter').size).to eq(1) }
+    it { expect(helper.data_getter('by Newsletter').size).to eq(1) }
 
-    it { expect(helper.data_setter('Newsletter').size).to eq(2) }
+    it { expect(helper.data_getter('Newsletter').size).to eq(2) }
 
-    it { expect(helper.data_setter('Subscription').size).to eq(1) }
+    it { expect(helper.data_getter('Subscription').size).to eq(1) }
 
-    it { expect(helper.data_setter('Visits').size).to eq(1) }
+    it { expect(helper.data_getter('Visits').size).to eq(1) }
 
-    it { expect(helper.data_setter('Average Time Spent').size).to eq(1) }
+    it { expect(helper.data_getter('Average Time Spent').size).to eq(1) }
 
-    it { expect(helper.data_setter('Referrers').size).to eq(1) }
+    it { expect(helper.data_getter('Referrers').size).to eq(1) }
 
-    it { expect(helper.data_setter('Null')).to eq([]) }
+    it { expect(helper.data_getter('Null')).to eq([]) }
   end
 
   describe '#decide_layout' do
@@ -54,7 +54,7 @@ describe MetricsHelper do
 
     it {
       create(:subscriber)
-      expect(helper.has_data?(helper.data_setter('Newsletter'))).to eq true
+      expect(helper.has_data?(helper.data_getter('Newsletter'))).to eq true
     }
   end
 

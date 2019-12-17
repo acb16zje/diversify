@@ -91,13 +91,13 @@ class NewslettersController < ApplicationController
   def sub_pass_action
     NewsletterMailer.send_welcome(params[:email]).deliver_later
     message = 'Newsletter Subscribed'
-    class_card = flash_class('success')
+    notifiation_class = flash_class('success')
 
-    render json: { message: message, class: class_card }
+    render json: { message: message, class: notifiation_class }
   end
 
   def sub_fail_action(message)
-    class_card = flash_class('error')
-    render json: { message: message, class: class_card }
+    notifiation_class = flash_class('error')
+    render json: { message: message, class: notifiation_class }
   end
 end

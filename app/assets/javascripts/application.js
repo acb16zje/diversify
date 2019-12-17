@@ -8,6 +8,13 @@ $('.navbar-burger').click(() => {
   $('.navbar-menu').toggleClass('is-active');
 });
 
+/**
+ * Function to hide notification
+ * 
+ * @param {*} $wrapper Wrapper div to fix notification position
+ * @param {*} $notification Notification div holding the values
+ * @param {*} css CSS classes to be removed
+ */
 function hideNotification($wrapper, $notification, css) {
   setTimeout(() => {
     $wrapper.addClass('is-hidden');
@@ -15,6 +22,12 @@ function hideNotification($wrapper, $notification, css) {
   }, 2500);
 }
 
+/**
+ * Function to show notification
+ * 
+ * @param {*} css CSS classes to be added
+ * @param {*} message Message to be shown
+ */
 function showNotification(css, message) {
   const $wrapper = $('#notification');
   const $notification = $('> .notification', $wrapper);

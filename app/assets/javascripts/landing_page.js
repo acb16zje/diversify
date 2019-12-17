@@ -1,6 +1,6 @@
 //= require application
 
-
+//Response on newsletter subscription success/fail
 $('#newsletterSubForm').on('ajax:success', (event, data) => {
   if (data.hasOwnProperty('class')) {
     showNotification(data.class, data.message);
@@ -10,6 +10,7 @@ $('#newsletterSubForm').on('ajax:success', (event, data) => {
   }
 });
 
+//Show notification on landing page feedback submission success/fail
 $('#feedbackForm').on('ajax:success', function (event, data) {
   if (data.hasOwnProperty('class')) {
     showNotification(data.class, data.message);
@@ -17,19 +18,15 @@ $('#feedbackForm').on('ajax:success', function (event, data) {
       <p class="subtitle is-5 has-text-centered">Thank you for your feedback</p>
     `;
   }
-});
-
-$('#feedbackForm').on('ajax:error', function (event, data) {
-  console.log(data)
+}).on('ajax:error', function (event, data) {
   if (data.responseJSON.hasOwnProperty('class')) {
     showNotification(data.responseJSON.class, data.responseJSON.message);
   }
 });
 
+//Event listeners for iframe social share button
 $(document).ready(function() {
-  var myConfObj = {
-    iframeMouseOver : false
-  }
+  //Sends a function whenever a iframe is focused
   window.addEventListener('blur',function(){
     if(document.activeElement instanceof HTMLIFrameElement){
         $.ajax({
@@ -43,10 +40,11 @@ $(document).ready(function() {
     }
   });
   
+  //Resets focus when user moves from button
   $(window).on('touchend mouseover',function(){
     window.focus()
   })
-})
+});
 
 /**
  * Ajax call to send time spent when user enters another page
