@@ -8,10 +8,15 @@ describe MetricsHelper do
 
     it { expect(helper.config_getter('Newsletter')).to eq(graph[:Newsletter]) }
 
-    it { expect(helper.config_getter('Null')).to eq(graph[:Newsletter]) }
+    it {
+      expect(helper.config_getter('Null'))
+        .to eq(time: 'created_at', average: nil, group_by: nil)
+    }
   end
 
   describe '#data_getter' do
+    it { expect(helper.data_getter('Social').size).to eq(1) }
+
     it { expect(helper.data_getter('Reason').size).to eq(1) }
 
     it { expect(helper.data_getter('Landing Page').size).to eq(3) }
@@ -65,7 +70,7 @@ describe MetricsHelper do
     let(:data) { [{ data: record }] }
     let(:data_array) { [{ data: record.to_a }] }
 
-    let(:two_days_before) { (Time.now - 2.days).to_s }
+    let(:two_days_before) { 2.days.ago.to_s }
     let(:today) { Time.now.to_s }
 
     before do

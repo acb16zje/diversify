@@ -26,14 +26,13 @@ class NewsletterFeedback < ApplicationRecord
   scope :graph, -> { select(:reason, :created_at) }
 
   def self.count_reason(feedbacks)
-    arr = []
-    feedbacks.each do |feedback|
-      arr.concat(feedback.reason.split(' '))
-    end
-    arr = arr.group_by { |e| e }.map { |k, v| [k, v.length] }.to_h
-    @graph_dict.each do |k,v|
-      arr[v] = arr.delete(k.to_s)
-    end
-    arr
+    array = feedbacks
+            .reduce([]) { |arr, fb| arr.concat(fb.reason.split(' ')) }
+            .group_by { |e| e }
+            .map { |k, v| [k, v.length] }.to_h
+
+    @graph_dict.map { |k, v| array[v] = array.delete(k.to_s) }
+
+    array
   end
 end

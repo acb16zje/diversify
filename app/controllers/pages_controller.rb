@@ -13,7 +13,6 @@ class PagesController < ApplicationController
   end
 
   def track_social
-    
     ahoy.track 'Click Social', type: params[:value] if valid_social_type?(params[:value])
     head :ok
   end

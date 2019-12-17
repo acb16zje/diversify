@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe PagesController, :js do
+describe PagesController do
 
   describe '#track_time' do
 

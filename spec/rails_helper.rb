@@ -3,6 +3,30 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'simplecov'
 SimpleCov.start 'rails'
+SimpleCov.configure do
+  add_filter '/vendor/'
+  add_filter '/app/controllers/projects_controller.rb'
+  add_filter '/app/controllers/reviews_controller.rb'
+  add_filter '/app/controllers/tasks_controller.rb'
+  add_filter '/app/controllers/teams_controller.rb'
+
+  add_filter '/app/jobs'
+
+  add_filter '/app/models/category.rb'
+  add_filter '/app/models/issue.rb'
+  add_filter '/app/models/license.rb'
+  add_filter '/app/models/personality.rb'
+  add_filter '/app/models/preference.rb'
+  add_filter '/app/models/project.rb'
+  add_filter '/app/models/review.rb'
+  add_filter '/app/models/skill.rb'
+  add_filter '/app/models/skill_level.rb'
+  add_filter '/app/models/subscription_plan.rb'
+  add_filter '/app/models/task.rb'
+  add_filter '/app/models/team.rb'
+  add_filter '/app/models/user_personality.rb'
+end
+
 
 ENV['RAILS_ENV'] ||= 'test'
 require 'spec_helper'

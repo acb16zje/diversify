@@ -73,6 +73,7 @@ end
 group :test do
   gem 'capybara'
   gem 'factory_bot_rails'
+  gem 'image_processing'
   gem 'rspec-instafail', require: false
   gem 'shoulda-matchers'
   gem 'webdrivers'

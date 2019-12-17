@@ -24,34 +24,32 @@ class MetricsController < ApplicationController
   end
 
   def update_graph_time
-    if graph_params
-      name = params[:graph_name]
+    return unless graph_params
 
-      # decide on layout
-      layout = helpers.decide_layout(name)
+    name = params[:graph_name]
 
-      # decide on Data and Grouping
-      data, config = getter(name)
+    # decide on layout
+    layout = helpers.decide_layout(name)
 
-      # set time constraint to graphs if exist
-      helpers.time_constraint(config[:time], data) unless params[:time].empty?
-      
-      extra_processing(name, data)
-      config[:data] = data
+    # decide on Data and Grouping
+    data, config = getter(name)
 
-      # Check if there is still valid data, else return "No Data"
-      if helpers.has_data?(data)
-        return_partial('#graph-div', layout, config)
-      else
-        return_partial(nil, nil, {})
-      end
+    # set time constraint to graphs if exist
+    helpers.time_constraint(config[:time], data) unless params[:time].empty?
+
+    extra_processing(name, data)
+    config[:data] = data
+
+    # Check if there is still valid data, else return "No Data"
+    if helpers.has_data?(data)
+      return_partial('#graph-div', layout, config)
     else
-      head 500
+      return_partial(nil, nil, {})
     end
   end
 
   def return_partial(id, layout, config)
-    if locals[:data].present?
+    if config[:data].present?
       render json: generate_json_response(id, layout, config)
     else
       render json: { title: '#graph-div', html: '<p>No Data</p>' }
