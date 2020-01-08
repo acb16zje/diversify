@@ -15,3 +15,31 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/15caec6bd7c9484d2e75/maintainability)](https://codeclimate.com/github/Juneezee/project/maintainability)
 [![DeepScan grade](https://deepscan.io/api/teams/5941/projects/8683/branches/108632/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5941&pid=8683&bid=108632)
 [![GuardRails badge](https://badges.guardrails.io/Juneezee/project.svg?token=0bd329499a2c2a192e32591c66cecebdd048f143cadbead5c2ade1248d7d8cee&provider=github)](https://dashboard.guardrails.io/default/gh/Juneezee/project)
+
+---
+## Installation
+- Install the required gems (Bundler 2 required, see [here](https://bundler.io/v2.0/guides/bundler_2_upgrade.html) 
+  for upgrade guide)
+```bash
+bundle install
+```
+
+- Install the required `node_modules`
+    1. Install with yarn **(preferred)**:
+    ```bash
+    yarn install
+    ```
+
+    2. Install with npm:
+    ```bash
+    npm install
+    ```
+
+### Starting the Development Server
+- Option 1:
+    1. Install the [foreman](https://github.com/ddollar/foreman) gem 
+    2. Run `foreman start`
+    
+- Option 2:
+    1. Run `rails s` in a terminal session
+    2. Run `bin/webpack-dev-server` in another terminal session
