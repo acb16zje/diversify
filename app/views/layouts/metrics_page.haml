@@ -5,17 +5,14 @@
 
     -# CSS
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
-    = stylesheet_link_tag '//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css'
-    = stylesheet_link_tag 'metrics_page'
+    = stylesheet_pack_tag 'metrics/metrics'
 
     -# JavaScript
-    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: ''
-    = javascript_include_tag '//cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js', defer: ''
-    = javascript_include_tag '//cdn.jsdelivr.net/npm/datatables.net/js/jquery.dataTables.min.js', defer: ''
-    = javascript_include_tag 'plugins/dataTables.bulma', defer: ''
-    = javascript_include_tag 'plugins/purify.min', defer: '' 
-    = javascript_include_tag Ckeditor.cdn_url
-    = javascript_include_tag 'metrics'
+    - if content_for(:newsletter)
+      = stylesheet_pack_tag 'metrics/newsletter'
+      = javascript_pack_tag 'metrics/newsletter', defer: ''
+    - else
+      = javascript_pack_tag 'metrics/metrics', async: ''
 
   %body.has-spaced-navbar-fixed-top
     %nav.navbar.is-fixed-top.is-spaced
@@ -24,13 +21,6 @@
           = link_to metrics_path, class: 'navbar-item' do
             = image_tag 'logo/logo_horizontal.svg', width: 150
           = link_to 'Landing Page', root_path, class: 'navbar-item'
-
-
-    - flash.each do |key, value|
-      #notification
-        .notification.is-success
-          %button.delete
-          = value
 
     %section.section
       .container
@@ -50,6 +40,7 @@
               %ul.menu-list
                 %li
                   = link_to 'Overview', traffic_metrics_path, class: "#{active?(traffic_metrics_path)}"
+
               %p.menu-label
                 Newsletter
               %ul.menu-list
@@ -62,4 +53,5 @@
                 %li
                   = link_to 'Subscriber Management', subscribers_newsletters_path, class: "#{active?(subscribers_newsletters_path)}"
           .column.is-9
-            = yield
+            #app
+              = yield

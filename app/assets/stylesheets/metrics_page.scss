@@ -1,5 +1,11 @@
 @import "application";
-@import "plugins/dataTables.bulma";
+
+/*! purgecss start ignore */
+@import "~buefy/src/scss/components/datepicker";
+@import "~buefy/src/scss/components/dropdown";
+@import "~buefy/src/scss/components/table";
+@import "~buefy/src/scss/components/loading";
+/*! purgecss end ignore */
 
 html {
   background-color: #f7f8f9;

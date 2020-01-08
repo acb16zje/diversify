@@ -9,7 +9,7 @@ class MetricsController < ApplicationController
 
   def index
     @static_data = [
-      NewsletterSubscription.where(subscribed: true).count,
+      NewsletterSubscription.subscribed_count,
       Ahoy::Visit.today_count,
       Ahoy::Visit.count
     ]
@@ -17,14 +17,14 @@ class MetricsController < ApplicationController
 
   def traffic
     @static_data = [
-      Ahoy::Visit.all.group(:device_type).count,
-      Ahoy::Visit.all.group(:browser).count,
-      Ahoy::Visit.all.group(:country).count
+      Ahoy::Visit.group(:device_type).size,
+      Ahoy::Visit.group(:browser).size,
+      Ahoy::Visit.group(:country).size
     ]
   end
 
   def update_graph_time
-    return unless graph_params
+    return head :bad_request unless graph_params
 
     name = params[:graph_name]
 
@@ -32,67 +32,48 @@ class MetricsController < ApplicationController
     layout = helpers.decide_layout(name)
 
     # decide on Data and Grouping
-    data, config = getter(name)
+    data = helpers.data_getter(name)
+    config = helpers.config_getter(name)
 
     # set time constraint to graphs if exist
-    helpers.time_constraint(config[:time], data) unless params[:time].empty?
+    helpers.time_constraint(config[:time], data) unless params[:time].blank?
 
     extra_processing(name, data)
     config[:data] = data
 
     # Check if there is still valid data, else return "No Data"
     if helpers.has_data?(data)
-      return_partial('#graph-div', layout, config)
+      return_partial('graph-div', layout, config)
     else
       return_partial(nil, nil, {})
     end
   end
 
-  def return_partial(id, layout, config)
+  def return_partial(id, template, config)
     if config[:data].present?
-      render json: generate_json_response(id, layout, config)
+      render json: {
+        id: id,
+        html: render_to_string(template, layout: false, locals: config)
+      }
     else
-      render json: { title: '#graph-div', html: '<p>No Data</p>' }
+      render json: { id: 'graph-div', html: '<p>No Data</p>' }
     end
-  end
-
-  def generate_json_response(title, template, config)
-    {
-      title: title,
-      html:
-        render_to_string(
-          # Renders the ERB partial to a string
-          template: template,
-          # The ERB partial
-          formats: :html,
-          # The string format
-          layout: false,
-          # Skip the application layout
-          locals: config
-        )
-    } # Pass the model object with errors
-  end
-
-  def getter(graph)
-    [helpers.data_getter(graph), helpers.config_getter(graph)]
   end
 
   private
 
   def extra_processing(name, data)
-    datalist = data[0][:data]
     if name.include? 'by Newsletter'
-      datalist = datalist.collect do |i|
+      data[0][:data].collect! do |i|
         ["#{i['title']} #{i['created_at'].utc.strftime('%Y-%m-%d')}",
          i['feedback_count']]
       end
     elsif name.include? 'Reason'
-      datalist = NewsletterFeedback.count_reason(datalist)
+      data[0][:data] = NewsletterFeedback.count_reason(data[0][:data])
     end
-    data[0][:data] = datalist
   end
 
   def graph_params
-    params.require(:metric)
+    params.require(:graph_name)
   end
 end

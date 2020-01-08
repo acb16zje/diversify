@@ -7,18 +7,12 @@
 
       .columns
         .column
-          .field.has-addons
-            .control.is-expanded
-              %input.input.single-calendar#graph-date{type: 'date', placeholder: 'Select a Date'}
-            .control
-              %button.button#date-clear
-                %span.icon.is-small
-                  %span.iconify{'data-icon': 'emojione-v1:cross-mark'}
+          %datepicker{'@set-dates': 'setDates'}
 
         .column
           .select.is-pulled-right
-            %select#graph-select{onchange: 'changeIndexGraph()'}
+            %select#graph-select{'v-model': 'graphOption'}
               %option Social Share Ratio
               %option Social Share by Date
 
-      .content#graph-div.box
+      #graph-div.box

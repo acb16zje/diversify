@@ -25,6 +25,7 @@ class NewsletterSubscription < ApplicationRecord
 
   scope :all_subscribed_emails, -> { where(subscribed: true).pluck(:email) }
   scope :previously_subscribed, -> { where(subscribed: false) }
+  scope :subscribed_count, -> { all_subscribed_emails.size }
 
   after_commit :send_welcome, on: :create
 
