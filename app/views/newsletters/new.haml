@@ -1,19 +1,15 @@
 - content_for :title, 'Send Newsletter'
-
-#notification.is-hidden
-  .notification
-    %button.delete
-    %p
+- content_for :newsletter, true
 
 %h1.title Send Newsletter
 
-= form_with(id: 'newsletterSendForm', model: @newsletter) do |f|
+= form_with model: Newsletter.new, html: {'@ajax:error': 'sendError'} do |f|
   .field
     .control
       = f.text_field :title, class:'input', placeholder: 'Newsletter Title', required: ''
   .field
     .control
-      = f.cktext_area :content, required: '', placeholder: 'Type your newsletter here...', ckeditor: { toolbar: 'mini' }
+      = f.rich_text_area :content, placeholder: 'Type your newsletter here...', class: 'content'
   .field
     .control
-      = submit_tag('Send newsletter', class: 'button is-primary')
+      = f.submit 'Send newsletter', class: 'button is-primary'

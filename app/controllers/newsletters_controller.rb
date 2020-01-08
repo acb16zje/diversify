@@ -10,20 +10,16 @@ class NewslettersController < ApplicationController
     @newsletters = Newsletter.all.decorate
   end
 
-  def new
-    @newsletter = Newsletter.new
-  end
+  def new; end
 
   def create
     newsletter = Newsletter.new(newsletter_params)
 
     if newsletter.save
-      NewsletterSubscription.delay.send_newsletter(newsletter)
-
-      flash['success'] = 'Newsletter Sent'
-      render js: "window.location='#{newsletters_path}'"
+      flash[:toast] = {type: 'success', message: 'Newsletter sent'}
+      render js: "window.location='#{newsletter_path(newsletter)}'"
     else
-      render json: { message: 'Send Failed', class: flash_class('error') }
+      render json: { message: 'Send Failed' }, status: 422
     end
   end
 

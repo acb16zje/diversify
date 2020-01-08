@@ -46,9 +46,6 @@ gem 'groupdate'
 # CSS styles in action mailer
 gem 'premailer-rails'
 
-gem 'ckeditor', github: 'galetahub/ckeditor'
-gem 'mini_magick'
-
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'

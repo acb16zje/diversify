@@ -5,7 +5,6 @@
 # Table name: newsletters
 #
 #  id         :bigint           not null, primary key
-#  content    :text             not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -14,6 +13,9 @@
 # Newsletter model
 class Newsletter < ApplicationRecord
   include DateScope
+
+  has_rich_text :content
+  validates_presence_of :title, :content
 
   scope :graph, lambda {
     find_by_sql(
@@ -25,5 +27,12 @@ class Newsletter < ApplicationRecord
     )
   }
 
-  validates_presence_of :title, :content
+  after_commit :send_newsletter, on: :create
+
+
+  private
+
+  def send_newsletter
+    NewsletterSubscription.delay.send_newsletter(self)
+  end
 end
