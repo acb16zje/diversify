@@ -2,8 +2,13 @@
 
 # Controller for landing pages
 class PagesController < ApplicationController
-  layout 'landing_page'
   skip_authorization_check
+
+  before_action :track_ahoy_visit
+
+  after_action :track_action, except: :track_time
+
+  layout 'landing_page'
 
   # Function to track subscriptions
   # should be changed once proper subscription system has been completed
@@ -39,6 +44,13 @@ class PagesController < ApplicationController
   end
 
   private
+
+  # Ahoy Gem function to track actions
+  def track_action
+    return if request.xhr? || request.path_parameters[:controller] != 'pages'
+
+    ahoy.track 'Ran action', request.path_parameters
+  end
 
   def millisec_to_sec(time)
     time.to_f.round / 1000

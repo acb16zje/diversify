@@ -6,11 +6,10 @@ class ApplicationController < ActionController::Base
   # and authorising actions on each controller
   # check_authorization
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
-  protect_from_forgery with: :exception
+  # Ahoy gem, used in PagesController and NewsletterController only
+  skip_before_action :track_ahoy_visit
 
-  after_action :track_action
+  protect_from_forgery with: :exception
 
   rescue_from ActionController::ParameterMissing do
     render json: { message: 'Bad Request' }, status: :bad_request
@@ -26,13 +25,6 @@ class ApplicationController < ActionController::Base
   end
 
   protected
-
-  # Ahoy Gem function to track actions
-  def track_action
-    return if request.xhr? || request.path_parameters[:controller] == 'metrics'
-
-    ahoy.track 'Ran action', request.path_parameters
-  end
 
   # Returns the class for notification
   def flash_class(type)

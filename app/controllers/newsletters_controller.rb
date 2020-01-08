@@ -2,9 +2,8 @@
 
 # Controller for newsletter
 class NewslettersController < ApplicationController
-  skip_after_action :track_action
-  skip_before_action :track_ahoy_visit,
-                     only: %i[index create new show subscribers]
+  before_action :track_ahoy_visit, only: :unsubscribe
+
   layout 'metrics_page'
 
   def index

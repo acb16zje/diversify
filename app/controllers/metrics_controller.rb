@@ -2,9 +2,6 @@
 
 # Controller for metrics
 class MetricsController < ApplicationController
-  skip_after_action :track_action
-  skip_before_action :track_ahoy_visit
-
   layout 'metrics_page'
 
   def index
