@@ -89,15 +89,10 @@ class NewslettersController < ApplicationController
   end
 
   def sub_pass_action
-    NewsletterMailer.send_welcome(params[:email]).deliver_later
-    message = 'Newsletter Subscribed'
-    notifiation_class = flash_class('success')
-
-    render json: { message: message, class: notifiation_class }
+    render json: { message: 'Thanks for subscribing' }
   end
 
   def sub_fail_action(message)
-    notifiation_class = flash_class('error')
-    render json: { message: message, class: notifiation_class }
+    render json: { message: message }, status: :unprocessable_entity
   end
 end

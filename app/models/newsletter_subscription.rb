@@ -26,11 +26,17 @@ class NewsletterSubscription < ApplicationRecord
   scope :all_subscribed_emails, -> { where(subscribed: true).pluck(:email) }
   scope :previously_subscribed, -> { where(subscribed: false) }
 
-
+  after_commit :send_welcome, on: :create
 
   def self.send_newsletter(newsletter)
     all_subscribed_emails.each_slice(50) do |emails|
       NewsletterMailer.send_newsletter(emails, newsletter).deliver_later
     end
+  end
+
+  private
+
+  def send_welcome
+    NewsletterMailer.send_welcome(:email).deliver_later
   end
 end
