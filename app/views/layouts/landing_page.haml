@@ -5,84 +5,84 @@
     %meta{content: 'website', property: 'og:type'}
     %meta{content: 'Diversify', property: 'og:title'}
     %meta{content: 'Automated team building tool', property: 'og:description'}
-    %meta{content: 'assets/logo/logo_vertical.svg', property: 'og:image'}
+    %meta{content: image_path('logo/logo_vertical.svg'), property: 'og:image'}
 
     -# Search Engine
     %meta{content: 'Automated team building software', name: 'description'}
-    %meta{content: '/assets/logo/logo_vertical.svg', name: 'image'}
+    %meta{content: image_path('logo/logo_vertical.svg'), name: 'image'}
     -# Schema.org for Google
     %meta{content: 'Diversify', itemprop: 'name'}
     %meta{content: 'Automated team building software', itemprop: 'description'}
-    %meta{content: '/assets/logo/logo_vertical.svg', itemprop: 'image'}
+    %meta{content: image_path('logo/logo_vertical.svg'), itemprop: 'image'}
     -# Twitter
     %meta{content: 'summary', name: 'twitter:card'}
     %meta{content: 'Diversify', name: 'twitter:title'}
     %meta{content: 'Automated team building software', name: 'twitter:description'}
-    %meta{content: '/assets/logo/logo_vertical.svg', name: 'twitter:image:src'}
+    %meta{content: image_path('logo/logo_vertical.svg'), name: 'twitter:image:src'}
     -# Open Graph general (Facebook, Pinterest & Google+)
     %meta{content: 'Diversify', name: 'og:title'}
     %meta{content: 'Automated team building software', name: 'og:description'}
-    %meta{content: '/assets/logo/logo_vertical.svg', name: 'og:image'}
+    %meta{content: image_path('logo/logo_vertical.svg'), name: 'og:image'}
     %meta{content: 'website', name: 'og:type'}
 
     = render 'partials/head'
 
     -# CSS
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
-    = stylesheet_link_tag 'landing_page'
+    = stylesheet_pack_tag 'landing_page'
 
     -# JavaScript
-    = javascript_include_tag '//cdn.jsdelivr.net/npm/@iconify/iconify/dist/iconify.min.js', defer: ''
-    = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', 'data-bg': '#645862', 'data-fg': '#fff', 'data-link': '#f1d600', 'data-close-text': 'OK'
-    = javascript_include_tag 'landing_page', defer: ''
-    %script{:async => "", :charset => "utf-8", :src => "https://platform.twitter.com/widgets.js"}
+    = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', data: {bg: '#645862', fg: '#fff', link: '#f1d600', 'close-text': 'OK'}
+    = javascript_pack_tag 'landing_page', defer: ''
 
   %body.has-spaced-navbar-fixed-top
-    %nav.navbar.is-fixed-top.is-spaced
-      .container
-        .navbar-brand
-          = link_to root_path, class: 'navbar-item' do
-            = image_tag 'logo/logo_horizontal.svg', width: 150
-          .navbar-burger.burger{'data-target': 'navbar'}
-            %span
-            %span
-            %span
-        #navbar.navbar-menu
-          .navbar-end.navbar-center
-            = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
-            = link_to 'About', about_pages_path, class: 'navbar-item'
-            = link_to 'Customers', love_pages_path, class: 'navbar-item'
-            = link_to 'Features', features_pages_path, class: 'navbar-item'
-          .navbar-end
-            = link_to 'Newsletter', newsletter_pages_path, class: 'button is-secondary is-medium', id: 'newsletter-button'
-    = yield
+    #app
+      %nav.navbar.is-fixed-top.is-spaced
+        .container
+          .navbar-brand
+            = link_to root_path, class: 'navbar-item' do
+              = image_tag 'logo/logo_horizontal.svg', width: 150
+            .navbar-burger.burger{'v-bind:class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar'}
+              %span
+              %span
+              %span
+          #navbar.navbar-menu{'v-bind:class': "{ 'is-active': showNavbar }"}
+            .navbar-end.navbar-center
+              = link_to 'Pricing', pricing_pages_path, class: 'navbar-item'
+              = link_to 'About', about_pages_path, class: 'navbar-item'
+              = link_to 'Customers', love_pages_path, class: 'navbar-item'
+              = link_to 'Features', features_pages_path, class: 'navbar-item'
+            .navbar-end
+              = link_to 'Newsletter', newsletter_pages_path, class: 'button is-secondary is-medium', id: 'newsletter-button'
 
-    %footer.footer
-      .container
-        .columns.is-mobile.is-multiline
-          .column.has-text-centered
-            = link_to root_path do
-              = image_tag 'logo/logo_vertical.svg', width: 100
-            %p
-              %a.icon.is-large.brand
-                %span.iconify.facebook{'data-icon': 'brandico:facebook'}
-              %a.icon.is-large.brand
-                %span.iconify{'data-icon': 'logos:twitter'}
-              %a.icon.is-large.brand
-                %span.iconify.instagram{'data-icon': 'fa-brands:instagram'}
-              %a.icon.is-large.brand
-                %span.iconify.linkedin{'data-icon': 'brandico:linkedin'}
-            %p Copyright &copy; 2019
-          .column
-            %h5.title.is-5.is-spaced Products
-            = link_to 'Features', features_pages_path, class: 'subtitle is-6'
-            = link_to 'Pricing', pricing_pages_path, class: 'subtitle is-6'
-            = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
-          .column
-            %h5.title.is-5.is-spaced Company
-            = link_to 'About Us', about_pages_path, class: 'subtitle is-6'
-            = link_to 'Customers', love_pages_path, class: 'subtitle is-6'
-          .column
-            %h5.title.is-5.is-spaced Support
-            = link_to 'Contact Us', "#{about_pages_path}#contact", class: 'subtitle is-6'
-            = link_to 'Feedback', feedback_pages_path, class: 'subtitle is-6'
+      = yield
+
+      %footer.footer
+        .container
+          .columns.is-mobile.is-multiline
+            .column.has-text-centered
+              = link_to root_path do
+                = image_tag 'logo/logo_vertical.svg', width: 100
+              %p
+                %a.icon.is-large.brand
+                  %span.iconify.facebook{'data-icon': 'brandico:facebook'}
+                %a.icon.is-large.brand
+                  %span.iconify{'data-icon': 'logos:twitter'}
+                %a.icon.is-large.brand
+                  %span.iconify.instagram{'data-icon': 'fa-brands:instagram'}
+                %a.icon.is-large.brand
+                  %span.iconify.linkedin{'data-icon': 'brandico:linkedin'}
+              %p Copyright &copy; 2019
+            .column
+              %h5.title.is-5.is-spaced Products
+              = link_to 'Features', features_pages_path, class: 'subtitle is-6'
+              = link_to 'Pricing', pricing_pages_path, class: 'subtitle is-6'
+              = link_to 'Newsletter', newsletter_pages_path, class: 'subtitle is-6'
+            .column
+              %h5.title.is-5.is-spaced Company
+              = link_to 'About Us', about_pages_path, class: 'subtitle is-6'
+              = link_to 'Customers', love_pages_path, class: 'subtitle is-6'
+            .column
+              %h5.title.is-5.is-spaced Support
+              = link_to 'Contact Us', "#{about_pages_path}#contact", class: 'subtitle is-6'
+              = link_to 'Feedback', feedback_pages_path, class: 'subtitle is-6'

@@ -12,8 +12,19 @@
 #  updated_at :datetime         not null
 #
 
+# LandingFeedback model
 class LandingFeedback < ApplicationRecord
   include DateScope
+
+  CHANNEL = [
+    'Social Media',
+    'Search Engine',
+    'Newspaper',
+    'Recommended by others'
+  ].freeze
+
+  validates_presence_of :smiley
+  validates :channel, inclusion: { in: CHANNEL }
 
   scope :smiley, -> { select(:smiley) }
   scope :channel, -> { select(:channel) }

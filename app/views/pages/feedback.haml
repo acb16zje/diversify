@@ -1,37 +1,34 @@
 - content_for :title, 'Feedback'
 
-#notification.is-hidden
-  .notification
-    %button.delete
-    %p
-
 %section.section#feedback
   .container
     %h1.title.is-1.has-text-centered Help us improve
 
     .box
-      = form_with(url: submit_feedback_pages_path, method: 'post', id:'feedbackForm') do
+      = form_with url: submit_feedback_pages_path, scope: :landing_feedback, html: {'@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError'} do |f|
         .field
           .control.smiley
             %label.label How is your experience with our website?
             %label.radio
-              = radio_button_tag :smiley, 'sad', false, class: 'sad', required: ''
+              = f.radio_button :smiley, 'sad', class: 'sad', required: ''
             %label.radio
-              = radio_button_tag :smiley, 'neutral', false, class: 'neutral'
+              = f.radio_button :smiley, 'neutral', class: 'neutral'
             %label.radio
-              = radio_button_tag :smiley,'happy', false, class: 'happy'
+              = f.radio_button :smiley, 'happy', class: 'happy'
         .field
           .control
             %label.label How did you find out our product?
             .select
-              = select_tag :channel, options_for_select([ '', 'Social Media', 'Search Engine', 'Newspaper', 'Recommended by others' ]), required: ''
+              = f.select :channel, LandingFeedback::CHANNEL, { include_blank: '' }, required: ''
         .field
           .control
             %label.label Are you interested in using our product?
-            %label.radio Yes
-            = radio_button_tag :interest, true, required: ''
-            %label.radio No
-            = radio_button_tag :interest, false
+            = f.label :interest_true, class: 'radio' do
+              = f.radio_button :interest, true, { checked: true }
+              Yes
+            = f.label :interest_false, class: 'radio' do
+              = f.radio_button :interest, false
+              No
         .field
           .control
-            = submit_tag('Submit', class: 'button is-success')
+            = f.submit 'Submit', class: 'button is-success'

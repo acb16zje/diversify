@@ -74,8 +74,6 @@ h5.description::before {
     }
 
     &:hover:after {
-      font-weight: bold;
-      color: $primary;
       transform: scaleX(1);
     }
   }
@@ -312,7 +310,7 @@ footer.footer {
 
     &::after {
       content: "";
-      background: asset_url("confetti.png");
+      background: url("../images/confetti.png");
       background-size: contain;
       opacity: 0.3;
       top: 0;

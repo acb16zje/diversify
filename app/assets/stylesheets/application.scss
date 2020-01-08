@@ -3,7 +3,13 @@ $primary: #3e3cd3;
 $secondary: #f10a30;
 $accents: #acacd5;
 
-@import "bulma";
+@import "~bulma/sass/utilities/initial-variables";
+@import "~buefy/src/scss/utils/all";
+@import "~bulma/bulma";
+
+/*! purgecss start ignore */
+@import "~buefy/src/scss/components/notices";
+/*! purgecss end ignore */
 
 /* Fix ghost CSS padding or margin */
 html, body {
@@ -100,28 +106,6 @@ nav.navbar {
     @media screen and (max-width: 1024px) {
       width: 200px;
       margin: 1rem 0;
-    }
-  }
-}
-
-/* Notification */
-#notification {
-  position: fixed;
-  z-index: 999;
-  left: 50%;
-
-  .notification {
-    position: relative;
-    left: -50%;
-  }
-
-  @media screen and (max-width: 450px) {
-    left: 0;
-    width: 100%;
-    padding: 20px;
-
-    .notification {
-      left: 0;
     }
   }
 }
