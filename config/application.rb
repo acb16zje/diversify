@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -12,14 +14,13 @@ module Diversify
     config.active_job.queue_adapter = :delayed_job
 
     # This points to our own routes middleware to handle exceptions
-    config.exceptions_app = self.routes
+    config.exceptions_app = routes
 
     I18n.enforce_available_locales = false
     config.generators do |g|
       g.orm :active_record
       g.template_engine :haml
-      g.fixture_replacement :factory_bot,
-                            dir: 'spec/factories'
+      g.fixture_replacement :factory_bot, dir: 'spec/factories'
       g.test_framework :rspec,
                        fixture: true,
                        helper_specs: true,
@@ -31,13 +32,13 @@ module Diversify
 
     config.action_mailer.logger = nil
     config.action_mailer.smtp_settings = {
-        address: 'mailhost.shef.ac.uk',
-        port: 587,
-        enable_starttls_auto: true,
-        openssl_verify_mode: OpenSSL::SSL::VERIFY_PEER,
-        openssl_verify_depth: 3,
-        ca_file: '/etc/ssl/certs/ca-certificates.crt',
-        domain: 'team07.demo1.genesys.shefcompsci.org.uk',
+      address: 'mailhost.shef.ac.uk',
+      port: 587,
+      enable_starttls_auto: true,
+      openssl_verify_mode: OpenSSL::SSL::VERIFY_PEER,
+      openssl_verify_depth: 3,
+      ca_file: '/etc/ssl/certs/ca-certificates.crt',
+      domain: 'team07.demo1.genesys.shefcompsci.org.uk'
     }
 
     # Initialize configuration defaults for originally generated Rails version.

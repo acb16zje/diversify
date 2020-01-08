@@ -57,7 +57,6 @@ RSpec.configure do |config|
   config.include Capybara::DSL # Let's us use the capybara stuf in our specs
   config.include Warden::Test::Helpers # Let's us do login_as(user)
   config.include Rails.application.routes.url_helpers
-  config.include Capybara::Select2
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # Include custom helpers

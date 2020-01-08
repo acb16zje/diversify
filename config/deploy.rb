@@ -5,7 +5,7 @@ set :repo_url,                'git@git.shefcompsci.org.uk:com4525-2019-20/team07
 set :linked_files,            fetch(:linked_files,  fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'uploads')
 # set the locations to look for changed assets to determine whether to precompile
-set :assets_dependencies,     %w(app/assets lib/assets vendor/assets)
+set :assets_dependencies,     %w[app/assets lib/assets vendor/assets]
 set :branch,                  -> { fetch(:stage) }
 
 ## Ruby configuration
@@ -23,7 +23,7 @@ set :pty,                     true
 set :keep_releases,           2
 
 ## Whenever configuration
-set :whenever_command,        [:bundle, :exec, :whenever]
+set :whenever_command,        %i[bundle exec whenever]
 set :whenever_roles,          [:db]
 set :whenever_environment,    -> { (fetch(:rails_env) || fetch(:stage)) }
 set :whenever_identifier,     -> { "#{fetch(:application)}-#{fetch(:whenever_environment)}" }
@@ -81,7 +81,7 @@ namespace :delayed_job do
 end
 
 # clear the previous precompile task so it can be reconfigured below
-Rake::Task["deploy:assets:precompile"].clear_actions
+Rake::Task['deploy:assets:precompile'].clear_actions
 # define a custom error used to trigger precompilation when required
 class PrecompileRequired < StandardError; end
 
@@ -108,7 +108,7 @@ namespace :deploy do
                 execute(:diff, '-Naur', release_path.join(dep), latest_release_path.join(dep)) rescue raise(PrecompileRequired)
               end
 
-              info("Skipping asset precompilation because there were no asset changes")
+              info('Skipping asset precompilation because there were no asset changes')
             rescue PrecompileRequired
               execute :bundle, :exec, :rake, 'assets:precompile'
             end
