@@ -9,17 +9,16 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :update_headers_to_disable_caching
 
   after_action :track_action
 
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
   rescue_from ActiveRecord::RecordNotFound do
-    render template: 'errors/error_404', status: 404
+    render template: 'errors/error_404', status: :not_found
   end
 
   rescue_from CanCan::AccessDenied do
-    render template: 'errors/error_403', status: 403
+    render template: 'errors/error_403', status: :forbidden
   end
 
   protected
@@ -41,13 +40,5 @@ class ApplicationController < ActionController::Base
     else
       'is-primary'
     end
-  end
-
-  private
-
-  def update_headers_to_disable_caching
-    response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
-    response.headers['Pragma'] = 'no-cache'
-    response.headers['Expires'] = '-1'
   end
 end
