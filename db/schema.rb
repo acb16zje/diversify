@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_16_174911) do
+ActiveRecord::Schema.define(version: 2019_12_31_204523) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 2019_12_16_174911) do
 
   create_table "newsletter_feedbacks", force: :cascade do |t|
     t.string "email", default: "", null: false
-    t.string "reason", default: "", null: false
+    t.string "reasons", default: [], null: false, array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

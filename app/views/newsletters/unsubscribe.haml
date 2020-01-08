@@ -1,67 +1,40 @@
 - content_for :title, 'Unsubscribe Newsletter'
 
 !!!
-%html{lang: 'en'}
+%html.has-background-grey-lighter{lang: 'en'}
   %head
     = render 'partials/head'
 
     -# CSS and JavaScript
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
-    = stylesheet_link_tag 'metrics_page'
-    = javascript_include_tag 'landing_page', defer: ''
+    = stylesheet_pack_tag 'landing_page'
+    = javascript_pack_tag 'landing_page', defer: ''
 
   %body.has-text-centered
-    #notification.is-hidden
-      .notification
-        %button.delete
-        %p
+    #app
+      %section.section#unsubscribe
+        .container.box.has-text-centered
+          .columns
+            .column
+              = image_tag 'logo/logo_horizontal.svg', width: 200
 
-    %section.section#unsubscribe
-      .container.box
-        .columns
-          .column
-            = image_tag 'logo/logo_horizontal.svg', width: 200
+          %h1.title.is-3.is-spaced We are sorry to see you go
+          %h3.subtitle.is-5 Please let us know why you want to unsubscribe
 
-        %h1.title.has-text-centered.is-3.is-spaced We are sorry to see you go
-        %h3.subtitle.has-text-centered.is-5 Please let us know why you want to unsubscribe
+          .columns
+            .column
+              = form_with url: unsubscribe_newsletters_path, scope: :newsletter_unsubscription, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
+                .field
+                  .control
+                    = f.text_field :email, class: 'input', placeholder: 'Your email address', type: 'email', required: ''
 
-        .columns
-          .column#formContainer
-            = form_with(url: unsubscribe_newsletters_path, method: 'post', id: 'newsletterSubForm') do
-              .field
-                .control
-                  = text_field_tag :email, nil, class: 'input', placeholder: 'Your email address', type: 'email', required: true
+                - NewsletterFeedback::REASONS.each do |key, desc|
+                  .field
+                    .control
+                      = f.label "reasons_#{key}", class: 'checkbox' do
+                        = f.check_box :reasons, { multiple: '' }, key, nil
+                        = desc
 
-              .field
-                .control
-                  = label_tag(:no_longer, class: 'checkbox') do
-                    = check_box_tag(:no_longer)
-                    I no longer want to receive these emails
-
-              .field
-                .control
-                  = label_tag(:too_frequent, class: 'checkbox') do
-                    = check_box_tag(:too_frequent)
-                    The emails are too frequent
-
-              .field
-                .control
-                  = label_tag(:never_signed, class: 'checkbox') do
-                    = check_box_tag(:never_signed)
-                    I never signed up for the newsletter
-
-              .field
-                .control
-                  = label_tag(:inappropriate, class: 'checkbox') do
-                    = check_box_tag(:inappropriate)
-                    The emails are inappropriate
-
-              .field
-                .control
-                  = label_tag(:not_interested, class: 'checkbox') do
-                    = check_box_tag(:not_interested)
-                    I am not interested anymore
-
-              .field
-                .control.has-text-centered
-                  = submit_tag('Unsubscribe', class: 'button is-primary')
+                .field
+                  .control.has-text-centered
+                    = f.submit 'Unsubscribe', class: 'button is-primary'

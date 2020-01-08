@@ -29,12 +29,14 @@ class NewslettersController < ApplicationController
   end
 
   def show
-    @newsletter = Newsletter.find(params[:id])
+    @newsletter = Newsletter.find_by_id(params[:id])
 
     return unless request.xhr?
 
-    content = ActionController::Base.helpers.sanitize(@newsletter.content)
-    render json: { title: @newsletter.title, content: content }
+  end
+
+  def subscribers
+    @subscribers = NewsletterSubscription.where(subscribed: true).decorate
   end
 
   def subscribe
@@ -56,36 +58,27 @@ class NewslettersController < ApplicationController
     render layout: false
   end
 
-  def create_unsubscribe
-    return unless params.key?(:email)
+  def post_unsubscribe
+    feedback = NewsletterFeedback.create(unsubscribe_params)
 
-    reason = ''
-    params.each { |key, value| reason += " #{key}" if value == '1' }
-    feedback = NewsletterFeedback.new(email: params[:email], reason: reason)
-    subscription = NewsletterSubscription.find_by(email: params[:email])
-    render json: unsubscribe_json(reason, feedback, subscription)
-  end
-
-  def subscribers
-    @subscribers = NewsletterSubscription.where(subscribed: true).decorate
+    if feedback.errors.any?
+      render json: { message: feedback.errors.full_messages.join(', ') },
+             status: :unprocessable_entity
+    else
+      # Prevent Oracle attack on newsletter subscribers list by returning as
+      # long as the params syntax are correct
+      render json: { message: 'Newsletter Unsubscribed! Hope to see you again' }
+    end
   end
 
   private
 
-  def unsubscribe_json(reason, feedback, subscription)
-    if reason != '' && !subscription.nil? && feedback.save
-      subscription.update(subscribed: false)
-      { html: 'Newsletter Unsubscribed! Hope to see you again' }
-    elsif subscription.nil?
-      { message: 'This email is not subscribed to the newsletter',
-        class: flash_class('error') }
-    else
-      { message: 'Please select a reason', class: flash_class('error') }
-    end
-  end
-
   def newsletter_params
     params.require(:newsletter).permit(:title, :content)
+  end
+
+  def unsubscribe_params
+    params.require(:newsletter_unsubscription).permit(:email, reasons: [])
   end
 
   def sub_pass_action

@@ -55,30 +55,3 @@ aside.menu {
     justify-content: center;
   }
 }
-
-
-/* Unsubscribe page */
-#unsubscribe {
-  .container {
-    max-width: 550px;
-
-    form {
-      margin: 0 auto;
-      max-width: 400px;
-
-      .field {
-        &:last-of-type {
-          margin-top: 3em;
-        }
-
-        .checkbox {
-          user-select: none;
-        }
-
-        input[type='checkbox'] {
-          margin-right: 5px;
-        }
-      }
-    }
-  }
-}
