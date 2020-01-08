@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   after_action :track_action
 
+  rescue_from ActionController::ParameterMissing do
+    render json: { message: 'Bad Request' }, status: :bad_request
+  end
+
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
   rescue_from ActiveRecord::RecordNotFound do
     render template: 'errors/error_404', status: :not_found
