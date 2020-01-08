@@ -5,14 +5,14 @@
 
     -# CSS
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Roboto&display=swap'
-    = stylesheet_pack_tag 'metrics/metrics'
+    = stylesheet_packs_with_chunks_tag 'metrics/metrics'
 
     -# JavaScript
     - if content_for(:newsletter)
-      = stylesheet_pack_tag 'metrics/newsletter'
-      = javascript_pack_tag 'metrics/newsletter', defer: ''
+      = stylesheet_packs_with_chunks_tag 'metrics/newsletter'
+      = javascript_packs_with_chunks_tag 'metrics/newsletter', defer: ''
     - else
-      = javascript_pack_tag 'metrics/metrics', async: ''
+      = javascript_packs_with_chunks_tag 'metrics/metrics', async: ''
 
   %body.has-spaced-navbar-fixed-top
     %nav.navbar.is-fixed-top.is-spaced
