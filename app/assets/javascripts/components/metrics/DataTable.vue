@@ -22,7 +22,7 @@
 <script>
 export default {
   props: {
-    originalData: {
+    data: {
       type: Array,
       required: true,
     },
@@ -31,11 +31,6 @@ export default {
       required: false,
       default: null,
     },
-  },
-  data() {
-    return {
-      data: JSON.parse(this.originalData),
-    };
   },
 };
 </script>

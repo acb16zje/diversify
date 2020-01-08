@@ -1,7 +1,7 @@
 <template>
   <DataTable
-    :original-data="originalData"
-    :row-class="String('pointer')"
+    :original-data="JSON.parse(originalData)"
+    :row-class="'pointer'"
     @row-clicked="rowClicked"
   >
     <template v-slot:columns="slotProps">
@@ -26,7 +26,7 @@ export default {
   },
   props: {
     originalData: {
-      type: Array,
+      type: String,
       required: true,
     },
   },

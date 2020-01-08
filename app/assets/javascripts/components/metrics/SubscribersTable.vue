@@ -1,5 +1,5 @@
 <template>
-  <DataTable :original-data="originalData">
+  <DataTable :data="JSON.parse(originalData)">
     <template v-slot:columns="slotProps">
       <b-table-column field="email" label="Email" sortable searchable>
         {{ slotProps.row.email }}
@@ -31,7 +31,7 @@ export default {
   },
   props: {
     originalData: {
-      type: Array,
+      type: String,
       required: true,
     },
   },
