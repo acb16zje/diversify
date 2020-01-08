@@ -1,23 +1,5 @@
 - content_for :title, 'Newsletters Archive'
+- content_for :newsletter, true
 
 %h1.title Newsletters Archive
-.table-container
-  %table.table.is-hoverable.is-striped#newsletterTable{style: 'width: 100%;'}
-    %thead
-      %tr
-        %th Title
-        %th Time
-    %tbody
-      - @newsletters.each do |newsletter|
-        %tr{onclick: "showModal('/newsletters/#{newsletter.id}')"}
-          %td= newsletter.title
-          %td= newsletter.created_at
-
-
-.modal
-  .modal-background
-  .modal-card
-    %header.modal-card-head
-      %p.modal-card-title
-      %button.delete{'aria-label': 'close'}
-    %section.modal-card-body.content
+%newsletters-table{'original-data': @newsletters.to_json}

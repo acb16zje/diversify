@@ -8,7 +8,7 @@ class NewslettersController < ApplicationController
   layout 'metrics_page'
 
   def index
-    @newsletters = Newsletter.all
+    @newsletters = Newsletter.all.decorate
   end
 
   def new

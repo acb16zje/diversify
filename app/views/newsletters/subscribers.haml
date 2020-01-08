@@ -1,22 +1,5 @@
 - content_for :title, 'Newsletter Subscribers'
-
-#notification.is-hidden
-  .notification
-    %button.delete
-    %p
+- content_for :newsletter, true
 
 %h1.title Newsletter Subscribers
-.table-container
-  %table.table.is-hoverable.is-striped#subscriberTable{style: 'width: 100%;'}
-    %thead
-      %tr
-        %th Title
-        %th Time
-        %th
-    %tbody
-      - @subscribers.each do |subscriber|
-        %tr{id: "subscriber#{subscriber.id}"}
-          %td= subscriber.email
-          %td= subscriber.created_at
-          %td= link_to 'Unsubscribe', unsubscribe_newsletters_path(email: subscriber.email, admin: 1),
-                method: 'post', data: { confirm: 'Are you sure?' }, remote: true, class: 'delete_sub'
+%subscribers-table{'original-data': @subscribers.to_json}

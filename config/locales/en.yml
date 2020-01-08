@@ -11,7 +11,8 @@ en:
     formats:
       date: "%d/%m/%Y"
       full: "%a %e %B %Y at %H:%M"
-      compact: "%d/%m/%y at %H:%M"
+      compact_24: "%d/%m/%y at %H:%M"
+      compact_12: "%d/%m/%y at %l:%M %P"
       short: "%d/%m/%Y %H:%M"
       time_24: "%H:%M"
   number:
