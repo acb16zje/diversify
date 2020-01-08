@@ -1,8 +1,7 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-source "https://gems.shefcompsci.org.uk" do
+source 'https://gems.shefcompsci.org.uk' do
   gem 'airbrake'
-  gem 'capybara-select2', group: :test
   gem 'epi_deploy', group: :development
   gem 'rubycas-client'
 end
@@ -24,9 +23,8 @@ gem 'jquery-rails'
 
 gem 'draper'
 gem 'ransack'
-gem 'simple_form'
 
-gem 'will_paginate'
+gem 'pagy'
 
 gem 'cancancan'
 gem 'devise'
@@ -41,8 +39,8 @@ gem 'whenever'
 
 gem 'ahoy_matey'
 gem 'chartkick'
-gem 'groupdate'
 gem 'geocoder'
+gem 'groupdate'
 
 # CSS styles in action mailer
 gem 'premailer-rails'
@@ -74,11 +72,9 @@ group :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'image_processing'
-  gem 'rspec-instafail', require: false
   gem 'shoulda-matchers'
   gem 'webdrivers'
 
   gem 'database_cleaner'
-  gem 'launchy'
   gem 'simplecov'
 end
