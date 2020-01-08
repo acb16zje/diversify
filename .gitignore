@@ -2,10 +2,8 @@
 # Created by https://www.gitignore.io/api/ruby,rails,rubymine+all
 # Edit at https://www.gitignore.io/?templates=ruby,rails,rubymine+all
 
-### Node ###
-package-lock.json
-
 ### Rails ###
+.generators
 *.rbc
 capybara-*.html
 .rspec
@@ -37,7 +35,7 @@ config/database.yml
 
 ## Environment normalization:
 /.bundle
-/vendor/bundle
+vendor
 
 # these should all be checked in to normalize the environment:
 # Gemfile.lock, .ruby-version, .ruby-gemset
@@ -58,6 +56,7 @@ bower.json
 
 # Ignore node_modules
 node_modules/
+package-lock.json
 
 # Ignore precompiled javascript packs
 /public/packs

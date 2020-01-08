@@ -1,11 +1,19 @@
 {
-  "extends": "airbnb-base",
+  "env": {
+    "browser": true
+  },
+  "extends": [
+    "airbnb-base",
+    "plugin:vue/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 6,
     "sourceType": "module"
   },
   "rules": {
-    "quotes": ["error", "single", { "allowTemplateLiterals": true }]
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "max-len": "off",
+    "vue/max-attributes-per-line": "off"
   },
   "globals": {
     "_": true

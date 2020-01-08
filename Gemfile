@@ -11,6 +11,7 @@ gem 'bootsnap'
 gem 'puma'
 gem 'rails'
 gem 'responders'
+gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 
 gem 'pg'
 
