@@ -1,4 +1,7 @@
 - content_for :title, @newsletter.title
+- content_for :newsletter, true
+
+= render 'partials/toast'
 
 %section.section
   .container
@@ -6,4 +9,4 @@
       = @newsletter.title
 
     .content
-      =raw @newsletter.content
+      = @newsletter.content

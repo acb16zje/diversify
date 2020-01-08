@@ -28,6 +28,9 @@ class NewslettersController < ApplicationController
 
     return unless request.xhr?
 
+    render json: {
+      html: render_to_string('newsletters/_modal.haml', layout: false)
+    }
   end
 
   def subscribers
