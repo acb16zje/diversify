@@ -1,12 +1,19 @@
-image: epigenesys/rails:ruby2.6.3
+default:
+  image: epigenesys/rails:ruby2.6.5
 
-services:
-  - "postgres:9.6"
+  services:
+    - postgres:latest
 
-cache:
-  key: 'continuous-delivery'
-  paths:
-    - vendor/gems
+  cache:
+    key: 'continuous-delivery'
+    paths:
+      - vendor/gems
+      - node_modules/
+
+  before_script:
+    - yarn install
+    - 'bundle config gems.shefcompsci.org.uk gitlab:${GEM_SERVER_KEY}'
+    - bundle check --path vendor/gems || bundle install --path vendor/gems --jobs $(nproc)
 
 variables:
   POSTGRES_DB: ci_test
@@ -26,14 +33,7 @@ variables:
 test:
   script:
     - *db-setup
-    - 'bundle config gems.shefcompsci.org.uk gitlab:${GEM_SERVER_KEY}'
-    - bundle check --path vendor/gems || bundle install --path vendor/gems --jobs $(nproc)
     - bundle exec rake db:reset RAILS_ENV=test
     - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
-    - bundle exec rspec spec
+#    - bundle exec rake
   coverage: '/LOC \((\d+\.\d+%)\) covered.$/'
-  artifacts:
-    paths:
-      - coverage
-      - log
-    expire_in: '1 week'
