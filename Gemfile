@@ -16,11 +16,6 @@ gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 gem 'pg'
 
 gem 'haml-rails'
-gem 'sassc-rails'
-gem 'uglifier'
-
-gem 'bulma-rails', "~> 0.8.0"
-gem 'jquery-rails'
 
 gem 'draper'
 gem 'ransack'

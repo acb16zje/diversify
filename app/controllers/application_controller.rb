@@ -23,18 +23,4 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do
     render template: 'errors/error_403', status: :forbidden
   end
-
-  protected
-
-  # Returns the class for notification
-  def flash_class(type)
-    case type
-    when 'success'
-      'is-success'
-    when 'error'
-      'is-danger'
-    else
-      'is-primary'
-    end
-  end
 end
