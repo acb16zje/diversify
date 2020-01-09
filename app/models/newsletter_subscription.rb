@@ -19,7 +19,10 @@
 class NewsletterSubscription < ApplicationRecord
   include DateScope
 
+  has_many :newsletter_feedbacks, dependent: :nullify
+
   validates :email,
+            presence: true,
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
@@ -38,6 +41,6 @@ class NewsletterSubscription < ApplicationRecord
   private
 
   def send_welcome
-    NewsletterMailer.send_welcome(self[:email]).deliver_later
+    NewsletterMailer.send_welcome(email).deliver_later
   end
 end

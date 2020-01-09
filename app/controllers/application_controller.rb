@@ -6,14 +6,14 @@ class ApplicationController < ActionController::Base
   # and authorising actions on each controller
   # check_authorization
   layout :layout_by_resource
-  
-  # Ahoy gem, used in PagesController and NewsletterController only
+
+  # Ahoy gem, used in PagesController only
   skip_before_action :track_ahoy_visit
 
   protect_from_forgery with: :exception
 
   rescue_from ActionController::ParameterMissing do
-    render json: { message: 'Bad Request' }, status: :bad_request
+    render_json('Bad Request', 400)
   end
 
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
@@ -27,19 +27,17 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     root_path
   end
-  
+
   private
 
   def layout_by_resource
-    if devise_controller?
-      "devise"
-    else
-      "application"
-    end
-  end  
-  
-  
+    devise_controller? ? 'devise' : 'application'
+  end
+
+  def render_json(message, status = :ok)
+    render json: { message: message }, status: status
+  end
 end

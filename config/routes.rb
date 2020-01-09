@@ -42,10 +42,10 @@ Rails.application.routes.draw do
   resources :newsletters, only: %i[index create new show] do
 
     collection do
-      post 'subscribe'
-
       get 'subscribers'
       get 'unsubscribe'
+
+      post 'subscribe'
       post 'unsubscribe', to: 'newsletters#post_unsubscribe'
     end
   end

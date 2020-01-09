@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_06_023052) do
+ActiveRecord::Schema.define(version: 2020_01_09_033821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,17 +94,6 @@ ActiveRecord::Schema.define(version: 2020_01_06_023052) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "ckeditor_assets", force: :cascade do |t|
-    t.string "data_file_name", null: false
-    t.string "data_content_type"
-    t.integer "data_file_size"
-    t.string "data_fingerprint"
-    t.string "type", limit: 30
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_ckeditor_assets_on_type"
-  end
-
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -151,10 +140,11 @@ ActiveRecord::Schema.define(version: 2020_01_06_023052) do
   end
 
   create_table "newsletter_feedbacks", force: :cascade do |t|
-    t.string "email", default: "", null: false
     t.string "reasons", default: [], null: false, array: true
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "newsletter_subscription_id"
+    t.index ["newsletter_subscription_id"], name: "index_newsletter_feedbacks_on_newsletter_subscription_id"
   end
 
   create_table "newsletter_subscriptions", force: :cascade do |t|
@@ -299,6 +289,7 @@ ActiveRecord::Schema.define(version: 2020_01_06_023052) do
   add_foreign_key "issues", "users"
   add_foreign_key "licenses", "subscription_plans"
   add_foreign_key "licenses", "users"
+  add_foreign_key "newsletter_feedbacks", "newsletter_subscriptions"
   add_foreign_key "preferences", "users"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users"

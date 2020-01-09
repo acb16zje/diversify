@@ -2,8 +2,6 @@
 
 # Controller for newsletter
 class NewslettersController < ApplicationController
-  before_action :track_ahoy_visit, only: :unsubscribe
-
   layout 'metrics_page'
 
   def index
@@ -19,7 +17,7 @@ class NewslettersController < ApplicationController
       flash[:toast] = {type: 'success', message: 'Newsletter sent'}
       render js: "window.location='#{newsletter_path(newsletter)}'"
     else
-      render json: { message: 'Send Failed' }, status: 422
+      render_json('Send Failed', 422)
     end
   end
 
@@ -60,12 +58,11 @@ class NewslettersController < ApplicationController
     feedback = NewsletterFeedback.create(unsubscribe_params)
 
     if feedback.errors.any?
-      render json: { message: feedback.errors.full_messages.join(', ') },
-             status: :unprocessable_entity
+      render_json(feedback.errors.full_messages.join(', '), 422)
     else
       # Prevent Oracle attack on newsletter subscribers list by returning as
       # long as the params syntax are correct
-      render json: { message: 'Newsletter Unsubscribed! Hope to see you again' }
+      render_json('Newsletter Unsubscribed! Hope to see you again')
     end
   end
 
@@ -76,14 +73,19 @@ class NewslettersController < ApplicationController
   end
 
   def unsubscribe_params
-    params.require(:newsletter_unsubscription).permit(:email, reasons: [])
+    p = params.require(:newsletter_unsubscription).permit(:email, reasons: [])
+
+    {
+      newsletter_subscription: NewsletterSubscription.find_by_email(p[:email]),
+      reasons: p[:reasons]
+    }
   end
 
   def sub_pass_action
-    render json: { message: 'Thanks for subscribing' }
+    render_json('Thanks for subscribing')
   end
 
   def sub_fail_action(message)
-    render json: { message: message }, status: :unprocessable_entity
+    render_json(message, 422)
   end
 end

@@ -37,9 +37,9 @@ class PagesController < ApplicationController
 
   def submit_feedback
     if LandingFeedback.new(feedback_params).save
-      render json: { message: 'Thank you for your feedback' }
+      render_json('Thank you for your feedback')
     else
-      render json: { message: 'Submission Failed' }, status: 422
+      render_json('Submission Failed', 422)
     end
   end
 
@@ -57,8 +57,7 @@ class PagesController < ApplicationController
   end
 
   def valid_request?
-    params.require(%i[time pathname]) &&
-      valid_pathname?(params[:pathname])
+    params.require(%i[time pathname]) && valid_pathname?(params[:pathname])
   end
 
   def valid_pathname?(pathname)

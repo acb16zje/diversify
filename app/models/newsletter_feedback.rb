@@ -21,12 +21,15 @@ class NewsletterFeedback < ApplicationRecord
               inappropriate: 'The emails are inappropriate',
               not_interested: 'I am not interested anymore' }.freeze
 
-  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  belongs_to :newsletter_subscription, optional: true
+
   validates :reasons,
             presence: true,
             array_inclusion: { in: REASONS.keys.map(&:to_s) << 'admin' }
 
   scope :graph, -> { select(:reasons, :created_at) }
+
+  before_save :validate_subscription_status
 
   after_commit :change_subscribed_to_false
 
@@ -42,8 +45,12 @@ class NewsletterFeedback < ApplicationRecord
 
   private
 
+  # Disallow submitting multiple feedback after unsubscription
+  def validate_subscription_status
+    throw :abort unless newsletter_subscription&.subscribed.present?
+  end
+
   def change_subscribed_to_false
-    subscriber = NewsletterSubscription.find_by_email(email)
-    subscriber&.update(subscribed: false)
+    newsletter_subscription&.update(subscribed: false)
   end
 end
