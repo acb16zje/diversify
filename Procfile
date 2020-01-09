@@ -1,2 +1,2 @@
-web: rails server -b 0.0.0.0 -p 3000 -e development
+web: bundle exec rake dev:server
 webpack: bin/webpack-dev-server

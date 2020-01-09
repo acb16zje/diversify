@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+namespace :production do
+  # Prepare the deployment requirements
+  task :prepare do
+    # Check ssh-agent, and do ssh-add
+    system Rails.root.join('lib', 'scripts', 'ssh-agent.sh').to_s
+
+    # Remove old webpack output
+    Rake::Task['webpacker:clobber'].invoke
+
+    # Compile webpack for production
+    Rake::Task['webpacker:compile'].invoke
+  end
+
+  desc 'Deploy to epiDeploy.'
+  task deploy: [:prepare] do
+    # sh 'bundle exec ed release -d demo'
+  end
+end
