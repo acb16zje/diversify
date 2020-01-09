@@ -24,8 +24,6 @@ describe NewsletterFeedback, type: :model do
   let(:feedback) { build(:newsletter_feedback, :no_longer) }
 
   describe 'modules' do
-    subject { described_class }
-
     it { is_expected.to include_module(DateScope) }
   end
 

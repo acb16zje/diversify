@@ -1,5 +1,9 @@
 # COM4525 Genesys
 
+<div style="text-align:center">
+  <img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">
+</div>
+
 ## Team 7 - Helping teams to improve their performance through diversity
 
 ### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
@@ -18,7 +22,7 @@
 
 ---
 ## Installation
-- Install the required gems (Bundler 2 required, see [here](https://bundler.io/v2.0/guides/bundler_2_upgrade.html) 
+- Install the required gems (Bundler 2 required, see [here](https://bundler.io/v2.0/guides/bundler_2_upgrade.html)
   for upgrade guide)
 ```bash
 bundle install
@@ -37,9 +41,9 @@ bundle install
 
 ### Starting the Development Server
 - Option 1:
-    1. Install the [foreman](https://github.com/ddollar/foreman) gem 
+    1. Install the [foreman](https://github.com/ddollar/foreman) gem
     2. Run `foreman start`
-    
+
 - Option 2:
     1. Run `rails s` in a terminal session
     2. Run `bin/webpack-dev-server` in another terminal session

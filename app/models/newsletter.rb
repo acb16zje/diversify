@@ -29,7 +29,6 @@ class Newsletter < ApplicationRecord
 
   after_commit :send_newsletter, on: :create
 
-
   private
 
   def send_newsletter

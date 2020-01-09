@@ -81,8 +81,6 @@ module MetricsHelper
                        elsif !date2.nil?
                          datalist.between_date(time_column, date1,
                                                DateTime.parse(date2))
-                       else
-                         datalist.on_date(time_column, date1)
                        end
     end
   end

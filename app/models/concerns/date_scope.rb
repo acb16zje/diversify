@@ -6,12 +6,8 @@ module DateScope
   extend ActiveSupport::Concern
 
   included do
-    scope :on_date, lambda { |query, time|
-      where(query + ' BETWEEN ? AND ?', time, time + 1.days)
-    }
-
-    scope :between_date, lambda { |query, time1, time2|
-      where(query + ' BETWEEN ? AND ?', time1, time2 + 1.days)
+    scope :between_date, lambda { |column, start_date, end_date|
+      where(column + ' BETWEEN ? AND ?', start_date, end_date.end_of_day)
     }
   end
 end
