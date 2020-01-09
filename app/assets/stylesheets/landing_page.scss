@@ -65,6 +65,15 @@ h5.description::before {
     text-decoration: none;
     font-size: large;
 
+    &.is-active {
+      &:after {
+        display: block;
+        content: '';
+        border-bottom: solid 3px $primary;
+        transform: scaleX(1);
+      }
+    }
+
     &:after {
       display: block;
       content: '';
@@ -88,6 +97,10 @@ h5.description::before {
 
     a.navbar-item {
       color: white;
+
+      &.is-active {
+        color: $primary;
+      }
 
       &:hover {
         color: $primary;
