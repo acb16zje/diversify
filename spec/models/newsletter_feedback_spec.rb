@@ -2,23 +2,87 @@
 #
 # Table name: newsletter_feedbacks
 #
-#  id         :bigint           not null, primary key
-#  email      :string           default(""), not null
-#  reasons    :string           default([]), not null, is an Array
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                         :bigint           not null, primary key
+#  reasons                    :string           default([]), not null, is an Array
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  newsletter_subscription_id :bigint
+#
+# Indexes
+#
+#  index_newsletter_feedbacks_on_newsletter_subscription_id  (newsletter_subscription_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (newsletter_subscription_id => newsletter_subscriptions.id)
 #
 
 require 'rails_helper'
 
-describe NewsletterFeedback do
-  let(:feedback1) { build(:newsletter_feedback, no_longer: true) }
+describe NewsletterFeedback, type: :model do
+
+  let(:feedback) { build(:newsletter_feedback, :no_longer) }
+
+  describe 'modules' do
+    subject { described_class }
+
+    it { is_expected.to include_module(DateScope) }
+  end
+
+  describe 'associations' do
+    it { is_expected.to belong_to(:newsletter_subscription).optional }
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:reasons) }
+    it { is_expected.to allow_value(['no_longer', 'admin']).for(:reasons) }
+    it { is_expected.not_to allow_value(%w[foo bar]).for(:reasons) }
+  end
+
+  describe 'scopes' do
+    describe '.graph' do
+      it 'return reasons and created_at' do
+        feedback = create(:newsletter_feedback, :not_interested)
+        expect(described_class.graph.pluck(:reasons)).to include(feedback.reasons)
+      end
+    end
+  end
 
   describe '#count_reason' do
     it 'count and group the reasons' do
-      expect(described_class
-         .count_reason([feedback1])['I no longer want to receive these emails'])
-        .to eq(1)
+      expect(
+        described_class
+          .count_reason([feedback])['I no longer want to receive these emails']
+      ).to eq(1)
+    end
+  end
+
+  describe 'before_save hook' do
+    describe '#validate_subscription_status' do
+      describe '.newsletter_subscription.subscribed?' do
+
+        it 'save if subscribed' do
+          feedback.save
+          expect(feedback).not_to be_new_record
+        end
+
+        it 'does not save unless subscribed' do
+          feedback_not_subscribed = build(:newsletter_feedback, :not_subscribed)
+          feedback_not_subscribed.save
+          expect(feedback_not_subscribed).to be_new_record
+        end
+      end
+    end
+  end
+
+  describe 'after_commit hook' do
+    describe '#change_subscribed_to_false' do
+      it { expect(feedback.newsletter_subscription).to be_subscribed }
+
+      it 'change to false after commit' do
+        feedback.save
+        expect(feedback.newsletter_subscription).not_to be_subscribed
+      end
     end
   end
 end

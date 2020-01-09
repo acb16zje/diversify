@@ -4,11 +4,19 @@
 #
 # Table name: newsletter_feedbacks
 #
-#  id         :bigint           not null, primary key
-#  email      :string           default(""), not null
-#  reasons    :string           default([]), not null, is an Array
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id                         :bigint           not null, primary key
+#  reasons                    :string           default([]), not null, is an Array
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  newsletter_subscription_id :bigint
+#
+# Indexes
+#
+#  index_newsletter_feedbacks_on_newsletter_subscription_id  (newsletter_subscription_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (newsletter_subscription_id => newsletter_subscriptions.id)
 #
 
 # NewsletterFeedback model
@@ -47,7 +55,7 @@ class NewsletterFeedback < ApplicationRecord
 
   # Disallow submitting multiple feedback after unsubscription
   def validate_subscription_status
-    throw :abort unless newsletter_subscription&.subscribed.present?
+    throw :abort unless newsletter_subscription&.subscribed?
   end
 
   def change_subscribed_to_false
