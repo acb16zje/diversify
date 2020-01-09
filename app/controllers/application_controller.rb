@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   # Ensure that CanCanCan is correctly configured
   # and authorising actions on each controller
   # check_authorization
-
+  layout :layout_by_resource
+  
   # Ahoy gem, used in PagesController and NewsletterController only
   skip_before_action :track_ahoy_visit
 
@@ -23,4 +24,22 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied do
     render template: 'errors/error_403', status: :forbidden
   end
+
+  protected
+
+  def after_sign_in_path_for(resource)
+    root_path
+  end
+  
+  private
+
+  def layout_by_resource
+    if devise_controller?
+      "devise"
+    else
+      "application"
+    end
+  end  
+  
+  
 end

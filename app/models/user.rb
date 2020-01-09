@@ -35,7 +35,7 @@ class User < ApplicationRecord
   has_many :reviews
   has_one :license
 
-  validates_presence_of :email, :admin, :encrypted_password
+  validates_presence_of :email, :encrypted_password
   validates :email,
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }

@@ -38,6 +38,6 @@ class NewsletterSubscription < ApplicationRecord
   private
 
   def send_welcome
-    NewsletterMailer.send_welcome(:email).deliver_later
+    NewsletterMailer.send_welcome(self[:email]).deliver_later
   end
 end

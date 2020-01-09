@@ -1,14 +1,24 @@
 - content_for :title, 'Log In'
 
-.row.justify-content-center
-  .col-sm-6.col-lg-4
-    .card.card-light
-      = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-        .card-header
-          Log In
-        .card-body
-          = f.input :email, autofocus: true, required: true
-          = f.input :password, required: true
-        .card-footer
-          = submit_button 'Log in'
-          .mt-3= render "devise/shared/links"
+%section.section#newsletter
+  .container
+    .columns.is-vcentered
+      .column
+
+        %h2 Log in
+        = form_with model: resource, url: session_path(resource), remote: true do |f|
+          = render "devise/shared/error_messages", resource: resource
+          .field
+            = f.label :email
+            = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input'
+          .field
+            = f.label :password
+            = f.password_field :password, autocomplete: "current-password", class: 'input'
+          - if devise_mapping.rememberable?
+            .field
+              .control
+                = f.check_box :remember_me, class: 'input'
+                = f.label :remember_me
+          .actions
+            = f.submit "Log in"
+        = render "devise/shared/links"
