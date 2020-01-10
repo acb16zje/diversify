@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+
+# Mailer class for Newsletter
 class NewsletterMailer < ApplicationMailer
   def send_newsletter(emails, newsletter)
     @content = newsletter.content

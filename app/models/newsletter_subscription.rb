@@ -32,12 +32,6 @@ class NewsletterSubscription < ApplicationRecord
 
   after_commit :send_welcome, on: :create
 
-  def self.send_newsletter(newsletter)
-    all_subscribed_emails.each_slice(50) do |emails|
-      NewsletterMailer.send_newsletter(emails, newsletter).deliver_later
-    end
-  end
-
   private
 
   def send_welcome

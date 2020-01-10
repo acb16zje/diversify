@@ -32,6 +32,8 @@ class Newsletter < ApplicationRecord
   private
 
   def send_newsletter
-    NewsletterSubscription.delay.send_newsletter(self)
+    NewsletterSubscription.all_subscribed_emails.each_slice(50) do |emails|
+      NewsletterMailer.send_newsletter(emails, self).deliver_later
+    end
   end
 end

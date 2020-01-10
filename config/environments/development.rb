@@ -4,11 +4,8 @@ Rails.application.configure do
   config.reload_classes_only_on_change = false
 
   # Preview email in the browser instead of sending it
-  app_url = 'localhost:3000'
-  config.action_mailer.default_url_options = { host: app_url, protocol: 'http' }
-  config.action_mailer.asset_host = "http://#{app_url}"
-  # config.action_mailer.default_url_options = { host: 'localhost:3000' }
-  # config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method = :letter_opener
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development

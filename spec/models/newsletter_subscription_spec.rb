@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: newsletter_subscriptions
@@ -15,26 +17,59 @@
 
 require 'rails_helper'
 
-describe NewsletterSubscription do
+describe NewsletterSubscription, type: :model do
   include ActiveJob::TestHelper
 
-  before { clear_enqueued_jobs }
+  describe 'modules' do
+    it { is_expected.to include_module(DateScope) }
+  end
 
-  describe '#send_newsletter' do
-    let(:subscriber) { create(:subscriber) }
-    let(:newsletter) { create(:newsletter) }
-    let(:job) { described_class.send_newsletter(newsletter) }
+  describe 'associations' do
+    it { is_expected.to have_many(:newsletter_feedbacks) }
+  end
 
-    before { subscriber }
+  describe 'validations' do
+    subject { build(:subscriber) }
 
-    it 'a job is created' do
-      expect { job }.to have_enqueued_job.on_queue('mailers')
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email) }
+    it { is_expected.to allow_value('foo@bar.com').for(:email) }
+    it { is_expected.not_to allow_value('foobar').for(:email) }
+  end
+
+  describe 'scopes' do
+    # Local variable to share across examples
+    subscribed = described_class.create(email: '1@1.com')
+    unsubscribed = described_class.create(email: '2@1.com', subscribed: false)
+
+    describe '.all_subscribed_emails' do
+      subject { described_class.all_subscribed_emails }
+
+      it { is_expected.to include(subscribed.email) }
+      it { is_expected.not_to include(unsubscribed.email) }
     end
 
-    it 'newsletter is sent' do
-      expect { perform_enqueued_jobs { job } }
-        .to change { ActionMailer::Base.deliveries.size }.by(1)
+    describe '.previously_subscribed' do
+      subject { described_class.previously_subscribed.pluck(:email) }
+
+      it { is_expected.to include(unsubscribed.email) }
+      it { is_expected.not_to include(subscribed.email) }
+    end
+
+    describe '.subscribed_count' do
+      subject { described_class.subscribed_count }
+
+      it { is_expected.to eq 1 }
     end
   end
 
+  describe 'after_commit hook' do
+    describe '#send_welcome', type: :mailer do
+      it 'send welcome email on create' do
+        expect do
+          create(:subscriber)
+        end.to have_enqueued_mail(NewsletterMailer, :send_welcome)
+      end
+    end
+  end
 end
