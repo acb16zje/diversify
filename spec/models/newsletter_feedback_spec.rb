@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: newsletter_feedbacks
@@ -20,7 +22,6 @@
 require 'rails_helper'
 
 describe NewsletterFeedback, type: :model do
-
   let(:feedback) { build(:newsletter_feedback, :no_longer) }
 
   describe 'modules' do
@@ -33,7 +34,7 @@ describe NewsletterFeedback, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:reasons) }
-    it { is_expected.to allow_value(['no_longer', 'admin']).for(:reasons) }
+    it { is_expected.to allow_value(%w[no_longer admin]).for(:reasons) }
     it { is_expected.not_to allow_value(%w[foo bar]).for(:reasons) }
   end
 
@@ -57,18 +58,15 @@ describe NewsletterFeedback, type: :model do
 
   describe 'before_save hook' do
     describe '#validate_subscription_status' do
-      describe '.newsletter_subscription.subscribed?' do
+      it 'save if subscribed?' do
+        feedback.save
+        expect(feedback).not_to be_new_record
+      end
 
-        it 'save if subscribed' do
-          feedback.save
-          expect(feedback).not_to be_new_record
-        end
-
-        it 'does not save unless subscribed' do
-          feedback_not_subscribed = build(:newsletter_feedback, :not_subscribed)
-          feedback_not_subscribed.save
-          expect(feedback_not_subscribed).to be_new_record
-        end
+      it 'does not save unless subscribed?' do
+        feedback_not_subscribed = build(:newsletter_feedback, :not_subscribed)
+        feedback_not_subscribed.save
+        expect(feedback_not_subscribed).to be_new_record
       end
     end
   end
