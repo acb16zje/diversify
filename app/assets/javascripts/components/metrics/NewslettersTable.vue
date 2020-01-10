@@ -1,7 +1,8 @@
 <template>
   <DataTable
-    :original-data="JSON.parse(originalData)"
+    :data="JSON.parse(originalData)"
     :row-class="'pointer'"
+    :default-sort="['created_at', 'desc']"
     @row-clicked="rowClicked"
   >
     <template v-slot:columns="slotProps">

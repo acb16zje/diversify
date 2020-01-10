@@ -9,6 +9,7 @@
     "buefy": "0.8.9",
     "chart.js": "^2.9.3",
     "chartkick": "^3.2.0",
+    "css-loader": "^3.4.1",
     "trix": "^1.2.2",
     "vue": "^2.6.11",
     "vue-loader": "^15.8.3",
@@ -21,6 +22,7 @@
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-vue": "^6.1.2",
+    "webpack": "^4.41.5",
     "webpack-dev-server": "^3.10.1"
   }
 }

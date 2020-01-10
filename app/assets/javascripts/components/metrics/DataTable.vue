@@ -5,6 +5,7 @@
     :hoverable="true"
     :row-class="() => rowClass"
     :per-page="10"
+    :default-sort="defaultSort"
     @click="(row) => $emit('row-clicked', row)"
   >
     <template v-slot:default="props">
@@ -28,6 +29,11 @@ export default {
     },
     rowClass: {
       type: String,
+      required: false,
+      default: null,
+    },
+    defaultSort: {
+      type: Array,
       required: false,
       default: null,
     },
