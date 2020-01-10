@@ -24,11 +24,11 @@ FactoryBot.define do
     subscribed
 
     trait :subscribed do
-      association :newsletter_subscription, factory: :subscriber
+      newsletter_subscription
     end
 
     trait :not_subscribed do
-      association :newsletter_subscription, factory: [:subscriber, :unsubscribed]
+      association newsletter_subscription, :unsubscribed
     end
 
     trait :no_longer do

@@ -29,7 +29,7 @@ describe NewsletterSubscription, type: :model do
   end
 
   describe 'validations' do
-    subject { build(:subscriber) }
+    subject { build(:newsletter_subscription) }
 
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_uniqueness_of(:email) }
@@ -67,7 +67,7 @@ describe NewsletterSubscription, type: :model do
     describe '#send_welcome', type: :mailer do
       it 'send welcome email on create' do
         expect do
-          create(:subscriber)
+          create(:newsletter_subscription)
         end.to have_enqueued_mail(NewsletterMailer, :send_welcome)
       end
     end

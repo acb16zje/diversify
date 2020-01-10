@@ -58,7 +58,7 @@ describe MetricsHelper do
     it { expect(helper.has_data?([])).to eq false }
 
     it {
-      create(:subscriber)
+      create(:newsletter_subscription)
       expect(helper.has_data?(helper.data_getter('Newsletter'))).to eq true
     }
   end
@@ -86,14 +86,6 @@ describe MetricsHelper do
         controller.params[:time] = [two_days_before, today]
         expect(helper.time_constraint('created_at', data_array)[0][:data])
           .to eq([feedback_yesterday, feedback_today])
-      }
-    end
-
-    context 'with 1 date' do
-      it {
-        controller.params[:time] = [today]
-        expect(helper.time_constraint('created_at', data)[0][:data])
-          .to eq([feedback_today])
       }
     end
 

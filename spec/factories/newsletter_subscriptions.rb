@@ -14,7 +14,7 @@
 #
 
 FactoryBot.define do
-  factory :subscriber, class: NewsletterSubscription.name do
+  factory :newsletter_subscription, class: NewsletterSubscription.name do
     sequence(:email) { |n| "#{n}@foo.bar" }
 
     trait :unsubscribed do

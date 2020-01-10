@@ -22,9 +22,9 @@ module NewsletterHelper
   def subscribe(email_presence = false, unsubscribed = false)
     subscriber =
       if unsubscribed
-        create(:subscriber, :unsubscribed)
+        create(:newsletter_subscription, :unsubscribed)
       else
-        create(:subscriber)
+        create(:newsletter_subscription)
       end
 
     fill_in 'email', with: email_presence ? subscriber.email : 'null@null.com'

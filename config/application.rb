@@ -16,7 +16,6 @@ module Diversify
     # This points to our own routes middleware to handle exceptions
     config.exceptions_app = routes
 
-    I18n.enforce_available_locales = false
     config.generators do |g|
       g.orm :active_record
       g.template_engine :haml
