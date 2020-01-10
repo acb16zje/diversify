@@ -32,6 +32,7 @@ FactoryBot.define do
       name { 'Time Spent' }
     end
 
+    # Pricing subscriptions traits
     trait :pricing_link do
       name { 'Clicked pricing link' }
     end
@@ -49,6 +50,26 @@ FactoryBot.define do
     trait :enterprise do
       pricing_link
       properties { { type: 'Enterprise' } }
+    end
+
+    # Social share traits
+    trait :social_share do
+      name { 'Click Social' }
+    end
+
+    trait :facebook do
+      social_share
+      properties { { type: 'Facebook' } }
+    end
+
+    trait :twitter do
+      social_share
+      properties { { type: 'Twitter' } }
+    end
+
+    trait :email do
+      social_share
+      properties { { type: 'Email' } }
     end
   end
 end
