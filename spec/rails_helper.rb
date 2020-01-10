@@ -1,35 +1,9 @@
 # frozen_string_literal: true
 
-# This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'simplecov'
-SimpleCov.start 'rails'
-SimpleCov.configure do
-  add_filter '/vendor/'
-  add_filter '/app/controllers/projects_controller.rb'
-  add_filter '/app/controllers/reviews_controller.rb'
-  add_filter '/app/controllers/tasks_controller.rb'
-  add_filter '/app/controllers/teams_controller.rb'
-
-  add_filter '/app/jobs'
-
-  add_filter '/app/models/category.rb'
-  add_filter '/app/models/issue.rb'
-  add_filter '/app/models/license.rb'
-  add_filter '/app/models/personality.rb'
-  add_filter '/app/models/preference.rb'
-  add_filter '/app/models/project.rb'
-  add_filter '/app/models/review.rb'
-  add_filter '/app/models/skill.rb'
-  add_filter '/app/models/skill_level.rb'
-  add_filter '/app/models/subscription_plan.rb'
-  add_filter '/app/models/task.rb'
-  add_filter '/app/models/team.rb'
-  add_filter '/app/models/user_personality.rb'
-end
-
+require './spec/simplecov_env'
+SimpleCovEnv.start
 
 ENV['RAILS_ENV'] ||= 'test'
-require 'spec_helper'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 
@@ -50,55 +24,37 @@ end
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.include FactoryBot::Syntax::Methods
-  config.include Shoulda::Matchers::ActiveRecord
-  config.include Shoulda::Matchers::ActiveModel
-
-  config.include Capybara::DSL # Let's us use the capybara stuf in our specs
-  config.include Warden::Test::Helpers # Let's us do login_as(user)
-  config.include Rails.application.routes.url_helpers
-  config.include Devise::Test::ControllerHelpers, type: :controller
-
-  # Include custom helpers
-  config.include NewsletterHelper
-
-  config.after do
-    Warden.test_reset!
-  end
-
-  config.mock_with :rspec
-
-  config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation, pre_count: true, reset_ids: false, except: %w[ar_internal_metadata])
-  end
-
-  config.before do
-    DatabaseCleaner.strategy = :transaction
-  end
-
-  config.before(:each, js: true) do
-    DatabaseCleaner.strategy = :truncation, { pre_count: true, reset_ids: false, except: %w[ar_internal_metadata] }
-  end
-
-  config.after(:each, js: true) do
-    expect(current_path).to eq current_path
-  end
-
-  config.before do
-    DatabaseCleaner.start
-  end
-
-  config.after do
-    DatabaseCleaner.clean
-  end
-
-  config.before do
-    ActionMailer::Base.deliveries.clear
-  end
+  # See https://relishapp.com/rspec/rspec-rails/docs/transactions
+  config.use_transactional_fixtures = true
 
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
+  config.include FactoryBot::Syntax::Methods
+  config.include Shoulda::Matchers::ActiveRecord
+  config.include Shoulda::Matchers::ActiveModel
+
+  config.include Capybara::DSL # Let's us use the capybara stuff in our specs
+  config.include Warden::Test::Helpers
+  config.include Rails.application.routes.url_helpers
+  config.include Devise::Test::IntegrationHelpers
+
+  # Include custom helpers
+  config.include NewsletterHelper
+
+  config.after { Warden.test_reset! }
+
+  config.before(:example, :mailer) { ActionMailer::Base.deliveries.clear }
+
+  # Run headless chrome for system test
+  config.before(:each, type: :system) do
+    driven_by(:rack_test)
+  end
+
+  config.before(:each, type: :system, js: true) do
+    driven_by(:selenium_chrome_headless)
+  end
 end
 
 Webdrivers.install_dir = Rails.root.join('vendor', 'webdrivers')

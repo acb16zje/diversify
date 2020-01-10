@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'ErrorPages', type: :feature do
+describe 'ErrorPages', type: :system do
   shared_examples 'shows landing page nav links' do
     it { expect(page).to have_link('Newsletter', href: newsletter_pages_path) }
   end

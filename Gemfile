@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 source 'https://gems.shefcompsci.org.uk' do
   gem 'airbrake'
   gem 'epi_deploy', group: :development
-  gem 'rubycas-client'
 end
 
 gem 'activerecord-session_store'
@@ -18,7 +17,7 @@ gem 'pg'
 gem 'haml-rails'
 
 gem 'draper'
-gem 'ransack'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 
 gem 'pagy'
 
@@ -43,7 +42,10 @@ gem 'premailer-rails'
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails'
+
+  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
+    gem lib, github: "rspec/#{lib}", branch: 'master'
+  end
 end
 
 group :development do
@@ -56,6 +58,11 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
 
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+
   gem 'annotate'
   gem 'eventmachine'
   gem 'letter_opener'
@@ -64,10 +71,7 @@ end
 group :test do
   gem 'capybara'
   gem 'factory_bot_rails'
-  gem 'image_processing'
   gem 'shoulda-matchers'
-  gem 'webdrivers'
-
-  gem 'database_cleaner'
   gem 'simplecov'
+  gem 'webdrivers'
 end
