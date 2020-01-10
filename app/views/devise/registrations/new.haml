@@ -1,0 +1,24 @@
+- content_for :title, 'Sign Up'
+
+%section.section
+  .container.is-fluid
+    .columns.is-vcentered
+      .column.is-half.is-offset-one-quarter.card
+        .card-content
+          %h1.title.is-1.is-spaced Sign Up
+          = form_with model: resource , url: registration_path(resource), html: {'@ajax:error': 'ajaxError'}  do |f|
+            .field
+              .control
+                = f.email_field :email, autofocus: true, autocomplete: "email", class: 'input', placeholder: 'Email'
+            .field
+              .control
+                - if @minimum_password_length
+                  %em
+                    (#{@minimum_password_length} characters minimum)
+                = f.password_field :password, autocomplete: "new-password", class: 'input', placeholder: 'Password'
+            .field
+              .control
+                = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder: 'Password Confirmation'
+            .actions
+              = f.submit "Sign up", {class: 'button is-primary'}
+          = render "devise/shared/links"
