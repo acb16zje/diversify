@@ -89,7 +89,7 @@ module MetricsHelper
     datalist.select do |v|
       v[:created_at].between?(
         date1,
-        date2.nil? ? date1 + 1.days : DateTime.parse(date2) + 1.days
+        date2.nil? ? date1 + 1.day : DateTime.parse(date2) + 1.day
       )
     end
   end

@@ -46,5 +46,5 @@ class Ahoy::Visit < ApplicationRecord
   has_many :events, class_name: 'Ahoy::Event'
   belongs_to :user, optional: true
 
-  scope :today_count, -> { where(started_at: Date.today.all_day).size }
+  scope :today_count, -> { where(started_at: Time.zone.today.all_day).size }
 end

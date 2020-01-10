@@ -19,7 +19,7 @@ FactoryBot.define do
     channel { 'Social Media' }
 
     trait :yesterday do
-      created_at { 1.days.ago }
+      created_at { 1.day.ago }
     end
   end
 end

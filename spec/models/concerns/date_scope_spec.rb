@@ -4,12 +4,12 @@ require 'rails_helper'
 
 describe DateScope do
   describe 'scopes' do
-    let(:today) { Date.today }
-    let(:yesterday) { Date.yesterday }
-    let(:tomorrow) { Date.tomorrow }
+    let(:today) { Time.zone.today }
+    let(:yesterday) { Time.zone.yesterday }
+    let(:tomorrow) { Time.zone.tomorrow }
 
     # Any models will do, need created_at column only
-    let(:object) { create(:subscriber, created_at: today) }
+    let(:object) { create(:newsletter_subscription, created_at: today) }
 
     describe '.between_date' do
       subject(:model) { object.class }
