@@ -25,7 +25,7 @@ describe NewsletterSubscription, type: :model do
   end
 
   describe 'associations' do
-    it { is_expected.to have_many(:newsletter_feedbacks) }
+    it { is_expected.to have_many(:newsletter_feedbacks).dependent(:nullify) }
   end
 
   describe 'validations' do

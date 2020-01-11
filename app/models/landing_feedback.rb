@@ -25,8 +25,4 @@ class LandingFeedback < ApplicationRecord
 
   validates :smiley, presence: true
   validates :channel, presence: true, inclusion: { in: CHANNEL }
-
-  scope :smiley, -> { select(:smiley) }
-  scope :channel, -> { select(:channel) }
-  scope :interest, -> { select(:interest) }
 end

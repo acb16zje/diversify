@@ -28,7 +28,7 @@ FactoryBot.define do
     end
 
     trait :not_subscribed do
-      association newsletter_subscription, :unsubscribed
+      association :newsletter_subscription, :unsubscribed
     end
 
     trait :no_longer do
