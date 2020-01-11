@@ -94,17 +94,6 @@ ActiveRecord::Schema.define(version: 2020_01_09_033821) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "ckeditor_assets", force: :cascade do |t|
-    t.string "data_file_name", null: false
-    t.string "data_content_type"
-    t.integer "data_file_size"
-    t.string "data_fingerprint"
-    t.string "type", limit: 30
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["type"], name: "index_ckeditor_assets_on_type"
-  end
-
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -286,6 +275,8 @@ ActiveRecord::Schema.define(version: 2020_01_09_033821) do
     t.string "encrypted_password", default: "", null: false
     t.boolean "admin", default: false
     t.date "birthdate"
+    t.string "provider"
+    t.string "uid"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -293,6 +284,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_033821) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

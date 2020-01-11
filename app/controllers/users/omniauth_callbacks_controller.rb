@@ -4,6 +4,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # You should configure your model like this:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
+  def google_oauth2
+    auth = request.env["omniauth.auth"]
+    user = User.where(provider: auth["provider"], uid: auth["uid"])
+            .first_or_initialize(email: auth["info"]["email"])
+    # user.name ||= auth["info"]["name"]
+    user.password =  Devise.friendly_token[0,20]
+    user.save!
+
+    user.remember_me = true
+    sign_in(:user, user)
+
+    redirect_to after_sign_in_path_for(user)
+  end
+
   # You should also create an action method in this controller like this:
   # def twitter
   # end
