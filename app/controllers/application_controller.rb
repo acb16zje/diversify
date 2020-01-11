@@ -25,11 +25,11 @@ class ApplicationController < ActionController::Base
     render template: 'errors/error_403', status: :forbidden
   end
 
-  protected
+  # protected
 
-  def after_sign_in_path_for(_resource)
-    root_path
-  end
+  # def after_sign_in_path_for(_resource)
+  #   root_path
+  # end
 
   private
 
