@@ -43,7 +43,7 @@ class Ahoy::Visit < ApplicationRecord
 
   self.table_name = 'ahoy_visits'
 
-  has_many :events, class_name: 'Ahoy::Event'
+  has_many :events, class_name: 'Ahoy::Event', dependent: :destroy
   belongs_to :user, optional: true
 
   scope :today_count, -> { where(started_at: Time.zone.today.all_day).size }

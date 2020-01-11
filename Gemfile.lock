@@ -1,14 +1,14 @@
 GIT
   remote: https://github.com/activerecord-hackery/ransack.git
-  revision: a4540e3e77f6088c5baf46b4ae49489a4cfd4ffe
+  revision: 901c1f262adca8e66f9311c7a0e4cd3cb02a277c
   specs:
-    polyamorous (2.3.0)
+    polyamorous (2.3.2)
       activerecord (>= 5.2.1)
-    ransack (2.3.0)
+    ransack (2.3.2)
       activerecord (>= 5.2.1)
       activesupport (>= 5.2.1)
       i18n
-      polyamorous (= 2.3.0)
+      polyamorous (= 2.3.2)
 
 GIT
   remote: https://github.com/rails/webpacker.git
@@ -47,7 +47,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails.git
-  revision: 44dd31dcf2f889a28f368667df4b1b4ec4ca180e
+  revision: c632de3f8deb3fa77de3d155223ba6ff42697c6b
   branch: master
   specs:
     rspec-rails (4.0.0.pre)
@@ -61,7 +61,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-support.git
-  revision: 596198a74e6942fb9de253e590aaa71e1bf3b9d4
+  revision: b83b4cecb3bb56300addae89cb0c437f1af906fb
   branch: master
   specs:
     rspec-support (3.10.0.pre)
@@ -212,10 +212,6 @@ GEM
       net-ldap (>= 0.16.0)
     diff-lcs (1.3)
     docile (1.3.2)
-    dotenv (2.7.5)
-    dotenv-rails (2.7.5)
-      dotenv (= 2.7.5)
-      railties (>= 3.2, < 6.1)
     draper (3.1.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
@@ -326,7 +322,7 @@ GEM
     public_suffix (4.0.3)
     puma (4.3.1)
       nio4r (~> 2.0)
-    rack (2.0.8)
+    rack (2.1.0)
     rack-proxy (0.6.5)
       rack
     rack-test (1.1.0)
@@ -464,7 +460,6 @@ DEPENDENCIES
   devise
   devise_cas_authenticatable
   devise_ldap_authenticatable
-  dotenv-rails
   draper
   epi_deploy!
   eventmachine

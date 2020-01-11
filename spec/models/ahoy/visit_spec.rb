@@ -37,20 +37,29 @@
 #  index_ahoy_visits_on_visit_token  (visit_token) UNIQUE
 #
 
-FactoryBot.define do
-  factory :ahoy_visit, class: Ahoy::Visit.name do
+require 'rails_helper'
 
-    trait :today do
-      started_at { Time.zone.today.to_datetime }
-    end
+describe Ahoy::Visit, type: :model do
+  describe 'modules' do
+    it { is_expected.to include_module(DateScope) }
+  end
 
-    trait :yesterday do
-      started_at { Time.zone.yesterday.to_datetime }
-    end
+  describe 'associations' do
+    it { is_expected.to have_many(:events) }
+    it { is_expected.to belong_to(:user).optional }
+  end
 
-    trait :tomorrow do
-      started_at { Time.zone.tomorrow.to_datetime }
+  describe 'scopes' do
+    describe '.today_count' do
+      subject(:model) { described_class }
+
+      let(:today) { create(:ahoy_visit, :today) }
+      let(:yesterday) { create(:ahoy_visit, :yesterday) }
+      let(:tomorrow) { create(:ahoy_visit, :tomorrow) }
+
+      it { expect{ today }.to change(model, :today_count).by(1) }
+      it { expect{ yesterday }.to change(model, :today_count).by(0) }
+      it { expect{ tomorrow }.to change(model, :today_count).by(0) }
     end
   end
 end
-
