@@ -25,5 +25,5 @@ class Preference < ApplicationRecord
   belongs_to :user
 
   validates :group_size, numericality: { greater_than: 0 }
-  validates_presence_of :preferred_tasks
+  validates :preferred_tasks, presence: true
 end

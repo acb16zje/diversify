@@ -33,5 +33,7 @@ class Project < ApplicationRecord
   has_many :reviews
   has_many :tasks
 
-  validates_presence_of :name, :status, :visibility
+  validates :name, presence: true
+  validates :status, presence: true
+  validates :visibility, presence: true
 end

@@ -19,5 +19,6 @@
 class SubscriptionPlan < ApplicationRecord
   has_many :licenses
 
-  validates_presence_of :monthly_cost, :name
+  validates :monthly_cost, presence: true
+  validates :name, presence: true
 end

@@ -27,5 +27,5 @@ class License < ApplicationRecord
   belongs_to :user
   belongs_to :subscription_plan
 
-  validates_presence_of :start_date
+  validates :start_date, presence: true
 end

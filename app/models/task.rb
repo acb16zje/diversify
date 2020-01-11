@@ -33,6 +33,6 @@ class Task < ApplicationRecord
   belongs_to :user
   has_many :skills
 
-  validates_presence_of :name, :experience
-  validates :experience, numericality: { greater_than: 0 }
+  validates :name, presence: true
+  validates :experience, presence: true, numericality: { greater_than: 0 }
 end

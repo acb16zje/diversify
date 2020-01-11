@@ -23,8 +23,8 @@ class LandingFeedback < ApplicationRecord
     'Recommended by others'
   ].freeze
 
-  validates_presence_of :smiley
-  validates :channel, inclusion: { in: CHANNEL }
+  validates :smiley, presence: true
+  validates :channel, presence: true, inclusion: { in: CHANNEL }
 
   scope :smiley, -> { select(:smiley) }
   scope :channel, -> { select(:channel) }

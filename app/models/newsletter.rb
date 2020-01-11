@@ -15,7 +15,9 @@ class Newsletter < ApplicationRecord
   include DateScope
 
   has_rich_text :content
-  validates_presence_of :title, :content
+
+  validates :title, :content, presence: true
+  validates :content, presence: true
 
   scope :graph, lambda {
     find_by_sql(

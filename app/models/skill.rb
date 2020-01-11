@@ -26,6 +26,6 @@ class Skill < ApplicationRecord
   has_and_belongs_to_many :tasks
   has_many :skill_levels
 
-  validates_presence_of :name, :description
-  validates_uniqueness_of :name
+  validates :description, presence: true
+  validates :name, presence: true, uniqueness: true
 end

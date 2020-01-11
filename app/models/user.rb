@@ -38,10 +38,11 @@ class User < ApplicationRecord
   has_many :reviews
   has_one :license
 
-  validates_presence_of :email, :encrypted_password
   validates :email,
+            presence: true,
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :encrypted_password, presence: true
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
