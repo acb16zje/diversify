@@ -261,7 +261,8 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :google_oauth2, '719224855783-s9u7alktljkerf5lj9euetef0lpjjrvr.apps.googleusercontent.com', 'sBV9T2pm0152A-kYyZtDIM7v', access_type: "online", skip_jwt: true
-
+  config.omniauth :twitter, 'U73tmcf1RtiKanL4Pg3OV52lP', 'fQUhTZYKZc0c2o88fIOwl7yOdDiLiXTJi5hXEcRE4QPO2XOTAF'
+  
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
