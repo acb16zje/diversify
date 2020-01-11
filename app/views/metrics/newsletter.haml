@@ -12,8 +12,8 @@
         .column
           .select.is-pulled-right
             %select#graph-select{'v-model': 'graphOption'}
-              %option Newsletter Subscriptions by Date
-              %option Unsubscriptions by Newsletter
+              %option Newsletter Subscription by Date
+              %option Unsubscription by Newsletter
               %option Unsubscription Reason
 
-      #graph-div.box
+      %chartkick{'v-bind': '{ dates, graphOption }'}

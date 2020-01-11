@@ -4,20 +4,20 @@
   .columns.has-text-centered
     .column
       .box.has-equal-height
-        %p.title= "#{@static_data[0]}"
+        %p.title= @data[:subscribed_count]
         %p.subtitle newsletter subscribers
     .column
       .box.has-equal-height
-        %p.title= "#{@static_data[1]}"
+        %p.title= @data[:today_count]
         %p.subtitle page visits today
     .column
       .box.has-equal-height
-        %p.title= "#{@static_data[2]}"
+        %p.title= @data[:total_count]
         %p.subtitle total page visits
 
   %section.section
     .container
-      %h1.title.has-text-centered Subscriptions Plans Statistics
+      %h1.title.has-text-centered Customer Interest Statistics
 
       .columns
         .column
@@ -27,7 +27,7 @@
           .select.is-pulled-right
             %select#graph-select{'v-model': 'graphOption'}
               %option Subscription Ratio
-              %option Subscriptions by Date
+              %option Subscription by Date
               %option Landing Page Feedback
 
-      #graph-div.box
+      %chartkick{'v-bind': '{ dates, graphOption }'}

@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     clearDates() {
-      this.dates = null;
+      this.dates = [];
       this.$emit('set-dates', this.dates);
     },
   },

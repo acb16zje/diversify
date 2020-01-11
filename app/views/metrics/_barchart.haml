@@ -1,6 +1,0 @@
-- if average.present?
-  = column_chart data[0][:data].group(group_by).average("cast(properties ->> 'time_spent' as integer)"), title:data[0][:title], id: 'index-bar-graph', xtitle: 'Pages', ytitle: 'Average Time (s)'
-- elsif group_by.present?
-  = column_chart data[0][:data].group(group_by).count, title:data[0][:title], id: 'index-bar-graph', xtitle: 'Pages', ytitle: 'Visits'
-- else
-  = column_chart data[0][:data], title:data[0][:title], id: 'index-bar-graph'

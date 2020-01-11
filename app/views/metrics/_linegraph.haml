@@ -1,4 +1,0 @@
-- if group_by.present?
-    = line_chart data[0][:data].group(group_by).group_by_day(time).count, id: 'index-line-graph', title: data[0][:title]
-- else
-    = line_chart data.map { |d| {name: d[:title], data: d[:data].group_by_day(time).count}}, id: 'index-line-graph'

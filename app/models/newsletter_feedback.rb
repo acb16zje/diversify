@@ -35,8 +35,6 @@ class NewsletterFeedback < ApplicationRecord
             presence: true,
             array_inclusion: { in: REASONS.keys.map(&:to_s) << 'admin' }
 
-  scope :graph, -> { select(:reasons, :created_at) }
-
   before_save :validate_subscription_status
 
   after_commit :change_subscribed_to_false
