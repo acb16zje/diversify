@@ -52,11 +52,11 @@ class ChartsController < ApplicationController
                 only: %i[referrers_ratio referrers_by_date]
 
   def subscription_ratio
-    render json: @records.group_by_type.size
+    render json: @records.type_size
   end
 
   def subscription_by_date
-    render json: @records.group_by_type_and_time.size.chart_json
+    render json: @records.type_time_size.chart_json
   end
 
   def landing_page_feedback
@@ -68,11 +68,11 @@ class ChartsController < ApplicationController
   end
 
   def social_share_ratio
-    render json: @records.group_by_type.size
+    render json: @records.type_size
   end
 
   def social_share_by_date
-    render json: @records.group_by_type_and_time.size.chart_json
+    render json: @records.type_time_size.chart_json
   end
 
   def referrers_ratio
@@ -131,9 +131,9 @@ class ChartsController < ApplicationController
 
   def load_landing_page_feedback
     @records = [
-      LandingFeedback.select(:smiley),
-      LandingFeedback.select(:channel),
-      LandingFeedback.select(:interest)
+      LandingFeedback.select(:smiley, :created_at),
+      LandingFeedback.select(:channel, :created_at),
+      LandingFeedback.select(:interest, :created_at)
     ]
   end
 
@@ -150,11 +150,14 @@ class ChartsController < ApplicationController
   end
 
   def load_newsletter_subscription_by_date
-    @records = [NewsletterSubscription.all, NewsletterFeedback.all]
+    @records = [
+      NewsletterSubscription.select(:created_at),
+      NewsletterFeedback.select(:created_at)
+    ]
   end
 
   def load_unsubscription_by_newsletter
-    @records = Newsletter.graph.to_a
+    @records = Newsletter.graph
   end
 
   def load_unsubscription_reason

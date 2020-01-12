@@ -36,7 +36,7 @@ module ChartsFilterDate
       end
     when 'unsubscription_by_newsletter'
       # Class of Newsletter, cannot use where
-      @records.select! do |record|
+      @records.filter! do |record|
         record[:created_at].between?(start_date, end_date)
       end
     else
