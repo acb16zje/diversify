@@ -23,8 +23,6 @@
 
 # User model
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_many :projects
   has_many :user_personalities
   has_many :personalities, through: :user_personalities
@@ -41,7 +39,9 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :encrypted_password, presence: true
 
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:google_oauth2, :twitter, :facebook]
+         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
 end

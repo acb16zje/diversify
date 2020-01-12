@@ -13,12 +13,13 @@
 # Newsletter model
 class Newsletter < ApplicationRecord
 
+  # Equivalent to: has one :rich_text_content
   has_rich_text :content
 
-  validates :title, :content, presence: true
+  validates :title, presence: true
   validates :content, presence: true
 
-  scope :graph, lambda {
+  scope :unsubscription_by_newsletter, lambda {
     find_by_sql(
       "SELECT newsletters.title,
          newsletters.created_at, COUNT(newsletter_feedbacks)

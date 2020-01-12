@@ -157,7 +157,7 @@ class ChartsController < ApplicationController
   end
 
   def load_unsubscription_by_newsletter
-    @records = Newsletter.graph
+    @records = Newsletter.unsubscription_by_newsletter
   end
 
   def load_unsubscription_reason
