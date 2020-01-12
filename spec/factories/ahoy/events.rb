@@ -71,5 +71,7 @@ FactoryBot.define do
       social_share
       properties { { type: 'Email' } }
     end
+
+    time { Time.zone.now }
   end
 end

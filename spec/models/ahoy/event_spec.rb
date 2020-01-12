@@ -51,5 +51,23 @@ describe Ahoy::Event, type: :model do
 
       it { expect(model.social).to include(social_event) }
     end
+
+    describe '.type_size' do
+      subject { model.social.type_size }
+
+      let!(:event) { create(:ahoy_event, :facebook) }
+
+      it { is_expected.to eq(event.properties['type'] => 1) }
+    end
+
+    describe  '.type_team_size' do
+      subject { model.social.type_time_size }
+
+      let!(:event) { create(:ahoy_event, :facebook) }
+
+      it {
+        is_expected.to eq([event.properties['type'], event.time.to_date] => 1)
+      }
+    end
   end
 end

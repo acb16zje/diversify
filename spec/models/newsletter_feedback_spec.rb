@@ -34,15 +34,6 @@ describe NewsletterFeedback, type: :model do
     it { is_expected.not_to allow_value(%w[foo bar]).for(:reasons) }
   end
 
-  describe 'scopes' do
-    describe '.graph' do
-      it 'return reasons and created_at' do
-        feedback = create(:newsletter_feedback, :not_interested)
-        expect(described_class.graph.pluck(:reasons)).to include(feedback.reasons)
-      end
-    end
-  end
-
   describe '#count_reason' do
     it 'count and group the reasons' do
       expect(
