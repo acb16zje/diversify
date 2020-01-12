@@ -40,10 +40,6 @@
 require 'rails_helper'
 
 describe Ahoy::Visit, type: :model do
-  describe 'modules' do
-    it { is_expected.to include_module(DateScope) }
-  end
-
   describe 'associations' do
     it { is_expected.to have_many(:events).dependent(:destroy) }
     it { is_expected.to belong_to(:user).optional }

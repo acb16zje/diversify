@@ -14,15 +14,15 @@ class NewslettersController < ApplicationController
     newsletter = Newsletter.new(newsletter_params)
 
     if newsletter.save
-      flash[:toast] = {type: 'success', message: 'Newsletter sent'}
+      flash[:toast] = { type: 'success', message: 'Newsletter sent' }
       render js: "window.location='#{newsletter_path(newsletter)}'"
     else
-      render_json('Send Failed', 422)
+      render json: { message: 'Send Failed' }, status: :unprocessable_entity
     end
   end
 
   def show
-    @newsletter = Newsletter.find_by_id(params[:id])
+    @newsletter = Newsletter.find_by(id: params[:id])
 
     return unless request.xhr?
 
@@ -39,7 +39,7 @@ class NewslettersController < ApplicationController
     if params.key?(:email)
       email = params[:email]
       if NewsletterSubscription.previously_subscribed.exists?(email: email)
-        sub = NewsletterSubscription.find_by_email(email)
+        sub = NewsletterSubscription.find_by(email: email)
         sub.subscribed = true
       else
         sub = NewsletterSubscription.new(email: email, subscribed: true)
@@ -58,11 +58,12 @@ class NewslettersController < ApplicationController
     feedback = NewsletterFeedback.create(unsubscribe_params)
 
     if feedback.errors.any?
-      render_json(feedback.errors.full_messages.join(', '), 422)
+      render json: { message: feedback.errors.full_messages.join(', ') },
+             status: :unprocessable_entity
     else
       # Prevent Oracle attack on newsletter subscribers list by returning as
       # long as the params syntax are correct
-      render_json('Newsletter Unsubscribed! Hope to see you again')
+      render json: { message: 'Newsletter Unsubscribed! Hope to see you again' }
     end
   end
 
@@ -76,16 +77,16 @@ class NewslettersController < ApplicationController
     p = params.require(:newsletter_unsubscription).permit(:email, reasons: [])
 
     {
-      newsletter_subscription: NewsletterSubscription.find_by_email(p[:email]),
+      newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]),
       reasons: p[:reasons]
     }
   end
 
   def sub_pass_action
-    render_json('Thanks for subscribing')
+    render json: { message: 'Thanks for subscribing' }
   end
 
   def sub_fail_action(message)
-    render_json(message, 422)
+    render json: { message: message }, status: :unprocessable_entity
   end
 end

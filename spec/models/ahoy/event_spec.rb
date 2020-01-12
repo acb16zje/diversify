@@ -24,7 +24,6 @@ require 'rails_helper'
 describe Ahoy::Event, type: :model do
   describe 'modules' do
     it { is_expected.to include_module(Ahoy::QueryMethods) }
-    it { is_expected.to include_module(DateScope) }
   end
 
   describe 'associations' do

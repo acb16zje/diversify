@@ -24,10 +24,6 @@ require 'rails_helper'
 describe NewsletterFeedback, type: :model do
   let(:feedback) { build(:newsletter_feedback, :no_longer) }
 
-  describe 'modules' do
-    it { is_expected.to include_module(DateScope) }
-  end
-
   describe 'associations' do
     it { is_expected.to belong_to(:newsletter_subscription).optional }
   end

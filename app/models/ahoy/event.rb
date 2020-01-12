@@ -22,7 +22,6 @@
 # Ahoy Event model
 class Ahoy::Event < ApplicationRecord
   include Ahoy::QueryMethods
-  include DateScope
 
   self.table_name = 'ahoy_events'
 

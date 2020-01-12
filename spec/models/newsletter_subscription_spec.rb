@@ -20,10 +20,6 @@ require 'rails_helper'
 describe NewsletterSubscription, type: :model do
   include ActiveJob::TestHelper
 
-  describe 'modules' do
-    it { is_expected.to include_module(DateScope) }
-  end
-
   describe 'associations' do
     it { is_expected.to have_many(:newsletter_feedbacks).dependent(:nullify) }
   end

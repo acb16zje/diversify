@@ -17,7 +17,6 @@
 
 # NewsletterSubscription Model
 class NewsletterSubscription < ApplicationRecord
-  include DateScope
 
   has_many :newsletter_feedbacks, dependent: :nullify
 

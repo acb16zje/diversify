@@ -14,8 +14,6 @@
 
 # LandingFeedback model
 class LandingFeedback < ApplicationRecord
-  include DateScope
-
   CHANNEL = [
     'Social Media',
     'Search Engine',

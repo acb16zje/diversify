@@ -12,7 +12,6 @@
 
 # Newsletter model
 class Newsletter < ApplicationRecord
-  include DateScope
 
   has_rich_text :content
 

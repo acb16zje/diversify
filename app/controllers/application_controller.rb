@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from ActionController::ParameterMissing do
-    render_json('Bad Request', 400)
+    render json: { message: 'Bad Request' }, status: :bad_request
   end
 
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
@@ -35,9 +35,5 @@ class ApplicationController < ActionController::Base
 
   def layout_by_resource
     devise_controller? ? 'devise' : 'application'
-  end
-
-  def render_json(message, status = :ok)
-    render json: { message: message }, status: status
   end
 end

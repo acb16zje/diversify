@@ -39,7 +39,6 @@
 
 # Ahoy Visit model
 class Ahoy::Visit < ApplicationRecord
-  include DateScope
 
   self.table_name = 'ahoy_visits'
 

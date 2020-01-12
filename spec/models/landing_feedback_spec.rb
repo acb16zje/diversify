@@ -3,10 +3,6 @@
 require 'rails_helper'
 
 describe LandingFeedback, type: :model do
-  describe 'modules' do
-    it { is_expected.to include_module(DateScope) }
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:smiley) }
     it { is_expected.to validate_presence_of(:channel) }
