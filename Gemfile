@@ -5,22 +5,24 @@ source 'https://gems.shefcompsci.org.uk' do
   gem 'epi_deploy', group: :development
 end
 
-gem 'activerecord-session_store'
-gem 'bootsnap'
-gem 'puma'
+# Rails core
 gem 'rails'
-gem 'responders'
 gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
 
+gem 'bootsnap'
+
+# Puma server
+gem 'puma'
+
+# Responders respond_to and respond_with
+gem 'responders'
+
+# PostgreSQL database
 gem 'pg'
 
-gem 'haml-rails'
+gem 'activerecord-session_store'
 
-gem 'draper'
-gem 'ransack', github: 'activerecord-hackery/ransack'
-
-gem 'pagy'
-
+# Authentication libraries
 gem 'cancancan'
 gem 'devise'
 gem 'devise_cas_authenticatable'
@@ -35,6 +37,19 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'whenever'
 
+# Decorators
+gem 'draper'
+
+# HAML
+gem 'hamlit'
+
+# Pagination
+gem 'pagy'
+
+# Advance search forms
+gem 'ransack', github: 'activerecord-hackery/ransack'
+
+# Metrics Charts
 gem 'ahoy_matey'
 gem 'chartkick'
 gem 'geocoder'
@@ -47,13 +62,12 @@ group :development, :test do
   gem 'byebug'
 
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
-    gem lib, github: "rspec/#{lib}", branch: 'master'
+    gem lib, github: "rspec/#{lib}"
   end
 end
 
 group :development do
   gem 'listen'
-  gem 'web-console'
 
   gem 'capistrano'
   gem 'capistrano-bundler', require: false
@@ -61,6 +75,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
 
+  # Code Style
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
