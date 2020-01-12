@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ## Application deployment configuration
 set :server,      'QA_SERVER'
 set :user,        'QA_USER'

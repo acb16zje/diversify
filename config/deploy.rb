@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ## Application configuration
 set :application,             'project'
 set :branch,                  -> { fetch(:stage) }

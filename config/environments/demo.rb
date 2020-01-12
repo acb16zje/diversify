@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   app_url = 'team07.demo1.genesys.shefcompsci.org.uk'

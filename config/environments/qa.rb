@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   app_url = 'PUT_APP_URL_HERE' # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')

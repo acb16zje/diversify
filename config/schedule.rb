@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #####
 #
 # These are required to make rvm work properly within crontab

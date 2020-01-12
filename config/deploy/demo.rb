@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ## Application deployment configuration
 set :server, 'epi-stu-gen-demo1.shef.ac.uk'
 set :user, 'demo.team07'
