@@ -6,6 +6,11 @@
     = stylesheet_packs_with_chunks_tag 'devise'
     = javascript_packs_with_chunks_tag 'devise', defer: ''
 
-  %body.has-spaced-navbar-fixed-top
+  %body
     #app
-      = yield
+      %section.section
+        .container
+          .columns.is-centered
+            .column.is-half.card
+              .card-content
+                = yield
