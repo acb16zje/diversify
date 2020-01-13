@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Landing page > Newsletter', :js, type: :feature do
+describe 'Landing page > Newsletter', :js, type: :system do
   before { visit newsletter_pages_path }
 
   describe 'Share on Facebook' do
