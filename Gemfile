@@ -26,8 +26,6 @@ gem 'activerecord-session_store'
 
 # Authentication libraries
 gem 'devise'
-gem 'devise_cas_authenticatable'
-gem 'devise_ldap_authenticatable'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
