@@ -1,0 +1,21 @@
+%nav.navbar.is-fixed-top.is-spaced#navbar
+  .container
+    .navbar-brand
+      = link_to root_path, class: 'navbar-item' do
+        = image_tag 'logo/logo_horizontal.svg', width: 150
+      .navbar-burger.burger{'v-bind:class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar'}
+        %span
+        %span
+        %span
+    .navbar-menu{'v-bind:class': "{ 'is-active': showNavbar }"}
+      .navbar-end.navbar-center
+        = navbar_link 'Pricing', pricing_pages_path
+        = navbar_link 'About', about_pages_path
+        = navbar_link 'Customers', love_pages_path
+        = navbar_link 'Features', features_pages_path
+        = navbar_link 'Newsletter', newsletter_pages_path
+      .navbar-end
+        - if user_signed_in?
+          = link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'button is-primary'
+        - else
+          = link_to 'Login', new_user_registration_path, class: 'button is-primary'

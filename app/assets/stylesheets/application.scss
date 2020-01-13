@@ -72,7 +72,11 @@ html, body {
 }
 
 /* Navbar */
-nav.navbar {
+#navbar {
+  .container {
+    max-width: 1000px;
+  }
+
   align-items: center;
 
   .navbar-item img {
@@ -97,7 +101,6 @@ nav.navbar {
 
   .navbar-center {
     margin: auto;
-    width: max-content;
     display: inline;
   }
 
@@ -105,6 +108,60 @@ nav.navbar {
     @media screen and (max-width: 1024px) {
       width: 200px;
       margin: 1rem 0;
+    }
+  }
+}
+
+/* Desktop Navbar */
+@media screen and (min-width: 1024px) {
+  .navbar-end a.navbar-item {
+    color: black;
+    display: inline-block;
+    border-radius: 0 !important;
+    background-color: transparent;
+    text-decoration: none;
+    font-size: large;
+
+    &.is-active {
+      &:after {
+        display: block;
+        content: '';
+        border-bottom: solid 3px $primary;
+        transform: scaleX(1);
+      }
+    }
+
+    &:after {
+      display: block;
+      content: '';
+      border-bottom: solid 3px $primary;
+      transform: scaleX(0);
+      transition: transform 250ms ease-in-out;
+    }
+
+    &:hover:after {
+      transform: scaleX(1);
+    }
+  }
+
+}
+
+/* Mobile Navbar */
+@media screen and (max-width: 1023px) {
+  #navbar {
+    background-color: $primary;
+    text-align: center;
+
+    a.navbar-item {
+      color: white;
+
+      &.is-active {
+        color: $primary;
+      }
+
+      &:hover {
+        color: $primary;
+      }
     }
   }
 }

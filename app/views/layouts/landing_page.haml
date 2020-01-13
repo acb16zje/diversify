@@ -10,27 +10,7 @@
 
   %body.has-spaced-navbar-fixed-top
     #app
-      %nav.navbar.is-fixed-top.is-spaced
-        .container
-          .navbar-brand
-            = link_to root_path, class: 'navbar-item' do
-              = image_tag 'logo/logo_horizontal.svg', width: 150
-            .navbar-burger.burger{'v-bind:class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar'}
-              %span
-              %span
-              %span
-          #navbar.navbar-menu{'v-bind:class': "{ 'is-active': showNavbar }"}
-            .navbar-end.navbar-center
-              = link_to 'Pricing', pricing_pages_path, class: "navbar-item #{active?(pricing_pages_path)}"
-              = link_to 'About', about_pages_path, class: "navbar-item #{active?(about_pages_path)}"
-              = link_to 'Customers', love_pages_path, class: "navbar-item #{active?(love_pages_path)}"
-              = link_to 'Features', features_pages_path, class: "navbar-item #{active?(features_pages_path)}"
-              = link_to 'Newsletter', newsletter_pages_path, class: "navbar-item #{active?(newsletter_pages_path)}"
-            .navbar-end
-              - if user_signed_in?
-                = link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'button is-secondary is-medium', id: 'logout-button'
-              - else
-                = link_to 'Login', new_user_registration_path, class: 'button is-secondary is-medium', id: 'newsletter-button'
+      = render 'layouts/header_nav'
 
       = yield
 

@@ -12,12 +12,7 @@
       = javascript_packs_with_chunks_tag 'metrics/metrics', defer: ''
 
   %body.has-spaced-navbar-fixed-top
-    %nav.navbar.is-fixed-top.is-spaced
-      .container
-        .navbar-brand
-          = link_to metrics_path, class: 'navbar-item' do
-            = image_tag 'logo/logo_horizontal.svg', width: 150
-          = link_to 'Landing Page', root_path, class: 'navbar-item'
+    = render 'layouts/header_nav'
 
     %section.section
       .container
