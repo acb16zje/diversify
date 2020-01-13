@@ -29,7 +29,7 @@ class User < ApplicationRecord
   has_many :preferences
   has_many :tasks
   has_many :skill_levels
-  has_and_belongs_to_many :teams
+  # has_and_belongs_to_many :teams
   has_many :reviews
   has_one :license
 

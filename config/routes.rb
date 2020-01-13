@@ -77,6 +77,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :users
+  resources :users do
+    collection do
+      get 'settings'
+    end
+  end
+  
   root to: 'pages#home'
 end
