@@ -1,31 +1,7 @@
 !!!
 %html{lang: 'en'}
   %head
-    %meta{content: 'https://team07.demo1.genesys.shefcompsci.org.uk', property: 'og:url'}
-    %meta{content: 'website', property: 'og:type'}
-    %meta{content: 'Diversify', property: 'og:title'}
-    %meta{content: 'Automated team building tool', property: 'og:description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), property: 'og:image'}
-
-    -# Search Engine
-    %meta{content: 'Automated team building software', name: 'description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), name: 'image'}
-    -# Schema.org for Google
-    %meta{content: 'Diversify', itemprop: 'name'}
-    %meta{content: 'Automated team building software', itemprop: 'description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), itemprop: 'image'}
-    -# Twitter
-    %meta{content: 'summary', name: 'twitter:card'}
-    %meta{content: 'Diversify', name: 'twitter:title'}
-    %meta{content: 'Automated team building software', name: 'twitter:description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), name: 'twitter:image:src'}
-    -# Open Graph general (Facebook, Pinterest & Google+)
-    %meta{content: 'Diversify', name: 'og:title'}
-    %meta{content: 'Automated team building software', name: 'og:description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), name: 'og:image'}
-    %meta{content: 'website', name: 'og:type'}
-
-    = render 'partials/head'
+    = render 'layouts/head'
 
     -# CSS
     = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'

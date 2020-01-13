@@ -1,20 +1,9 @@
 !!!
 %html{lang: 'en'}
   %head
-    %meta{content: 'https://team07.demo1.genesys.shefcompsci.org.uk', property: 'og:url'}
-    %meta{content: 'website', property: 'og:type'}
-    %meta{content: 'Diversify', property: 'og:title'}
-    %meta{content: 'Automated team building tool', property: 'og:description'}
-    %meta{content: image_path('logo/logo_vertical.svg'), property: 'og:image'}
+    = render 'layouts/head'
 
-    = render 'partials/head'
-
-    -# CSS
-    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Poppins&display=swap'
-    = stylesheet_packs_with_chunks_tag 'landing_page'
-
-    -# JavaScript
-    = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', data: {bg: '#645862', fg: '#fff', link: '#f1d600', 'close-text': 'OK'}
+    = stylesheet_packs_with_chunks_tag 'devise'
     = javascript_packs_with_chunks_tag 'devise', defer: ''
 
   %body.has-spaced-navbar-fixed-top
