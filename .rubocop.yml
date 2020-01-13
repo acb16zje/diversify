@@ -8,5 +8,9 @@ AllCops:
   TargetRailsVersion: 6.0
 
 # Exclude comments for LineLength style
-Metrics/LineLength:
+Layout/LineLength:
   IgnoredPatterns: ['(\A|\s)#']
+
+# RSpec Settings
+RSpec/ImplicitSubject:
+  EnforcedStyle: 'single_statement_only'
