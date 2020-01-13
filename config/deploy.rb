@@ -2,17 +2,15 @@
 
 ## Application configuration
 set :application,             'project'
-set :branch,                  -> { fetch(:stage) }
 set :repo_url,                'git@git.shefcompsci.org.uk:com4525-2019-20/team07/project.git'
 set :linked_files,            fetch(:linked_files,  fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'uploads')
 # set the locations to look for changed assets to determine whether to precompile
-set :assets_dependencies,     %w[app/assets lib/assets vendor/assets]
-set :branch,                  -> { fetch(:stage) }
+set :assets_dependencies,     %w[app/assets]
 
 # Currently Passenger is installed against the 'default' Ruby version
 # This may change in future, but can be customised here
-set :passenger_rvm_ruby_version,  'default'
+set :passenger_rvm_ruby_version, 'default'
 
 ## Capistrano configuration
 set :log_level,               :info
@@ -84,33 +82,22 @@ class PrecompileRequired < StandardError; end
 
 namespace :deploy do
   namespace :assets do
+    desc 'Precompile assets locally and then rsync to web servers'
     task :precompile do
-      on roles(:app) do
-        within release_path do
-          with rails_env: fetch(:rails_env) do
-            begin
-              # find the most recent release
-              latest_release = capture(:ls, '-xr', releases_path).split[1]
+      system 'rake assets:precompile'
 
-              # precompile if this is the first deploy
-              raise PrecompileRequired unless latest_release
-
-              latest_release_path = releases_path.join(latest_release)
-
-              # precompile if the previous deploy failed to finish precompiling
-              execute(:ls, latest_release_path.join('assets_manifest_backup')) rescue raise(PrecompileRequired)
-
-              fetch(:assets_dependencies).each do |dep|
-                # execute raises if there is a diff
-                execute(:diff, '-Naur', release_path.join(dep), latest_release_path.join(dep)) rescue raise(PrecompileRequired)
-              end
-
-              info('Skipping asset precompilation because there were no asset changes')
-            rescue PrecompileRequired
-              execute :bundle, :exec, :rake, 'assets:precompile'
-            end
-          end
+      on roles(:web), in: :parallel do |server|
+        run_locally do
+          execute :rsync,
+                  "-a --delete public/packs/ #{fetch(:user)}@#{server.hostname}:#{release_path}/public/packs/"
+          execute :rsync,
+                  "-a --delete public/assets/ #{fetch(:user)}@#{server.hostname}:#{release_path}/public/assets/"
         end
+      end
+
+      run_locally do
+        execute :rm, '-rf public/assets'
+        execute :rm, '-rf public/packs'
       end
     end
   end
@@ -143,6 +130,9 @@ end
 
 ## Notify Errbit after deployment
 after 'deploy:finished', 'airbrake:deploy'
+
+# Re-hook assets:precompile task
+after 'deploy:updated',  'deploy:assets:precompile'
 
 ## Restart delayed_job during the deployment process
 after  'deploy:updated',  'delayed_job:stop'
