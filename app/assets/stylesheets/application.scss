@@ -148,7 +148,7 @@ html, body {
 
 /* Mobile Navbar */
 @media screen and (max-width: 1023px) {
-  #navbar {
+  #navbar .navbar-menu {
     background-color: $primary;
     text-align: center;
 
