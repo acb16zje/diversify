@@ -8,8 +8,6 @@ class NewslettersController < ApplicationController
     @newsletters = Newsletter.all.decorate
   end
 
-  def new; end
-
   def create
     newsletter = Newsletter.new(newsletter_params)
 
@@ -22,7 +20,7 @@ class NewslettersController < ApplicationController
   end
 
   def show
-    @newsletter = Newsletter.find_by(id: params[:id])
+    @newsletter = Newsletter.find(params[:id])
 
     return unless request.xhr?
 
@@ -36,18 +34,16 @@ class NewslettersController < ApplicationController
   end
 
   def subscribe
-    if params.key?(:email)
-      email = params[:email]
-      if NewsletterSubscription.previously_subscribed.exists?(email: email)
-        sub = NewsletterSubscription.find_by(email: email)
-        sub.subscribed = true
-      else
-        sub = NewsletterSubscription.new(email: email, subscribed: true)
-      end
-      sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
+    sub_fail_action('No Email') if params[:email].blank?
+
+    email = params[:email]
+    if NewsletterSubscription.previously_subscribed.exists?(email: email)
+      sub = NewsletterSubscription.find_by(email: email)
+      sub.subscribed = true
     else
-      sub_fail_action('No Email')
+      sub = NewsletterSubscription.new(email: email, subscribed: true)
     end
+    sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
   end
 
   def unsubscribe

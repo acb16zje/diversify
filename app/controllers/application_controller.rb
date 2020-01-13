@@ -2,8 +2,6 @@
 
 # Default application controller
 class ApplicationController < ActionController::Base
-  layout :layout_by_resource
-
   # Ahoy gem, used in PagesController only
   skip_before_action :track_ahoy_visit
 
@@ -13,9 +11,9 @@ class ApplicationController < ActionController::Base
     render json: { message: 'Bad Request' }, status: :bad_request
   end
 
-  # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
+  # RecordNotFound exception is raised when using *find* method
   rescue_from ActiveRecord::RecordNotFound do
-    render template: 'errors/error_404', status: :not_found
+    render_404
   end
 
   # protected
@@ -26,7 +24,12 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def layout_by_resource
-    devise_controller? ? 'devise' : 'application'
+  def render_404
+    respond_to do |format|
+      format.html { render 'errors/error_404', status: :not_found }
+      # Prevent the Rails CSRF protector from thinking a missing .js file is a JavaScript file
+      format.js { render json: { message: 'Not Found' }, status: :not_found }
+      format.any { head :not_found }
+    end
   end
 end

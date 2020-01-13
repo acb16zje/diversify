@@ -5,16 +5,12 @@ import { dangerToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#app',
-  data: {
-    showNavbar: false,
-  },
   methods: {
     ajaxError(event) {
-        const messages = event.detail[0].errors
-        messages.forEach(function(message) {
-          dangerToast(message);
-        })
-      },
-      
-    }
+      const messages = event.detail[0].errors;
+      messages.forEach(function (message) {
+        dangerToast(message);
+      });
+    },
+  },
 });
