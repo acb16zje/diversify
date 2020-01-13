@@ -2,9 +2,9 @@
 
 namespace :production do
   # Prepare the deployment requirements
-  task :prepare do
+  task prepare: :environment do
     # Check ssh-agent, and do ssh-add
-    system Rails.root.join('lib', 'scripts', 'ssh-agent.sh').to_s
+    system Rails.root.join('lib/scripts/ssh-agent.sh').to_s
 
     # Remove old webpack output
     Rake::Task['webpacker:clobber'].invoke
@@ -15,6 +15,6 @@ namespace :production do
 
   desc 'Deploy to epiDeploy.'
   task deploy: [:prepare] do
-    # sh 'bundle exec ed release -d demo'
+    system 'bundle exec ed release -d demo'
   end
 end

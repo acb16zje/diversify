@@ -14,7 +14,7 @@ namespace :dev do
   end
 
   desc 'Remove log/ and tmp/'
-  task :clean do
+  task clean: :environment do
     system 'rm -rf log/ tmp/'
   end
 end
