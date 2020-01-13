@@ -25,13 +25,15 @@ gem 'pg'
 gem 'activerecord-session_store'
 
 # Authentication libraries
-gem 'cancancan'
 gem 'devise'
 gem 'devise_cas_authenticatable'
 gem 'devise_ldap_authenticatable'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+
+# Authorization, see https://github.com/palkan/action_policy
+gem 'action_policy'
 
 gem 'daemons'
 gem 'delayed-plugins-airbrake'

@@ -2,8 +2,6 @@
 
 # Error controller
 class ErrorsController < ApplicationController
-  skip_authorization_check
-
   layout 'landing_page'
 
   def error_403; end

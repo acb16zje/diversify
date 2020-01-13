@@ -2,8 +2,6 @@
 
 # Controller for landing pages
 class PagesController < ApplicationController
-  skip_authorization_check
-
   before_action :track_ahoy_visit
 
   after_action :track_action, except: :track_time

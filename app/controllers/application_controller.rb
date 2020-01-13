@@ -2,9 +2,6 @@
 
 # Default application controller
 class ApplicationController < ActionController::Base
-  # Ensure that CanCanCan is correctly configured
-  # and authorising actions on each controller
-  # check_authorization
   layout :layout_by_resource
 
   # Ahoy gem, used in PagesController only
@@ -19,10 +16,6 @@ class ApplicationController < ActionController::Base
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
   rescue_from ActiveRecord::RecordNotFound do
     render template: 'errors/error_404', status: :not_found
-  end
-
-  rescue_from CanCan::AccessDenied do
-    render template: 'errors/error_403', status: :forbidden
   end
 
   # protected
