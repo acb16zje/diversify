@@ -2,5 +2,5 @@
 
 # Error controller
 class ErrorsController < ApplicationController
-  layout 'landing_page'
+  layout 'main'
 end

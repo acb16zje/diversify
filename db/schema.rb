@@ -277,6 +277,7 @@ ActiveRecord::Schema.define(version: 2020_01_09_033821) do
     t.date "birthdate"
     t.string "provider"
     t.string "uid"
+    t.string "name", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"

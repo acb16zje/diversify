@@ -7,7 +7,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     auth = request.env["omniauth.auth"]
     user = User.where(provider: auth["provider"], uid: auth["uid"])
-            .first_or_initialize(email: auth["info"]["email"])
+            .first_or_initialize(email: auth["info"]["email"], name: auth["info"]["name"])
     user.password =  Devise.friendly_token[0,20]
     user.save!
 
@@ -21,7 +21,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     auth = request.env["omniauth.auth"]
     user = User.where(provider: auth.provider, uid: auth.uid)
-            .first_or_initialize(email: auth.info.email)
+            .first_or_initialize(email: auth.info.email, name: auth.info.name)
     user.password =  Devise.friendly_token[0,20]
 
     if user.save
@@ -41,7 +41,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # You need to implement the method below in your model (e.g. app/models/user.rb)
     auth = request.env["omniauth.auth"]
     user = User.where(provider: auth.provider, uid: auth.uid)
-            .first_or_initialize(email: auth.info.email)
+            .first_or_initialize(email: auth.info.email, name: auth.info.name)
     user.password =  Devise.friendly_token[0,20]
 
     if user.save

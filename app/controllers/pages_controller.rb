@@ -6,7 +6,7 @@ class PagesController < ApplicationController
 
   after_action :track_action, except: :track_time
 
-  layout 'landing_page'
+  layout 'main'
 
   # Function to track subscriptions
   # should be changed once proper subscription system has been completed

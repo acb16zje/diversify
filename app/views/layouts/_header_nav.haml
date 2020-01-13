@@ -9,11 +9,16 @@
         %span
     .navbar-menu{'v-bind:class': "{ 'is-active': showNavbar }"}
       .navbar-end.navbar-center
-        = navbar_link 'Pricing', pricing_pages_path
-        = navbar_link 'About', about_pages_path
-        = navbar_link 'Customers', love_pages_path
-        = navbar_link 'Features', features_pages_path
-        = navbar_link 'Newsletter', newsletter_pages_path
+        -if user_signed_in?
+          = navbar_link 'Profile', user_path(current_user)
+          = navbar_link 'Your Projects'
+          = navbar_link 'Browse Projects'
+        -else
+          = navbar_link 'Pricing', pricing_pages_path
+          = navbar_link 'About', about_pages_path
+          = navbar_link 'Customers', love_pages_path
+          = navbar_link 'Features', features_pages_path
+          = navbar_link 'Newsletter', newsletter_pages_path
       .navbar-end
         - if user_signed_in?
           = link_to 'Log Out', destroy_user_session_path, method: :delete, class: 'button is-primary'
