@@ -10,11 +10,6 @@ set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'u
 set :assets_dependencies,     %w[app/assets lib/assets vendor/assets]
 set :branch,                  -> { fetch(:stage) }
 
-## Ruby configuration
-set :rvm_type,                    :system
-set :rvm_ruby_version,            'ruby-2.6.2'
-set :rvm_path,                    '/usr/local/rvm'
-
 # Currently Passenger is installed against the 'default' Ruby version
 # This may change in future, but can be customised here
 set :passenger_rvm_ruby_version,  'default'
