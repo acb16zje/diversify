@@ -71,7 +71,9 @@ Rails.application.routes.draw do
     collection do
       get 'subscribers'
       get 'unsubscribe'
-
+      
+      post 'self_subscribe'
+      post 'self_unsubscribe'
       post 'subscribe'
       post 'unsubscribe', to: 'newsletters#post_unsubscribe'
     end

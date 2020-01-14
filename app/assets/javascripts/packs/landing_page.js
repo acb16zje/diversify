@@ -50,6 +50,7 @@ new Vue({
       `;
     },
     ajaxError(event) {
+      console.log(event)
       dangerToast(event.detail[0].message);
     },
   },

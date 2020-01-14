@@ -3,6 +3,7 @@
 # Controller for newsletter
 class NewslettersController < ApplicationController
   layout 'metrics_page'
+  before_action :authenticate_user!, except: %i[subscribe unsubscribe post_unsubscribe]
 
   def index
     @newsletters = Newsletter.all.decorate
@@ -46,8 +47,29 @@ class NewslettersController < ApplicationController
     sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
   end
 
+  def self_subscribe
+    email = current_user.email
+    if NewsletterSubscription.previously_subscribed.exists?(email: email)
+      sub = NewsletterSubscription.find_by(email: email)
+      sub.subscribed = true
+    else
+      sub = NewsletterSubscription.new(email: email, subscribed: true)
+    end
+    if sub.save
+      render js: "window.location='#{settings_users_path}'"
+    else
+      sub_fail_action('Subscription Failed')
+    end
+  end
+
   def unsubscribe
     render layout: false
+  end
+
+  def self_unsubscribe
+    newsletter_subscription = NewsletterSubscription.where(email: current_user.email).first
+    newsletter_subscription.update(subscribed: false)
+    redirect_to settings_users_path
   end
 
   def post_unsubscribe

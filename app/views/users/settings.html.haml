@@ -7,34 +7,34 @@
         %h1.title.is-1.is-spaced Settings
         -if current_user.provider.nil?
           %h1.is-size-5 Change Password
-          = form_with model: current_user , url: registration_path(current_user), method: :put do |f|
+
+          = form_with model: current_user , url: registration_path(current_user), html: {'@ajax:error': 'ajaxError'}, method: :put do |f|
             .field
-              = f.label :email
-              %br/
-              = f.email_field :email, autofocus: true, autocomplete: "email"
+              .control
+                = f.password_field :password, autocomplete: "new-password", class: 'input',placeholder: "Password"
+                - if @minimum_password_length
+                  %em
+                    = @minimum_password_length
+                    characters minimum
             .field
-              = f.label :password
-              %i (leave blank if you don't want to change it)
-              %br/
-              = f.password_field :password, autocomplete: "new-password"
-              - if @minimum_password_length
-                %br/
-                %em
-                  = @minimum_password_length
-                  characters minimum
+              .control
+                = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder:"Password Confirmation"
             .field
-              = f.label :password_confirmation
-              %br/
-              = f.password_field :password_confirmation, autocomplete: "new-password"
-            .field
-              = f.label :current_password
+              .control
               %i (we need your current password to confirm your changes)
-              %br/
-              = f.password_field :current_password, autocomplete: "current-password"
+              = f.password_field :current_password, autocomplete: "current-password", class: 'input', placeholder: "Current Password"
             .actions
-              = f.submit "Update"
-          %h3 Cancel my account
-          %p
-            Unhappy? #{button_to "Cancel my account", registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete}
+              = f.submit "Update", {class: 'button is-primary'}
         -else 
           %h1.is-size-5 Disconnect with Accounts
+
+        %h1.is-size-5 Newsletter Preferences
+        -if current_user.subscribed_newsletter?
+          %p Are you sure? You will miss out the latest news and features!
+          = link_to "Unsubscribe Newsletter", self_unsubscribe_newsletters_path, data: { confirm: "Are you sure?" },method: :post, class:'button is-warning'
+        -else
+          %p Receive the latest news from our company.
+          = link_to "Subscribe Newsletter", self_subscribe_newsletters_path, class:'button is-success',method: :post, remote: true
+        %h1.is-size-5.has-text-danger Delete my account
+        %p Once you delete your account, there is no going back. Please be certain.
+        = link_to "Delete my account", registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete, class:'button is-danger'

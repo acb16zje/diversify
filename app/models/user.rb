@@ -44,4 +44,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+
+  def subscribed_newsletter?
+    subscription = NewsletterSubscription.where(email: email).first
+    !subscription.nil? && subscription.subscribed == true
+  end
 end

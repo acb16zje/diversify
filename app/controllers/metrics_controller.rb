@@ -3,7 +3,8 @@
 # Controller for metrics
 class MetricsController < ApplicationController
   layout 'metrics_page'
-
+  before_action :authenticate_user!
+  
   def index
     @data = {
       subscribed_count: NewsletterSubscription.subscribed_count,

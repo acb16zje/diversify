@@ -16,16 +16,19 @@
             %span.icon.is-large
               %span.iconify{'data-icon': 'fxemoji:email'}
 
+        -if user_signed_in?
+          = link_to settings_users_path, class: 'button is-secondary' do
+            %span.icon.iconify.is-medium{'data-icon': 'mdi:settings'}
+            %span Subscribe in Settings Page
+        -else
+          = form_with url: subscribe_newsletters_path, html: {'@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError'} do
+            .field
+              .control
+                = text_field_tag :email, nil, class: 'input', placeholder: 'Your email address', type: 'email', required: ''
 
-        = form_with url: subscribe_newsletters_path, html: {'@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError'} do
-          .field
-            .control
-              = text_field_tag :email, nil, class: 'input', placeholder: 'Your email address', type: 'email', required: ''
-
-          .field
-            .control
-              = submit_tag 'Subscribe', {class: 'button is-secondary is-large'}
-
+            .field
+              .control
+                = submit_tag 'Subscribe', {class: 'button is-secondary is-large'}
 
       .column.has-text-centered.is-narrow
         = image_tag 'mail_letter.png', width: 400

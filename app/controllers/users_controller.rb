@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
 
   def settings
-      
+    
   end
 
   private
