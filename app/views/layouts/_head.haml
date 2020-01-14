@@ -22,7 +22,7 @@
 = favicon_link_tag "#{root_path}favicon/apple-touch-icon.png", rel: 'apple-touch-icon', sizes: '180x180'
 = favicon_link_tag "#{root_path}favicon/favicon-32x32.png", rel: 'icon', sizes: '32x32', type: 'image/png'
 = favicon_link_tag "#{root_path}favicon/favicon-16x16.png", rel: 'icon', sizes: '16x16', type: 'image/png'
-= favicon_link_tag "#{root_path}favicon/site.webmanifest", rel: 'manifest'
+= tag :link, href: "#{root_path}favicon/manifest.json", rel: 'manifest', crossorigin: 'use-credentials'
 = favicon_link_tag "#{root_path}favicon/safari-pinned-tab.svg", rel: 'mask-icon', color: '#5bbad5'
 = favicon_link_tag "#{root_path}favicon/favicon.ico", rel: 'shortcut icon'
 %meta{name: 'apple-mobile-web-app-title', content: 'Diversify'}
