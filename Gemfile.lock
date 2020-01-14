@@ -44,7 +44,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails.git
-  revision: e05cfcf699659044746cd715736418e8c3d71dab
+  revision: b1ffe94265b33b02616658ec3c1921fc0355f662
   specs:
     rspec-rails (4.0.0.pre)
       actionpack (>= 4.2)
@@ -57,7 +57,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-support.git
-  revision: b83b4cecb3bb56300addae89cb0c437f1af906fb
+  revision: 8c2ca4a13471e4ef2c6275990fc5f4c5b40fba6e
   specs:
     rspec-support (3.10.0.pre)
 

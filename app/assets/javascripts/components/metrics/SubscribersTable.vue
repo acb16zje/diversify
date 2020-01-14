@@ -1,5 +1,5 @@
 <template>
-  <DataTable :data="JSON.parse(originalData)">
+  <DataTable :data="data">
     <template v-slot:columns="slotProps">
       <b-table-column field="email" label="Email" sortable searchable>
         {{ slotProps.row.email }}
@@ -34,6 +34,11 @@ export default {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      data: JSON.parse(this.originalData),
+    };
   },
   methods: {
     unsubscribeSuccess(row) {
