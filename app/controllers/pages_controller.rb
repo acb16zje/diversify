@@ -46,7 +46,7 @@ class PagesController < ApplicationController
 
   # Ahoy Gem function to track actions
   def track_action
-    return if request.xhr? || request.path_parameters[:controller] != 'pages'
+    return if request.xhr?
 
     ahoy.track 'Ran action', request.path_parameters
   end

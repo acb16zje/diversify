@@ -49,9 +49,9 @@ new Vue({
         <p class="subtitle is-5">${event.detail[0].message}</p>
       `;
     },
-    ajaxError(event) {
-      console.log(event)
-      dangerToast(event.detail[0].message);
+    // eslint-disable-next-line no-unused-vars
+    ajaxError({ detail: [response, status, xhr] }) {
+      dangerToast(status);
     },
   },
 });
