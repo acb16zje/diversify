@@ -16,10 +16,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  rescue_from ActionPolicy::Unauthorized do |ex|
+  rescue_from ActionPolicy::Unauthorized do |_ex|
     # Exception object contains the following information
-    #ex.policy #=> policy class, e.g. UserPolicy
-    #ex.rule #=> applied rule, e.g. :show?
+    # ex.policy #=> policy class, e.g. UserPolicy
+    # ex.rule #=> applied rule, e.g. :show?
     redirect_to root_path
   end
 

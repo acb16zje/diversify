@@ -12,9 +12,7 @@ module NewsletterHelper
   def send_newsletter(has_content = true)
     fill_in 'newsletter_title', with: 'random title'
 
-    if has_content
-      fill_in_ckeditor 'newsletter_content', with: 'random content'
-    end
+    fill_in_ckeditor 'newsletter_content', with: 'random content' if has_content
 
     click_button 'Send newsletter'
   end

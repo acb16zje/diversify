@@ -43,5 +43,4 @@ module ChartsFilterDate
       @records = @records.where(column + ' BETWEEN ? AND ?', start_date, end_date)
     end
   end
-
 end

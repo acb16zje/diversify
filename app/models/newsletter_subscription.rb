@@ -17,7 +17,6 @@
 
 # NewsletterSubscription Model
 class NewsletterSubscription < ApplicationRecord
-
   has_many :newsletter_feedbacks, dependent: :nullify
 
   validates :email,

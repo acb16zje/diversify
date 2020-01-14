@@ -12,7 +12,6 @@
 
 # Newsletter model
 class Newsletter < ApplicationRecord
-
   # Equivalent to: has one :rich_text_content
   has_rich_text :content
 

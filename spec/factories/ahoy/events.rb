@@ -21,7 +21,6 @@
 
 FactoryBot.define do
   factory :ahoy_event, class: Ahoy::Event.name do
-
     association :visit, factory: :ahoy_visit
 
     trait :ran_action do

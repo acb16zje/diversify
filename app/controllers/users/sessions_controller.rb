@@ -12,8 +12,8 @@ class Users::SessionsController < Devise::SessionsController
   def create
     self.resource = warden.authenticate(auth_options)
     if resource.nil?
-      render json: {errors: ['Invalid Username and Password']}, status: :bad_request
-    else 
+      render json: { errors: ['Invalid Username and Password'] }, status: :bad_request
+    else
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, resource)
       yield resource if block_given?

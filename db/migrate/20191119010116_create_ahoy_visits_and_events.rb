@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 class CreateAhoyVisitsAndEvents < ActiveRecord::Migration[6.0]
   def change
+    # rubocop:todo Rails/CreateTableWithTimestamps
     create_table :ahoy_visits do |t|
       t.string :visit_token
       t.string :visitor_token
@@ -43,9 +46,11 @@ class CreateAhoyVisitsAndEvents < ActiveRecord::Migration[6.0]
 
       t.timestamp :started_at
     end
+    # rubocop:enable Rails/CreateTableWithTimestamps
 
     add_index :ahoy_visits, [:visit_token], unique: true
 
+    # rubocop:todo Rails/CreateTableWithTimestamps
     create_table :ahoy_events do |t|
       t.references :visit
       t.references :user
@@ -54,8 +59,9 @@ class CreateAhoyVisitsAndEvents < ActiveRecord::Migration[6.0]
       t.jsonb :properties
       t.timestamp :time
     end
+    # rubocop:enable Rails/CreateTableWithTimestamps
 
-    add_index :ahoy_events, [:name, :time]
+    add_index :ahoy_events, %i[name time]
     add_index :ahoy_events, :properties, using: :gin, opclass: :jsonb_path_ops
   end
 end

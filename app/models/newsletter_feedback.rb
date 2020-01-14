@@ -21,7 +21,6 @@
 
 # NewsletterFeedback model
 class NewsletterFeedback < ApplicationRecord
-
   REASONS = { no_longer: 'I no longer want to receive these emails',
               too_frequent: 'The emails are too frequent',
               never_signed: 'I never signed up for the newsletter',

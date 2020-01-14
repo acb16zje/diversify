@@ -6,10 +6,35 @@ require:
 AllCops:
   TargetRubyVersion: 2.6
   TargetRailsVersion: 6.0
+  Include:
+    - 'app/**/*.rb'
+    - 'db/**/*.rb'
+    - 'lib/**/*.rb'
+    - 'spec/**/*.rb'
+  Exclude:
+    - 'bin/**/*'
+    - 'db/schema.rb'
+    - 'lib/tasks/auto_annotate_models.rake'
+    - 'spec/rails_helper.rb'
+    - 'spec/simplecov_env.rb'
 
 # Exclude comments for LineLength style
 Layout/LineLength:
   IgnoredPatterns: ['(\A|\s)#']
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
+Style/Documentation:
+  Exclude:
+    - 'db/migrate/*'
 
 # RSpec Settings
 RSpec/ImplicitSubject:

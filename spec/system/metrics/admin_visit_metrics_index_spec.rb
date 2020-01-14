@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe 'Metrics > Dashboard', :js, type: :feature do
-
   describe 'Subscriptions by Date' do
-
     context 'with data' do
       before do
         create(:ahoy_event, :free)
@@ -27,5 +25,4 @@ describe 'Metrics > Dashboard', :js, type: :feature do
       end
     end
   end
-
 end

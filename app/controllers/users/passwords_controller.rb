@@ -16,7 +16,7 @@ class Users::PasswordsController < Devise::PasswordsController
       render js: "window.location='#{new_user_session_path}'"
     else
       # respond_with(resource)
-      render json: {errors: resource.errors.full_messages}, status: :bad_request
+      render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -45,7 +45,7 @@ class Users::PasswordsController < Devise::PasswordsController
     else
       set_minimum_password_length
       # respond_with resource
-      render json: {errors: resource.errors.full_messages}, status: :bad_request
+      render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
 

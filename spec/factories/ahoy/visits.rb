@@ -39,7 +39,6 @@
 
 FactoryBot.define do
   factory :ahoy_visit, class: Ahoy::Visit.name do
-
     trait :today do
       started_at { Time.zone.today.to_datetime }
     end
@@ -53,4 +52,3 @@ FactoryBot.define do
     end
   end
 end
-

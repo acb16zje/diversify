@@ -5,10 +5,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # devise :omniauthable, omniauth_providers: [:twitter]
 
   def google_oauth2
-    auth = request.env["omniauth.auth"]
-    user = User.where(provider: auth["provider"], uid: auth["uid"])
-            .first_or_initialize(email: auth["info"]["email"], name: auth["info"]["name"])
-    user.password =  Devise.friendly_token[0,20]
+    auth = request.env['omniauth.auth']
+    user = User.where(provider: auth['provider'], uid: auth['uid'])
+               .first_or_initialize(email: auth['info']['email'], name: auth['info']['name'])
+    user.password = Devise.friendly_token[0, 20]
     user.save!
 
     user.remember_me = true
@@ -19,10 +19,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def twitter
     # You need to implement the method below in your model (e.g. app/models/user.rb)
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     user = User.where(provider: auth.provider, uid: auth.uid)
-            .first_or_initialize(email: auth.info.email, name: auth.info.name)
-    user.password =  Devise.friendly_token[0,20]
+               .first_or_initialize(email: auth.info.email, name: auth.info.name)
+    user.password = Devise.friendly_token[0, 20]
 
     if user.save
       user.remember_me = true
@@ -32,17 +32,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # sign_in_and_redirect user, event: :authentication #this will throw if user is not activated
       # set_flash_message(:notice, :success, kind: "Twitter") if is_navigational_format?
     else
-      session["devise.twitter_data"] = auth.except("extra")
+      session['devise.twitter_data'] = auth.except('extra')
       redirect_to new_user_registration_url
     end
   end
 
   def facebook
     # You need to implement the method below in your model (e.g. app/models/user.rb)
-    auth = request.env["omniauth.auth"]
+    auth = request.env['omniauth.auth']
     user = User.where(provider: auth.provider, uid: auth.uid)
-            .first_or_initialize(email: auth.info.email, name: auth.info.name)
-    user.password =  Devise.friendly_token[0,20]
+               .first_or_initialize(email: auth.info.email, name: auth.info.name)
+    user.password = Devise.friendly_token[0, 20]
 
     if user.save
       user.remember_me = true
@@ -52,7 +52,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       # sign_in_and_redirect user, event: :authentication #this will throw if user is not activated
       # set_flash_message(:notice, :success, kind: "Twitter") if is_navigational_format?
     else
-      session["devise.facebook_data"] = auth.except("extra")
+      session['devise.facebook_data'] = auth.except('extra')
       redirect_to new_user_registration_url
     end
   end

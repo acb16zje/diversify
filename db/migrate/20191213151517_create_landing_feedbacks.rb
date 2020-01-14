@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateLandingFeedbacks < ActiveRecord::Migration[6.0]
   def change
     create_table :landing_feedbacks do |t|

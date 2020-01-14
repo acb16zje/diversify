@@ -53,9 +53,9 @@ describe Ahoy::Visit, type: :model do
       let(:yesterday) { create(:ahoy_visit, :yesterday) }
       let(:tomorrow) { create(:ahoy_visit, :tomorrow) }
 
-      it { expect{ today }.to change(model, :today_count).by(1) }
-      it { expect{ yesterday }.to change(model, :today_count).by(0) }
-      it { expect{ tomorrow }.to change(model, :today_count).by(0) }
+      it { expect { today }.to change(model, :today_count).by(1) }
+      it { expect { yesterday }.to change(model, :today_count).by(0) }
+      it { expect { tomorrow }.to change(model, :today_count).by(0) }
     end
   end
 end

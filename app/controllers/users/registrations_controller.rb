@@ -26,7 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render json: {errors: resource.errors.full_messages}, status: :bad_request
+      render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -38,16 +38,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    
+
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
     if resource_updated
-      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+      if sign_in_after_change_password?
+        bypass_sign_in resource, scope: resource_name
+      end
       render js: "window.location='#{settings_users_path}'"
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render json: {message: resource.errors.full_messages[0]}, status: :bad_request
+      render json: { message: resource.errors.full_messages[0] }, status: :bad_request
     end
   end
 
@@ -79,7 +81,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
-  #   super(resource) 
+  #   super(resource)
   # end
 
   # The path used after sign up for inactive accounts.

@@ -85,8 +85,8 @@ class ChartsController < ApplicationController
 
   def average_time_spent_per_page
     render json: @records
-                   .group("properties ->> 'pathname'")
-                   .average("cast(properties ->> 'time_spent' as integer)")
+      .group("properties ->> 'pathname'")
+      .average("cast(properties ->> 'time_spent' as integer)")
   end
 
   def number_of_visits_per_page

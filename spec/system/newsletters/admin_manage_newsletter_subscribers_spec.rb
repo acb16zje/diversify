@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 describe 'Metrics > Subscriber Management', :js, type: :feature do
-
   context 'with subscribers' do
     let(:subscriber) { create(:subscriber) }
 

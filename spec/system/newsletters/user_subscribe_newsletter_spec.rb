@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 describe 'Landing page Newsletter > Subscribe', :js, type: :feature do
-
   before { visit newsletter_pages_path }
 
   describe 'never subscribed before' do

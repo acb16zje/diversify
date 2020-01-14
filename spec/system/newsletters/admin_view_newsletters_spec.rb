@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 describe 'Metrics > Newsletter Archive', type: :feature do
-
   context 'with newsletter' do
     let(:newsletter) { create(:newsletter) }
 
@@ -34,5 +33,4 @@ describe 'Metrics > Newsletter Archive', type: :feature do
       expect(page).to have_content('404')
     end
   end
-
 end

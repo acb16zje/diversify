@@ -28,13 +28,13 @@ describe Newsletter, type: :model do
       end
 
       it 'does not return unsubscription before newsletter' do
-        expect { feedback_before_newsletter }.
-          to change { described_class.unsubscription_by_newsletter.size }.by 0
+        expect { feedback_before_newsletter }
+          .to change { described_class.unsubscription_by_newsletter.size }.by 0
       end
 
       it 'returns unsubscription after newsletter' do
-        expect { feedback_after_newsletter }.
-          to change { described_class.unsubscription_by_newsletter.size }.by 1
+        expect { feedback_after_newsletter }
+          .to change { described_class.unsubscription_by_newsletter.size }.by 1
       end
     end
   end

@@ -3,14 +3,12 @@
 require 'rails_helper'
 
 describe 'Metrics > Newsletter : Overview', :js, type: :feature do
-
   before { visit newsletter_metrics_path }
 
   describe 'Newsletter Unsubscriptions by Newsletter' do
-
     context 'with data' do
       before do
-        create(:newsletter, created_at: 1.days.ago)
+        create(:newsletter, created_at: 1.day.ago)
         create(:newsletter_feedback, no_longer: true)
         select 'Unsubscriptions by Newsletter', from: 'graph-select'
       end
@@ -20,7 +18,6 @@ describe 'Metrics > Newsletter : Overview', :js, type: :feature do
   end
 
   describe 'Newsletter Unsubscription Reason' do
-
     context 'with data' do
       let(:feedback) { create(:newsletter_feedback, no_longer: true) }
 
@@ -32,5 +29,4 @@ describe 'Metrics > Newsletter : Overview', :js, type: :feature do
       it { expect(page).to have_no_content('No Data') }
     end
   end
-
 end
