@@ -12,22 +12,3 @@
 
 - if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
   = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
-
-%br
-
-- if devise_mapping.omniauthable?
-  .buttons
-    - resource_class.omniauth_providers.each do |provider|
-      = link_to omniauth_authorize_path(resource_name, provider), class: 'button' do
-        - case provider.to_s
-        - when 'google_oauth2'
-          %span.icon.iconify.is-medium{'data-icon': 'flat-color-icons:google'}
-          %span Sign in with Google
-
-        - when 'twitter'
-          %span.icon.iconify.is-medium{'data-icon': 'logos:twitter'}
-          %span Sign in with Twitter
-
-        - when 'facebook'
-          %span.icon.iconify.is-medium{'data-icon': 'logos:facebook'}
-          %span Sign in with Facebook

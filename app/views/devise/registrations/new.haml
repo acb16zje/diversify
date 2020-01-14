@@ -1,20 +1,27 @@
-- content_for :title, 'Sign Up'
+- content_for :title, 'Join Diversify'
 
-%h1.title.is-1.is-spaced Sign Up
-= form_with model: resource , url: registration_path(resource), html: {'@ajax:error': 'ajaxError'}  do |f|
-  .field
-    .control
-      = f.email_field :email, autofocus: '', autocomplete: "email", class: 'input', placeholder: 'Email', required: ''
-  .field
-    .control
-      - if @minimum_password_length
-        %em
-          (#{@minimum_password_length} characters minimum)
-      = f.password_field :password, autocomplete: "new-password", class: 'input', placeholder: 'Password', required: ''
-  .field
-    .control
-      = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder: 'Password Confirmation'
-  .actions
-    = f.submit "Sign up", {class: 'button is-primary'}
 
-= render "devise/shared/links"
+.box#signup
+  %h1.title.is-4.has-text-centered Create your account
+
+  .content
+    = form_with model: resource , url: registration_path(resource), html: {'@ajax:error': 'ajaxError'}  do |f|
+      .field
+        %label.label Email
+        .control
+          = f.email_field :email, autocomplete: "email", class: 'input', required: '', autofocus: ''
+      .field
+        %label.label Password
+        .control
+          = f.password_field :password, autocomplete: 'new-password', class: 'input', required: ''
+          - if @minimum_password_length
+            %em #{@minimum_password_length} characters minimum
+      .actions
+        = f.submit "Sign up", class: 'button is-info is-fullwidth'
+
+
+= render 'devise/shared/omniauth_box'
+
+#create-account-box.has-text-centered.box
+  %p.is-inline Already have an account?
+  = link_to 'Sign in', new_user_session_path

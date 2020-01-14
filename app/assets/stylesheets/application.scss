@@ -55,19 +55,9 @@ html, body {
   justify-content: center;
 }
 
-.tab {
-  border: none;
-  border-radius: 4px 4px 0 0;
-
-  a {
-    color: $primary;
-  }
-
-  &.is-active {
-    a {
-      background-color: $primary !important;
-      color: white !important;
-    }
+.button {
+  .icon {
+    margin-right: 0.25em !important;
   }
 }
 

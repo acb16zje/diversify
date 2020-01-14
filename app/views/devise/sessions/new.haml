@@ -1,18 +1,29 @@
-- content_for :title, 'Sign In'
+- content_for :title, 'Sign in to Diversify'
 
+.box
+  .content
+    = form_with model: resource, url: session_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|
+      .field
+        %label.label Email
+        .control
+          = f.email_field :email, class: 'input', autocomplete: 'email', autofocus: '', required: ''
+      .field
+        %label.label Password
+        .control
+          = f.password_field :password, autocomplete: 'current-password', class: 'input', placeholder: 'Password', required: ''
+      - if devise_mapping.rememberable?
+        .field.is-flex
+          .control
+            = f.label :remember_me, class: 'checkbox' do
+              = f.check_box :remember_me
+              Remember me
+          .control
+            = link_to 'Forgot password?', new_user_password_path
+      .actions
+        = f.submit "Sign in", class: 'button is-success is-fullwidth'
 
-%h1.title.is-1.is-spaced Sign in
-= form_with model: resource, url: session_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|
-  .field
-    .control
-      = f.email_field :email, autofocus: '', autocomplete: "email", class: 'input', placeholder: 'Email', required: ''
-  .field
-    .control
-      = f.password_field :password, autocomplete: "current-password", class: 'input', placeholder: 'Password', required: ''
-  - if devise_mapping.rememberable?
-    = f.label :remember_me, class: 'checkbox'
-    = f.check_box :remember_me
-  .actions
-    = f.submit "Sign in", {class: 'button is-primary'}
+= render 'devise/shared/omniauth_box'
 
-= render "devise/shared/links"
+#create-account-box.has-text-centered.box
+  %p.is-inline New to Diversify?
+  = link_to 'Create an account', new_user_registration_path

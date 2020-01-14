@@ -29,6 +29,4 @@
               %span.icon.iconify.is-medium{'data-icon': 'fe:logout'}
               %span Log Out
         - else
-          = link_to new_user_registration_path, class: 'button is-primary' do
-            %span.icon.iconify.is-medium{'data-icon': 'fe:login'}
-            %span Login
+          = link_to 'Sign in', new_user_session_path, class: 'button is-primary'

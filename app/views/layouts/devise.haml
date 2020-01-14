@@ -8,9 +8,12 @@
 
   %body
     #app
-      %section.section
-        .container
-          .columns.is-centered
-            .column.is-half.card
-              .card-content
-                = yield
+      .container
+        %figure.image.is-96x96
+          = link_to root_path do
+            = image_tag 'logo/logo.svg', width: 75
+
+        %p.has-text-centered.subtitle.is-4
+          = content_for :title
+
+        = yield
