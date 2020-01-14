@@ -9,10 +9,9 @@
 
 import Vue from 'vue/dist/vue.esm';
 import Buefy from 'buefy';
+import Icon from '../components/buefy/Icon.vue';
 
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
 
-Vue.use(Buefy, {
-  defaultIconComponent: () => import('../components/buefy/Icon.vue')
-});
+Vue.use(Buefy, { defaultIconComponent: Icon });
