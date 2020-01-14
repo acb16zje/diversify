@@ -1,49 +1,54 @@
 # COM4525 Genesys
 
-<div style="text-align:center">
-  <img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">
-</div>
+<img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">
 
 ## Team 7 - Helping teams to improve their performance through diversity
 
 ### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
 
----
+* * *
 
 [![pipeline](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/pipeline.svg)](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/pipelines)
 [![coverage](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/badges/master/coverage.svg)](https://git.shefcompsci.org.uk/com4525-2019-20/team07/project/-/jobs)
 
-[![CodeFactor](https://www.codefactor.io/repository/github/juneezee/project/badge)](https://www.codefactor.io/repository/github/juneezee/project)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d609b36fd4534ca48d8c86e762fa0d51)](https://www.codacy.com/manual/Juneezee/project?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Juneezee/project&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/juneezee/project/badge)](https://www.codefactor.io/repository/github/juneezee/project/issues)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d609b36fd4534ca48d8c86e762fa0d51)](https://www.codacy.com/manual/Juneezee/project?utm_source=github.com&utm_medium=referral&utm_content=Juneezee/project&utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/01195a38-ef45-42b3-a609-14d65e55a40c)](https://codebeat.co/projects/github-com-juneezee-project-master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/15caec6bd7c9484d2e75/maintainability)](https://codeclimate.com/github/Juneezee/project/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/15caec6bd7c9484d2e75/maintainability)](https://codeclimate.com/github/Juneezee/project/issues)
 [![DeepScan grade](https://deepscan.io/api/teams/5941/projects/8683/branches/108632/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5941&pid=8683&bid=108632)
+
+[![security](https://hakiri.io/github/Juneezee/project/master.svg)](https://hakiri.io/github/Juneezee/project/master)
 [![GuardRails badge](https://badges.guardrails.io/Juneezee/project.svg?token=0bd329499a2c2a192e32591c66cecebdd048f143cadbead5c2ade1248d7d8cee&provider=github)](https://dashboard.guardrails.io/default/gh/Juneezee/project)
 
----
+* * *
+
 ## Installation
-- Install the required gems (Bundler 2 required, see [here](https://bundler.io/v2.0/guides/bundler_2_upgrade.html)
-  for upgrade guide)
+
+-   Install the required gems (Bundler 2 required, see
+    [here](https://bundler.io/v2.0/guides/bundler_2_upgrade.html) for upgrade guide)
+
 ```bash
 bundle install
 ```
 
-- Install the required `node_modules`
-    1. Install with yarn **(preferred)**:
-    ```bash
-    yarn install
-    ```
+-   Install the required `node_modules`
 
-    2. Install with npm:
-    ```bash
-    npm install
-    ```
+    1.  Install with yarn **(preferred)**:
+        ```bash
+        yarn install
+        ```
+
+    2.  Install with npm:
+        ```bash
+        npm install
+        ```
 
 ### Starting the Development Server
-- Option 1:
-    1. Install the [foreman](https://github.com/ddollar/foreman) gem
-    2. Run `foreman start`
 
-- Option 2:
-    1. Run `rails s` in a terminal session
-    2. Run `bin/webpack-dev-server` in another terminal session
+-   Option 1:
+    1.  Run `rails s` in a terminal session
+    2.  Run `bin/webpack-dev-server` in a separate terminal session
+
+-   Option 2:
+    1.  Install the [foreman](https://github.com/ddollar/foreman) gem
+    2.  Run `foreman start`
