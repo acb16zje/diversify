@@ -1,15 +1,20 @@
 - content_for :title, "Settings"
 
+= render 'shared/toast'
+
 #settings
-  %section.section
+  %section.section#password
     .container.content
       %h1.title.is-2.has-text-centered Settings
 
       %h4.title.is-4 Change Password
+      -if current_user.encrypted_password.blank?
+        %p.subtitle You can set up a password for alternate login!
       = form_with model: current_user , url: registration_path(current_user), method: :put, html: {class: 'form', '@ajax:error': 'ajaxError'} do |f|
         - if !current_user.encrypted_password.blank?
           .field
             %label.label Old password
+            %i (we need your current password to confirm your changes)
             .control
             = f.password_field :current_password, autocomplete: "current-password", class: 'input'
         .field
@@ -27,7 +32,7 @@
         .actions
           = f.submit 'Update', class: 'button is-warning'
 
-  %section.section
+  %section.section#social_account
     .container.content
       %h4.title.is-4 Social Accounts
       .columns
@@ -46,18 +51,17 @@
                 - else
                   = link_to text, omniauth_authorize_path(current_user, provider), class: btn_class
 
-  %section.section
+  %section.section#newsletter_pref
     .container.content
       %h4.title.is-4 Newsletter Preferences
       - if current_user.subscribed_newsletter?
         %p Are you sure? You will miss out the latest news and features!
-        = link_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, data: { confirm: "Are you sure?" }, method: :post, class: 'button is-warning'
-
+        = link_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, data: { confirm: "Are you sure?" }, method: :post, remote: true, class: 'button is-warning'
       - else
         %p Receive the latest news from our company.
         = link_to 'Subscribe Newsletter', self_subscribe_newsletters_path, class: 'button', method: :post, remote: true
 
-  %section.section
+  %section.section#delete_account
     .container.content
       %h4.title.is-4.has-text-danger Delete my account
       %p Once you delete your account, there is no going back. Please be certain.

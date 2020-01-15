@@ -20,9 +20,10 @@ class UsersController < ApplicationController
     return unless request.xhr?
 
     if Identity.where(user: current_user).count <= 1 && current_user.encrypted_password.blank?
-      render json: { message: 'Please set up a password before disabling all Social Accounts' }, status: :bad_request
+      render json: { errors: ['Please set up a password before disabling all Social Accounts'] }, status: :bad_request
     else
       Identity.destroy_by(user: current_user, provider: params[:provider])
+      flash[:toast] = { type: 'success', message: ["Account Disconnected"] }
       render js: "window.location='#{settings_users_path}'"
     end
   end

@@ -49,11 +49,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
       if sign_in_after_change_password?
         bypass_sign_in resource, scope: resource_name
       end
+      flash[:toast] = { type: 'success', message: ['Password Changed'] }
       render js: "window.location='#{settings_users_path}'"
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render json: { message: resource.errors.full_messages[0] }, status: :bad_request
+      render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
 

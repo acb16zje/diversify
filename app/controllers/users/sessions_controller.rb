@@ -14,7 +14,6 @@ class Users::SessionsController < Devise::SessionsController
     if resource.nil?
       render json: { errors: ['Invalid Username and Password'] }, status: :bad_request
     else
-      set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, resource)
       yield resource if block_given?
       # respond_with resource, location: after_sign_in_path_for(resource)

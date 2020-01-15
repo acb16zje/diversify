@@ -13,7 +13,7 @@ class NewslettersController < ApplicationController
     newsletter = Newsletter.new(newsletter_params)
 
     if newsletter.save
-      flash[:toast] = { type: 'success', message: 'Newsletter sent' }
+      flash[:toast] = { type: 'success', message: ['Newsletter sent'] }
       render js: "window.location='#{newsletter_path(newsletter)}'"
     else
       render json: { message: 'Send Failed' }, status: :unprocessable_entity
@@ -49,6 +49,9 @@ class NewslettersController < ApplicationController
 
   def self_subscribe
     email = current_user.email
+
+    sub_fail_action('No Email') if email.blank?
+
     if NewsletterSubscription.previously_subscribed.exists?(email: email)
       sub = NewsletterSubscription.find_by(email: email)
       sub.subscribed = true
@@ -56,6 +59,7 @@ class NewslettersController < ApplicationController
       sub = NewsletterSubscription.new(email: email, subscribed: true)
     end
     if sub.save
+      flash[:toast] = { type: 'success', message: ['Newsletter Subscribed'] }
       render js: "window.location='#{settings_users_path}'"
     else
       sub_fail_action('Subscription Failed')
@@ -69,7 +73,8 @@ class NewslettersController < ApplicationController
   def self_unsubscribe
     newsletter_subscription = NewsletterSubscription.where(email: current_user.email).first
     newsletter_subscription.update(subscribed: false)
-    if sub.save
+    if newsletter_subscription.save
+      flash[:toast] = { type: 'success', message: ['Newsletter Unsubscribed'] }
       render js: "window.location='#{settings_users_path}'"
     else
       sub_fail_action('Unsubscription Failed')

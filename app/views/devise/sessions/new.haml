@@ -1,5 +1,7 @@
 - content_for :title, 'Sign in to Diversify'
 
+= render 'shared/toast'
+
 .box
   .content
     = form_with model: resource, url: session_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|

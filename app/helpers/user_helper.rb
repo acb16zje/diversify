@@ -9,11 +9,11 @@ module UserHelper
     },
     facebook: {
       label: 'Facebook',
-      icon: 'logos:twitter',
+      icon: 'logos:facebook'
     },
     twitter: {
       label: 'Twitter',
-      icon: 'logos:facebook'
+      icon: 'logos:twitter'
     }
   }.freeze
 
