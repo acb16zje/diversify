@@ -4,7 +4,7 @@
 
 .box
   .content
-    = form_with model: resource, url: session_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|
+    = form_with model: resource, url: session_path(resource), html: { '@ajax:error': 'ajaxError' } do |f|
       .field
         %label.label Email
         .control

@@ -7,8 +7,6 @@
   - else
     = javascript_packs_with_chunks_tag 'metrics/metrics', defer: ''
 
-- content_for :footer, ''
-
 - content_for :specific_yield do
   %section.section
     .container
@@ -35,7 +33,7 @@
               %li
                 = nav_link_to 'Overview', path: newsletter_metrics_path
               %li
-                = nav_link_to "Newsletter Archive", path: newsletters_path, controller: :newsletters, action: [:index, :show]
+                = nav_link_to 'Newsletter Archive', path: newsletters_path, controller: :newsletters, action: %i[index show]
               %li
                 = nav_link_to 'Send newsletter', path: new_newsletter_path
               %li

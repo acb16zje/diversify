@@ -1,4 +1,5 @@
 @import "application";
+@import "footer";
 
 /* Bulma adjustments */
 .container {
@@ -43,45 +44,6 @@ h5.description::before {
 
   .title {
     font-size: 2.5rem;
-  }
-}
-
-/* Footer */
-footer.footer {
-  a {
-    &.subtitle {
-      display: block;
-      margin-bottom: 0.8rem !important;
-    }
-
-    &.brand .iconify {
-      font-size: 25px;
-
-      &.facebook {
-        color: #3b5998;
-      }
-
-      &.instagram {
-        color: #4c68d7;
-      }
-
-      &.linkedin {
-        color: #0976b4;
-      }
-    }
-  }
-
-  @media screen and (max-width: 768px) {
-    .columns {
-      .column:first-child {
-        width: 100% !important;
-        flex-basis: 100% !important;
-      }
-
-      .column {
-        flex-basis: auto;
-      }
-    }
   }
 }
 

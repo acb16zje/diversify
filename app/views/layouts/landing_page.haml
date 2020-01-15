@@ -1,9 +1,10 @@
 - content_for :head do
   = stylesheet_packs_with_chunks_tag 'landing_page'
 
-  = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', data: {bg: '#645862', fg: '#fff', link: '#f1d600', 'close-text': 'OK'}
+  = javascript_include_tag '//cookieinfoscript.com/js/cookieinfo.min.js', defer: '', id: 'cookieinfo', data: { bg: '#645862', fg: '#fff', link: '#f1d600', 'close-text': 'OK' }
   = javascript_packs_with_chunks_tag 'landing_page', defer: ''
 
-- content_for :footer, true
+- content_for :footer do
+  = render 'layouts/footer'
 
 = render template: 'layouts/application'

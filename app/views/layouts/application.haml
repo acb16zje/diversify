@@ -15,7 +15,4 @@
       - else
         = yield
 
-      - unless content_for(:footer).nil?
-        = render 'layouts/footer'
-      - else
-        = content_for :footer
+      = content_for :footer

@@ -6,11 +6,11 @@
   %h1.title.is-4.has-text-centered Create your account
 
   .content
-    = form_with model: resource , url: registration_path(resource), html: {'@ajax:error': 'ajaxError'}  do |f|
+    = form_with model: resource, url: registration_path(resource), html: { '@ajax:error': 'ajaxError' } do |f|
       .field
         %label.label Email
         .control
-          = f.email_field :email, autocomplete: "email", class: 'input', required: '', autofocus: ''
+          = f.email_field :email, autocomplete: 'email', class: 'input', required: '', autofocus: ''
       .field
         %label.label Password
         .control
@@ -18,7 +18,7 @@
           - if @minimum_password_length
             %em #{@minimum_password_length} characters minimum
       .actions
-        = f.submit "Sign up", class: 'button is-info is-fullwidth'
+        = f.submit 'Sign up', class: 'button is-info is-fullwidth'
 
 
 = render 'devise/shared/omniauth_box'

@@ -4,7 +4,7 @@
     .buttons
       - resource_class.omniauth_providers.each do |provider|
         = link_to omniauth_authorize_path(resource_name, provider), class: "button #{provider} is-fullwidth" do
-          %div.is-flex
+          .is-flex
             - case provider.to_s
             - when 'google_oauth2'
               %span.icon

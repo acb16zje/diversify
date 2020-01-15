@@ -16,5 +16,8 @@
             = content_for :title
 
           = yield
+- else
+  - content_for :footer do
+    = render 'layouts/footer'
 
 = render template: 'layouts/application'
