@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
+# Base helper module
 module ApplicationHelper
-  def active?(path)
-    request.fullpath == path ? 'is-active' : ''
+  def current_path?(path)
+    request.path == path
   end
 
-  def action?(controller, action)
-    action.include?(params[:action]) && controller.include?(params[:controller]) ? 'is-active' : ''
+  def current_controller?(*args)
+    args.any? do |v|
+      v.to_s.downcase == controller_name || v.to_s.downcase == controller_path
+    end
+  end
+
+  def current_action?(*args)
+    args.any? { |v| v.to_s.downcase == action_name }
   end
 end

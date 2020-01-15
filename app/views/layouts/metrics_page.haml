@@ -23,27 +23,27 @@
                 General
               %ul.menu-list
                 %li
-                  = link_to 'Dashboard', metrics_path, class: "#{active?(metrics_path)}"
+                  = nav_link_to 'Dashboard', path: metrics_path
                 %li
-                  = link_to 'Social Media', social_metrics_path, class: "#{active?(social_metrics_path)}"
+                  = nav_link_to 'Social Media', path: social_metrics_path
 
               %p.menu-label
                 Traffic
               %ul.menu-list
                 %li
-                  = link_to 'Overview', traffic_metrics_path, class: "#{active?(traffic_metrics_path)}"
+                  = nav_link_to 'Overview', path: traffic_metrics_path
 
               %p.menu-label
                 Newsletter
               %ul.menu-list
                 %li
-                  = link_to 'Overview', newsletter_metrics_path, class: "#{active?(newsletter_metrics_path)}"
+                  = nav_link_to 'Overview', path: newsletter_metrics_path
                 %li
-                  = link_to "Newsletter Archive", newsletters_path, class: "#{action?("newsletters","index")}"
+                  = nav_link_to "Newsletter Archive", path: newsletters_path, controller: :newsletters, action: [:index, :show]
                 %li
-                  = link_to 'Send newsletter', new_newsletter_path, class: "#{action?("newsletters","new")} #{action?("newsletters","create")}"
+                  = nav_link_to 'Send newsletter', path: new_newsletter_path
                 %li
-                  = link_to 'Subscriber Management', subscribers_newsletters_path, class: "#{active?(subscribers_newsletters_path)}"
+                  = nav_link_to 'Subscriber Management', path: subscribers_newsletters_path
           .column.is-9
             #app
               = yield
