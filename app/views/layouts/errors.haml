@@ -1,0 +1,7 @@
+- content_for :head do
+  = stylesheet_packs_with_chunks_tag 'landing_page'
+  = javascript_packs_with_chunks_tag 'landing_page', defer: ''
+
+- content_for :footer, true
+
+= render template: 'layouts/application'

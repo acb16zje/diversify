@@ -17,6 +17,7 @@ html, body {
   min-height: 100%;
   margin: 0;
   padding: 0;
+  overflow-y: auto;
   overflow-x: hidden;
 
   &.has-spaced-navbar-fixed-top {
@@ -54,6 +55,19 @@ html, body {
   height: 100%;
   justify-content: center;
 }
+
+.iconify {
+  &.is-24 {
+    font-size: 24px;
+  }
+}
+
+.button {
+  .icon:not(:last-child) {
+    margin-right: 0.5em !important;
+  }
+}
+
 
 /* Navbar */
 #navbar {

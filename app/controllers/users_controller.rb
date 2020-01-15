@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
   helper UserHelper
   respond_to :js
-  layout 'main'
+  layout 'devise'
 
   def show
     authorize! @user
@@ -18,7 +18,7 @@ class UsersController < ApplicationController
 
   def unsubscribe_omniauth
     return unless request.xhr?
-    
+
     if Identity.where(user: current_user).count <= 1 && current_user.encrypted_password.blank?
       render json: { message: 'Please set up a password before disabling all Social Accounts' }, status: :bad_request
     else

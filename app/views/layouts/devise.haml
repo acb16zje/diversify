@@ -1,19 +1,20 @@
-!!!
-%html{lang: 'en'}
-  %head
-    = render 'layouts/head'
+- content_for :head do
+  = stylesheet_packs_with_chunks_tag 'devise'
+  = javascript_packs_with_chunks_tag 'devise', defer: ''
 
-    = stylesheet_packs_with_chunks_tag 'devise'
-    = javascript_packs_with_chunks_tag 'devise', defer: ''
+- if current_path?(new_user_session_path) || current_path?(new_user_registration_path)
+  - content_for :no_navbar, true
+  - content_for :specific_yield do
+    %body#auth
+      #app
+        .container
+          %figure.image.is-96x96
+            = link_to root_path do
+              = image_tag 'logo/logo.svg', width: 75
 
-  %body
-    #app
-      .container
-        %figure.image.is-96x96
-          = link_to root_path do
-            = image_tag 'logo/logo.svg', width: 75
+          %p.has-text-centered.subtitle.is-4
+            = content_for :title
 
-        %p.has-text-centered.subtitle.is-4
-          = content_for :title
+          = yield
 
-        = yield
+= render template: 'layouts/application'
