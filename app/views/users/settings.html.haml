@@ -1,50 +1,64 @@
 - content_for :title, "Settings"
 
-%section.section#settings
-  .container
-    .columns
-      .column
-        %h1.title.is-1.is-spaced Settings
-        
-        %h1.is-size-5 Change Password
-        = form_with model: current_user , url: registration_path(current_user), html: {'@ajax:error': 'ajaxError'}, method: :put do |f|
+#settings
+  %section.section
+    .container.content
+      %h1.title.is-2.has-text-centered Settings
+
+      %h4.title.is-4 Change Password
+      = form_with model: current_user , url: registration_path(current_user), method: :put, html: {class: 'form', '@ajax:error': 'ajaxError'} do |f|
+        - if !current_user.encrypted_password.blank?
           .field
+            %label.label Old password
             .control
-              = f.password_field :password, autocomplete: "new-password", class: 'input',placeholder: "Password"
-              - if @minimum_password_length
-                %em
-                  = @minimum_password_length
-                  characters minimum
-          .field
-            .control
-              = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder:"Password Confirmation"
-          - if !current_user.encrypted_password.blank?
-            .field
-              .control
-              %i (we need your current password to confirm your changes)
-              = f.password_field :current_password, autocomplete: "current-password", class: 'input', placeholder: "Current Password"
-          .actions
-            = f.submit "Update", {class: 'button is-primary'} 
-        %h1.is-size-5 Social Accounts
-        .buttons
-          - Devise.omniauth_providers.each do |provider|
-            - btn_class,text,icon = social_btn(provider)
-            - if current_user.oauth?(provider) 
-              = link_to unsubscribe_omniauth_users_path(provider: provider),{class: "#{btn_class}", remote: true, method: :post, '@ajax:error': 'ajaxError'} do
-                %span.icon.iconify.is-medium{'data-icon': "#{icon}"}
-                %span= text
-            - else 
-              = link_to omniauth_authorize_path(current_user, provider),{class: "#{btn_class}"} do
-                %span.icon.iconify.is-medium{'data-icon': "#{icon}"}
-                %span= text
-            
-        %h1.is-size-5 Newsletter Preferences
-        -if current_user.subscribed_newsletter?
-          %p Are you sure? You will miss out the latest news and features!
-          = link_to "Unsubscribe Newsletter", self_unsubscribe_newsletters_path, data: { confirm: "Are you sure?" },method: :post, class:'button is-warning'
-        -else
-          %p Receive the latest news from our company.
-          = link_to "Subscribe Newsletter", self_subscribe_newsletters_path, class:'button is-success',method: :post, remote: true
-        %h1.is-size-5.has-text-danger Delete my account
-        %p Once you delete your account, there is no going back. Please be certain.
-        = link_to "Delete my account", registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete, class:'button is-danger'
+            = f.password_field :current_password, autocomplete: "current-password", class: 'input'
+        .field
+          %label.label New password
+          .control
+            = f.password_field :password, autocomplete: 'new-password', class: 'input'
+            - if @minimum_password_length
+              %em
+                (#{@minimum_password_length} characters minimum)
+        .field
+          %label.label Confirm new password
+          .control
+            = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input'
+
+        .actions
+          = f.submit 'Update', class: 'button is-warning'
+
+  %section.section
+    .container.content
+      %h4.title.is-4 Social Accounts
+      .columns
+        - Devise.omniauth_providers.each do |provider|
+          - btn_class, label, icon = social_btn(provider)
+          - text = current_user.oauth?(provider) ? 'Disconnect' : 'Connect'
+          .column.is-narrow
+            .buttons.has-addons
+              .button.is-static.has-text-black
+                %span.icon
+                  %span.iconify.is-24{'data-icon': icon}
+                %span= label
+              .button
+                - if current_user.oauth?(provider)
+                  = link_to text, unsubscribe_omniauth_users_path(provider: provider), {class: btn_class, remote: true, method: :post, '@ajax:error': 'ajaxError'}
+                - else
+                  = link_to text, omniauth_authorize_path(current_user, provider), class: btn_class
+
+  %section.section
+    .container.content
+      %h4.title.is-4 Newsletter Preferences
+      - if current_user.subscribed_newsletter?
+        %p Are you sure? You will miss out the latest news and features!
+        = link_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, data: { confirm: "Are you sure?" }, method: :post, class: 'button is-warning'
+
+      - else
+        %p Receive the latest news from our company.
+        = link_to 'Subscribe Newsletter', self_subscribe_newsletters_path, class: 'button', method: :post, remote: true
+
+  %section.section
+    .container.content
+      %h4.title.is-4.has-text-danger Delete my account
+      %p Once you delete your account, there is no going back. Please be certain.
+      = link_to 'Delete my account', registration_path(current_user), data: { confirm: "Are you sure?" }, method: :delete, class:'button is-danger'

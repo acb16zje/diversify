@@ -60,4 +60,11 @@ body#auth {
   }
 }
 
-
+/* User settings */
+#settings {
+  section.section {
+    &:not(:last-child) {
+      padding-bottom: 1rem;
+    }
+  }
+}

@@ -1,32 +1,37 @@
 # frozen_string_literal: true
 
+# Helper for
 module UserHelper
-  Title = {google_oauth2: 'Google',facebook: 'Facebook',twitter: 'Twitter'}
+  PROVIDERS = {
+    google_oauth2: {
+      label: 'Google',
+      icon: 'flat-color-icons:google'
+    },
+    facebook: {
+      label: 'Facebook',
+      icon: 'logos:twitter',
+    },
+    twitter: {
+      label: 'Twitter',
+      icon: 'logos:facebook'
+    }
+  }.freeze
 
   def social_btn(provider)
-    return social_btn_class(provider), social_btn_text(provider), social_btn_icon(provider)
+    return social_btn_class(provider), social_btn_label(provider), social_btn_icon(provider)
   end
+
+  private
 
   def social_btn_class(provider)
-    current_user.oauth?(provider) ? 'is-danger button' : 'button'
+    'has-text-danger has-text-weight-semibold' if current_user.oauth?(provider)
   end
 
-  def social_btn_text(provider)
-    if current_user.oauth?(provider)
-      "Disconnect with #{Title[provider]}"
-    else 
-      "Connect with #{Title[provider]}"
-    end
+  def social_btn_label(provider)
+    PROVIDERS[provider][:label]
   end
 
   def social_btn_icon(provider)
-    case provider.to_s
-    when 'google_oauth2'
-      'flat-color-icons:google'
-    when 'facebook'
-      'logos:facebook'
-    when 'twitter'
-      'logos:twitter'
-    end
+    PROVIDERS[provider][:icon]
   end
 end
