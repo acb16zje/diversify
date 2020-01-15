@@ -88,9 +88,3 @@ Capybara.configure do |config|
   config.javascript_driver = :chrome
   config.match = :prefer_exact
 end
-
-def wait_for_ajax
-  Timeout.timeout(Capybara.default_max_wait_time) do
-    loop until page.evaluate_script('jQuery.active').zero?
-  end
-end
