@@ -39,7 +39,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
 
-    resource_updated = update_resource(resource, account_update_params)
+    if resource.encrypted_password.blank?
+      resource_updated = resource.update(account_update_params)
+    else 
+      resource_updated = update_resource(resource, account_update_params)
+    end
     yield resource if block_given?
     if resource_updated
       if sign_in_after_change_password?

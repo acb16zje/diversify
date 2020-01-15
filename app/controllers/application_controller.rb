@@ -4,6 +4,7 @@
 class ApplicationController < ActionController::Base
   # Ahoy gem, used in PagesController only
   skip_before_action :track_ahoy_visit
+  before_action :authenticate_user!
 
   protect_from_forgery with: :exception
 

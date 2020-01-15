@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   resources :users do
     collection do
       get 'settings'
+      post 'unsubscribe_omniauth'
     end
   end
   

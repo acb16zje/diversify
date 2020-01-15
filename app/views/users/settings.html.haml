@@ -5,29 +5,39 @@
     .columns
       .column
         %h1.title.is-1.is-spaced Settings
-        -if current_user.provider.nil?
-          %h1.is-size-5 Change Password
-
-          = form_with model: current_user , url: registration_path(current_user), html: {'@ajax:error': 'ajaxError'}, method: :put do |f|
-            .field
-              .control
-                = f.password_field :password, autocomplete: "new-password", class: 'input',placeholder: "Password"
-                - if @minimum_password_length
-                  %em
-                    = @minimum_password_length
-                    characters minimum
-            .field
-              .control
-                = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder:"Password Confirmation"
+        
+        %h1.is-size-5 Change Password
+        = form_with model: current_user , url: registration_path(current_user), html: {'@ajax:error': 'ajaxError'}, method: :put do |f|
+          .field
+            .control
+              = f.password_field :password, autocomplete: "new-password", class: 'input',placeholder: "Password"
+              - if @minimum_password_length
+                %em
+                  = @minimum_password_length
+                  characters minimum
+          .field
+            .control
+              = f.password_field :password_confirmation, autocomplete: "new-password", class: 'input', placeholder:"Password Confirmation"
+          - if !current_user.encrypted_password.blank?
             .field
               .control
               %i (we need your current password to confirm your changes)
               = f.password_field :current_password, autocomplete: "current-password", class: 'input', placeholder: "Current Password"
-            .actions
-              = f.submit "Update", {class: 'button is-primary'}
-        -else 
-          %h1.is-size-5 Disconnect with Accounts
-
+          .actions
+            = f.submit "Update", {class: 'button is-primary'} 
+        %h1.is-size-5 Social Accounts
+        .buttons
+          - Devise.omniauth_providers.each do |provider|
+            - btn_class,text,icon = social_btn(provider)
+            - if current_user.oauth?(provider) 
+              = link_to unsubscribe_omniauth_users_path(provider: provider),{class: "#{btn_class}", remote: true, method: :post, '@ajax:error': 'ajaxError'} do
+                %span.icon.iconify.is-medium{'data-icon': "#{icon}"}
+                %span= text
+            - else 
+              = link_to omniauth_authorize_path(current_user, provider),{class: "#{btn_class}"} do
+                %span.icon.iconify.is-medium{'data-icon': "#{icon}"}
+                %span= text
+            
         %h1.is-size-5 Newsletter Preferences
         -if current_user.subscribed_newsletter?
           %p Are you sure? You will miss out the latest news and features!

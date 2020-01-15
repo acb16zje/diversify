@@ -3,6 +3,7 @@
 # Controller for landing pages
 class PagesController < ApplicationController
   before_action :track_ahoy_visit
+  skip_before_action :authenticate_user!
 
   after_action :track_action, except: :track_time
 

@@ -3,7 +3,7 @@
 # Controller for newsletter
 class NewslettersController < ApplicationController
   layout 'metrics_page'
-  before_action :authenticate_user!, except: %i[subscribe unsubscribe post_unsubscribe]
+  skip_before_action :authenticate_user!, only: %i[subscribe unsubscribe post_unsubscribe]
 
   def index
     @newsletters = Newsletter.all.decorate
@@ -69,7 +69,11 @@ class NewslettersController < ApplicationController
   def self_unsubscribe
     newsletter_subscription = NewsletterSubscription.where(email: current_user.email).first
     newsletter_subscription.update(subscribed: false)
-    redirect_to settings_users_path
+    if sub.save
+      render js: "window.location='#{settings_users_path}'"
+    else
+      sub_fail_action('Unsubscription Failed')
+    end
   end
 
   def post_unsubscribe
