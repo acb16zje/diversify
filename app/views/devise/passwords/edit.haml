@@ -4,7 +4,7 @@
   .container.is-fluid
     .columns.is-vcentered
       .column.is-half.is-offset-one-quarter.card
-        %h1.title.is-1.is-spaced Change your password
+        %h1.title.is-1 Change your password
         = form_with model: resource, url: password_path(resource), html: {'@ajax:error': 'ajaxError', 'method': 'put'} do |f|
           = f.hidden_field :reset_password_token
           .field

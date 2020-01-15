@@ -1,7 +1,7 @@
 - content_for :title, 'Reset Password'
 
 
-%h1.title.is-1.is-spaced Forgot your password?
+%h1.title.is-1 Forgot your password?
 = form_with model: resource, url: password_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|
   .field
     .control

@@ -2,7 +2,7 @@
 
 %section.section#profile
   .container
-    %h1.title.is-1.is-spaced Edit Profile
+    %h1.title.is-1 Edit Profile
     = form_with model: @user, url: edit_user_path(@user), html: {'@ajax:error': 'ajaxError'}  do |f|
       .field
         .control
