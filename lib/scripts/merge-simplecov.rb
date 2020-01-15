@@ -5,24 +5,22 @@ SimpleCovEnv.configure_profile
 
 module SimpleCov
   module ResultMerger
-    class << self
-      def resultset_files
-        Dir.glob(File.join(SimpleCov.coverage_path, '*', '.resultset.json'))
-      end
+    def self.merge_all_results!
 
-      def resultset_hashes
-        resultset_files.map do |path|
-          JSON.parse(File.read(path))
-        rescue StandardError
-          {}
-        end
-      end
+      resultset_files = Pathname.glob(
+        File.join(SimpleCov.coverage_path, '**', '.resultset.json')
+      )
 
-      def resultset
-        resultset_hashes.reduce({}, :merge)
-      end
+      result_array = begin
+                      resultset_files.map do |result_file|
+                        SimpleCov::Result.from_hash JSON.parse(result_file.read)
+                      end
+                     rescue StandardError
+                       {}
+                     end
+      SimpleCov::ResultMerger.merge_results(*result_array).format!
     end
   end
 end
 
-SimpleCov::ResultMerger.merged_result.format!
+SimpleCov::ResultMerger.merge_all_results!
