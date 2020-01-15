@@ -1,11 +1,11 @@
 !!!
-%html{lang: 'en'}
+%html{ lang: 'en' }
   %head
     = render 'layouts/head'
 
     = yield :head
 
-  %body{class: "#{'has-spaced-navbar-fixed-top' unless content_for(:no_navbar)}"}
+  %body{ class: "#{'has-spaced-navbar-fixed-top' unless content_for(:no_navbar)}" }
     #app
       - unless content_for :no_navbar
         = render 'layouts/header_nav'

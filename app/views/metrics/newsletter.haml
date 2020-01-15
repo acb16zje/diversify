@@ -7,13 +7,13 @@
 
       .columns
         .column
-          %datepicker{'@set-dates': 'setDates'}
+          %datepicker{ '@set-dates': 'setDates' }
 
         .column
           .select.is-pulled-right
-            %select#graph-select{'v-model': 'graphOption'}
+            %select#graph-select{ 'v-model': 'graphOption' }
               %option Newsletter Subscription by Date
               %option Unsubscription by Newsletter
               %option Unsubscription Reason
 
-      %chartkick{'v-bind': '{ dates, graphOption }'}
+      %chartkick{ 'v-bind': '{ dates, graphOption }' }

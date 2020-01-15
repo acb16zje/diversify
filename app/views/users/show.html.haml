@@ -1,11 +1,11 @@
 - content_for :title, @user.name
 
-%section.section#profile
+%section.section
   .container
     .columns.is-mobile
       .column.is-half-mobile
         %h1.title.is-1 Profile
-      -if allowed_to?(:edit?, @user)
+      - if allowed_to?(:edit?, @user)
         .column.is-half-mobile
           = link_to 'Edit', edit_user_path(@user), class: 'button is-secondary is-pulled-right'
     .columns.is-vcentered
@@ -13,19 +13,19 @@
         %figure.image.is-128x128
           = image_tag 'avatar/large/ade.jpg', class: 'is-rounded'
       .column.is-four-fifths
-        %h1.is-size-3= "Name: "+@user.name
-        %h1.is-size-3= "Email: "+@user.email
+        %h1.is-size-3 Name: #{@user.name}
+        %h1.is-size-3 Email: #{@user.email}
         .columns
           .column.is-half
-            %h1.is-size-4= "Projects Joined:"
+            %h1.is-size-4= 'Projects Joined:'
           .column.is-half
-            %h1.is-size-4= "Projects Owned:"
+            %h1.is-size-4= 'Projects Owned:'
 %section.section#skills
   .container
     .columns.is-mobile
       .column.is-half-mobile
         %h1.title.is-1 Skills
-      -if allowed_to?(:edit?, @user)
+      - if allowed_to?(:edit?, @user)
         .column.is-half-mobile
           = link_to 'Add Skills', '', class: 'button is-secondary is-pulled-right'
 

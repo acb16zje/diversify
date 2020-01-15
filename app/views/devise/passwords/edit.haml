@@ -13,9 +13,9 @@
               %em
                 (#{@minimum_password_length} characters minimum)
               %br/
-            = f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: 'Password', class: 'input'
+            = f.password_field :password, autofocus: true, autocomplete: 'new-password', placeholder: 'Password', class: 'input'
           .field
             .control
-              = f.password_field :password_confirmation, autocomplete: "new-password", placeholder: 'Password Confirmation', class: 'input'
+              = f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'Password Confirmation', class: 'input'
           .actions
-            = f.submit "Change my password", {class: 'button is-primary'}
+            = f.submit 'Change my password', class: 'button is-primary'

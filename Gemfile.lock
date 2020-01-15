@@ -226,6 +226,14 @@ GEM
       activesupport (>= 4.2.0)
     groupdate (4.3.0)
       activesupport (>= 5)
+    haml (5.1.2)
+      temple (>= 0.8.0)
+      tilt
+    haml_lint (0.34.1)
+      haml (>= 4.0, < 5.2)
+      rainbow
+      rubocop (>= 0.50.0)
+      sysexits (~> 1.1)
     hamlit (2.11.0)
       temple (>= 0.8.2)
       thor
@@ -388,6 +396,7 @@ GEM
     sshkit (1.20.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    sysexits (1.2.0)
     temple (0.8.2)
     thor (1.0.1)
     thread_safe (0.3.6)
@@ -439,6 +448,7 @@ DEPENDENCIES
   factory_bot_rails
   geocoder
   groupdate
+  haml_lint
   hamlit
   letter_opener
   listen

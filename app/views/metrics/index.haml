@@ -21,13 +21,13 @@
 
       .columns
         .column
-          %datepicker{'@set-dates': 'setDates'}
+          %datepicker{ '@set-dates': 'setDates' }
 
         .column
           .select.is-pulled-right
-            %select#graph-select{'v-model': 'graphOption'}
+            %select#graph-select{ 'v-model': 'graphOption' }
               %option Subscription Ratio
               %option Subscription by Date
               %option Landing Page Feedback
 
-      %chartkick{'v-bind': '{ dates, graphOption }'}
+      %chartkick{ 'v-bind': '{ dates, graphOption }' }

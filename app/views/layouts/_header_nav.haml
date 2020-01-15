@@ -3,11 +3,11 @@
     .navbar-brand
       = link_to root_path, class: 'navbar-item' do
         = image_tag 'logo/logo_horizontal.svg', width: 150
-      .navbar-burger.burger{':class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar'}
+      .navbar-burger.burger{ ':class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar' }
         %span
         %span
         %span
-    .navbar-menu{':class': "{ 'is-active': showNavbar }"}
+    .navbar-menu{ ':class': "{ 'is-active': showNavbar }" }
       .navbar-end.navbar-center
         - if user_signed_in?
           = nav_link_to 'Profile', path: user_path(current_user), class: 'navbar-item'

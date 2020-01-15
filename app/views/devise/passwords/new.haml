@@ -5,8 +5,8 @@
 = form_with model: resource, url: password_path(resource), html: {'@ajax:error': 'ajaxError'} do |f|
   .field
     .control
-      = f.email_field :email, autofocus: true, autocomplete: "email", class: "input", placeholder:"Email"
+      = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input', placeholder: 'Email'
   .actions
-    = f.submit "Send reset password instructions", {class: 'button is-primary'}
+    = f.submit 'Send reset password instructions', {class: 'button is-primary'}
 
-= render "devise/shared/links"
+= render 'devise/shared/links'

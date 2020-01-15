@@ -5,7 +5,7 @@
     %h1.title.is-1.has-text-centered Help us improve
 
     .box
-      = form_with url: submit_feedback_pages_path, scope: :landing_feedback, html: {'@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError'} do |f|
+      = form_with url: submit_feedback_pages_path, scope: :landing_feedback, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
         .field
           .control.smiley
             %label.label How is your experience with our website?
@@ -24,7 +24,7 @@
           .control
             %label.label Are you interested in using our product?
             = f.label :interest_true, class: 'radio' do
-              = f.radio_button :interest, true, { checked: true }
+              = f.radio_button :interest, true, checked: true
               Yes
             = f.label :interest_false, class: 'radio' do
               = f.radio_button :interest, false

@@ -15,18 +15,19 @@
 
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Join unlimited projects
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
+                    %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Automated team building
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
+                    %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Skill set manager
             %footer.card-footer
-            = link_to 'Get started for free', newsletter_pages_path(:type => "Free"), class: "button is-primary is-medium"
+              = link_to 'Get started for free', newsletter_pages_path(type: 'Free'), class: 'button is-primary is-medium'
+
         .column
           .card.border
             .card-content
@@ -36,27 +37,28 @@
 
                 %p.card-text.small.is-flex
                   %span.icon
-                    %span.iconify{'data-icon': 'dashicons:arrow-left-alt'}
+                    %span.iconify{ 'data-icon': 'dashicons:arrow-left-alt' }
                   %span Everything included in Free
                 %hr
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Create unlimited projects
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
+                    %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Automated task allocation
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
+                    %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Peer review system
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'fa-solid:check'}
+                    %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Issue board
             %footer.card-footer
-            = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Pro'), class: 'button is-primary is-medium'
+              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Pro'), class: 'button is-primary is-medium'
+
         .column
           .card
             .card-content
@@ -66,23 +68,23 @@
 
                 %p.card-text.small.is-flex
                   %span.icon
-                    %span.iconify{'data-icon': 'dashicons:arrow-left-alt'}
+                    %span.iconify{ 'data-icon': 'dashicons:arrow-left-alt' }
                   %span Everything included in Pro
                 %hr
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Unlimited members per project
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Unlimited sub-accounts
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
-                    %span.iconify{'data-icon': 'icomoon-free:infinite'}
+                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Unlimited active tasks
             %footer.card-footer
-            = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Enterprise'), class: 'button is-primary is-medium'
+              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Enterprise'), class: 'button is-primary is-medium'
 
   %section.hero.is-medium.break-is-purple
     .hero-body
@@ -92,8 +94,7 @@
 
         = link_to 'Learn more', features_pages_path, class: 'button is-primary is-large is-light'
 
-  -# pricing comparison table
-  %section.section#pricing_table
+  %section.section
     .container
       %h3.title.is-1.is-spaced.has-text-centered Compare features
       %p.subtitle.is-5.has-text-centered
@@ -106,106 +107,106 @@
             %tr
               %th
               %th Features
-              %th{align: 'center'} Casual
-              %th{align: 'center'} Professional
-              %th{align: 'center'} Enterprise
+              %th{ align: 'center' } Casual
+              %th{ align: 'center' } Professional
+              %th{ align: 'center' } Enterprise
           %tbody
             %tr
               %th 1
               %td Join unlimited projects
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
             %tr
               %th 2
               %td Create public projects
-              %td{align: 'center'} 5
-              %td{align: 'center'} Unlimited
-              %td{align: 'center'} Unlimited
+              %td{ align: 'center' } 5
+              %td{ align: 'center' } Unlimited
+              %td{ align: 'center' } Unlimited
 
             %tr
               %th 3
               %td Create private projects
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-danger
-                  %span.iconify{'data-icon': 'fa-solid:times'}
-              %td{align: 'center'} Unlimited
-              %td{align: 'center'} Unlimited
+                  %span.iconify{ 'data-icon': 'fa-solid:times' }
+              %td{ align: 'center' } Unlimited
+              %td{ align: 'center' } Unlimited
 
             %tr
               %th 4
               %td Members per project
-              %td{align: 'center'} 10
-              %td{align: 'center'} 50
-              %td{align: 'center'} Unlimited
+              %td{ align: 'center' } 10
+              %td{ align: 'center' } 50
+              %td{ align: 'center' } Unlimited
 
             %tr
               %th 5
               %td Automated team building
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
 
             %tr
               %th 6
               %td Skill set manager
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
             %tr
               %th 7
               %td Task allocation
-              %td{align: 'center'} Manual
-              %td{align: 'center'} Auto / Manual
-              %td{align: 'center'} Auto / Manual
+              %td{ align: 'center' } Manual
+              %td{ align: 'center' } Auto / Manual
+              %td{ align: 'center' } Auto / Manual
 
             %tr
               %th 8
               %td No. of active tasks
-              %td{align: 'center'} 15
-              %td{align: 'center'} 100
-              %td{align: 'center'} Unlimited
+              %td{ align: 'center' } 15
+              %td{ align: 'center' } 100
+              %td{ align: 'center' } Unlimited
 
             %tr
               %th 9
               %td Peer review system
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-danger
-                  %span.iconify{'data-icon': 'fa-solid:times'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:times' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
 
             %tr
               %th 10
               %td Issue Board
-              %td{align: 'center'}
+              %td{ align: 'center' }
                 %span.icon.has-text-danger
-                  %span.iconify{'data-icon': 'fa-solid:times'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:times' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
-              %td{align: 'center'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }
+              %td{ align: 'center' }
                 %span.icon.has-text-success
-                  %span.iconify{'data-icon': 'fa-solid:check'}
+                  %span.iconify{ 'data-icon': 'fa-solid:check' }

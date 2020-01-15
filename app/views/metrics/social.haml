@@ -7,12 +7,12 @@
 
       .columns
         .column
-          %datepicker{'@set-dates': 'setDates'}
+          %datepicker{ '@set-dates': 'setDates' }
 
         .column
           .select.is-pulled-right
-            %select#graph-select{'v-model': 'graphOption'}
+            %select#graph-select{ 'v-model': 'graphOption' }
               %option Social Share Ratio
               %option Social Share by Date
 
-      %chartkick{'v-bind': '{ dates, graphOption }'}
+      %chartkick{ 'v-bind': '{ dates, graphOption }' }

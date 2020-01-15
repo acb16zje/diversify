@@ -1,9 +1,9 @@
-- content_for :title, "Edit Profile"
+- content_for :title, 'Edit Profile'
 
-%section.section#profile
+%section.section
   .container
     %h1.title.is-1 Edit Profile
-    = form_with model: @user, url: edit_user_path(@user), html: {'@ajax:error': 'ajaxError'}  do |f|
+    = form_with model: @user, url: edit_user_path(@user), html: { '@ajax:error': 'ajaxError' } do |f|
       .field
         .control
           = f.text_field :name, class: 'input'

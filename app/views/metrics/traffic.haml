@@ -5,13 +5,13 @@
   .box
     .columns.has-text-centered
       .column.is-4
-        %pie-chart{':data': @data[:device_type]}
+        %pie-chart{ ':data': @data[:device_type] }
         %p.subtitle Device Types
       .column.is-4
-        %pie-chart{':data': @data[:browser]}
+        %pie-chart{ ':data': @data[:browser] }
         %p.subtitle Browser Types
       .column.is-4
-        %pie-chart{':data': @data[:country]}
+        %pie-chart{ ':data': @data[:country] }
         %p.subtitle Countries
 
   %section.section
@@ -20,14 +20,14 @@
 
       .columns
         .column
-          %datepicker{'@set-dates': 'setDates'}
+          %datepicker{ '@set-dates': 'setDates' }
 
         .column
           .select.is-pulled-right
-            %select#graph-select{'v-model': 'graphOption'}
+            %select#graph-select{ 'v-model': 'graphOption' }
               %option Referrers Ratio
               %option Referrers by Date
               %option Average Time Spent per Page
               %option Number of Visits per Page
 
-      %chartkick{'v-bind': '{ dates, graphOption }'}
+      %chartkick{ 'v-bind': '{ dates, graphOption }' }
