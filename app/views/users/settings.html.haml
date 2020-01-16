@@ -47,7 +47,7 @@
                 %span= label
               .button
                 - if current_user.oauth?(provider)
-                  = link_to text, unsubscribe_omniauth_users_path(provider: provider), class: btn_class, remote: true, method: :post, html: { '@ajax:error': 'ajaxError' }
+                  = link_to text, unsubscribe_omniauth_users_path(provider: provider), class: btn_class, remote: true, method: :post, '@ajax:error': 'ajaxError'
                 - else
                   = link_to text, omniauth_authorize_path(current_user, provider), class: btn_class
 

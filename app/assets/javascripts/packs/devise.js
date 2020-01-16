@@ -6,6 +6,9 @@ import { dangerToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#app',
+  data: {
+    showNavbar: false,
+  },
   components: {
     Toast
   },

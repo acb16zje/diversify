@@ -3,7 +3,9 @@
 # Controller for newsletter
 class NewslettersController < ApplicationController
   layout 'metrics_page'
-  skip_before_action :authenticate_user!, only: %i[subscribe unsubscribe post_unsubscribe]
+  skip_before_action :authenticate_user!, only: %i[
+    subscribe unsubscribe post_unsubscribe
+  ]
 
   def index
     @newsletters = Newsletter.all.decorate
@@ -38,26 +40,18 @@ class NewslettersController < ApplicationController
     sub_fail_action('No Email') if params[:email].blank?
 
     email = params[:email]
-    if NewsletterSubscription.previously_subscribed.exists?(email: email)
-      sub = NewsletterSubscription.find_by(email: email)
-      sub.subscribed = true
-    else
-      sub = NewsletterSubscription.new(email: email, subscribed: true)
-    end
+
+    sub = NewsletterSubscription.where(email: email).first_or_create
+    sub.subscribed = true
     sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
   end
 
   def self_subscribe
     email = current_user.email
-
     sub_fail_action('No Email') if email.blank?
 
-    if NewsletterSubscription.previously_subscribed.exists?(email: email)
-      sub = NewsletterSubscription.find_by(email: email)
-      sub.subscribed = true
-    else
-      sub = NewsletterSubscription.new(email: email, subscribed: true)
-    end
+    sub = NewsletterSubscription.where(email: email).first_or_create
+    sub.subscribed = true
     if sub.save
       flash[:toast] = { type: 'success', message: ['Newsletter Subscribed'] }
       render js: "window.location='#{settings_users_path}'"
@@ -71,7 +65,8 @@ class NewslettersController < ApplicationController
   end
 
   def self_unsubscribe
-    newsletter_subscription = NewsletterSubscription.where(email: current_user.email).first
+    newsletter_subscription =
+      NewsletterSubscription.find_by(email: current_user.email)
     newsletter_subscription.update(subscribed: false)
     if newsletter_subscription.save
       flash[:toast] = { type: 'success', message: ['Newsletter Unsubscribed'] }

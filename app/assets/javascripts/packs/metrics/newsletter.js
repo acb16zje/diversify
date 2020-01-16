@@ -13,6 +13,9 @@ Vue.config.ignoredElements = [
 new Vue({
   el: '#app',
   ignoredElements: [/^action-text/],
+  data: {
+    showNavbar: false,
+  },
   components: {
     SubscribersTable,
     NewslettersTable,

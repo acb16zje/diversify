@@ -11,6 +11,7 @@ new Vue({
     Datepicker,
   },
   data: {
+    showNavbar: false,
     dates: [],
     graphOption: document.getElementById('graph-select').options[0].value,
   },
