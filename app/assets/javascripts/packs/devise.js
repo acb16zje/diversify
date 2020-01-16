@@ -13,6 +13,12 @@ new Vue({
     Toast
   },
   methods: {
+    ajaxSuccess(event) {
+      const form = event.target;
+      form.outerHTML = `
+        <p class="subtitle is-5 has-text-centered">${event.detail[0].message}</p>
+      `;
+    },
     ajaxError(event) {
       const messages = event.detail[0].errors;
       messages.forEach((message) => {

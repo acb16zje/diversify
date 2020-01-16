@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for setting and changing password
 class Users::PasswordsController < Devise::PasswordsController
   # GET /resource/password/new
   # def new
@@ -12,10 +13,10 @@ class Users::PasswordsController < Devise::PasswordsController
     yield resource if block_given?
 
     if successfully_sent?(resource)
-      render js: "window.location='#{new_user_session_path}'"
+      render json: { message: 'Email sent!' }
     else
       # respond_with(resource)
-      render json: {errors: resource.errors.full_messages}, status: :bad_request
+      render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
 
@@ -32,16 +33,14 @@ class Users::PasswordsController < Devise::PasswordsController
     if resource.errors.empty?
       resource.unlock_access! if unlockable?(resource)
       if Devise.sign_in_after_reset_password
-        flash_message = resource.active_for_authentication? ? :updated : :updated_not_active
         resource.after_database_authentication
         sign_in(resource_name, resource)
       end
-      # respond_with resource, location: after_resetting_password_path_for(resource)
       render js: "window.location='#{root_path}'"
     else
       set_minimum_password_length
-      # respond_with resource
-      render json: {errors: resource.errors.full_messages}, status: :bad_request
+      render json: { errors: resource.errors.full_messages },
+             status: :bad_request
     end
   end
 

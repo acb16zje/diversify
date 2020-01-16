@@ -41,8 +41,7 @@ class NewslettersController < ApplicationController
 
     email = params[:email]
 
-    sub = NewsletterSubscription.where(email: email).first_or_create
-    sub.subscribed = true
+    sub = prepare_subscription(email)
     sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
   end
 
@@ -50,11 +49,9 @@ class NewslettersController < ApplicationController
     email = current_user.email
     sub_fail_action('No Email') if email.blank?
 
-    sub = NewsletterSubscription.where(email: email).first_or_create
-    sub.subscribed = true
+    sub = prepare_subscription(email)
     if sub.save
-      flash[:toast] = { type: 'success', message: ['Newsletter Subscribed'] }
-      render js: "window.location='#{settings_users_path}'"
+      sub_login_pass_action('Newsletter Subscribed')
     else
       sub_fail_action('Subscription Failed')
     end
@@ -65,12 +62,10 @@ class NewslettersController < ApplicationController
   end
 
   def self_unsubscribe
-    newsletter_subscription =
-      NewsletterSubscription.find_by(email: current_user.email)
-    newsletter_subscription.update(subscribed: false)
+    sub = NewsletterSubscription.find_by(email: current_user.email)
+    sub.update(subscribed: false)
     if newsletter_subscription.save
-      flash[:toast] = { type: 'success', message: ['Newsletter Unsubscribed'] }
-      render js: "window.location='#{settings_users_path}'"
+      sub_login_pass_action('Newsletter Unsubscribed')
     else
       sub_fail_action('Unsubscription Failed')
     end
@@ -91,6 +86,12 @@ class NewslettersController < ApplicationController
 
   private
 
+  def prepare_subscription(email)
+    sub = NewsletterSubscription.where(email: email).first_or_create
+    sub.subscribed = true
+    sub
+  end
+
   def newsletter_params
     params.require(:newsletter).permit(:title, :content)
   end
@@ -102,6 +103,11 @@ class NewslettersController < ApplicationController
       newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]),
       reasons: p[:reasons]
     }
+  end
+
+  def sub_login_pass_action(message)
+    flash[:toast] = { type: 'success', message: [message] }
+    render js: "window.location='#{settings_users_path}'"
   end
 
   def sub_pass_action

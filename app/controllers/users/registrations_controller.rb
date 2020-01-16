@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for registration and update password
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -15,19 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     resource.save
     yield resource if block_given?
-    if resource.persisted?
-      if resource.active_for_authentication?
-        sign_up(resource_name, resource)
-        render js: "window.location='#{root_path}'"
-      else
-        expire_data_after_sign_in!
-        render js: "window.location='#{root_path}'"
-      end
-    else
-      clean_up_passwords resource
-      set_minimum_password_length
-      render json: { errors: resource.errors.full_messages }, status: :bad_request
-    end
+    resource.persisted? ? register_success : register_fail
   end
 
   # GET /resource/edit
@@ -39,22 +28,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
 
-    if resource.encrypted_password.blank?
-      resource_updated = resource.update(account_update_params)
-    else 
-      resource_updated = update_resource(resource, account_update_params)
-    end
-    yield resource if block_given?
-    if resource_updated
-      if sign_in_after_change_password?
-        bypass_sign_in resource, scope: resource_name
-      end
-      flash[:toast] = { type: 'success', message: ['Password Changed'] }
-      render js: "window.location='#{settings_users_path}'"
+    if form_filled?
+      resource_updated = oauth_update_resource
+      yield resource if block_given?
+      resource_updated ? update_success : register_fail
     else
-      clean_up_passwords resource
-      set_minimum_password_length
-      render json: { errors: resource.errors.full_messages }, status: :bad_request
+      render json: { errors: ['Please fill in the Form'] }, status: :bad_request
     end
   end
 
@@ -94,4 +73,43 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super(resource)
   #   root_path
   # end
+
+  private
+
+  def form_filled?
+    params[:user][:password].present? &&
+      params[:user][:password_confirmation].present?
+  end
+
+  def register_success
+    if resource.active_for_authentication?
+      sign_up(resource_name, resource)
+    else
+      expire_data_after_sign_in!
+    end
+    render js: "window.location='#{root_path}'"
+  end
+
+  def update_success
+    if sign_in_after_change_password?
+      bypass_sign_in resource, scope: resource_name
+    end
+
+    flash[:toast] = { type: 'success', message: ['Password Changed'] }
+    render js: "window.location='#{settings_users_path}'"
+  end
+
+  def register_fail
+    clean_up_passwords resource
+    set_minimum_password_length
+    render json: { errors: resource.errors.full_messages }, status: :bad_request
+  end
+
+  def oauth_update_resource
+    if resource.encrypted_password.blank?
+      resource.update(account_update_params)
+    else
+      update_resource(resource, account_update_params)
+    end
+  end
 end
