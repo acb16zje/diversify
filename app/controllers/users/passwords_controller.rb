@@ -31,16 +31,9 @@ class Users::PasswordsController < Devise::PasswordsController
     yield resource if block_given?
 
     if resource.errors.empty?
-      resource.unlock_access! if unlockable?(resource)
-      if Devise.sign_in_after_reset_password
-        resource.after_database_authentication
-        sign_in(resource_name, resource)
-      end
-      render js: "window.location='#{root_path}'"
+      update_success
     else
-      set_minimum_password_length
-      render json: { errors: resource.errors.full_messages },
-             status: :bad_request
+      update_fail
     end
   end
 
@@ -54,4 +47,21 @@ class Users::PasswordsController < Devise::PasswordsController
   # def after_sending_reset_password_instructions_path_for(resource_name)
   #   super(resource_name)
   # end
+
+  private
+
+  def update_fail
+    set_minimum_password_length
+    render json:
+      { errors: resource.errors.full_messages }, status: :bad_request
+  end
+
+  def update_success
+    resource.unlock_access! if unlockable?(resource)
+    if Devise.sign_in_after_reset_password
+      resource.after_database_authentication
+      sign_in(resource_name, resource)
+    end
+    render js: "window.location='#{root_path}'"
+  end
 end

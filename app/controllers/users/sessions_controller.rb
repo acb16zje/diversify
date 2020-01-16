@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for handling user sessions
 class Users::SessionsController < Devise::SessionsController
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -12,11 +13,11 @@ class Users::SessionsController < Devise::SessionsController
   def create
     self.resource = warden.authenticate(auth_options)
     if resource.nil?
-      render json: { errors: ['Invalid Username and Password'] }, status: :bad_request
+      render json:
+        { errors: ['Invalid Username and Password'] }, status: :bad_request
     else
       sign_in(resource_name, resource)
       yield resource if block_given?
-      # respond_with resource, location: after_sign_in_path_for(resource)
       render js: "window.location='#{after_sign_in_path_for(resource)}'"
     end
   end
