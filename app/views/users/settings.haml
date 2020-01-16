@@ -37,19 +37,18 @@
       %h4.title.is-4 Social Accounts
       .columns
         - Devise.omniauth_providers.each do |provider|
-          - btn_class, label, icon = social_btn(provider)
-          - text = current_user.oauth?(provider) ? 'Disconnect' : 'Connect'
           .column.is-narrow
             .buttons.has-addons
-              .button.is-static.has-text-black
+              .button.is-static{ class: provider_label(provider) }
                 %span.icon
-                  %span.iconify.is-24{ 'data-icon': icon }
-                %span= label
+                  %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
+                %span.has-text-black= provider_label(provider)
               .button
                 - if current_user.oauth?(provider)
-                  = link_to text, unsubscribe_omniauth_users_path(provider: provider), class: btn_class, remote: true, method: :post, '@ajax:error': 'ajaxError'
+                  = link_to 'Disconnect', unsubscribe_omniauth_users_path(provider: provider), remote: true, method: :post, '@ajax:error': 'ajaxError',
+                     class: 'has-text-danger has-text-weight-semibold'
                 - else
-                  = link_to text, omniauth_authorize_path(current_user, provider), class: btn_class
+                  = link_to 'Connect', omniauth_authorize_path(current_user, provider)
 
   %section.section
     .container.content

@@ -12,7 +12,7 @@
       .field
         %label.label Password
         .control
-          = f.password_field :password, autocomplete: 'current-password', class: 'input', placeholder: 'Password', required: ''
+          = f.password_field :password, autocomplete: 'current-password', class: 'input', required: ''
       - if devise_mapping.rememberable?
         .field.is-flex
           .control

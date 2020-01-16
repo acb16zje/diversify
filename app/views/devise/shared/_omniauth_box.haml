@@ -1,24 +1,9 @@
-- if devise_mapping.omniauthable?
-  #oauth-box.box
-    %label.label Sign in with
-    .buttons
-      - resource_class.omniauth_providers.each do |provider|
-        = link_to omniauth_authorize_path(resource_name, provider), class: "button #{provider} is-fullwidth" do
-          .is-flex
-            - case provider.to_s
-            - when 'google_oauth2'
-              %span.icon
-                %span.iconify.is-24{ 'data-icon': 'flat-color-icons:google' }
-              %span Google
-
-            - when 'twitter'
-              %span.icon
-                %span.iconify.is-24{ 'data-icon': 'fe:twitter' }
-              %span Twitter
-
-            - when 'facebook'
-              %span.icon
-                %span.iconify.is-24{ 'data-icon': 'fe:facebook' }
-              %span Facebook
-            - else
-              %span
+#oauth-box.box
+  %label.label Sign in with
+  .buttons
+    - resource_class.omniauth_providers.each do |provider|
+      = link_to omniauth_authorize_path(resource_name, provider), class: "button #{provider} is-fullwidth" do
+        .is-flex
+          %span.icon
+            %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
+          %span= provider_label(provider)

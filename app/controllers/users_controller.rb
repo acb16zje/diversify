@@ -2,7 +2,7 @@
 
 class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
-  helper UserHelper
+  helper DeviseHelper
   respond_to :js
   layout 'devise'
 

@@ -68,4 +68,14 @@ body#auth {
       padding-bottom: 1rem;
     }
   }
+
+  .button {
+    &.Twitter {
+      color: #38A1F3;
+    }
+
+    &.Facebook {
+      color: #4267b2;
+    }
+  }
 }
