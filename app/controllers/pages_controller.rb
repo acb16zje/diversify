@@ -2,8 +2,9 @@
 
 # Controller for landing pages
 class PagesController < ApplicationController
-  before_action :track_ahoy_visit
   skip_before_action :authenticate_user!
+
+  before_action :track_ahoy_visit
 
   after_action :track_action, except: :track_time
 
@@ -12,9 +13,9 @@ class PagesController < ApplicationController
   # Function to track subscriptions
   # should be changed once proper subscription system has been completed
   def newsletter
-    return unless valid_subscription_type?
-
-    ahoy.track 'Clicked pricing link', type: params[:type]
+    if valid_subscription_type?
+      ahoy.track('Clicked pricing link', type: params[:type])
+    end
   end
 
   def track_social
@@ -29,7 +30,7 @@ class PagesController < ApplicationController
     return head :bad_request unless valid_request?
 
     ahoy.track 'Time Spent',
-               time_spent: millisec_to_sec(params[:time]),
+               time_spent: params[:time].to_f.round / 1000,
                pathname: params[:pathname]
     head :ok
   end
@@ -47,13 +48,7 @@ class PagesController < ApplicationController
 
   # Ahoy Gem function to track actions
   def track_action
-    return if request.xhr?
-
-    ahoy.track 'Ran action', request.path_parameters
-  end
-
-  def millisec_to_sec(time)
-    time.to_f.round / 1000
+    ahoy.track('Ran action', request.path_parameters) unless request.xhr?
   end
 
   def valid_request?
@@ -61,9 +56,8 @@ class PagesController < ApplicationController
   end
 
   def valid_pathname?(pathname)
-    pathname.present? &&
-      !pathname.include?('metrics') &&
-      !pathname.include?('newsletters')
+    [root_path, pricing_pages_path, about_pages_path, love_pages_path,
+     feedback_pages_path].include? pathname
   end
 
   def valid_subscription_type?

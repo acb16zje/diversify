@@ -32,9 +32,6 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.include FactoryBot::Syntax::Methods
-  config.include Shoulda::Matchers::ActiveRecord
-  config.include Shoulda::Matchers::ActiveModel
-
   config.include Capybara::DSL # Let's us use the capybara stuff in our specs
   config.include Warden::Test::Helpers
   config.include Rails.application.routes.url_helpers
@@ -87,4 +84,11 @@ Capybara.configure do |config|
   config.asset_host = 'http://localhost:3000'
   config.javascript_driver = :chrome
   config.match = :prefer_exact
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

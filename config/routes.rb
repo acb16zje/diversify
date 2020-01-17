@@ -71,7 +71,7 @@ Rails.application.routes.draw do
     collection do
       get 'subscribers'
       get 'unsubscribe'
-      
+
       post 'self_subscribe'
       post 'self_unsubscribe'
       post 'subscribe'
@@ -85,6 +85,6 @@ Rails.application.routes.draw do
       post 'unsubscribe_omniauth'
     end
   end
-  
+
   root to: 'pages#home'
 end
