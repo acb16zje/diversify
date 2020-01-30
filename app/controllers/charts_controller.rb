@@ -102,10 +102,8 @@ class ChartsController < ApplicationController
 
   def unsubscription_by_newsletter
     @records.map! do |record|
-      [
-        "#{record['title']}, #{record['created_at'].utc.strftime('%d-%m-%Y')}",
-        record['feedback_count']
-      ]
+      ["#{record['title']}, #{record['created_at'].utc.strftime('%d-%m-%Y')}",
+       record['feedback_count']]
     end
 
     render json: @records

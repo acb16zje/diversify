@@ -50,7 +50,10 @@ module SimpleCovEnv
         add_filter 'app/models/team.rb'
         add_filter 'app/models/user_personality.rb'
 
+        add_filter 'lib/'
+
         add_group 'Decorators',  'app/decorators'
+        add_group 'Policies', 'app/policies'
         add_group 'Validators',  'app/validators'
 
         # 10 days
