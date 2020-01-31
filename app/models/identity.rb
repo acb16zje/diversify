@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: identities
@@ -14,6 +16,7 @@
 #  index_identities_on_user_id  (user_id)
 #
 
+# Identity model, for OAuth
 class Identity < ApplicationRecord
   belongs_to :user
 

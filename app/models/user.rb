@@ -24,18 +24,19 @@
 
 # User model
 class User < ApplicationRecord
-  has_many :projects
+  # virtual attribute to skip password validation while saving
+  attr_accessor :skip_password_validation
+
+  has_many :projects, dependent: :destroy
   has_many :user_personalities, dependent: :destroy
   has_many :personalities, through: :user_personalities
   has_many :preferences, dependent: :destroy
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
   # has_and_belongs_to_many :teams
-  has_many :reviews
-  has_one :license
+  has_many :reviews, dependent: :destroy
+  has_one :license, dependent: :destroy
   has_many :identities, dependent: :destroy
-
-  attr_accessor :skip_password_validation # virtual attribute to skip password validation while saving
 
   validates :email,
             presence: true,
@@ -49,17 +50,13 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
 
-  def oauth?(provider=nil)
-    if provider.nil?
-      Identity.exists?(user: self)
-    else
-      Identity.exists?(user: self, provider: provider)
-    end
+  def oauth_provider_connected?(provider = nil)
+    Identity.exists?(user: self, provider: provider)
   end
 
-  def subscribed_newsletter?
+  def newsletter_subscribed?
     subscription = NewsletterSubscription.find_by(email: email)
-    !subscription.nil? && subscription.subscribed == true
+    subscription.present? && subscription.subscribed
   end
 
   protected

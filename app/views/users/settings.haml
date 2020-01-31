@@ -44,7 +44,7 @@
                   %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
                 %span.has-text-black= provider_label(provider)
               .button
-                - if current_user.oauth?(provider)
+                - if current_user.oauth_provider_connected?(provider)
                   = link_to 'Disconnect', unsubscribe_omniauth_users_path(provider: provider), remote: true, method: :post, '@ajax:error': 'ajaxError',
                      class: 'has-text-danger has-text-weight-semibold'
                 - else
@@ -53,7 +53,7 @@
   %section.section
     .container.content
       %h4.title.is-4 Newsletter Preferences
-      - if current_user.subscribed_newsletter?
+      - if current_user.newsletter_subscribed?
         %p Are you sure? You will miss out the latest news and features!
         = link_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, data: { confirm: 'Are you sure?' }, method: :post, remote: true, class: 'button is-warning'
       - else

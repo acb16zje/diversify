@@ -2,9 +2,10 @@
 
 # Controller for profile and settings
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update]
   helper DeviseHelper
+  before_action :set_user, only: %i[show edit update]
   respond_to :js
+
   layout 'devise'
 
   def show

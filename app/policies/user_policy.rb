@@ -7,8 +7,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def edit?
-    # `user` is a performing subject,
-    # `record` is a target object (post we want to update)
-    user.admin? || (user.id == record.id)
+    user.id == record.id
   end
 end
