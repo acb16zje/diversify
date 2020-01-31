@@ -66,8 +66,8 @@ setup-test-env:
     - bundle exec rake $CI_JOB_NAME
   artifacts:
     paths:
-      - "coverage/$CI_JOB_NAME" # look for the unique CI_JOB_NAME folder for this run
-    name: "CI_JOB_NAME Coverage" # Give it a unique artifact name
+      - 'coverage/$CI_JOB_NAME' # look for the unique CI_JOB_NAME folder for this run
+    name: 'CI_JOB_NAME Coverage' # Give it a unique artifact name
     when: always # Always extract the artifact, even if not all tests passed.
     expire_in: 1d
 
@@ -81,6 +81,9 @@ spec:helpers:
   extends: .rspec
 
 spec:models:
+  extends: .rspec
+
+spec:policies:
   extends: .rspec
 
 spec:requests:
