@@ -8,10 +8,8 @@
       %h1.title.is-2.has-text-centered Settings
 
       %h4.title.is-4 Change Password
-      - if current_user.encrypted_password.blank?
-        %p.subtitle You can set up a password for alternate login!
       = form_with model: current_user, url: registration_path(current_user), method: :put, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
-        - if current_user.encrypted_password.present?
+        - if current_user.encrypted_password?
           .field
             %label.label Old password
             %i (we need your current password to confirm your changes)
@@ -45,8 +43,7 @@
                 %span.has-text-black= provider_label(provider)
               .button
                 - if current_user.oauth_provider_connected?(provider)
-                  = link_to 'Disconnect', unsubscribe_omniauth_users_path(provider: provider), remote: true, method: :post, '@ajax:error': 'ajaxError',
-                     class: 'has-text-danger has-text-weight-semibold'
+                  = link_to 'Disconnect', disconnect_omniauth_users_path(provider: provider), method: :delete, class: 'has-text-danger has-text-weight-semibold', '@ajax:error': 'ajaxError'
                 - else
                   = link_to 'Connect', omniauth_authorize_path(current_user, provider)
 

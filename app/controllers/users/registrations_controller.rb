@@ -108,10 +108,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def oauth_update_resource
-    if resource.encrypted_password.blank?
-      resource.update(account_update_params)
-    else
+    if resource.encrypted_password?
       update_resource(resource, account_update_params)
+    else
+      resource.update(account_update_params)
     end
   end
 end
