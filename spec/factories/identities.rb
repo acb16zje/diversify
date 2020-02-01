@@ -16,6 +16,7 @@
 
 FactoryBot.define do
   factory :identity do
-    
+    provider { 'test' }
+    uid { '1234' }
   end
 end

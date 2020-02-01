@@ -26,6 +26,28 @@ FactoryBot.define do
   factory :user do
     email { generate(:email) }
     password { '12345678' }
-
+    name { generate(:name) }
   end
+
+  trait :admin do
+    admin { true }
+  end
+
+  factory :omniauth_user do
+    transient do
+      uid { '1234' }
+      provider { 'test' }
+    end
+
+    after(:create) do |user, evaluator|
+      identity_attrs = {
+        provider: evaluator.provider,
+        uid: evaluator.uid
+      }
+
+      user.identities << create(:identity, identity_attrs)
+    end
+  end
+
+  factory :admin, traits: [:admin]
 end

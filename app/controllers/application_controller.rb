@@ -31,6 +31,10 @@ class ApplicationController < ActionController::Base
     render_403
   end
 
+  rescue_from ActionController::RoutingError do
+    redirect_to root_path
+  end
+
   private
 
   def render_403
