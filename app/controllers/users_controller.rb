@@ -20,9 +20,8 @@ class UsersController < ApplicationController
 
   def disconnect_omniauth
     if valid_disconnect?
-      response = Identity.destroy_by(user: current_user,
-                                     provider: params[:provider])
-      response == [] ? destroy_fail : destroy_success
+      res = Identity.destroy_by(user: current_user, provider: params[:provider])
+      res == [] ? destroy_fail : destroy_success
     else
       flash[:toast] = { type: 'error', message:
         ['Please set up a password before disabling all Social Accounts'] }
@@ -38,8 +37,8 @@ class UsersController < ApplicationController
   end
 
   def valid_disconnect?
-    Identity.where(user: current_user).count > 1 ||
-      current_user.encrypted_password?
+    current_user.encrypted_password? ||
+      Identity.where(user: current_user).count > 1
   end
 
   def destroy_fail
@@ -51,5 +50,4 @@ class UsersController < ApplicationController
     flash[:toast] = { type: 'success', message: ['Account Disconnected'] }
     redirect_to settings_users_path, status: :ok
   end
-
 end
