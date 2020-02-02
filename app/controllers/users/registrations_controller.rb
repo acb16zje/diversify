@@ -26,10 +26,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # PUT /resource
   def update
-    self.resource = resource_class.to_adapter.get!(
-      send(:"current_#{resource_name}").to_key
-    )
-
     if form_filled?
       resource_updated = oauth_update_resource
       yield resource if block_given?

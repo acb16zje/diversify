@@ -9,8 +9,7 @@ describe Users::PasswordsController, type: :request do
     context 'when valid email' do
       it {
         post '/users/password', params: {
-          'user[email]': user.email,
-          authenticity_token: Devise.friendly_token
+          'user[email]': user.email
         }
         expect(response).to have_http_status(:ok)
       }
@@ -19,8 +18,7 @@ describe Users::PasswordsController, type: :request do
     context 'when invalid email' do
       it {
         post '/users/password', params: {
-          'user[email]': 'fake@email.com',
-          authenticity_token: Devise.friendly_token
+          'user[email]': 'fake@email.com'
         }
         expect(response).to have_http_status(:bad_request)
       }
@@ -42,8 +40,7 @@ describe Users::PasswordsController, type: :request do
         put '/users/password', params: {
           'user[reset_password_token]': @raw,
           'user[password]': 'newPassword',
-          'user[password_confirmation]': 'newPassword',
-          authenticity_token: Devise.friendly_token
+          'user[password_confirmation]': 'newPassword'
         }
         expect(response).to have_http_status(:ok)
       }
@@ -54,8 +51,7 @@ describe Users::PasswordsController, type: :request do
         put '/users/password', params: {
           'user[reset_password_token]': @raw,
           'user[password]': 'newPassword',
-          'user[password_confirmation]': '',
-          authenticity_token: Devise.friendly_token
+          'user[password_confirmation]': ''
         }
         expect(response).to have_http_status(:bad_request)
       }
@@ -66,8 +62,7 @@ describe Users::PasswordsController, type: :request do
         put '/users/password', params: {
           'user[reset_password_token]': '1234',
           'user[password]': 'newPassword',
-          'user[password_confirmation]': 'newPassword',
-          authenticity_token: Devise.friendly_token
+          'user[password_confirmation]': 'newPassword'
         }
         expect(response).to have_http_status(:bad_request)
       }

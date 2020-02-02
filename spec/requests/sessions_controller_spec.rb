@@ -9,8 +9,7 @@ describe Users::SessionsController, type: :request do
     context 'with valid sign in' do
       it 'sign in and redirect to home page' do
         post user_session_path('user[email]': user.email,
-                               'user[password]': user.password,
-                               authenticity_token: Devise.friendly_token)
+                               'user[password]': user.password)
         expect(response).to have_http_status(:ok)
       end
     end
@@ -18,8 +17,7 @@ describe Users::SessionsController, type: :request do
     context 'with invalid sign in' do
       it 'sends error' do
         post user_session_path('user[email]': 'fake@email.com',
-                               'user[password]': 'fake123',
-                               authenticity_token: Devise.friendly_token)
+                               'user[password]': 'fake123')
         expect(response).to have_http_status(:bad_request)
       end
     end

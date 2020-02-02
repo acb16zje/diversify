@@ -37,7 +37,7 @@ FactoryBot.define do
     transient do
       no_password { false }
       uid { '1234' }
-      providers { 'test' }
+      providers { ['test'] }
     end
 
     after(:create) do |user, evaluator|
