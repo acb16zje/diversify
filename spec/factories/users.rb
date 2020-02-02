@@ -41,13 +41,11 @@ FactoryBot.define do
     end
 
     after(:create) do |user, evaluator|
-      if evaluator.no_password 
-        user.encrypted_password = '' 
+      if evaluator.no_password
+        user.encrypted_password = ''
         user.skip_password_validation = true
       end
-    # end
 
-    # after(:save) do |user, evaluator|
       evaluator.providers.each do |provider|
         identity_attrs = {
           provider: provider,

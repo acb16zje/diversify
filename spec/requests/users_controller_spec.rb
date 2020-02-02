@@ -26,13 +26,13 @@ describe UsersController, type: :request do
       }
     end
 
-    context 'when logged in' do
+    context 'when signed in' do
       before { sign_in user }
 
       it_behaves_like 'shows user profile'
     end
 
-    context 'when logged out' do
+    context 'when signed out' do
       it_behaves_like 'shows user profile'
     end
 
@@ -46,20 +46,18 @@ describe UsersController, type: :request do
   end
 
   describe 'GET #settings' do
-    context 'when logged in' do
-      before do
-        sign_in user
-      end
+    context 'when signed in' do
+      before { sign_in user }
 
-      it 'renders settings template' do
+      it 'shows user settings page' do
         get settings_users_path
 
         expect(response).to have_http_status(:ok)
       end
     end
 
-    context 'when logged out' do
-      it 'redirects me to login page' do
+    context 'when signed out' do
+      it 'redirects to sign in page' do
         get settings_users_path
 
         expect(response).to redirect_to new_user_session_path
@@ -71,31 +69,24 @@ describe UsersController, type: :request do
     SOCIAL_ACCOUNTS.each do |social|
       context "with valid #{social} account and no password" do
         let(:omni_user) do
-          create(:omniauth_user,
-                 providers: [social], no_password: true)
+          create(:omniauth_user, providers: [social], no_password: true)
         end
 
-        before do
-          sign_in omni_user
-        end
+        before { sign_in omni_user }
 
         it {
-          delete disconnect_omniauth_users_path,
-               params: { provider: social }
-               expect(response).to have_http_status(:bad_request)
+          delete disconnect_omniauth_users_path, params: { provider: social }
+          expect(response).to have_http_status(:bad_request)
         }
       end
 
       context "with valid #{social} account and password" do
         let(:omni_user) { create(:omniauth_user, providers: [social]) }
 
-        before do
-          sign_in omni_user
-        end
+        before { sign_in omni_user }
 
         it {
-          delete disconnect_omniauth_users_path,
-               params: { provider: social }
+          delete disconnect_omniauth_users_path, params: { provider: social }
           expect(response).to have_http_status(:ok)
         }
       end
@@ -103,29 +94,22 @@ describe UsersController, type: :request do
 
     context 'with multiple valid social accounts' do
       let(:omni_user) {
-        create(:omniauth_user,
-               providers: SOCIAL_ACCOUNTS, no_password: true)
+        create(:omniauth_user, providers: SOCIAL_ACCOUNTS, no_password: true)
       }
 
-      before do
-        sign_in omni_user
-      end
+      before { sign_in omni_user }
 
       it {
-        delete disconnect_omniauth_users_path,
-             params: { provider: 'facebook' }
+        delete disconnect_omniauth_users_path, params: { provider: 'facebook' }
         expect(response).to have_http_status(:ok)
       }
     end
 
     context 'with invalid social account' do
-      before do
-        sign_in user
-      end
+      before { sign_in user }
 
       it {
-        delete disconnect_omniauth_users_path,
-             params: { provider: 'test' }
+        delete disconnect_omniauth_users_path, params: { provider: 'test' }
         expect(response).to have_http_status(:bad_request)
       }
     end
