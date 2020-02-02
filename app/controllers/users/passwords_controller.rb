@@ -15,7 +15,6 @@ class Users::PasswordsController < Devise::PasswordsController
     if successfully_sent?(resource)
       render json: { message: 'Email sent!' }
     else
-      # respond_with(resource)
       render json: { errors: resource.errors.full_messages }, status: :bad_request
     end
   end
