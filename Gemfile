@@ -95,5 +95,4 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'webdrivers'
-  gem 'rails-controller-testing'
 end

@@ -4,6 +4,8 @@
 class UsersController < ApplicationController
   include DeviseHelper
 
+  skip_before_action :authenticate_user!, only: :show
+
   before_action :set_user, only: %i[show edit update]
 
   layout 'devise'

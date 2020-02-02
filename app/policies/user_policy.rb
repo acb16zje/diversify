@@ -8,6 +8,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.id == record.id
+    user && user.id == record.id
   end
 end

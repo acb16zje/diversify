@@ -6,6 +6,7 @@ SimpleCovEnv.start
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
+require 'action_policy/rspec'
 require 'action_policy/rspec/dsl'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in

@@ -4,11 +4,11 @@
 class ApplicationController < ActionController::Base
   # Ahoy gem, used in PagesController only
   skip_before_action :track_ahoy_visit
+
   before_action :authenticate_user!
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery with: :exception
-
-  before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
     update_attrs = %i[password password_confirmation current_password]
@@ -29,10 +29,6 @@ class ApplicationController < ActionController::Base
     # ex.policy #=> policy class, e.g. UserPolicy
     # ex.rule #=> applied rule, e.g. :show?
     render_403
-  end
-
-  rescue_from ActionController::RoutingError do
-    redirect_to root_path
   end
 
   private
