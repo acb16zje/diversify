@@ -33,19 +33,30 @@ FactoryBot.define do
     admin { true }
   end
 
-  factory :omniauth_user do
+  factory :omniauth_user, parent: :user do
     transient do
+      no_password { false }
       uid { '1234' }
-      provider { 'test' }
+      providers { 'test' }
     end
 
     after(:create) do |user, evaluator|
-      identity_attrs = {
-        provider: evaluator.provider,
-        uid: evaluator.uid
-      }
+      if evaluator.no_password 
+        user.encrypted_password = '' 
+        user.skip_password_validation = true
+      end
+    # end
 
-      user.identities << create(:identity, identity_attrs)
+    # after(:save) do |user, evaluator|
+      evaluator.providers.each do |provider|
+        identity_attrs = {
+          provider: provider,
+          uid: evaluator.uid,
+          user: user
+        }
+
+        create(:identity, identity_attrs)
+      end
     end
   end
 
