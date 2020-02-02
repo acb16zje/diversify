@@ -51,7 +51,7 @@ new Vue({
     },
     // eslint-disable-next-line no-unused-vars
     ajaxError({ detail: [response, status, xhr] }) {
-      dangerToast(status);
+      dangerToast(response.message || status);
     },
   },
 });
