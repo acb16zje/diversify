@@ -18,7 +18,6 @@
 
         - if user_signed_in?
           = link_to settings_users_path, class: 'button is-secondary' do
-            %span.icon.iconify.is-medium{ 'data-icon': 'mdi:settings' }
             %span Subscribe in Settings Page
         - else
           = form_with url: subscribe_newsletters_path, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do

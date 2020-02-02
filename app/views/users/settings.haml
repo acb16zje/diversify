@@ -52,10 +52,10 @@
       %h4.title.is-4 Newsletter Preferences
       - if current_user.newsletter_subscribed?
         %p Are you sure? You will miss out the latest news and features!
-        = link_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, data: { confirm: 'Are you sure?' }, method: :post, remote: true, class: 'button is-warning'
+        = button_to 'Unsubscribe Newsletter', self_unsubscribe_newsletters_path, class: 'button is-warning', data: { disable: true }
       - else
         %p Receive the latest news from our company.
-        = link_to 'Subscribe Newsletter', self_subscribe_newsletters_path, class: 'button', method: :post, remote: true
+        = button_to 'Subscribe Newsletter', self_subscribe_newsletters_path, class: 'button', data: { disable: true }
 
   %section.section
     .container.content

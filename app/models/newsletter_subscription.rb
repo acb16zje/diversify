@@ -30,6 +30,10 @@ class NewsletterSubscription < ApplicationRecord
 
   after_commit :send_welcome, on: :create
 
+  def unsubscribe
+    update(subscribed: false)
+  end
+
   private
 
   def send_welcome

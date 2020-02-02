@@ -55,6 +55,6 @@ class NewsletterFeedback < ApplicationRecord
   end
 
   def change_subscribed_to_false
-    newsletter_subscription&.update(subscribed: false)
+    newsletter_subscription&.unsubscribe
   end
 end

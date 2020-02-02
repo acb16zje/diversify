@@ -55,8 +55,7 @@ class User < ApplicationRecord
   end
 
   def newsletter_subscribed?
-    subscription = NewsletterSubscription.find_by(email: email)
-    subscription.present? && subscription.subscribed
+    NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
   protected

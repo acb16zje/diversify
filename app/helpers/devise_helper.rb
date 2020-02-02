@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Helper for
+# Helper for devise authentication
 module DeviseHelper
   PROVIDERS = {
     google_oauth2: {

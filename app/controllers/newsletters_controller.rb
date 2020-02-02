@@ -2,10 +2,14 @@
 
 # Controller for newsletter
 class NewslettersController < ApplicationController
-  layout 'metrics_page'
+
   skip_before_action :authenticate_user!, only: %i[
-    subscribe unsubscribe post_unsubscribe
+    subscribe
+    unsubscribe
+    post_unsubscribe
   ]
+
+  layout 'metrics_page'
 
   def index
     @newsletters = Newsletter.all.decorate
@@ -16,7 +20,7 @@ class NewslettersController < ApplicationController
 
     if newsletter.save
       flash[:toast] = { type: 'success', message: ['Newsletter sent'] }
-      render js: "window.location='#{newsletter_path(newsletter)}'"
+      render js: "window.location = '#{newsletter_path(newsletter)}'"
     else
       render json: { message: 'Send Failed' }, status: :unprocessable_entity
     end
@@ -37,24 +41,22 @@ class NewslettersController < ApplicationController
   end
 
   def subscribe
-    sub_fail_action('No Email') if params[:email].blank?
-
-    email = params[:email]
-
-    sub = prepare_subscription(email)
-    sub.save ? sub_pass_action : sub_fail_action('Subscription Failed')
+    if prepare_subscription(params[:email])
+      render json: { message: 'Thanks for subscribing' }
+    else
+      render json: { message: 'Subscription Failed' },
+             status: :unprocessable_entity
+    end
   end
 
   def self_subscribe
-    email = current_user.email
-    sub_fail_action('No Email') if email.blank?
+    flash[:toast] = if prepare_subscription(current_user.email)
+                      { type: 'success', message: ['Newsletter Subscribed'] }
+                    else
+                      { type: 'error', message: ['Subscription Failed'] }
+                    end
 
-    sub = prepare_subscription(email)
-    if sub.save
-      sub_login_pass_action('Newsletter Subscribed')
-    else
-      sub_fail_action('Subscription Failed')
-    end
+    redirect_to settings_users_path
   end
 
   def unsubscribe
@@ -62,13 +64,14 @@ class NewslettersController < ApplicationController
   end
 
   def self_unsubscribe
-    sub = NewsletterSubscription.find_by(email: current_user.email)
-    sub.update(subscribed: false)
-    if newsletter_subscription.save
-      sub_login_pass_action('Newsletter Unsubscribed')
-    else
-      sub_fail_action('Unsubscription Failed')
-    end
+    flash[:toast] = if NewsletterSubscription.find_by(email: current_user.email)
+                         &.unsubscribe
+                      { type: 'success', message: ['Newsletter Unsubscribed'] }
+                    else
+                      { type: 'error', message: ['Unsubscription Failed'] }
+                    end
+
+    redirect_to settings_users_path
   end
 
   def post_unsubscribe
@@ -87,9 +90,9 @@ class NewslettersController < ApplicationController
   private
 
   def prepare_subscription(email)
-    sub = NewsletterSubscription.where(email: email).first_or_create
+    sub = NewsletterSubscription.where(email: email).first_or_initialize
     sub.subscribed = true
-    sub
+    sub.save
   end
 
   def newsletter_params
@@ -103,18 +106,5 @@ class NewslettersController < ApplicationController
       newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]),
       reasons: p[:reasons]
     }
-  end
-
-  def sub_login_pass_action(message)
-    flash[:toast] = { type: 'success', message: [message] }
-    render js: "window.location='#{settings_users_path}'"
-  end
-
-  def sub_pass_action
-    render json: { message: 'Thanks for subscribing' }
-  end
-
-  def sub_fail_action(message)
-    render json: { message: message }, status: :unprocessable_entity
   end
 end

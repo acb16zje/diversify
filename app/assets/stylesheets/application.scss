@@ -29,12 +29,7 @@ html, body {
   }
 }
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-  color: slategray !important;
-  opacity: 1; /* Firefox */
-}
-
-::-ms-input-placeholder { /* Microsoft Edge */
+::placeholder {
   color: slategray !important;
 }
 
@@ -67,7 +62,6 @@ html, body {
     margin-right: 0.5em !important;
   }
 }
-
 
 /* Navbar */
 #navbar {
