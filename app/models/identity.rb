@@ -13,18 +13,20 @@
 #
 # Indexes
 #
-#  index_identities_on_user_id  (user_id)
+#  index_identities_on_provider_and_uid      (provider,uid) UNIQUE
+#  index_identities_on_provider_and_user_id  (provider,user_id) UNIQUE
+#  index_identities_on_user_id               (user_id)
 #
 
 # Identity model, for OAuth
 class Identity < ApplicationRecord
   belongs_to :user
 
-  def self.find_with_omniauth(auth)
-    find_by(uid: auth['uid'], provider: auth['provider'])
-  end
-
-  def self.create_with_omniauth(auth)
-    create(uid: auth['uid'], provider: auth['provider'])
-  end
+  validates :provider, presence: true
+  validates :uid,
+            presence: true,
+            uniqueness: { scope: :provider, message: 'Account has been taken' }
+  validates :user_id,
+            presence: true,
+            uniqueness: { scope: :provider, message: 'Account has been taken' }
 end

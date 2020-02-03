@@ -11,7 +11,9 @@
 #
 # Indexes
 #
-#  index_identities_on_user_id  (user_id)
+#  index_identities_on_provider_and_uid      (provider,uid) UNIQUE
+#  index_identities_on_provider_and_user_id  (provider,user_id) UNIQUE
+#  index_identities_on_user_id               (user_id)
 #
 
 FactoryBot.define do

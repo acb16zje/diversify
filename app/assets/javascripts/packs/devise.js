@@ -6,11 +6,11 @@ import { dangerToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#app',
+  components: {
+    Toast,
+  },
   data: {
     showNavbar: false,
-  },
-  components: {
-    Toast
   },
   methods: {
     ajaxSuccess(event) {

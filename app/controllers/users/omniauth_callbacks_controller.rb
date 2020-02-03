@@ -2,11 +2,10 @@
 
 # controller for OAuth Devise
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :prepare_auth, only: %i[google_oauth2 twitter facebook]
+  before_action :from_omniauth, only: %i[google_oauth2 twitter facebook]
 
   def google_oauth2
-    prepare_user
-    if save_success?
+    if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
     else
       fail_action
@@ -14,21 +13,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def twitter
-    prepare_user
-    if save_success?
+    if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
     else
-      session['devise.twitter_data'] = @auth.except('extra')
+      session['devise.twitter_data'] = request.env['omniauth.auth']
       fail_action
     end
   end
 
   def facebook
-    prepare_user
-    if save_success?
+    if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
     else
-      session['devise.facebook_data'] = @auth.except('extra')
+      session['devise.facebook_data'] = request.env['omniauth.auth']
       fail_action
     end
   end
@@ -55,32 +52,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
-  def prepare_auth
-    @auth = request.env['omniauth.auth']
-    @identity = Identity.where(provider: @auth['provider'],
-                              uid: @auth['uid']).first_or_create
+  def from_omniauth
+    identity = User.from_omniauth(request.env['omniauth.auth'], current_user)
 
-    if user_signed_in? && !@identity.new_record?
-      flash[:toast] = { type: 'error', message: ['Account has been taken'] }
-      redirect_to settings_users_path
-    end
-  end
+    return @user = identity.user if identity.errors.blank?
 
-  def prepare_user
-    @user =
-      if user_signed_in?
-        current_user
-      else
-        User.where(id: @identity.user_id).first_or_create(
-            email: @auth['info']['email'], name: @auth['info']['name']
-        )
-      end
-    @user.skip_password_validation = true
-    @identity.user = @user if @identity.new_record?
-  end
-
-  def save_success?
-    @user.save && @identity.save
+    flash[:toast] = { type: 'error', message: identity.errors.full_messages }
+    redirect_to settings_users_path
   end
 
   def connect_success_action
@@ -89,7 +67,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def sign_in_success_action
-    sign_in(:user, @user)
+    sign_in @user
     redirect_to after_sign_in_path_for(@user)
   end
 

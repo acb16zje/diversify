@@ -79,4 +79,11 @@ body#auth {
       color: #4267b2;
     }
   }
+
+  form.button_to {
+    .button {
+      border-radius: 0 4px 4px 0;
+      margin-right: 0;
+    }
+  }
 }

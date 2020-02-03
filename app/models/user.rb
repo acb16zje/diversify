@@ -4,17 +4,18 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
-#  admin                  :boolean          default(FALSE)
-#  birthdate              :date
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  name                   :string           default(""), not null
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
+#  id                         :bigint           not null, primary key
+#  admin                      :boolean          default(FALSE)
+#  birthdate                  :date
+#  email                      :string           default(""), not null
+#  encrypted_password         :string           default(""), not null
+#  name                       :string           default(""), not null
+#  password_automatically_set :boolean          default(FALSE), not null
+#  remember_created_at        :datetime
+#  reset_password_sent_at     :datetime
+#  reset_password_token       :string
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 # Indexes
 #
@@ -24,9 +25,6 @@
 
 # User model
 class User < ApplicationRecord
-  # virtual attribute to skip password validation while saving
-  attr_accessor :skip_password_validation
-
   has_many :projects, dependent: :destroy
   has_many :user_personalities, dependent: :destroy
   has_many :personalities, through: :user_personalities
@@ -42,7 +40,6 @@ class User < ApplicationRecord
             presence: true,
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
-  # validates :encrypted_password, presence: true
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -50,19 +47,36 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
 
+  after_commit :disable_password_automatically_set,
+               on: :update,
+               if: :saved_change_to_encrypted_password?
+
+  def self.from_omniauth(auth, current_user)
+    Identity.create(
+      provider: auth.provider,
+      uid: auth.uid,
+      user: current_user || create(
+        email: auth.info.email,
+        name: auth.info.name,
+        password: Devise.friendly_token[0, 20],
+        password_automatically_set: true
+      )
+    )
+  end
+
   def oauth_provider_connected?(provider = nil)
-    Identity.exists?(user: self, provider: provider)
+    identities.where(provider: provider).present?
   end
 
   def newsletter_subscribed?
     NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
-  protected
+  private
 
-  def password_required?
-    return false if skip_password_validation
+  def disable_password_automatically_set
+    return unless password_automatically_set
 
-    super
+    update(password_automatically_set: false)
   end
 end
