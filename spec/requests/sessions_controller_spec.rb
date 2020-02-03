@@ -8,16 +8,23 @@ describe Users::SessionsController, type: :request do
   describe 'POST #sign_in' do
     context 'with valid sign in' do
       it 'sign in and redirect to home page' do
-        post user_session_path('user[email]': user.email,
-                               'user[password]': user.password)
+        post user_session_path,
+             params: { user: { email: user.email, password: user.password } }
         expect(response).to have_http_status(:ok)
       end
     end
 
-    context 'with invalid sign in' do
+    context 'with invalid sign in params' do
       it 'sends error' do
-        post user_session_path('user[email]': 'fake@email.com',
-                               'user[password]': 'fake123')
+        post user_session_path,
+             params: { user: { email: 'fake@email.com', password: 'fake123' } }
+        expect(response).to have_http_status(:bad_request)
+      end
+    end
+
+    context 'with no sign in params' do
+      it 'sends error' do
+        post user_session_path
         expect(response).to have_http_status(:bad_request)
       end
     end

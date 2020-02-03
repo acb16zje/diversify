@@ -45,10 +45,6 @@ bundle install
 
 ### Starting the Development Server
 
--   Option 1:
-    1.  Run `rails s` in a terminal session
-    2.  Run `bin/webpack-dev-server` in a separate terminal session
+1.  Run `rails s` in a terminal session
+2.  Run `bin/webpack-dev-server` in a separate terminal session
 
--   Option 2:
-    1.  Install the [foreman](https://github.com/ddollar/foreman) gem
-    2.  Run `foreman start`
