@@ -13,9 +13,9 @@ class PagesController < ApplicationController
   # Function to track subscriptions
   # should be changed once proper subscription system has been completed
   def newsletter
-    if valid_subscription_type?
-      ahoy.track('Clicked pricing link', type: params[:type])
-    end
+    return unless valid_subscription_type?
+
+    ahoy.track('Clicked pricing link', type: params[:type])
   end
 
   def track_social

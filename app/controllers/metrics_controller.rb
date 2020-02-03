@@ -2,8 +2,9 @@
 
 # Controller for metrics
 class MetricsController < ApplicationController
+  before_action :metric_authorize
   layout 'metrics_page'
-
+  
   def index
     @data = {
       subscribed_count: NewsletterSubscription.subscribed_count,
@@ -18,5 +19,11 @@ class MetricsController < ApplicationController
       browser: Ahoy::Visit.group(:browser).size.chart_json,
       country: Ahoy::Visit.group(:country).size.chart_json
     }.freeze
+  end
+
+  private
+
+  def metric_authorize
+    authorize! current_user, with: MetricPolicy
   end
 end

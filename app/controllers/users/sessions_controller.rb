@@ -11,7 +11,6 @@ class Users::SessionsController < Devise::SessionsController
 
   # POST /resource/sign_in
   def create
-
     self.resource = warden.authenticate(auth_options)
     if resource.nil?
       render json:

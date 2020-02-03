@@ -9,6 +9,7 @@ class NewslettersController < ApplicationController
     post_unsubscribe
   ]
 
+  before_action :authorize!, only: %i[index new create show subscribers]
   layout 'metrics_page'
 
   def index
