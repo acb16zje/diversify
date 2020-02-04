@@ -34,6 +34,12 @@ FactoryBot.define do
     admin { true }
   end
 
+  trait :newsletter do
+    after(:create) do |user, evaluator|
+      create(:newsletter_subscription, email: user.email)
+    end
+  end
+
   factory :omniauth_user, parent: :user do
     password_automatically_set { true }
 

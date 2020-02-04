@@ -14,5 +14,6 @@ FactoryBot.define do
   factory :newsletter, class: Newsletter.name do
     title { 'email subject' }
     content { 'some content of the email' }
+    created_at { Time.current }
   end
 end

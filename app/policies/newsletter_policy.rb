@@ -10,4 +10,15 @@ class NewsletterPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def new?
+    user.admin?
+  end
+
+  def create?
+    user.admin?
+  end
+
+  def subscribers?
+    user.admin?
+  end
 end

@@ -88,7 +88,7 @@ describe Users::RegistrationsController, type: :request do
 
     context 'when OAuth user sets up password' do
       let(:omni_user) {
-        create(:omniauth_user, no_password: true)
+        create(:omniauth_user)
       }
 
       before { sign_in omni_user }

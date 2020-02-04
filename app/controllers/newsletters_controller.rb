@@ -9,15 +9,21 @@ class NewslettersController < ApplicationController
     post_unsubscribe
   ]
 
-  before_action :authorize!, only: %i[index new create show subscribers]
   layout 'metrics_page'
 
   def index
-    @newsletters = Newsletter.all.decorate
+    @newsletters = Newsletter.all
+    authorize! @newsletters
+    @newsletters.decorate
+  end
+
+  def new
+    authorize!
   end
 
   def create
     newsletter = Newsletter.new(newsletter_params)
+    authorize!
 
     if newsletter.save
       flash[:toast] = { type: 'success', message: ['Newsletter sent'] }
@@ -29,6 +35,7 @@ class NewslettersController < ApplicationController
 
   def show
     @newsletter = Newsletter.find(params[:id])
+    authorize! @newsletter
 
     return unless request.xhr?
 
@@ -38,7 +45,9 @@ class NewslettersController < ApplicationController
   end
 
   def subscribers
-    @subscribers = NewsletterSubscription.where(subscribed: true).decorate
+    @subscribers = NewsletterSubscription.where(subscribed: true)
+    authorize!
+    @subscribers.decorate
   end
 
   def subscribe
@@ -89,6 +98,10 @@ class NewslettersController < ApplicationController
   end
 
   private
+
+  def newsletter_authorize
+    authorize! current_user, with: NewsletterPolicy
+  end
 
   def prepare_subscription(email)
     sub = NewsletterSubscription.where(email: email).first_or_initialize
