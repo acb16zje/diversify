@@ -2,7 +2,7 @@
 
 # controller for OAuth Devise
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :from_omniauth, only: %i[google_oauth2 twitter facebook]
+  before_action :handle_omniauth, only: %i[google_oauth2 twitter facebook]
 
   def google_oauth2
     if @user.persisted?
@@ -52,13 +52,31 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   private
 
-  def from_omniauth
-    identity = User.from_omniauth(request.env['omniauth.auth'], current_user)
+  def handle_omniauth
+    user_signed_in? ? connect_flow : sign_in_flow
+  end
 
-    return @user = identity.user if identity.errors.blank?
+  def sign_in_flow
+    identity = User.sign_in_omniauth(request.env['omniauth.auth'])
 
-    flash[:toast] = { type: 'error', message: identity.errors.full_messages }
-    redirect_to settings_users_path
+    errors = identity.errors.full_messages + identity.user.errors.full_messages
+
+    if errors.blank?
+      @user = identity.user
+    else
+      flash[:toast] = { type: 'error', message: errors }
+    end
+  end
+
+  def connect_flow
+    identity = User.connect_omniauth(request.env['omniauth.auth'], current_user)
+
+    if identity.errors.blank?
+      @user = identity.user
+    else
+      flash[:toast] = { type: 'error', message: identity.errors.full_messages }
+      redirect_to settings_users_path
+    end
   end
 
   def connect_success_action
@@ -72,7 +90,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def fail_action
-    flash[:toast] = { type: 'error', message: @user.errors.full_messages }
     redirect_to new_user_registration_url
   end
 end
