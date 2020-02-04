@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe MetricsController, type: :request do
   let(:user) { create(:user) }
+  let(:admin) { create(:admin) }
 
   describe '#index' do
     context 'when not signed in' do
@@ -13,8 +14,17 @@ describe MetricsController, type: :request do
       }
     end
 
-    context 'when signed in' do
+    context 'when signed in as user' do
       before { sign_in user }
+
+      it {
+        get metrics_path
+        expect(response).to have_http_status(:forbidden)
+      }
+    end
+
+    context 'when signed in as admin' do
+      before { sign_in admin }
 
       it {
         get metrics_path
@@ -31,8 +41,17 @@ describe MetricsController, type: :request do
       }
     end
 
-    context 'when signed in' do
+    context 'when signed in as user' do
       before { sign_in user }
+
+      it {
+        get traffic_metrics_path
+        expect(response).to have_http_status(:forbidden)
+      }
+    end
+
+    context 'when signed in as admin' do
+      before { sign_in admin }
 
       it {
         get traffic_metrics_path

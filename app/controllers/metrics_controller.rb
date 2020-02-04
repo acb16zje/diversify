@@ -4,7 +4,7 @@
 class MetricsController < ApplicationController
   before_action :metric_authorize
   layout 'metrics_page'
-  
+
   def index
     @data = {
       subscribed_count: NewsletterSubscription.subscribed_count,

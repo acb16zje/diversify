@@ -30,10 +30,6 @@ FactoryBot.define do
     name { generate(:name) }
   end
 
-  trait :admin do
-    admin { true }
-  end
-
   trait :newsletter do
     after(:create) do |user, evaluator|
       create(:newsletter_subscription, email: user.email)
@@ -65,5 +61,7 @@ FactoryBot.define do
     end
   end
 
-  factory :admin, traits: [:admin]
+  factory :admin, parent: :user do
+    admin { true }
+  end
 end
