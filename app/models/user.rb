@@ -52,22 +52,14 @@ class User < ApplicationRecord
                if: :saved_change_to_encrypted_password?
 
   def self.sign_in_omniauth(auth)
-    identity = Identity.first_or_initialize(
-      provider: auth.provider,
-      uid: auth.uid
-    )
-
-    if identity.new_record?
-      identity.user = create(
+    Identity.where(provider: auth.provider, uid: auth.uid).first_or_create(
+      user: create(
         email: auth.info.email,
         name: auth.info.name,
         password: Devise.friendly_token[0, 20],
         password_automatically_set: true
       )
-      identity.save
-    end
-
-    identity
+    )
   end
 
   def self.connect_omniauth(auth, current_user)
