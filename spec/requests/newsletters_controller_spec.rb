@@ -1,51 +1,52 @@
-
 # frozen_string_literal: true
 
 require 'rails_helper'
 
-describe NewslettersController do
+describe NewslettersController, type: :request do
   let(:user) { create(:user) }
-  let(:admin) { create(:user, :admin) }
+  let(:admin) { create(:admin) }
+  let(:newsletter_user) { create(:user, :newsletter) }
   let(:newsletter) { create(:newsletter) }
-  let(:sub_user) { create(:user, :newsletter)}
 
   describe 'authorizations' do
     before { sign_in admin }
 
-    it 'checks authorization to #index' do
-      expect { get newsletters_path }.to be_authorized_to(
-        :index?, Newsletter.all
-      )
+    describe '#index' do
+      subject(:request) { get newsletters_path }
+
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter.all) }
     end
 
-    it 'checks authorization to #new' do
-      expect { get new_newsletter_path }.to be_authorized_to(
-        :new?, Newsletter
-      )
+    describe '#new' do
+      subject(:request) { get new_newsletter_path }
+
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
 
-    it 'check authorization to #show' do
-      expect { get newsletter_path(id: newsletter.id) }.to be_authorized_to(
-        :manage?, newsletter
-      )
+    describe '#show' do
+      subject(:request) { get newsletter_path(newsletter) }
+
+      it { expect { request }.to be_authorized_to(:manage?, newsletter) }
     end
 
-    it 'check authorization to #create' do
-      expect { post newsletters_path(
-        authenticity_token: Devise.friendly_token,
-        newsletter: {
-          title: newsletter.title,
-          content: newsletter.content
-        }
-      ) }.to be_authorized_to(
-        :create?, Newsletter
-      )
+    describe '#create' do
+      subject(:request) do
+        post newsletters_path,
+             params: {
+               newsletter: {
+                 title: newsletter.title,
+                 content: newsletter.content
+               }
+             }
+      end
+
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
 
-    it 'checks authorization to #subscribers' do
-      expect { get subscribers_newsletters_path }.to be_authorized_to(
-        :subscribers?, Newsletter
-      )
+    describe '#subscribers' do
+      subject(:request) { get subscribers_newsletters_path }
+
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
   end
 
@@ -144,26 +145,20 @@ describe NewslettersController do
 
     context 'with valid inputs' do
       it {
-        post newsletters_path(
-          authenticity_token: Devise.friendly_token,
-          newsletter: {
-            title: newsletter.title,
-            content: newsletter.content
-          }
-        )
+        post newsletters_path,
+             params: {
+               newsletter: {
+                 title: newsletter.title, content: newsletter.content
+               }
+             }
         expect(response).to have_http_status(:ok)
       }
     end
 
     context 'with invalid inputs' do
       it {
-        post newsletters_path(
-          authenticity_token: Devise.friendly_token,
-          newsletter: {
-            title: '',
-            content: newsletter.content
-          }
-        )
+        post newsletters_path,
+             params: { newsletter: { title: '', content: newsletter.content } }
         expect(response).to have_http_status(:unprocessable_entity)
       }
     end
@@ -249,18 +244,14 @@ describe NewslettersController do
   end
 
   describe 'GET #unsubscribe' do
-    context 'should allow access' do
-      before { get unsubscribe_newsletters_path }
+    before { get unsubscribe_newsletters_path }
 
-      it_behaves_like 'allows access'
-    end
+    it_behaves_like 'allows access'
   end
 
   describe 'POST #self_unsubscribe' do
     context 'when logged in' do
-      before {
-        sign_in sub_user
-      }
+      before { sign_in newsletter_user }
 
       it {
         post self_unsubscribe_newsletters_path
@@ -280,39 +271,39 @@ describe NewslettersController do
   describe 'POST #post_unsubscribe' do
     context 'with valid input' do
       it {
-        post unsubscribe_newsletters_path(
-          authenticity_token: Devise.friendly_token,
-          newsletter_unsubscription: {
-            email: sub_user.email,
-            reasons: ['no_longer']
-          }
-        )
+        post unsubscribe_newsletters_path,
+             params: {
+               newsletter_unsubscription: {
+                 email: newsletter_user.email,
+                 reasons: ['no_longer']
+               }
+             }
         expect(response).to have_http_status(:ok)
       }
     end
 
     context 'with invalid input' do
       it {
-        post unsubscribe_newsletters_path(
-          authenticity_token: Devise.friendly_token,
-          newsletter_unsubscription: {
-            email: sub_user.email,
-            reasons: ['invalid']
-          }
-        )
+        post unsubscribe_newsletters_path,
+             params: {
+               newsletter_unsubscription: {
+                 email: newsletter_user.email,
+                 reasons: ['invalid']
+               }
+             }
         expect(response).to have_http_status(:unprocessable_entity)
       }
     end
 
     context 'with not subscribed email' do
       it {
-        post unsubscribe_newsletters_path(
-          authenticity_token: Devise.friendly_token,
-          newsletter_unsubscription: {
-            email: 'randon@email.com',
-            reasons: ['no_longer']
-          }
-        )
+        post unsubscribe_newsletters_path,
+             params: {
+               newsletter_unsubscription: {
+                 email: 'randon@email.com',
+                 reasons: ['no_longer']
+               }
+             }
         expect(response).to have_http_status(:ok)
       }
     end
