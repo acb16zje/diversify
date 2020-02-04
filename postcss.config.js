@@ -8,8 +8,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     './app/**/*.vue',
   ],
   defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
-  whitelist: ['img', 'has-addons', 'is-expanded'],
-  whitelistPatterns: [/mdi/],
+  whitelist: ['::placeholder', 'disabled', 'img', 'has-addons', 'is-expanded'],
   whitelistPatternsChildren: [
     /modal/, /dropdown/, /pagination/, /level/, /trix/,
   ],
