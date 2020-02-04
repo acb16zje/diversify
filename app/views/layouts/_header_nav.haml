@@ -13,6 +13,8 @@
           = nav_link_to 'Profile', path: user_path(current_user), class: 'navbar-item'
           = nav_link_to 'Your Projects', path: root_path, class: 'navbar-item'
           = nav_link_to 'Browse Projects', path: root_path, class: 'navbar-item'
+          -if allowed_to?(:manage?, Newsletter)
+            = nav_link_to 'Newsletter Dashboard', path: newsletters_path, class: 'navbar-item'
         - else
           = nav_link_to 'Pricing', path: pricing_pages_path, class: 'navbar-item'
           = nav_link_to 'About', path: about_pages_path, class: 'navbar-item'

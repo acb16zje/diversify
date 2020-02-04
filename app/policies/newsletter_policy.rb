@@ -2,23 +2,10 @@
 
 # Policy for Newsletter controller
 class NewsletterPolicy < ApplicationPolicy
+  default_rule :manage?
+
+  alias_rule :index?, :create?, :new?, to: :manage?
   def manage?
-    user.admin?
-  end
-
-  def index?
-    user.admin?
-  end
-
-  def new?
-    user.admin?
-  end
-
-  def create?
-    user.admin?
-  end
-
-  def subscribers?
     user.admin?
   end
 end
