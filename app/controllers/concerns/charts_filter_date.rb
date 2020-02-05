@@ -38,7 +38,7 @@ module ChartsFilterDate
 
     case action_name
     when 'landing_page_feedback', 'newsletter_subscription_by_date'
-      # Class of ActiveRecord::Relation
+      # Array of ActiveRecord::Relation objects
       @records.map! do |record|
         record.where(column + ' BETWEEN ? AND ?', start_date, end_date)
       end
