@@ -39,9 +39,6 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'whenever'
 
-# Decorators
-gem 'draper'
-
 # HAML
 gem 'hamlit'
 

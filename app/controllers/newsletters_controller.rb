@@ -12,9 +12,8 @@ class NewslettersController < ApplicationController
   layout 'metrics_page'
 
   def index
-    @newsletters = Newsletter.all
+    @newsletters = Newsletter.select(:title, :created_at)
     authorize! @newsletters
-    @newsletters.decorate
   end
 
   def new
@@ -47,7 +46,6 @@ class NewslettersController < ApplicationController
   def subscribers
     @subscribers = NewsletterSubscription.where(subscribed: true)
     authorize!
-    @subscribers.decorate
   end
 
   def subscribe

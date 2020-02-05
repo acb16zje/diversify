@@ -44,7 +44,7 @@ GIT
 
 GIT
   remote: https://github.com/rspec/rspec-rails.git
-  revision: bd54ec4f9c63d9e36dbb3196a59b0908561e287d
+  revision: e69be80f2d99b75fe5f9dffd3b8652d17f0c5ee1
   specs:
     rspec-rails (4.0.0.pre)
       actionpack (>= 4.2)
@@ -107,10 +107,6 @@ GEM
       globalid (>= 0.3.6)
     activemodel (6.0.2.1)
       activesupport (= 6.0.2.1)
-    activemodel-serializers-xml (1.0.2)
-      activemodel (> 5.x)
-      activesupport (> 5.x)
-      builder (~> 3.1)
     activerecord (6.0.2.1)
       activemodel (= 6.0.2.1)
       activesupport (= 6.0.2.1)
@@ -200,12 +196,6 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.3)
     docile (1.3.2)
-    draper (3.1.0)
-      actionpack (>= 5.0)
-      activemodel (>= 5.0)
-      activemodel-serializers-xml (>= 1.0)
-      activesupport (>= 5.0)
-      request_store (>= 1.0)
     epi_deploy (2.0.11)
       git (~> 1.5)
       slop (~> 3.6)
@@ -230,7 +220,7 @@ GEM
     haml (5.1.2)
       temple (>= 0.8.0)
       tilt
-    haml_lint (0.34.1)
+    haml_lint (0.34.2)
       haml (>= 4.0, < 5.2)
       rainbow
       rubocop (>= 0.50.0)
@@ -264,7 +254,7 @@ GEM
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
     minitest (5.14.0)
-    msgpack (1.3.2)
+    msgpack (1.3.3)
     multi_json (1.14.1)
     multi_xml (0.6.0)
     multipart-post (2.1.1)
@@ -353,8 +343,6 @@ GEM
       ffi (~> 1.0)
     rchardet (1.8.0)
     regexp_parser (1.6.0)
-    request_store (1.5.0)
-      rack (>= 1.4)
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -442,7 +430,6 @@ DEPENDENCIES
   delayed_job
   delayed_job_active_record
   devise
-  draper
   epi_deploy!
   eventmachine
   factory_bot_rails

@@ -71,9 +71,6 @@ setup-test-env:
     when: always # Always extract the artifact, even if not all tests passed.
     expire_in: 1d
 
-spec:decorators:
-  extends: .rspec
-
 spec:mailers:
   extends: .rspec
 

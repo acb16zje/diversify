@@ -30,6 +30,10 @@ class NewsletterSubscription < ApplicationRecord
 
   after_commit :send_welcome, on: :create
 
+  def created_at
+    super.strftime('%e %B %Y')
+  end
+
   def unsubscribe
     update(subscribed: false)
   end
