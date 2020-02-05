@@ -7,26 +7,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google_oauth2
     if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
-    else
-      fail_action
     end
   end
 
   def twitter
     if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
-    else
-      session['devise.twitter_data'] = request.env['omniauth.auth']
-      fail_action
     end
   end
 
   def facebook
     if @user.persisted?
       user_signed_in? ? connect_success_action : sign_in_success_action
-    else
-      session['devise.facebook_data'] = request.env['omniauth.auth']
-      fail_action
     end
   end
 
@@ -65,12 +57,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = identity.user
     else
       flash[:toast] = { type: 'error', message: errors }
+      redirect_to new_user_registration_url
     end
   end
 
   def connect_flow
     identity = User.connect_omniauth(request.env['omniauth.auth'], current_user)
-
     if identity.errors.blank?
       @user = identity.user
     else
@@ -87,9 +79,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def sign_in_success_action
     sign_in @user
     redirect_to after_sign_in_path_for(@user)
-  end
-
-  def fail_action
-    redirect_to new_user_registration_url
   end
 end

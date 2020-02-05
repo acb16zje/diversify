@@ -406,6 +406,7 @@ GEM
     unicode-display_width (1.6.1)
     warden (1.2.8)
       rack (>= 2.0.6)
+    warden-rspec-rails (0.2.0)
     webdrivers (4.2.0)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
@@ -473,6 +474,7 @@ DEPENDENCIES
   rubocop-rspec
   shoulda-matchers
   simplecov
+  warden-rspec-rails
   webdrivers
   webpacker!
   whenever

@@ -26,7 +26,8 @@ describe Users::PasswordsController, type: :request do
   end
 
   describe 'PUT #update' do
-    let (:generate_token) { Devise.token_generator.generate(User, :reset_password_token)}
+    let(:generate_token) { 
+      Devise.token_generator.generate(User, :reset_password_token) }
     
     before do
       @raw, hashed = generate_token
