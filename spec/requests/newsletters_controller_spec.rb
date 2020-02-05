@@ -8,13 +8,13 @@ describe NewslettersController, type: :request do
   let(:newsletter_user) { create(:user, :newsletter) }
   let(:newsletter) { create(:newsletter) }
 
-  describe 'authorizations' do
+  describe 'authorisations' do
     before { sign_in admin }
 
     describe '#index' do
       subject(:request) { get newsletters_path }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter.all) }
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
 
     describe '#new' do
@@ -26,7 +26,7 @@ describe NewslettersController, type: :request do
     describe '#show' do
       subject(:request) { get newsletter_path(newsletter) }
 
-      it { expect { request }.to be_authorized_to(:manage?, newsletter) }
+      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
 
     describe '#create' do

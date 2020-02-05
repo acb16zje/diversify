@@ -1,30 +1,44 @@
 <template>
-  <DataTable
+  <b-table
     :data="JSON.parse(originalData)"
-    :row-class="'pointer'"
+    :paginated="true"
+    :hoverable="true"
+    :per-page="10"
+    :row-class="() => 'pointer'"
     :default-sort="['created_at', 'desc']"
-    @row-clicked="rowClicked"
+    @click="rowClicked"
   >
-    <template v-slot:columns="slotProps">
+    <template v-slot="props">
       <b-table-column field="title" label="Title" sortable searchable>
-        {{ slotProps.row.title }}
+        {{ props.row.title }}
       </b-table-column>
 
       <b-table-column field="created_at" label="Date" sortable searchable>
-        {{ slotProps.row.created_at }}
+        {{
+          new Date(props.row.created_at).toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          })
+        }}
       </b-table-column>
     </template>
-  </DataTable>
+
+    <template v-slot:empty>
+      <div class="content has-text-grey has-text-centered">
+        <p>No data</p>
+      </div>
+    </template>
+  </b-table>
 </template>
 
 <script>
-import DataTable from './DataTable.vue';
 import Modal from './Modal.vue';
 
 export default {
-  components: {
-    DataTable,
-  },
   props: {
     originalData: {
       type: String,
@@ -32,6 +46,16 @@ export default {
     },
   },
   methods: {
+    formatDate(dateString) {
+      return new Date(dateString).toLocaleString('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      });
+    },
     rowClicked(row) {
       this.$buefy.modal.open({
         parent: this,

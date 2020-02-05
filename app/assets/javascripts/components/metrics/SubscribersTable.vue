@@ -1,34 +1,45 @@
 <template>
-  <DataTable :data="data">
-    <template v-slot:columns="slotProps">
+  <b-table
+    :data="data"
+    :paginated="true"
+    :hoverable="true"
+    :per-page="10"
+  >
+    <template v-slot="props">
       <b-table-column field="email" label="Email" sortable searchable>
-        {{ slotProps.row.email }}
+        {{ props.row.email }}
       </b-table-column>
 
       <b-table-column field="created_at" label="Date Subscribed" sortable searchable>
-        {{ slotProps.row.created_at }}
+        {{
+          new Date(props.row.created_at).toLocaleString('en-GB', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+          })
+        }}
       </b-table-column>
 
       <b-table-column label="Action" centered>
-        <a data-confirm="Are you sure?" data-remote data-method="post"
-           :href="'/newsletters/unsubscribe?newsletter_unsubscription[reasons][]=admin&newsletter_unsubscription[email]=' + slotProps.row.email"
-           @ajax:success="unsubscribeSuccess(slotProps.row)"
-        >
+        <a data-confirm="Are you sure?" @click="unsubscribeUser(props.row)">
           Unsubscribe
         </a>
       </b-table-column>
     </template>
-  </DataTable>
+
+    <template v-slot:empty>
+      <div class="content has-text-grey has-text-centered">
+        <p>No data</p>
+      </div>
+    </template>
+  </b-table>
 </template>
 
 <script>
+import Rails from '@rails/ujs';
 import { successToast } from '../buefy/toast';
-import DataTable from './DataTable.vue';
 
 export default {
-  components: {
-    DataTable,
-  },
   props: {
     originalData: {
       type: String,
@@ -41,9 +52,19 @@ export default {
     };
   },
   methods: {
-    unsubscribeSuccess(row) {
-      successToast('Email unsubscribed');
-      this.data = this.data.filter((x) => x !== row);
+    unsubscribeUser(row) {
+      Rails.ajax({
+        url: '/newsletters/unsubscribe',
+        type: 'POST',
+        data: new URLSearchParams({
+          'newsletter_unsubscription[reasons][]': 'admin',
+          'newsletter_unsubscription[email]': row.email,
+        }),
+        success: () => {
+          successToast('Email unsubscribed');
+          this.data = this.data.filter((x) => x !== row);
+        },
+      });
     },
   },
 };

@@ -35,7 +35,9 @@ class ApplicationController < ActionController::Base
 
   def render_403
     respond_to do |format|
-      format.html { render 'errors/error_403', status: :forbidden }
+      format.html {
+        render 'errors/error_403', layout: 'errors', status: :forbidden
+      }
       format.any { head :forbidden }
     end
   end

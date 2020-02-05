@@ -30,10 +30,6 @@ class Newsletter < ApplicationRecord
 
   after_commit :send_newsletter, on: :create
 
-  def created_at
-    super.strftime('%e %B %Y, %l:%M %P')
-  end
-
   private
 
   def send_newsletter

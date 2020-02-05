@@ -4,7 +4,7 @@
 class NewsletterPolicy < ApplicationPolicy
   default_rule :manage?
 
-  alias_rule :index?, :create?, :new?, :subscribers?, to: :manage?
+  alias_rule :index?, :create?, :new?, to: :manage?
   def manage?
     user.admin?
   end
