@@ -17,16 +17,24 @@ module ChartsFilterDate
 
   private
 
-  def date_params_present?
-    chart_params[:date].present?
+  def date_params
+    chart_params[:date].split(',')
+  end
+
+  def start_date
+    Time.zone.parse(date_params[0]).beginning_of_day
+  rescue StandardError
+    raise ActionController::BadRequest
+  end
+
+  def end_date
+    Time.zone.parse(date_params[1]).end_of_day
+  rescue StandardError
+    raise ActionController::BadRequest
   end
 
   def filter_date(column)
-    return unless date_params_present?
-
-    date_params = chart_params[:date].split(',')
-    start_date = Time.zone.parse(date_params[0]).beginning_of_day
-    end_date = Time.zone.parse(date_params[1]).end_of_day
+    return if chart_params[:date].blank?
 
     case action_name
     when 'landing_page_feedback', 'newsletter_subscription_by_date'

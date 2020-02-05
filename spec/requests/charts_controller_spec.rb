@@ -13,7 +13,6 @@ CHART_ROUTES = %w[
   average_time_spent_per_page
   number_of_visits_per_page
   newsletter_subscription_by_date
-  unsubscription_by_newsletter
   unsubscription_reason
 ].freeze
 
@@ -32,10 +31,22 @@ describe ChartsController, type: :request do
       context 'when signed in' do
         before { sign_in user }
 
-        it {
-          get "/charts/#{route}", params: { chart: { date: [] } }
+        specify 'no date selected' do
+          get "/charts/#{route}", params: { chart: { date: '' } }
           expect(response.content_type).to include('application/json')
-        }
+        end
+
+        specify 'invalid single date selected' do
+          expect {
+            get "/charts/#{route}", params: { chart: { date: 'invalid date' } }
+          }.to raise_error(ActionController::BadRequest)
+        end
+
+        specify 'range of dates selected' do
+          get "/charts/#{route}",
+              params: { chart: { date: "#{Date.yesterday}, #{Date.tomorrow}" } }
+          expect(response.content_type).to include('application/json')
+        end
       end
     end
   end
@@ -54,11 +65,25 @@ describe ChartsController, type: :request do
         sign_in user
       end
 
-      it {
-        get '/charts/unsubscription_by_newsletter', params: { chart: { date: [] } }
+      specify 'no date selected' do
+        get '/charts/unsubscription_by_newsletter',
+            params: { chart: { date: '' } }
         expect(response.body)
           .to eq("[[\"#{newsletter.title}, #{newsletter.created_at.utc.strftime('%d-%m-%Y')}\",1]]")
-      }
+      end
+
+      specify 'single date selected' do
+        expect {
+          get '/charts/unsubscription_by_newsletter',
+              params: { chart: { date: "#{Date.today}" } }
+        }.to raise_error(ActionController::BadRequest)
+      end
+
+      specify 'range of dates selected' do
+        get '/charts/unsubscription_by_newsletter',
+            params: { chart: { date: "#{Date.yesterday}, #{Date.yesterday}" } }
+        expect(response.body).to include('[]')
+      end
     end
   end
 end
