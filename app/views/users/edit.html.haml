@@ -9,7 +9,7 @@
       .columns.is-vcentered
         .column.is-one-third-desktop
           %figure.image.is-128x128.container#profile-pic
-            =image_tag user_avatar(@user), class: 'is-rounded'
+            = image_tag user_avatar(@user), class: 'is-rounded'
         .column
           .file.has-name
             %label.file-label
@@ -22,11 +22,15 @@
               %span.file-name
                 - if @user.avatar.attached?
                   = @user.avatar.blob.filename
-
       .field
         %label.label Name
         .control
           = f.text_field :name, class: 'input'
+      .field
+        %label.label Birthdate
+        .control
+          - current_date = @user.birthdate? ? @user.birthdate : Date.current
+          %datepicker{ 'current': current_date, 'name': 'user[birthdate]', '@set-date': 'setDate' }
       .actions
         = f.submit 'Update Profile', class: 'button is-info'
 

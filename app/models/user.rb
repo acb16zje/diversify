@@ -43,6 +43,7 @@ class User < ApplicationRecord
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+  validate :valid_birthdate?, on: :update
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -84,4 +85,12 @@ class User < ApplicationRecord
 
     update(password_automatically_set: false)
   end
+
+  def valid_birthdate?
+    if birthdate.present? &&
+      ((Time.zone.now - birthdate.to_time) / 1.year.seconds).floor < 6
+      errors.add(:birthdate, 'is not valid')
+    end
+  end
+
 end

@@ -1,0 +1,26 @@
+- content_for :head do
+  = stylesheet_packs_with_chunks_tag 'devise'
+  = javascript_packs_with_chunks_tag 'settings', defer: ''
+
+- content_for :specific_yield do
+  %section.section
+    .container
+      .columns
+        .column.is-3
+          %aside.menu
+            %p.menu-label
+              General
+            %ul.menu-list
+              %li
+                = nav_link_to 'Settings', path: settings_users_path
+              %li
+                = nav_link_to 'Profile', path: edit_user_path(current_user)
+              %li
+                = nav_link_to 'Skills', path: ''
+        .column.is-9
+          #app
+            = yield
+
+= render template: 'layouts/application'
+
+
