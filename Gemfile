@@ -24,11 +24,11 @@ gem 'pg'
 
 gem 'activerecord-session_store'
 
-#Active Storage libraries
+# Active Storage libraries
 gem 'image_processing'
 gem 'active_storage_validations'
 
-#Avatar
+# Avatar
 gem 'gravatar_image_tag'
 
 # Authentication libraries
@@ -89,7 +89,6 @@ group :development do
   gem 'rubocop-rspec', require: false
 
   gem 'annotate'
-  gem 'eventmachine'
   gem 'letter_opener'
 end
 

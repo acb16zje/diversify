@@ -6,6 +6,19 @@ describe MetricsController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 
+  describe 'authorisations' do
+    before { sign_in admin }
+
+    it {
+      expect { get metrics_path }
+        .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+    }
+    it {
+      expect { get traffic_metrics_path }
+        .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+    }
+  end
+
   describe '#index' do
     context 'when not signed in' do
       it {

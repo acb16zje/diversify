@@ -3,6 +3,7 @@
 # Controller for metrics
 class MetricsController < ApplicationController
   before_action :metric_authorize
+
   layout 'metrics_page'
 
   def index
