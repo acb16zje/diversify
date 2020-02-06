@@ -244,9 +244,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    listen (3.2.1)
-      rb-fsevent (~> 0.10, >= 0.10.3)
-      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.4.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -344,9 +341,6 @@ GEM
       thor (>= 0.20.3, < 2.0)
     rainbow (3.0.0)
     rake (13.0.1)
-    rb-fsevent (0.10.3)
-    rb-inotify (0.10.1)
-      ffi (~> 1.0)
     rchardet (1.8.0)
     regexp_parser (1.6.0)
     responders (3.0.0)
@@ -448,7 +442,6 @@ DEPENDENCIES
   hamlit
   image_processing
   letter_opener
-  listen
   omniauth-facebook
   omniauth-google-oauth2
   omniauth-twitter

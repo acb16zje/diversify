@@ -73,8 +73,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'listen'
-
   gem 'capistrano'
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
