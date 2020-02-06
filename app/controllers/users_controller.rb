@@ -18,9 +18,9 @@ class UsersController < ApplicationController
   def update
     if @user.update(user_params)
       flash[:toast] = { type: 'success', message: ['Profile Updated'] }
-      redirect_to edit_user_path(@user.id)
+      render js: "window.location = '#{user_path(@user)}'"
     else
-      render :edit
+      render json: { errors: ['Update Failed'] }, status: :bad_request
     end
   end
 
