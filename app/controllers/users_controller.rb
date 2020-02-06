@@ -3,6 +3,7 @@
 # Controller for profile and settings
 class UsersController < ApplicationController
   include DeviseHelper
+  include AvatarHelper
 
   skip_before_action :authenticate_user!, only: :show
 
@@ -14,7 +15,14 @@ class UsersController < ApplicationController
 
   def edit; end
 
-  def update; end
+  def update
+    if @user.update(user_params)
+      flash[:toast] = { type: 'success', message: ['Profile Updated'] }
+      redirect_to edit_user_path(@user.id)
+    else
+      render :edit
+    end
+  end
 
   def settings; end
 
@@ -38,6 +46,10 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def user_params
+    params.require(:user).permit(:name,:avatar)
+  end
 
   def set_user
     @user = User.find(params[:id])

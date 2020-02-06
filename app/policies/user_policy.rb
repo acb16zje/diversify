@@ -10,4 +10,8 @@ class UserPolicy < ApplicationPolicy
   def edit?
     user && user.id == record.id
   end
+
+  def update?
+    user && user.id == record.id
+  end
 end

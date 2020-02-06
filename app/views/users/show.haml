@@ -11,7 +11,7 @@
     .columns.is-vcentered
       .column.is-one-fifth
         %figure.image.is-128x128
-          = image_tag 'avatar/large/ade.jpg', class: 'is-rounded'
+          = image_tag user_avatar(@user), class: 'is-rounded'
       .column.is-four-fifths
         %h1.is-size-3 Name: #{@user.name}
         %h1.is-size-3 Email: #{@user.email}

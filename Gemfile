@@ -23,6 +23,10 @@ gem 'responders'
 gem 'pg'
 
 gem 'activerecord-session_store'
+gem 'image_processing'
+
+#Avatar
+gem 'gravatar_image_tag'
 
 # Authentication libraries
 gem 'devise'

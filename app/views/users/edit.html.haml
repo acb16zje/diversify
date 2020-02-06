@@ -1,11 +1,29 @@
 - content_for :title, 'Edit Profile'
 
-%section.section
+%section.section#edit-profile
   .container
     %h1.title.is-1 Edit Profile
-    = form_with model: @user, url: edit_user_path(@user), html: { '@ajax:error': 'ajaxError' } do |f|
+    = form_with model: @user, url: user_path(@user), method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
+      .columns.is-vcentered
+        .column.is-one-third-desktop
+          %figure.image.is-128x128.container#profile-pic
+            =image_tag user_avatar(@user), class: 'is-rounded'
+        .column
+          .file.has-name
+            %label.file-label
+              = f.file_field :avatar, class: 'file-input'
+              %span.file-cta
+                %span.file-icon
+                  %i.fas.fa-upload
+                %span.file-label
+                  Choose an image…
+              %span.file-name
+                = @user.avatar.blob.filename
+
       .field
+        %label.label Name
         .control
           = f.text_field :name, class: 'input'
-      .field
-        .control
+      .actions
+        = f.submit 'Update Profile', class: 'button is-info'
+
