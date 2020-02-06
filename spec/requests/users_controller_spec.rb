@@ -9,7 +9,8 @@ describe UsersController, type: :request do
     before { sign_in user }
 
     it { expect { get user_path(user) }.to be_authorized_to(:show?, user) }
-    it { expect { get edit_user_path(user) }.to be_authorized_to(:edit?, user) }
+    it { expect { get edit_user_path(user) }.to be_authorized_to(:manage?, user) }
+    it { expect { patch user_path(user) }.to be_authorized_to(:manage?, user) }
   end
 
   describe 'GET #show' do

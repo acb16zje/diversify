@@ -17,7 +17,7 @@ describe UserPolicy, type: :policy do
     end
   end
 
-  describe_rule :edit? do
+  describe_rule :manage? do
     succeed 'when user is the signed in user' do
       let(:record) { user }
     end

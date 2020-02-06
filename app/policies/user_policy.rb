@@ -7,11 +7,7 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
-  def edit?
-    user && user.id == record.id
-  end
-
-  def update?
+  def manage?
     user && user.id == record.id
   end
 end
