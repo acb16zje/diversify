@@ -8,6 +8,7 @@ module OAuthHelper
     info: {
       email: email,
       name: generate(:name),
+      image: "#{Rails.root}/spec/support/images/ade.jpg"
     }
   })
   end

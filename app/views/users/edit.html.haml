@@ -20,7 +20,8 @@
                 %span.file-label
                   Choose an image…
               %span.file-name
-                = @user.avatar.blob.filename
+                - if @user.avatar.attached?
+                  = @user.avatar.blob.filename
 
       .field
         %label.label Name
