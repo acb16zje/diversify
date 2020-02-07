@@ -31,8 +31,16 @@ FactoryBot.define do
   end
 
   trait :newsletter do
-    after(:create) do |user, evaluator|
+    after(:create) do |user|
       create(:newsletter_subscription, email: user.email)
+    end
+  end
+
+  trait :avatar do
+    after(:build) do |user|
+      user.avatar =
+        fixture_file_upload(
+          Rails.root.join('spec', 'support', 'images', 'ade.jpg'), 'image/jpg')
     end
   end
 

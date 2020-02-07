@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe UsersController, type: :request do
   let(:user) { create(:user) }
+  let!(:admin) { create(:admin) }
 
   describe 'authorisations' do
     before { sign_in user }
@@ -37,6 +38,63 @@ describe UsersController, type: :request do
 
         expect(response).to have_http_status(:not_found)
       end
+    end
+  end
+
+  describe 'GET #edit' do
+    context 'when signed in' do
+      before { sign_in user }
+
+      it 'allows user to edit own profile' do
+        get edit_user_path(user)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'does not allow user to edit other user profile' do
+        get edit_user_path(admin)
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when signed out' do
+      it 'redirects to sign in page' do
+        get edit_user_path(user)
+
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe 'PATCH #update' do
+    before { sign_in user }
+    context 'with valid input' do
+      it {
+        patch user_path(
+          id: user.id,
+          user: {
+            name: user.name,
+            birthdate: '1/1/1970'
+          }
+        )
+
+        expect(response).to have_http_status(:ok)
+      }
+    end
+
+    context 'with invalid input' do
+      it {
+        patch user_path(
+          'id': user.id,
+          user: {
+            name: 'name',
+            birthdate: '1/1/2020'
+          }
+        )
+
+        expect(response).to have_http_status(:bad_request)
+      }
     end
   end
 

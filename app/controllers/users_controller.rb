@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name,:avatar,:birthdate)
+    params.require(:user).permit(:name, :avatar, :birthdate)
   end
 
   def set_user

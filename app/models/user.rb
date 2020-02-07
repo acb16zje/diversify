@@ -88,7 +88,7 @@ class User < ApplicationRecord
 
   def valid_birthdate?
     if birthdate.present? &&
-      ((Time.zone.now - birthdate.to_time) / 1.year.seconds).floor < 6
+       ((Time.zone.now - birthdate.to_time) / 1.year.seconds).floor < 6
       errors.add(:birthdate, 'is not valid')
     end
   end
