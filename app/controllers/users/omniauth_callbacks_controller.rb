@@ -2,24 +2,17 @@
 
 # controller for OAuth Devise
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  before_action :handle_omniauth, only: %i[google_oauth2 twitter facebook]
 
-  def google_oauth2
-    if @user.persisted?
-      user_signed_in? ? connect_success_action : sign_in_success_action
-    end
+  def omniauth_flow
+    user_signed_in? ? connect_flow : sign_in_flow
+
+    return unless @user&.persisted?
+
+    user_signed_in? ? connect_success_action : sign_in_success_action
   end
 
-  def twitter
-    if @user.persisted?
-      user_signed_in? ? connect_success_action : sign_in_success_action
-    end
-  end
-
-  def facebook
-    if @user.persisted?
-      user_signed_in? ? connect_success_action : sign_in_success_action
-    end
+  Devise.omniauth_providers.each do |provider|
+    alias_method provider, :omniauth_flow
   end
 
   # More info at:
@@ -43,10 +36,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # end
 
   private
-
-  def handle_omniauth
-    user_signed_in? ? connect_flow : sign_in_flow
-  end
 
   def sign_in_flow
     identity = User.sign_in_omniauth(request.env['omniauth.auth'])

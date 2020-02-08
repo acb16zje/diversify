@@ -118,7 +118,7 @@ describe UsersController, type: :request do
   end
 
   describe 'POST #disconnect_omniauth' do
-    DeviseHelper::PROVIDERS.keys.each do |social|
+    Devise.omniauth_providers.each do |social|
       context "with valid #{social} account and no password" do
         let(:omni_user) { create(:omniauth_user, providers: [social]) }
 
@@ -148,7 +148,7 @@ describe UsersController, type: :request do
 
     context 'with multiple valid social accounts' do
       let(:omni_user) do
-        create(:omniauth_user, providers: DeviseHelper::PROVIDERS.keys)
+        create(:omniauth_user, providers: Devise.omniauth_providers)
       end
 
       before { sign_in omni_user }

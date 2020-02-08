@@ -36,12 +36,10 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Capybara::DSL # Let's us use the capybara stuff in our specs
   config.include Warden::Test::Helpers
-  config.include Rails.application.routes.url_helpers
   config.include Devise::Test::IntegrationHelpers
   config.include Devise::Test::ControllerHelpers, type: :controller
 
   # Include custom helpers
-  config.include NewsletterHelper
   config.include OAuthHelper
 
   config.after { Warden.test_reset! }
