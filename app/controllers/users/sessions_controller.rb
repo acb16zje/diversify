@@ -12,13 +12,14 @@ class Users::SessionsController < Devise::SessionsController
   # POST /resource/sign_in
   def create
     self.resource = warden.authenticate(auth_options)
-    if resource.nil?
-      render json:
-        { errors: ['Invalid Username and Password'] }, status: :bad_request
-    else
+
+    if resource
       sign_in(resource_name, resource)
       yield resource if block_given?
       render js: "window.location='#{after_sign_in_path_for(resource)}'"
+    else
+      set_flash_message(:errors, :invalid)
+      render json: { errors: flash[:errors] }, status: :unauthorized
     end
   end
 
