@@ -24,12 +24,12 @@ gem 'pg'
 
 gem 'activerecord-session_store'
 
-# Active Storage libraries
-gem 'image_processing'
+# Active Storage
 gem 'active_storage_validations'
 
 # Avatar
 gem 'gravatar_image_tag'
+gem 'image_processing'
 
 # Authentication libraries
 gem 'devise'

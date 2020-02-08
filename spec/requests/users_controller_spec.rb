@@ -69,15 +69,15 @@ describe UsersController, type: :request do
 
   describe 'PATCH #update' do
     before { sign_in user }
+
     context 'with valid input' do
       it {
-        patch user_path(
-          id: user.id,
+        patch user_path(user), params: {
           user: {
             name: user.name,
             birthdate: '1/1/1970'
           }
-        )
+        }
 
         expect(response).to have_http_status(:ok)
       }
@@ -85,13 +85,12 @@ describe UsersController, type: :request do
 
     context 'with invalid input' do
       it {
-        patch user_path(
-          'id': user.id,
+        patch user_path(user), params: {
           user: {
             name: 'name',
             birthdate: '1/1/2020'
           }
-        )
+        }
 
         expect(response).to have_http_status(:bad_request)
       }
