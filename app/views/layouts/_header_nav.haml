@@ -1,28 +1,20 @@
-%nav.navbar.is-fixed-top.is-spaced#navbar
-  .container
-    .navbar-brand
-      = link_to root_path, class: 'navbar-item' do
-        = image_tag 'logo/logo_horizontal.svg', width: 150
-      .navbar-burger.burger{ ':class': "{ 'is-active': showNavbar }", '@click': 'showNavbar = !showNavbar' }
-        %span
-        %span
-        %span
-    .navbar-menu{ ':class': "{ 'is-active': showNavbar }" }
-      .navbar-end.navbar-center
-        - if user_signed_in?
-          = nav_link_to 'Profile', path: user_path(current_user), class: 'navbar-item'
-          = nav_link_to 'Your Projects', path: root_path, class: 'navbar-item'
-          = nav_link_to 'Browse Projects', path: root_path, class: 'navbar-item'
-        - else
-          = nav_link_to 'Pricing', path: pricing_pages_path, class: 'navbar-item'
-          = nav_link_to 'About', path: about_pages_path, class: 'navbar-item'
-          = nav_link_to 'Customers', path: love_pages_path, class: 'navbar-item'
-          = nav_link_to 'Features', path: features_pages_path, class: 'navbar-item'
-          = nav_link_to 'Newsletter', path: newsletter_pages_path, class: 'navbar-item'
-      .navbar-end
-        - if user_signed_in?
-          .buttons
-            = link_to 'Settings', settings_users_path, class: 'button'
-            = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'button is-primary'
-        - else
-          = link_to 'Sign in', new_user_session_path, class: 'button is-primary'
+%b-navbar#navbar{ transparent: '', 'fixed-top': '', 'spaced': '', 'wrapper-class': 'container' }
+  %template{ slot: 'brand' }
+    .navbar-item.is-hidden-desktop
+      = render 'shared/user_dropdown'
+
+    = link_to root_path, class: 'navbar-item logo' do
+      = image_tag 'logo/logo_horizontal.svg', width: 150
+  %template{ slot: 'start' }
+    - if user_signed_in?
+      = nav_link_to 'Your Projects', path: root_path, class: 'navbar-item'
+      = nav_link_to 'Browse Projects', path: root_path, class: 'navbar-item'
+    - else
+      = nav_link_to 'Pricing', path: pricing_pages_path, class: 'navbar-item'
+      = nav_link_to 'About', path: about_pages_path, class: 'navbar-item'
+      = nav_link_to 'Customers', path: love_pages_path, class: 'navbar-item'
+      = nav_link_to 'Features', path: features_pages_path, class: 'navbar-item'
+      = nav_link_to 'Newsletter', path: newsletter_pages_path, class: 'navbar-item'
+  %template{ slot: 'end' }
+    .is-hidden-touch
+      = render 'shared/user_dropdown'

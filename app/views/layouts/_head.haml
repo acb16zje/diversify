@@ -31,4 +31,8 @@
 %meta{ name: 'msapplication-config', content: "#{root_path}favicon/browserconfig.xml" }
 %meta{ name: 'theme-color', content: '#ffffff' }
 
-%title #{content_for(:title)} ꞏ Diversify
+%title #{content_for :title} ꞏ Diversify
+
+= stylesheet_packs_with_chunks_tag 'application'
+
+= yield :javascript

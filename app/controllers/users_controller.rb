@@ -2,14 +2,11 @@
 
 # Controller for profile and settings
 class UsersController < ApplicationController
-  include DeviseHelper
-  include AvatarHelper
-
   skip_before_action :authenticate_user!, only: :show
 
   before_action :set_user, only: %i[show edit update]
 
-  layout 'devise', except: :edit
+  layout 'user', except: :edit
 
   def show; end
 
@@ -22,7 +19,7 @@ class UsersController < ApplicationController
       flash[:toast] = { type: 'success', message: ['Profile Updated'] }
       render js: "window.location = '#{user_path(@user)}'"
     else
-      render json: { errors: @user.errors.full_messages }, status: :bad_request
+      render json: { message: @user.errors.full_messages }, status: :bad_request
     end
   end
 

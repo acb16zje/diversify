@@ -13,9 +13,10 @@ class Users::PasswordsController < Devise::PasswordsController
     yield resource if block_given?
 
     if successfully_sent?(resource)
-      render json: { message: 'Email sent!' }
+      render json: { message: 'Email sent' }
     else
-      render json: { errors: resource.errors.full_messages }, status: :bad_request
+      render json: { message: resource.errors.full_messages },
+             status: :bad_request
     end
   end
 
@@ -51,8 +52,8 @@ class Users::PasswordsController < Devise::PasswordsController
 
   def update_fail
     set_minimum_password_length
-    render json:
-      { errors: resource.errors.full_messages }, status: :bad_request
+    render json: { message: resource.errors.full_messages },
+           status: :bad_request
   end
 
   def update_success

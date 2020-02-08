@@ -1,0 +1,27 @@
+html {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Fix ghost CSS padding or margin */
+html, body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.section:first-child {
+  padding-top: 1rem;
+}
+
+.column > .has-equal-height {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}

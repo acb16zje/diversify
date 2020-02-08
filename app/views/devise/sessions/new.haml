@@ -1,7 +1,5 @@
 - content_for :title, 'Sign in to Diversify'
 
-= render 'shared/toast'
-
 .box
   .content
     = form_with model: resource, url: session_path(resource), html: { '@ajax:error': 'ajaxError' } do |f|
@@ -26,6 +24,6 @@
 
 = render 'devise/shared/omniauth_box'
 
-#create-account-box.has-text-centered.box
+.box.callout.has-text-centered
   %p.is-inline New to Diversify?
   = link_to 'Create an account', new_user_registration_path

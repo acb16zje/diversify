@@ -1,7 +1,5 @@
 - content_for :title, 'Edit Profile'
 
-= render 'shared/toast'
-
 %section.section#edit-profile
   .container
     %h1.title.is-1 Edit Profile
@@ -29,7 +27,7 @@
         %label.label Birthdate
         .control
           - current_date = @user.birthdate? ? @user.birthdate : Date.current
-          %datepicker{ 'current': current_date, 'name': 'user[birthdate]', '@set-date': 'setDate' }
+          %datepicker{ 'current': current_date, 'name': 'user[birthdate]' }
       .actions
         = f.submit 'Update Profile', class: 'button is-info'
 

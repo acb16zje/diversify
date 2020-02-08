@@ -2,14 +2,14 @@
   <b-field>
     <b-datepicker
       v-model="date"
-      placeholder="Select date"
-      :max-date="maxDate"
-      @input="$emit('set-date', date)"
+      :date-formatter="(date) => date.toLocaleDateString('en-GB')"
+      :max-date="new Date()"
       :name="name"
+      placeholder="Select date"
     />
 
     <p class="control">
-      <b-button @click="clearDate">
+      <b-button @click="date = new Date(current)">
         <span class="icon is-small">
           <span class="iconify" data-icon="emojione-v1:cross-mark" />
         </span>
@@ -23,16 +23,8 @@ export default {
   props: ['name', 'current'],
   data() {
     return {
-      name: this.name,
       date: new Date(this.current),
-      maxDate: new Date(),
     };
-  },
-  methods: {
-    clearDate() {
-      this.date = new Date(this.current);
-      this.$emit('set-date', this.date);
-    },
   },
 };
 </script>

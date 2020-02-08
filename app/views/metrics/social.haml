@@ -1,18 +1,17 @@
 - content_for :title, 'Social Media Metrics'
 
-#metrics
-  %section.section
-    .container
-      %h1.title.has-text-centered Social Media Widget Statistics
+%section
+  .container
+    %h1.title.has-text-centered Social Media Widget Statistics
 
-      .columns
-        .column
-          %datepicker{ '@set-dates': 'setDates' }
+    .columns
+      .column
+        %datepicker{ '@set-dates': 'setDates' }
 
-        .column
-          .select.is-pulled-right
-            %select#graph-select{ 'v-model': 'graphOption' }
-              %option Social Share Ratio
-              %option Social Share by Date
+      .column
+        .select.is-pulled-right
+          %select#graph-select{ 'v-model': 'graphOption' }
+            %option Social Share Ratio
+            %option Social Share by Date
 
-      %chartkick{ 'v-bind': '{ dates, graphOption }' }
+    %chartkick{ 'v-bind': '{ dates, graphOption }' }

@@ -1,9 +1,10 @@
-- content_for :head do
-  = stylesheet_packs_with_chunks_tag 'settings'
+- content_for :id, 'user-settings'
+
+- content_for :javascript do
   = javascript_packs_with_chunks_tag 'settings', defer: ''
 
-- content_for :specific_yield do
-  %section.section#settings-page
+- content_for :custom_yield do
+  %section.section
     .container
       .columns
         .column.is-3
@@ -18,9 +19,6 @@
               %li
                 = nav_link_to 'Skills', path: '#'
         .column.is-9
-          #app
-            = yield
+          = yield
 
 = render template: 'layouts/application'
-
-

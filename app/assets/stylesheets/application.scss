@@ -1,163 +1,27 @@
 /* Root variables. */
 $primary: #3e3cd3;
-$secondary: #f10a30;
-$accents: #acacd5;
 
 @import "~bulma/sass/utilities/initial-variables";
-@import "~buefy/src/scss/utils/all";
 @import "~bulma/bulma";
 
 /*! purgecss start ignore */
+@import "~buefy/src/scss/utils/all";
+@import "~buefy/src/scss/components/datepicker";
+@import "~buefy/src/scss/components/dropdown";
+@import "~buefy/src/scss/components/loading";
 @import "~buefy/src/scss/components/notices";
+@import "~buefy/src/scss/components/table";
 /*! purgecss end ignore */
 
-/* Fix ghost CSS padding or margin */
-html, body {
-  width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
-  // overflow-x: hidden;
+@import "framework/base";
+@import "framework/button";
+@import "framework/footer";
+@import "framework/forms";
+@import "framework/icon";
+@import "framework/layout";
+@import "framework/navbar";
 
-  &.has-spaced-navbar-fixed-top {
-    padding-top: 4.5rem;
-
-    @media screen and (min-width: 1024px) {
-      padding-top: 5rem;
-    }
-  }
-}
-
-::placeholder {
-  color: slategray !important;
-}
-
-/* Bulma adjustments */
-.section:first-child {
-  padding-top: 1rem;
-}
-
-.button.is-secondary {
-  border: none;
-  color: white;
-  background-color: $secondary;
-}
-
-.column > .has-equal-height {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-}
-
-.iconify {
-  &.is-24 {
-    font-size: 24px;
-  }
-}
-
-.button {
-  .icon:not(:last-child) {
-    margin-right: 0.5em !important;
-  }
-}
-
-/* Navbar */
-#navbar {
-  .container {
-    max-width: 1000px;
-  }
-
-  align-items: center;
-
-  .navbar-item img {
-    // The logo
-    max-height: initial;
-  }
-
-  .navbar-item {
-    padding: 0.5rem 1.75rem;
-    @media screen and (max-width: 1024px) {
-      margin: 1rem 0;
-    }
-  }
-
-  .navbar-burger {
-    height: initial;
-
-    span {
-      height: 2px;
-    }
-  }
-
-  .navbar-center {
-    margin: auto;
-    display: inline;
-  }
-
-  .buttons {
-    display: block;
-  }
-
-  .button {
-    @media screen and (max-width: 1024px) {
-      width: 200px;
-      margin: 1rem 0;
-    }
-  }
-}
-
-/* Desktop Navbar */
-@media screen and (min-width: 1024px) {
-  .navbar-end a.navbar-item {
-    color: black;
-    display: inline-block;
-    border-radius: 0 !important;
-    background-color: transparent;
-    text-decoration: none;
-    font-size: large;
-
-    &.is-active {
-      &:after {
-        display: block;
-        content: '';
-        border-bottom: solid 3px $primary;
-        transform: scaleX(1);
-      }
-    }
-
-    &:after {
-      display: block;
-      content: '';
-      border-bottom: solid 3px $primary;
-      transform: scaleX(0);
-      transition: transform 250ms ease-in-out;
-    }
-
-    &:hover:after {
-      transform: scaleX(1);
-    }
-  }
-
-}
-
-/* Mobile Navbar */
-@media screen and (max-width: 1023px) {
-  #navbar .navbar-menu {
-    background-color: $primary;
-    text-align: center;
-
-    a.navbar-item {
-      color: white;
-
-      &.is-active {
-        color: $primary;
-      }
-
-      &:hover {
-        color: $primary;
-      }
-    }
-  }
-}
+// Page specific styles
+@import "pages/landing_page";
+@import "pages/metrics_page";
+@import "pages/devise";

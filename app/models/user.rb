@@ -42,7 +42,7 @@ class User < ApplicationRecord
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  validates :avatar, content_type: ['image/png', 'image/jpg', 'image/jpeg']
+  validates :avatar, content_type: %w(image/png image/jpg image/jpeg)
   validate :valid_birthdate?, on: :update
 
   # Include default devise modules. Others available are:

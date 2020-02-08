@@ -4,7 +4,6 @@
   .container
     .columns.is-vcentered
       .column
-
         %h1.title.is-1.is-spaced Subscribe to our newsletter
         %p.subtitle.is-5 Get the latest news and updates sent to your inbox
 
@@ -17,7 +16,7 @@
               %span.iconify{ 'data-icon': 'fxemoji:email' }
 
         - if user_signed_in?
-          = link_to settings_users_path, class: 'button is-secondary' do
+          = link_to settings_users_path, class: 'button is-danger' do
             %span Subscribe in Settings Page
         - else
           = form_with url: subscribe_newsletters_path, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do
@@ -27,7 +26,7 @@
 
             .field
               .control
-                = submit_tag 'Subscribe', class: 'button is-secondary is-large'
+                = submit_tag 'Subscribe', class: 'button is-danger is-large'
 
       .column.has-text-centered.is-narrow
         = image_tag 'mail_letter.png', width: 400

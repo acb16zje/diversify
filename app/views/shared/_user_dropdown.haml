@@ -1,0 +1,13 @@
+- if user_signed_in?
+  %b-dropdown.is-right{ animation: '' }
+    %button.button.user-dropdown{ slot: 'trigger' }
+      %figure.image.is-32x32
+        = image_tag user_avatar(current_user), class: 'is-rounded'
+      %span.icon.is-small
+        %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
+    = link_to 'Profile', user_path(current_user), class: 'dropdown-item'
+    = link_to 'Settings', settings_users_path, class: 'dropdown-item'
+    %hr.dropdown-divider
+    = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+- else
+  = link_to 'Sign in', new_user_session_path, class: 'button is-primary'

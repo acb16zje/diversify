@@ -31,7 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       yield resource if block_given?
       resource_updated ? update_success : register_fail
     else
-      render json: { errors: ['Please fill in the Form'] }, status: :bad_request
+      render json: { message: 'Please fill in the form' }, status: :bad_request
     end
   end
 
@@ -100,7 +100,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def register_fail
     clean_up_passwords resource
     set_minimum_password_length
-    render json: { errors: resource.errors.full_messages }, status: :bad_request
+    render json: { message: resource.errors.full_messages },
+           status: :bad_request
   end
 
   def oauth_update_resource

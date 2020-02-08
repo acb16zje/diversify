@@ -1,33 +1,32 @@
 - content_for :title, 'Traffic Overview'
 
-#metrics
-  %h1.title.has-text-centered Demographics
-  .box
-    .columns.has-text-centered
-      .column.is-4
-        %pie-chart{ ':data': @data[:device_type] }
-        %p.subtitle Device Types
-      .column.is-4
-        %pie-chart{ ':data': @data[:browser] }
-        %p.subtitle Browser Types
-      .column.is-4
-        %pie-chart{ ':data': @data[:country] }
-        %p.subtitle Countries
+%h1.title.has-text-centered Demographics
+.box
+  .columns.has-text-centered
+    .column.is-4
+      %pie-chart{ ':data': @data[:device_type] }
+      %p.subtitle Device Types
+    .column.is-4
+      %pie-chart{ ':data': @data[:browser] }
+      %p.subtitle Browser Types
+    .column.is-4
+      %pie-chart{ ':data': @data[:country] }
+      %p.subtitle Countries
 
-  %section.section
-    .container
-      %h1.title.has-text-centered Landing Pages Statistics
+%section.has-top-padding
+  .container
+    %h1.title.has-text-centered Landing Pages Statistics
 
-      .columns
-        .column
-          %datepicker{ '@set-dates': 'setDates' }
+    .columns
+      .column
+        %datepicker{ '@set-dates': 'setDates' }
 
-        .column
-          .select.is-pulled-right
-            %select#graph-select{ 'v-model': 'graphOption' }
-              %option Referrers Ratio
-              %option Referrers by Date
-              %option Average Time Spent per Page
-              %option Number of Visits per Page
+      .column
+        .select.is-pulled-right
+          %select#graph-select{ 'v-model': 'graphOption' }
+            %option Referrers Ratio
+            %option Referrers by Date
+            %option Average Time Spent per Page
+            %option Number of Visits per Page
 
-      %chartkick{ 'v-bind': '{ dates, graphOption }' }
+    %chartkick{ 'v-bind': '{ dates, graphOption }' }

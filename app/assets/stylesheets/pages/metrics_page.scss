@@ -1,0 +1,45 @@
+@import "actiontext";
+
+#metrics-page {
+  min-height: 100%;
+  background-color: #f7f8f9;
+
+  a.navbar-item {
+    font-size: 18px;
+  }
+
+  .pointer:hover {
+    cursor: pointer;
+  }
+
+  /* Side panel menu */
+  aside.menu {
+    .menu-label {
+      color: $primary;
+      font-size: 18px;
+    }
+
+    li a {
+      font-size: 17px;
+      border: 1px solid transparent;
+
+      &.is-active {
+        background-color: $primary;
+      }
+
+      &:hover {
+        border: 1px solid #808080;
+      }
+    }
+  }
+
+  section.has-top-padding {
+    padding: 1.5rem 0 0 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .select.is-pulled-right {
+      float: none !important;
+    }
+  }
+}

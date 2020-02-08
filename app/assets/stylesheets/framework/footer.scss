@@ -5,7 +5,7 @@ footer.footer {
       margin-bottom: 0.8rem !important;
     }
 
-    &.brand .iconify {
+    .iconify {
       font-size: 25px;
 
       &.facebook {
@@ -23,6 +23,8 @@ footer.footer {
   }
 
   @media screen and (max-width: 768px) {
+    padding-bottom: 3rem;
+
     .columns {
       .column:first-child {
         width: 100% !important;

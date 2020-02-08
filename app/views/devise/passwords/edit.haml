@@ -1,8 +1,8 @@
 - content_for :title, 'Reset Password'
 
-.box#reset
+.box
   %h1.title.is-4.has-text-centered Change your password
-  = form_with model: resource, url: password_path(resource), html: { '@ajax:error': 'ajaxError', 'method': 'put' } do |f|
+  = form_with model: resource, url: password_path(resource), method: :put, html: { '@ajax:error': 'ajaxError' } do |f|
     = f.hidden_field :reset_password_token
     .field
       .control

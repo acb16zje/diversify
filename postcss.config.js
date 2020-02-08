@@ -8,16 +8,22 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     './app/**/*.vue',
   ],
   defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
-  whitelist: ['::placeholder', 'disabled', 'img', 'has-addons', 'is-expanded'],
+  whitelist: [
+    '::placeholder',
+    'img',
+    'image',
+    'is-expanded',
+    'disabled',
+  ],
   whitelistPatternsChildren: [
-    /modal/, /dropdown/, /pagination/, /level/, /trix/,
+    /modal/, /navbar/, /dropdown/, /pagination/, /level/, /trix/,
   ],
 });
 
 module.exports = {
   plugins: [
     postCssImport,
+    purgeCss,
     cssNano,
-    // purgeCss,
   ],
 };

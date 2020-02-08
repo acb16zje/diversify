@@ -8,12 +8,6 @@
   </div>
 </template>
 
-<style scoped>
-  .box {
-    min-height: 340px;
-  }
-</style>
-
 <script>
 import Vue from 'vue/dist/vue.esm';
 import Chartkick from 'vue-chartkick';

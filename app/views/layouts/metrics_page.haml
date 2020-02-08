@@ -1,13 +1,12 @@
-- content_for :head do
-  = stylesheet_packs_with_chunks_tag 'metrics/metrics'
+- content_for :id, 'metrics-page'
 
+- content_for :javascript do
   - if content_for :newsletter
-    = stylesheet_packs_with_chunks_tag 'metrics/newsletter'
     = javascript_packs_with_chunks_tag 'metrics/newsletter', defer: ''
   - else
     = javascript_packs_with_chunks_tag 'metrics/metrics', defer: ''
 
-- content_for :specific_yield do
+- content_for :custom_yield do
   %section.section
     .container
       .columns
@@ -39,7 +38,6 @@
               %li
                 = nav_link_to 'Subscriber Management', path: subscribers_newsletters_path
         .column.is-9
-          #app
-            = yield
+          = yield
 
 = render template: 'layouts/application'

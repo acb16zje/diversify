@@ -7,11 +7,25 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+import '../../stylesheets/application.scss';
 import Vue from 'vue/dist/vue.esm';
 import Buefy from 'buefy';
 import Icon from '../components/buefy/Icon.vue';
+import { dangerToast } from '../components/buefy/toast';
 
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
 
 Vue.use(Buefy, { defaultIconComponent: Icon });
+
+Vue.mixin({
+  methods: {
+    ajaxError({ detail: [response, status] }) {
+      if (Array.isArray(response.message)) {
+        response.message.forEach((message) => dangerToast(message));
+      } else {
+        dangerToast(response.message || status);
+      }
+    },
+  },
+});

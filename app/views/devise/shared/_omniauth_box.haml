@@ -1,9 +1,9 @@
-#oauth-box.box
+#oauth-box.box.callout
   %label.label Sign in with
   .buttons
     - resource_class.omniauth_providers.each do |provider|
       = link_to omniauth_authorize_path(resource_name, provider), class: "button #{provider} is-fullwidth" do
         .is-flex
           %span.icon
-            %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
+            %span.iconify.is-20{ 'data-icon': provider_icon(provider) }
           %span= provider_label(provider)

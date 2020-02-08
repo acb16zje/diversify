@@ -1,33 +1,32 @@
 - content_for :title, 'Metrics Dashboard'
 
-#metrics
-  .columns.has-text-centered
-    .column
-      .box.has-equal-height
-        %p.title= @data[:subscribed_count]
-        %p.subtitle newsletter subscribers
-    .column
-      .box.has-equal-height
-        %p.title= @data[:today_count]
-        %p.subtitle page visits today
-    .column
-      .box.has-equal-height
-        %p.title= @data[:total_count]
-        %p.subtitle total page visits
+.columns.has-text-centered
+  .column
+    .box.has-equal-height
+      %p.title= @data[:subscribed_count]
+      %p.subtitle newsletter subscribers
+  .column
+    .box.has-equal-height
+      %p.title= @data[:today_count]
+      %p.subtitle page visits today
+  .column
+    .box.has-equal-height
+      %p.title= @data[:total_count]
+      %p.subtitle total page visits
 
-  %section.section
-    .container
-      %h1.title.has-text-centered Customer Interest Statistics
+%section.has-top-padding
+  .container
+    %h1.title.has-text-centered Customer Interest Statistics
 
-      .columns
-        .column
-          %datepicker{ '@set-dates': 'setDates' }
+    .columns
+      .column
+        %datepicker{ '@set-dates': 'setDates' }
 
-        .column
-          .select.is-pulled-right
-            %select#graph-select{ 'v-model': 'graphOption' }
-              %option Subscription Ratio
-              %option Subscription by Date
-              %option Landing Page Feedback
+      .column
+        .select.is-pulled-right
+          %select#graph-select{ 'v-model': 'graphOption' }
+            %option Subscription Ratio
+            %option Subscription by Date
+            %option Landing Page Feedback
 
-      %chartkick{ 'v-bind': '{ dates, graphOption }' }
+    %chartkick{ 'v-bind': '{ dates, graphOption }' }

@@ -1,17 +1,12 @@
-@import "application";
-@import "footer";
-@import "~buefy/src/scss/components/datepicker";
-
-/* Only for sign in and sign up */
-body#auth {
-  position: fixed;
-  bottom: 0;
-  height: 100%;
-  background-color: #f1f1f1;
+/* Sign in and sign up pages */
+#auth {
+  min-height: 100%;
+  background-color: #f7f8f9;
 
   .container {
     width: 320px;
-    margin: 32px auto;
+    margin: 0 auto;
+    padding: 32px 0;
 
     figure.image {
       margin: 0 auto;
@@ -20,6 +15,18 @@ body#auth {
     .box {
       .field.is-flex {
         justify-content: space-between;
+      }
+
+      .label {
+        font-weight: 600;
+      }
+
+      &.callout {
+        background-color: transparent;
+        box-shadow: none;
+        padding: 15px;
+        border: 1px solid #afb6bb;
+        border-radius: 5px;
       }
 
       @at-root #signup {
@@ -31,16 +38,12 @@ body#auth {
       }
     }
 
-    #oauth-box, #create-account-box {
-      background-color: transparent;
-      box-shadow: none;
-      padding: 15px;
-      border: 1px solid #afb6bb;
-      border-radius: 5px;
-    }
-
     #oauth-box {
       .button {
+        .icon {
+          margin-right: 0.65em !important;
+        }
+
         &.twitter {
           background-color: #38A1F3;
           color: white;

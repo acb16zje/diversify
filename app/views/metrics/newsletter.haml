@@ -1,19 +1,18 @@
 - content_for :title, 'Newsletters Overview'
 
-#metrics
-  %section.section.newsletter
-    .container
-      %h1.title.has-text-centered Newsletter Statistics
+%section
+  .container
+    %h1.title.has-text-centered Newsletter Statistics
 
-      .columns
-        .column
-          %datepicker{ '@set-dates': 'setDates' }
+    .columns
+      .column
+        %datepicker{ '@set-dates': 'setDates' }
 
-        .column
-          .select.is-pulled-right
-            %select#graph-select{ 'v-model': 'graphOption' }
-              %option Newsletter Subscription by Date
-              %option Unsubscription by Newsletter
-              %option Unsubscription Reason
+      .column
+        .select.is-pulled-right
+          %select#graph-select{ 'v-model': 'graphOption' }
+            %option Newsletter Subscription by Date
+            %option Unsubscription by Newsletter
+            %option Unsubscription Reason
 
-      %chartkick{ 'v-bind': '{ dates, graphOption }' }
+    %chartkick{ 'v-bind': '{ dates, graphOption }' }

@@ -6,7 +6,7 @@ module AvatarHelper
     if user.avatar.attached?
       user.avatar.variant(resize: '100x100!')
     else
-      gravatar_image_url(user.email, size: 100)
+      gravatar_image_url(user.email, size: 100, default: :retro)
     end
   end
 end

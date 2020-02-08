@@ -57,7 +57,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = identity.user
       unless @user.avatar.attached?
         downloaded_image = open(request.env['omniauth.auth'].info.image)
-        @user.avatar.attach(io: downloaded_image  , filename: "foo.jpg")
+        @user.avatar.attach(io: downloaded_image, filename: 'foo.jpg')
       end
     else
       flash[:toast] = { type: 'error', message: errors }

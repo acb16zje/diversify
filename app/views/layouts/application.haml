@@ -3,15 +3,14 @@
   %head
     = render 'layouts/head'
 
-    = yield :head
+  %body.has-navbar-fixed-top.has-spaced-navbar-fixed-top
+    %div{ id: "#{content_for :id}" }
+      = render 'layouts/header_nav'
 
-  %body{ class: "#{'has-spaced-navbar-fixed-top' unless content_for(:no_navbar)}" }
-    #app
-      - unless content_for :no_navbar
-        = render 'layouts/header_nav'
+      = render 'shared/toast'
 
-      - if content_for :specific_yield
-        = content_for :specific_yield
+      - if content_for :custom_yield
+        = yield :custom_yield
       - else
         = yield
 

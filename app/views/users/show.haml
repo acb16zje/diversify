@@ -1,7 +1,5 @@
 - content_for :title, @user.name
 
-= render 'shared/toast'
-
 %section.section
   .container
     .columns.is-mobile
@@ -9,7 +7,7 @@
         %h1.title.is-1 Profile
       - if allowed_to?(:edit?, @user)
         .column.is-half-mobile
-          = link_to 'Edit', edit_user_path(@user), class: 'button is-secondary is-pulled-right'
+          = link_to 'Edit', edit_user_path(@user), class: 'button is-pulled-right'
     .columns.is-vcentered
       .column.is-one-fifth
         %figure.image.is-128x128
@@ -29,5 +27,5 @@
         %h1.title.is-1 Skills
       - if allowed_to?(:edit?, @user)
         .column.is-half-mobile
-          = link_to 'Add Skills', '', class: 'button is-secondary is-pulled-right'
+          = link_to 'Add Skills', '', class: 'button is-pulled-right'
 

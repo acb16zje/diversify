@@ -1,14 +1,10 @@
-import '../../stylesheets/landing_page.scss';
 import './application';
 import Rails from '@rails/ujs';
 import Vue from 'vue/dist/vue.esm';
 import { dangerToast } from '../components/buefy/toast';
 
 new Vue({
-  el: '#app',
-  data: {
-    showNavbar: false,
-  },
+  el: '#landing-page',
   mounted() {
     const startTime = performance.now();
 
@@ -48,10 +44,6 @@ new Vue({
       form.outerHTML = `
         <p class="subtitle is-5">${event.detail[0].message}</p>
       `;
-    },
-    // eslint-disable-next-line no-unused-vars
-    ajaxError({ detail: [response, status, xhr] }) {
-      dangerToast(response.message || status);
     },
   },
 });
