@@ -2,6 +2,8 @@
 
 # Helper for showing avatar images
 module AvatarHelper
+  include GravatarImageTag
+
   def user_avatar(user)
     if user.avatar.attached?
       user.avatar.variant(resize: '100x100!')

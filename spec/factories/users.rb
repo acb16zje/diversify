@@ -36,12 +36,8 @@ FactoryBot.define do
     end
   end
 
-  trait :avatar do
-    after(:build) do |user|
-      user.avatar =
-        fixture_file_upload(
-          Rails.root.join('spec', 'support', 'images', 'ade.jpg'), 'image/jpg')
-    end
+  trait :with_avatar do
+    avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
   end
 
   factory :omniauth_user, parent: :user do
