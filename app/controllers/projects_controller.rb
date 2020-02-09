@@ -3,9 +3,12 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
+  layout 'user'
+
   # GET /projects
   def index
     @projects = Project.all
+    @categories = Category.all
   end
 
   # GET /projects/1

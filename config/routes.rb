@@ -86,5 +86,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :projects
+
   root to: 'pages#home'
 end

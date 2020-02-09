@@ -1,19 +1,7 @@
-%h1 Listing projects
+- content_for :title, 'Browse Projects'
 
-%table
-  %thead
-    %tr
-      %th
-      %th
-      %th
-
-  %tbody
-    - @projects.each do |project|
-      %tr
-        %td= link_to 'Show', project
-        %td= link_to 'Edit', edit_project_path(project)
-        %td= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Project', new_project_path
+%section.section
+  .container
+    %h1.title.is-1 Browse Projects
+    #projects-list
+      %project-card{ 'original-data': @projects.to_json, 'original-cat': @categories.to_json }
