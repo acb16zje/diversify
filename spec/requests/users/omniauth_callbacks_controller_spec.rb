@@ -18,8 +18,7 @@ describe Users::OmniauthCallbacksController, type: :request do
         before { hash(provider) }
 
         it {
-          get "/users/auth/#{provider}"
-          follow_redirect!
+          post "/users/auth/#{provider}/callback"
           expect(response).to redirect_to(root_path)
         }
       end
@@ -30,8 +29,7 @@ describe Users::OmniauthCallbacksController, type: :request do
         before { hash(provider, test_user.email) }
 
         it {
-          get "/users/auth/#{provider}"
-          follow_redirect!
+          post "/users/auth/#{provider}/callback"
           expect(response).to redirect_to(new_user_registration_path)
         }
       end
@@ -44,8 +42,7 @@ describe Users::OmniauthCallbacksController, type: :request do
         before { hash(provider) }
 
         it {
-          get "/users/auth/#{provider}"
-          follow_redirect!
+          post "/users/auth/#{provider}/callback"
           follow_redirect!
           expect(response.body).to include('Account Connected')
         }
@@ -57,8 +54,7 @@ describe Users::OmniauthCallbacksController, type: :request do
         before { hash(provider, omni_user.email) }
 
         it {
-          get "/users/auth/#{provider}"
-          follow_redirect!
+          post "/users/auth/#{provider}/callback"
           follow_redirect!
           expect(response.body).to include('Account has been taken')
         }
