@@ -32,6 +32,7 @@ class Project < ApplicationRecord
   has_many :teams
   has_many :reviews
   has_many :tasks
+  has_one_attached :avatar
 
   validates :name, presence: true
   validates :status, presence: true

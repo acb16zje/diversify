@@ -4,4 +4,5 @@
   .container
     %h1.title.is-1 Browse Projects
     #projects-list
-      %project-card{ 'original-data': @projects.to_json, 'original-cat': @categories.to_json }
+      %project-search{ 'original-data': @projects.to_json,
+        'original-cat': @categories.to_json }
