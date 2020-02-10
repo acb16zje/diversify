@@ -1,48 +1,37 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
 import ProjectSearch from '../components/projects/ProjectSearch.vue';
-import Datepicker from '../components/profile/Datepicker.vue';
 import { successToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#user',
   components: {
     ProjectSearch,
-    Datepicker,
+  },
+  data: {
+    avatarFilename: 'No file attached',
+    avatarDataUrl: null,
   },
   methods: {
     profileUpdateSuccess({ detail: [response] }) {
       successToast(response.message);
-    },
-  },
-  mounted() {
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Display file name when select file
-      let fileInputs = document.querySelectorAll('.file.has-name');
-      for (let fileInput of fileInputs) {
-        let input = fileInput.querySelector('.file-input');
-        let name = fileInput.querySelector('.file-name');
-        input.addEventListener('change', () => {
-          let files = input.files;
-          if (files.length === 0) {
-            name.innerText = 'No file selected';
-          } else {
-            name.innerText = files[0].name;
-          }
-        });
-      }
 
-      // 2. Remove file name when form reset
-      let forms = document.getElementsByTagName('form');
-      for (let form of forms) {
-        form.addEventListener('reset', () => {
-          console.log('a');
-          let names = form.querySelectorAll('.file-name');
-          for (let name of names) {
-            name.innerText = 'No file selected';
-          }
-        });
+      if (this.avatarDataUrl) {
+        document.getElementById('avatar').src = this.avatarDataUrl;
       }
-    });
+    },
+    avatarChanged(event) {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.avatarDataUrl = reader.result;
+      }, false);
+
+      if (file) {
+        this.avatarFilename = event.target.files[0].name;
+        reader.readAsDataURL(file);
+      }
+    },
   },
 });

@@ -42,7 +42,8 @@ class User < ApplicationRecord
             uniqueness: true,
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  validates :avatar, content_type: %w[image/png image/jpg image/jpeg]
+  validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
+                     size: { less_than: 200.kilobytes }
 
   validate :valid_birthdate?, on: :update
 
@@ -88,10 +89,18 @@ class User < ApplicationRecord
   end
 
   def valid_birthdate?
-    if birthdate.present? &&
-       ((Time.zone.now - birthdate.to_time) / 1.year.seconds).floor < 6
-      errors.add(:birthdate, 'is not valid')
+    return if birthdate.blank?
+
+    age = ((Time.current - birthdate.to_time) / 1.year.seconds).floor
+
+    if birthdate >= created_at.to_date
+      errors.add(:birthdate, 'must be before the account creation date')
+      return
     end
+
+    return if age.between?(6, 80)
+
+    errors.add(:age, 'must be between 6 and 80 years old')
   end
 
 end

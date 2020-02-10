@@ -28,30 +28,34 @@ describe Users::Settings::ProfilesController, type: :request do
   describe 'PATCH #update' do
     before { sign_in user }
 
-    context 'with valid input' do
+    context 'with valid birthdate' do
       it {
-        patch settings_profile_path, params: {
-          user: {
-            name: user.name,
-            birthdate: '1/1/1970'
-          }
-        }
+        patch settings_profile_path, params: { user: { birthdate: '1/1/1970' } }
 
         expect(response).to have_http_status(:ok)
       }
     end
 
-    context 'with invalid input' do
-      it {
+    context 'with invalid birthdate' do
+      it 'returns HTTP 400 for birthdate >= created_at' do
         patch settings_profile_path, params: {
-          user: {
-            name: 'name',
-            birthdate: '1/1/2020'
-          }
+          user: { birthdate: user.created_at }
         }
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'returns HTTP 400 for age < 6' do
+        patch settings_profile_path, params: {
+          user: { birthdate: Time.current - 1.year }
+        }
+        expect(response).to have_http_status(:bad_request)
+      end
+
+      it 'returns HTTP 400 for age > 80' do
+        patch settings_profile_path, params: { user: { birthdate: '1/1/1800' } }
 
         expect(response).to have_http_status(:bad_request)
-      }
+      end
     end
   end
 

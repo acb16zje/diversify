@@ -6,10 +6,11 @@ class Users::Settings::ProfilesController < Users::Settings::BaseController
   end
 
   def update
-    if current_user.update(user_params)
+    if current_user.update(profile_params)
       render json: { message: 'Profile updated' }
     else
-      render json: { message: current_user.errors.full_messages }, status: :bad_request
+      render json: { message: current_user.errors.full_messages },
+             status: :bad_request
     end
   end
 
@@ -23,7 +24,7 @@ class Users::Settings::ProfilesController < Users::Settings::BaseController
 
   private
 
-  def user_params
+  def profile_params
     params.require(:user).permit(:name, :avatar, :birthdate)
   end
 end

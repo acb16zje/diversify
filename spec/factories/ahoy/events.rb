@@ -71,6 +71,6 @@ FactoryBot.define do
       properties { { type: 'Email' } }
     end
 
-    time { Time.zone.now }
+    time { Time.current }
   end
 end

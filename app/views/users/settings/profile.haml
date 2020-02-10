@@ -1,41 +1,52 @@
 - content_for :title, 'Edit Profile'
 
-%section.settings-section
+%section.settings-section#profile-settings
   .content
-    %h1.title.is-4 Public Profile
-    %hr
 
     = form_with model: current_user, url: settings_profile_path, method: :patch,
         html: { '@ajax:success': 'profileUpdateSuccess', '@ajax:error': 'ajaxError' } do |f|
       .columns
+        .column.is-4
+          %h4.title.is-4 Public Avatar
+          %p.subtitle.is-6 You can change your avatar here or remove the current avatar to revert to gravatar.com
+        .column
+          %figure.image.is-128x128
+            = image_tag user_avatar(current_user), class: 'is-rounded', id: 'avatar'
+
+          %label.label Upload new avatar
+          .file.has-name
+            %label.file-label
+              = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg', class: 'file-input', '@change': 'avatarChanged'
+              %span.file-cta
+                %span.file-label
+                  Choose an image
+              %span.file-name
+                {{ avatarFilename }}
+          %p.has-text-grey Maximum file size allowed is 200KB
+
+          - if current_user.avatar.attached?
+            %hr
+            = link_to 'Remove avatar', remove_avatar_settings_profile_path, method: :delete, class: 'button is-danger is-outlined',
+                data: { disable: true, confirm: 'Avatar will be removed. Are you sure?' }
+
+      .columns
+        .column.is-4
+          %h4.title.is-4 Main settings
+          %p.subtitle.is-6 This information will be shown on your profile
         .column
           .field
             %label.label Name
             .control
               = f.text_field :name, class: 'input'
-          .field
-            %label.label Date of Birth
-            .control
-              - current_date = current_user.birthdate? ? current_user.birthdate : Date.current
-              %datepicker{ 'current': current_date, 'name': 'user[birthdate]' }
-          .field
-            .control
-              = f.submit 'Update Profile', class: 'button is-info'
-        .column
-          .field
-            %label.label Avatar
-            %figure.image.is-128x128.container#profile-pic
-              = image_tag user_avatar(current_user), class: 'is-rounded'
 
-            .file.has-name
-              %label.file-label
-                = f.file_field :avatar, class: 'file-input'
-                %span.file-cta
-                  %span.file-label
-                    Choose an image…
-                %span.file-name
-                  No File Attached
+          %label.label Date of Birth
+          .field.is-grouped.is-grouped-multiline
+            .control
+              .select
+                = f.date_select :birthdate, start_year: current_user.created_at.year, end_year: Time.current.year - 80,
+                  prompt: { day: 'Select day', month: 'Select month', year: 'Select year' },
+                  date_separator: '</div></div><div class="control"><div class="select">'
+          .field
+            .control
+              = f.submit 'Update profile', class: 'button is-success'
 
-            - if current_user.avatar.attached?
-              = link_to 'Remove avatar', remove_avatar_settings_profile_path, method: :delete, class: 'button is-danger is-outlined',
-                data: { disable: true, confirm: 'Avatar will be removed. Are you sure?' }
