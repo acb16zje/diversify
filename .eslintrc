@@ -11,7 +11,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-new": 0,
+    "no-new": "off",
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "max-len": "off",
     "vue/max-attributes-per-line": "off"
