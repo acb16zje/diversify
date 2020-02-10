@@ -25,8 +25,6 @@ describe NewsletterSubscription, type: :model do
   end
 
   describe 'validations' do
-    subject { build(:newsletter_subscription) }
-
     it { is_expected.to validate_presence_of(:email) }
     it { is_expected.to validate_uniqueness_of(:email) }
     it { is_expected.to allow_value('foo@bar.com').for(:email) }
@@ -66,6 +64,56 @@ describe NewsletterSubscription, type: :model do
           create(:newsletter_subscription)
         end.to have_enqueued_mail(NewsletterMailer, :send_welcome)
       end
+    end
+  end
+
+  describe '#self.subscribe' do
+    context 'when new_record' do
+      let(:email) { generate(:email) }
+
+      before { described_class.subscribe(email) }
+
+      it { expect(described_class.all_subscribed_emails).to include(email) }
+    end
+
+    context 'when subscribed' do
+      subject(:subscription) { create(:newsletter_subscription) }
+
+      before do
+        described_class.subscribe(subscription.email)
+        subscription.reload
+      end
+
+      it { is_expected.to be_subscribed }
+    end
+
+    context 'when not subscribed' do
+      subject(:subscription) { create(:newsletter_subscription, :unsubscribed) }
+
+      before do
+        described_class.subscribe(subscription.email)
+        subscription.reload
+      end
+
+      it { is_expected.to be_subscribed }
+    end
+  end
+
+  describe '#unsubscribe' do
+    context 'when subscribed' do
+      subject(:subscription) { build(:newsletter_subscription) }
+
+      before { subscription.unsubscribe }
+
+      it { is_expected.not_to be_subscribed }
+    end
+
+    context 'when not subscribed' do
+      subject(:subscription) { build(:newsletter_subscription, :unsubscribed) }
+
+      before { subscription.unsubscribe }
+
+      it { is_expected.not_to be_subscribed }
     end
   end
 end

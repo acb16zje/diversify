@@ -17,13 +17,11 @@ class NewslettersController < ApplicationController
     self_unsubscribe
   ]
 
-  layout 'metrics_page'
+  layout 'metrics_page', except: :unsubscribe
 
   def index
     @newsletters = Newsletter.select(:id, :title, :created_at)
   end
-
-  def new; end
 
   def create
     newsletter = Newsletter.new(newsletter_params)
@@ -51,7 +49,7 @@ class NewslettersController < ApplicationController
   end
 
   def subscribe
-    if prepare_subscription(params[:email])
+    if NewsletterSubscription.subscribe(params[:email])
       render json: { message: 'Thanks for subscribing' }
     else
       render json: { message: 'Subscription Failed' },
@@ -60,7 +58,7 @@ class NewslettersController < ApplicationController
   end
 
   def self_subscribe
-    flash[:toast] = if prepare_subscription(current_user.email)
+    flash[:toast] = if NewsletterSubscription.subscribe(params[:email])
                       { type: 'success', message: ['Newsletter Subscribed'] }
                     else
                       { type: 'error', message: ['Subscription Failed'] }
@@ -69,9 +67,7 @@ class NewslettersController < ApplicationController
     redirect_to settings_users_path
   end
 
-  def unsubscribe
-    render layout: false
-  end
+  def unsubscribe; end
 
   def self_unsubscribe
     flash[:toast] = if NewsletterSubscription.find_by(email: current_user.email)
