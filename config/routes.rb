@@ -83,7 +83,9 @@ Rails.application.routes.draw do
 
   scope module: :users do
     namespace :settings do
-      resource :profile, only: %i[show update]
+      resource :profile, only: %i[show update] do
+        delete 'remove_avatar'
+      end
 
       resource :account, only: :show do
         delete 'disconnect_omniauth'

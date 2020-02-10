@@ -13,6 +13,14 @@ class Users::Settings::ProfilesController < Users::Settings::BaseController
     end
   end
 
+  def remove_avatar
+    return head :not_found unless current_user.avatar.attached?
+
+    current_user.avatar.purge_later
+
+    redirect_to settings_profile_path, status: :found
+  end
+
   private
 
   def user_params

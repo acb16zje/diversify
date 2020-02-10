@@ -36,8 +36,6 @@
                 %span.file-name
                   No File Attached
 
-            = button_to 'Remove avatar', '#', class: 'button is-danger is-outlined', data: { disable: true }
-
-
-
-
+            - if current_user.avatar.attached?
+              = link_to 'Remove avatar', remove_avatar_settings_profile_path, method: :delete, class: 'button is-danger is-outlined',
+                data: { disable: true, confirm: 'Avatar will be removed. Are you sure?' }

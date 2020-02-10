@@ -55,4 +55,25 @@ describe Users::Settings::ProfilesController, type: :request do
     end
   end
 
+  describe 'DELETE #remove_avatar' do
+    let(:user_with_avatar) { create(:user, :with_avatar) }
+
+    context 'with avatar' do
+      before { sign_in user_with_avatar }
+
+      it {
+        delete remove_avatar_settings_profile_path
+        expect(response).to redirect_to(settings_profile_path)
+      }
+    end
+
+    context 'without avatar' do
+      before { sign_in user }
+
+      it {
+        delete remove_avatar_settings_profile_path
+        expect(response).to have_http_status(:not_found)
+      }
+    end
+  end
 end
