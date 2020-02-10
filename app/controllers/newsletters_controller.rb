@@ -13,8 +13,6 @@ class NewslettersController < ApplicationController
     subscribe
     unsubscribe
     post_unsubscribe
-    self_subscribe
-    self_unsubscribe
   ]
 
   layout 'metrics_page', except: :unsubscribe
@@ -57,28 +55,7 @@ class NewslettersController < ApplicationController
     end
   end
 
-  def self_subscribe
-    flash[:toast] = if NewsletterSubscription.subscribe(params[:email])
-                      { type: 'success', message: ['Newsletter Subscribed'] }
-                    else
-                      { type: 'error', message: ['Subscription Failed'] }
-                    end
-
-    redirect_to settings_users_path
-  end
-
   def unsubscribe; end
-
-  def self_unsubscribe
-    flash[:toast] = if NewsletterSubscription.find_by(email: current_user.email)
-                         &.unsubscribe
-                      { type: 'success', message: ['Newsletter Unsubscribed'] }
-                    else
-                      { type: 'error', message: ['Unsubscription Failed'] }
-                    end
-
-    redirect_to settings_users_path
-  end
 
   def post_unsubscribe
     feedback = NewsletterFeedback.create(unsubscribe_params)
@@ -110,11 +87,5 @@ class NewslettersController < ApplicationController
       newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]),
       reasons: p[:reasons]
     }
-  end
-
-  def prepare_subscription(email)
-    sub = NewsletterSubscription.where(email: email).first_or_initialize
-    sub.subscribed = true
-    sub.save
   end
 end

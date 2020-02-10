@@ -1,0 +1,43 @@
+- content_for :title, 'Edit Profile'
+
+%section.settings-section
+  .content
+    %h1.title.is-4 Public Profile
+    %hr
+
+    = form_with model: current_user, url: settings_profile_path, method: :patch,
+        html: { '@ajax:success': 'profileUpdateSuccess', '@ajax:error': 'ajaxError' } do |f|
+      .columns
+        .column
+          .field
+            %label.label Name
+            .control
+              = f.text_field :name, class: 'input'
+          .field
+            %label.label Date of Birth
+            .control
+              - current_date = current_user.birthdate? ? current_user.birthdate : Date.current
+              %datepicker{ 'current': current_date, 'name': 'user[birthdate]' }
+          .field
+            .control
+              = f.submit 'Update Profile', class: 'button is-info'
+        .column
+          .field
+            %label.label Avatar
+            %figure.image.is-128x128.container#profile-pic
+              = image_tag user_avatar(current_user), class: 'is-rounded'
+
+            .file.has-name
+              %label.file-label
+                = f.file_field :avatar, class: 'file-input'
+                %span.file-cta
+                  %span.file-label
+                    Choose an image…
+                %span.file-name
+                  No File Attached
+
+            = button_to 'Remove avatar', '#', class: 'button is-danger is-outlined', data: { disable: true }
+
+
+
+

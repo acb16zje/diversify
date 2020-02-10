@@ -1,0 +1,11 @@
+- content_for :title, 'Email settings'
+
+%section.settings-section
+  .content
+    %h4.title.is-4 Newsletter Preferences
+    - if current_user.newsletter_subscribed?
+      %p Are you sure? You will miss out the latest news and features!
+      = button_to 'Unsubscribe Newsletter', unsubscribe_settings_emails_path, class: 'button is-warning', data: { disable: true }
+    - else
+      %p Receive the latest news from our company.
+      = button_to 'Subscribe Newsletter', subscribe_settings_emails_path, class: 'button', data: { disable: true }

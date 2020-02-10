@@ -16,7 +16,7 @@
               %span.iconify{ 'data-icon': 'fxemoji:email' }
 
         - if user_signed_in?
-          = link_to settings_users_path, class: 'button is-danger' do
+          = link_to settings_emails_path, class: 'button is-danger' do
             %span Subscribe in Settings Page
         - else
           = form_with url: subscribe_newsletters_path, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do

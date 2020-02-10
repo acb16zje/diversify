@@ -1,0 +1,49 @@
+- content_for :title, 'Account settings'
+
+%section.settings-section
+  .content
+    %h4.title.is-4 Change Password
+    = form_with model: current_user, url: registration_path(current_user), method: :patch, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
+      - unless current_user.password_automatically_set?
+        .field
+          %label.label Old password
+          %i (we need your current password to confirm your changes)
+          .control
+          = f.password_field :current_password, autocomplete: 'current-password', class: 'input'
+      .field
+        %label.label New password
+        .control
+          = f.password_field :password, autocomplete: 'new-password', class: 'input'
+          - if @minimum_password_length
+            %em
+              (#{@minimum_password_length} characters minimum)
+      .field
+        %label.label Confirm new password
+        .control
+          = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input'
+
+      .actions
+        = f.submit 'Update', class: 'button is-warning'
+
+%section.settings-section
+  .content
+    %h4.title.is-4 Social Accounts
+    .columns
+      - Devise.omniauth_providers.each do |provider|
+        .column.is-narrow
+          .buttons.has-addons
+            .button.is-static{ class: provider_label(provider) }
+              %span.icon
+                %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
+              %span.has-text-black= provider_label(provider)
+            - if current_user.oauth_provider_connected?(provider)
+              = button_to 'Disconnect', disconnect_omniauth_settings_account_path(provider: provider), method: :delete,
+                  class: 'button has-text-danger has-text-weight-semibold', data: { disable: true }, '@ajax:error': 'ajaxError'
+            - else
+              = button_to 'Connect', omniauth_authorize_path(current_user, provider), class: 'button', data: { disable: true }
+
+%section.settings-section
+  .content
+    %h4.title.is-4.has-text-danger Delete my account
+    %p Once you delete your account, there is no going back. Please be certain.
+    = link_to 'Delete my account', registration_path(current_user), data: { confirm: 'Are you sure?' }, method: :delete, class: 'button is-danger'

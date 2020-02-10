@@ -60,13 +60,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = identity.user
     else
       flash[:toast] = { type: 'error', message: identity.errors.full_messages }
-      redirect_to settings_users_path
+      redirect_to settings_account_path
     end
   end
 
   def connect_success_action
     flash[:toast] = { type: 'success', message: ['Account Connected'] }
-    redirect_to settings_users_path
+    redirect_to settings_account_path
   end
 
   def sign_in_success_action

@@ -1,7 +1,6 @@
 import './application';
 import Rails from '@rails/ujs';
 import Vue from 'vue/dist/vue.esm';
-import { dangerToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#landing-page',

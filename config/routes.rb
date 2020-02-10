@@ -16,7 +16,6 @@ Rails.application.routes.draw do
 
   # /:path
   resources :pages, path: '', only: [] do
-
     collection do
       get 'pricing'
       get 'about'
@@ -34,7 +33,6 @@ Rails.application.routes.draw do
 
   # /metrics/:path
   resources :metrics, only: :index do
-
     collection do
       get 'newsletter'
       get 'traffic'
@@ -67,26 +65,42 @@ Rails.application.routes.draw do
 
   # /newsletters/:path
   resources :newsletters, only: %i[index create new show] do
-
     collection do
       get 'subscribers'
       get 'unsubscribe'
 
-      post 'self_subscribe'
-      post 'self_unsubscribe'
       post 'subscribe'
       post 'unsubscribe', to: 'newsletters#post_unsubscribe'
     end
   end
 
-  resources :users do
+  # /users/:path
+  resources :users, only: %i[index show] do
     collection do
-      get 'settings'
       delete 'disconnect_omniauth'
     end
   end
 
+  scope module: :users do
+    namespace :settings do
+      resource :profile, only: %i[show update]
+
+      resource :account, only: :show do
+        delete 'disconnect_omniauth'
+      end
+
+      resource :emails, only: :show do
+        post 'subscribe'
+        post 'unsubscribe'
+      end
+    end
+  end
+
   resources :projects
+
+  # authenticated :user do
+  #   root to: , as: :authenticated_root
+  # end
 
   root to: 'pages#home'
 end

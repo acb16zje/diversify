@@ -16,14 +16,4 @@ describe UserPolicy, type: :policy do
       let(:record) { build_stubbed(:user) }
     end
   end
-
-  describe_rule :manage? do
-    succeed 'when user is the signed in user' do
-      let(:record) { user }
-    end
-
-    failed 'when user is other user' do
-      let(:record) { build_stubbed(:user) }
-    end
-  end
 end

@@ -22,7 +22,8 @@ $primary: #3e3cd3;
 @import "framework/navbar";
 
 // Page specific styles
+@import "pages/devise";
 @import "pages/landing_page";
 @import "pages/metrics_page";
-@import "pages/devise";
 @import "pages/project";
+@import "pages/user";

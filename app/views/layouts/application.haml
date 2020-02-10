@@ -9,8 +9,14 @@
 
       = render 'shared/toast'
 
-      - if content_for :custom_yield
-        = yield :custom_yield
+      - if content_for? :sidebar
+        %section.section
+          .container
+            .columns
+              .column.is-3
+                = content_for :sidebar
+              .column.is-9
+                = yield
       - else
         = yield
 

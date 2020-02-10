@@ -94,7 +94,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     flash[:toast] = { type: 'success', message: ['Password Changed'] }
-    render js: "window.location='#{settings_users_path}'"
+    render js: "window.location='#{settings_account_path}'"
   end
 
   def register_fail

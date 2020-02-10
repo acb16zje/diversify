@@ -1,9 +1,8 @@
 - content_for :title, 'Send Newsletter'
-- content_for :newsletter, true
 
 %h1.title Send Newsletter
 
-= form_with model: Newsletter.new, html: { '@ajax:error': 'sendError' } do |f|
+= form_with model: Newsletter.new, html: { '@ajax:error': 'ajaxError' } do |f|
   .field
     .control
       = f.text_field :title, class: 'input', placeholder: 'Newsletter Title', required: ''

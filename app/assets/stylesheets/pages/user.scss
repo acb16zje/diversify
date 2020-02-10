@@ -1,0 +1,42 @@
+#user {
+  nav.panel {
+    .panel-heading {
+      font-weight: 400;
+    }
+
+    .panel-block {
+
+      &.is-active {
+        border-left-width: 3px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  .buttons {
+    .button {
+      &.Twitter {
+        color: #38A1F3;
+      }
+
+      &.Facebook {
+        color: #4267b2;
+      }
+    }
+
+    form.button_to {
+      .button {
+        border-radius: 0 4px 4px 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .settings-section {
+    padding-left: 1rem;
+
+    &:not(:first-child) {
+      padding-top: 45px;
+    }
+  }
+}

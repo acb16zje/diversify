@@ -11,6 +11,7 @@ import '../../stylesheets/application.scss';
 import Vue from 'vue/dist/vue.esm';
 import Buefy from 'buefy';
 import Icon from '../components/buefy/Icon.vue';
+import Toast from '../components/buefy/Toast.vue';
 import { dangerToast } from '../components/buefy/toast';
 
 require('@rails/ujs').start();
@@ -19,6 +20,9 @@ require('@iconify/iconify/dist/iconify');
 Vue.use(Buefy, { defaultIconComponent: Icon });
 
 Vue.mixin({
+  components: {
+    Toast,
+  },
   methods: {
     ajaxError({ detail: [response, status] }) {
       if (Array.isArray(response.message)) {

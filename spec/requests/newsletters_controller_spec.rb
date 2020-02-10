@@ -221,48 +221,10 @@ describe NewslettersController, type: :request do
     end
   end
 
-  describe 'POST #self_subscribe' do
-    context 'when logged in' do
-      before { sign_in user }
-
-      it {
-        post self_subscribe_newsletters_path
-        follow_redirect!
-        expect(response.body).to include('Newsletter Subscribed')
-      }
-    end
-
-    context 'when not logged in' do
-      it {
-        post self_subscribe_newsletters_path
-        expect(response).to redirect_to new_user_session_path
-      }
-    end
-  end
-
   describe 'GET #unsubscribe' do
     before { get unsubscribe_newsletters_path }
 
     it_behaves_like 'allows access'
-  end
-
-  describe 'POST #self_unsubscribe' do
-    context 'when logged in' do
-      before { sign_in newsletter_user }
-
-      it {
-        post self_unsubscribe_newsletters_path
-        follow_redirect!
-        expect(response.body).to include('Newsletter Unsubscribed')
-      }
-    end
-
-    context 'when not logged in' do
-      it {
-        post self_unsubscribe_newsletters_path
-        expect(response).to redirect_to new_user_session_path
-      }
-    end
   end
 
   describe 'POST #post_unsubscribe' do
