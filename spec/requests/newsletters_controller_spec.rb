@@ -114,32 +114,6 @@ describe NewslettersController, type: :request do
     end
   end
 
-  describe 'GET #new' do
-    context 'when signed in as admin' do
-      before do
-        sign_in admin
-        get new_newsletter_path
-      end
-
-      it_behaves_like 'allows access'
-    end
-
-    context 'when signed in as user' do
-      before do
-        sign_in user
-        get new_newsletter_path
-      end
-
-      it_behaves_like 'deny access'
-    end
-
-    context 'when signed out' do
-      before { get new_newsletter_path }
-
-      it_behaves_like 'redirect to login'
-    end
-  end
-
   describe 'POST #create' do
     before { sign_in admin }
 
@@ -165,20 +139,43 @@ describe NewslettersController, type: :request do
   end
 
   describe 'GET #show' do
-    before { sign_in admin }
+    context 'when signed in as admin' do
+      before do
+        sign_in admin
+        get newsletter_path(newsletter)
+      end
 
-    context 'with valid newsletter' do
-      it {
+      it_behaves_like 'allows access'
+
+      it 'returns OK for valid newsletter' do
         get newsletter_path(newsletter.id)
         expect(response).to have_http_status(:ok)
-      }
-    end
+      end
 
-    context 'with invalid newsletter' do
-      it {
+      it 'returns Not Found for invalid newsletter' do
         get newsletter_path(0)
         expect(response).to have_http_status(:not_found)
-      }
+      end
+
+      it 'returns JSON for XHR request' do
+        get newsletter_path(newsletter), xhr: true
+        expect(response.content_type).to include('application/json')
+      end
+    end
+
+    context 'when signed in as user' do
+      before do
+        sign_in user
+        get newsletter_path(newsletter)
+      end
+
+      it_behaves_like 'deny access'
+    end
+
+    context 'when signed out' do
+      before { get newsletter_path(newsletter) }
+
+      it_behaves_like 'redirect to login'
     end
   end
 
