@@ -7,8 +7,18 @@ class ProjectsController < ApplicationController
 
   # GET /projects
   def index
-    @projects = Project.all
     @categories = Category.all
+  end
+
+  def query
+    return render json:{},status: :bad_request unless params[:page].to_i.is_a? Numeric
+    params.delete_if {|key, value| value.blank? }
+    order = sort_items(params[:sort])
+    @pagy, @records = pagy(Project.where(search_params)
+      .where('name LIKE ?', "%#{params[:name]}%").order(order),
+      items: 10, page: params[:page])
+    render json: { data: @records,
+              pagy: pagy_metadata(@pagy) }
   end
 
   # GET /projects/1
@@ -60,5 +70,25 @@ class ProjectsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def project_params
     params.fetch(:project, {})
+  end
+
+  def search_params
+    params.except(:page, :sort,:name).permit(:status, :category).delete_if {|key, value| value.blank? }
+  end
+
+  def sort_items(order)
+    puts "ORDER #{order}"
+    case order
+    when 'name_asc'
+      return 'name asc'
+    when 'name_desc'
+      return 'name desc'
+    when 'date_asc'
+      return 'created_at asc'
+    when 'date_desc'
+      return 'created_at desc'
+    else
+      return 'name asc'
+    end
   end
 end

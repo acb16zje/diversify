@@ -14,26 +14,45 @@ admin = User.create!(
   admin: true
 )
 
-# PERSONALITIES = %w[ISTJ INFJ INTJ ENFJ ISTP ESFJ INFP ESFP ENFP ESTP ESTJ ENTJ
-#                    INTP ISFJ ENTP ISFP].freeze
+PERSONALITIES = %w[ISTJ INFJ INTJ ENFJ ISTP ESFJ INFP ESFP ENFP ESTP ESTJ ENTJ
+                   INTP ISFJ ENTP ISFP].freeze
 
-# PERSONALITIES.each do |personality|
-#   Personality.create!(
-#     trait: personality
-#   )
-# end
+PERSONALITIES.each do |personality|
+  Personality.create!(
+    trait: personality
+  )
+end
 
-category = Category.create!(
+cat = Category.create!(
   name: 'Programming'
 )
 
-for i in (1..100) do
+cat2 = Category.create!(
+  name: 'Accounting'
+)
+
+o = [('a'..'z'), ('A'..'Z')].map(&:to_a).flatten
+
+for i in (1..1000) do
+  string = (0...10).map { o[rand(o.length)] }.join
   Project.create!(
-    name: "Test Project #{i}",
+    name: "#{string} Project #{i}",
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere, nulla lobortis pharetra ornare, eros metus vulputate orci, a cursus justo odio vitae nunc. In hac habitasse platea dictumst. Donec fermentum leo sed nisl consequat ultrices. In luctus, tellus a viverra tempor, turpis dui congue dui, quis ornare augue nunc vel metus. Proin non erat tempus, tristique urna sed, fringilla orci. Sed vitae nulla auctor, tempus ipsum nec, rhoncus augue. Pellentesque tortor diam, ullamcorper vitae elementum ut, laoreet nec erat. Fusce ac augue sagittis, scelerisque erat a, mattis mi. Fusce id odio convallis, porttitor enim in, hendrerit mi. Vivamus malesuada, metus vel condimentum interdum, eros libero dictum ante, id ultrices lacus ante sit amet magna. Maecenas facilisis laoreet urna, sit amet malesuada nisl pharetra non. Aenean in ornare urna. Pellentesque euismod arcu sed nibh hendrerit ornare. Cras cursus purus eget lacus condimentum condimentum. Vestibulum vitae erat sed leo porttitor ultricies.',
-    status: 'Ongoing',
+    status: i % 3 == 0 ? 'Ongoing' : "Completed",
     visibility: 'Private',
     user: admin,
-    category: category
+    category: i % 5 == 0 ? cat : cat2,
+  )
+end
+
+for i in (1..1000) do
+  string = (0...10).map { o[rand(o.length)] }.join
+  Project.create!(
+    name: "#{string} Project #{i}",
+    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam posuere, nulla lobortis pharetra ornare, eros metus vulputate orci, a cursus justo odio vitae nunc. In hac habitasse platea dictumst. Donec fermentum leo sed nisl consequat ultrices. In luctus, tellus a viverra tempor, turpis dui congue dui, quis ornare augue nunc vel metus. Proin non erat tempus, tristique urna sed, fringilla orci. Sed vitae nulla auctor, tempus ipsum nec, rhoncus augue. Pellentesque tortor diam, ullamcorper vitae elementum ut, laoreet nec erat. Fusce ac augue sagittis, scelerisque erat a, mattis mi. Fusce id odio convallis, porttitor enim in, hendrerit mi. Vivamus malesuada, metus vel condimentum interdum, eros libero dictum ante, id ultrices lacus ante sit amet magna. Maecenas facilisis laoreet urna, sit amet malesuada nisl pharetra non. Aenean in ornare urna. Pellentesque euismod arcu sed nibh hendrerit ornare. Cras cursus purus eget lacus condimentum condimentum. Vestibulum vitae erat sed leo porttitor ultricies.',
+    status: i % 3 == 0 ? 'Ongoing' : "Completed",
+    visibility: 'Public',
+    user: admin,
+    category: i % 2 == 0 ? cat : cat2,
   )
 end
