@@ -22,8 +22,6 @@ gem 'responders'
 # PostgreSQL database
 gem 'pg'
 
-gem 'activerecord-session_store'
-
 # Active Storage
 gem 'active_storage_validations'
 

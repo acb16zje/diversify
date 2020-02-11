@@ -1,3 +1,3 @@
 - if flash[:toast].present?
-  - flash[:toast][:message].each do |message|
-    %toast{ 'type': flash[:toast][:type], 'message': message }
+  - flash[:toast]['message'].each do |message|
+    %toast{ 'type': flash[:toast]['type'], 'message': message }
