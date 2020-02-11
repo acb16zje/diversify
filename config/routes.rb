@@ -98,7 +98,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :projects
+  resources :projects do
+    collection do
+      post 'query'
+    end
+  end
 
   # authenticated :user do
   #   root to: , as: :authenticated_root

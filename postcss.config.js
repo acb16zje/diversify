@@ -23,7 +23,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
 module.exports = {
   plugins: [
     postCssImport,
-    purgeCss,
+    // purgeCss,
     cssNano,
   ],
 };
