@@ -5,7 +5,7 @@ default:
     - postgres:latest
 
   before_script:
-    - yarn install --production --cache-folder .yarn-cache
+    - yarn install --production --pure-lockfile --cache-folder .yarn-cache
     - 'bundle config gems.shefcompsci.org.uk gitlab:${GEM_SERVER_KEY}'
     - bundle check --path vendor || bundle install --path vendor -j $(nproc)
 
