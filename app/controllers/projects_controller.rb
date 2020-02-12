@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controller for projects
 class ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
@@ -11,14 +12,12 @@ class ProjectsController < ApplicationController
   end
 
   def query
-    return render json:{},status: :bad_request unless params[:page].to_i.is_a? Numeric
-    params.delete_if {|key, value| value.blank? }
-    order = sort_items(params[:sort])
-    @pagy, @records = pagy(Project.where(search_params)
-      .where('name LIKE ?', "%#{params[:name]}%").order(order),
-      items: 10, page: params[:page])
-    render json: { data: @records,
-              pagy: pagy_metadata(@pagy) }
+    return render nothing: true, status: :bad_request unless valid_page?
+
+    scope = authorized_scope(ProjectsQuery.call(params))
+
+    pagy, records = pagy(scope, page: params[:page])
+    render json: { data: records, pagy: pagy_metadata(pagy) }
   end
 
   # GET /projects/1
@@ -72,23 +71,7 @@ class ProjectsController < ApplicationController
     params.fetch(:project, {})
   end
 
-  def search_params
-    params.except(:page, :sort,:name).permit(:status, :category).delete_if {|key, value| value.blank? }
-  end
-
-  def sort_items(order)
-    puts "ORDER #{order}"
-    case order
-    when 'name_asc'
-      return 'name asc'
-    when 'name_desc'
-      return 'name desc'
-    when 'date_asc'
-      return 'created_at asc'
-    when 'date_desc'
-      return 'created_at desc'
-    else
-      return 'name asc'
-    end
+  def valid_page?
+    params[:page].to_i.is_a? Numeric
   end
 end
