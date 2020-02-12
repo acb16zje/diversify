@@ -9,7 +9,14 @@
             Search
           </b-button>
         </p>
+        <p class="control">
+          <b-button class="button is-danger" @click="clear">
+            <span class="iconify" data-icon="emojione-monotone:cross-mark"/>
+            Clear
+          </b-button>
+        </p>
       </b-field>
+
       <div class="columns is-vcentered">
         <div class="column is-one-third-tablet">
           <b-field label="Status">
@@ -51,32 +58,34 @@
             <p>No Project :(</p>
           </div>
         </template>
-        <article class="media" v-for="project in items" :key="project.id">
-          <figure class="media-left">
-            <figure class="image is-64x64">
-              <img v-bind:src="project.avatar || url(project.name[0])">
+        <div class="box" v-for="project in items" :key="project.id" @click="show(project.id)">
+          <article class="media">
+            <figure class="media-left">
+              <figure class="image is-64x64">
+                <img v-bind:src="project.avatar || url(project.name[0])">
+              </figure>
             </figure>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <h1 class="is-1 is-title">
-                {{project.name}}
-              </h1>
-              <span v-bind:class="{'tag is-success':project.status === 'Ongoing',
-                'tag is-danger':project.status === 'Completed'}">
-                Status: {{project.status}}
-              </span>
-              <span class='tag is-primary'>
-                Category: {{categories[project.category_id-1]["name"]}}
-              </span>
-              <div class="project-description">
-                <p>
-                  {{project.description}}
-                </p>
+            <div class="media-content">
+              <div class="content">
+                <h1 class="is-1 is-title">
+                  {{project.name}}
+                </h1>
+                <span v-bind:class="{'tag is-success':project.status === 'Ongoing',
+                  'tag is-danger':project.status === 'Completed'}">
+                  Status: {{project.status}}
+                </span>
+                <span class='tag is-primary'>
+                  Category: {{categories[project.category_id-1]["name"]}}
+                </span>
+                <div class="project-description">
+                  <p>
+                    {{project.description}}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
       <hr>
       <b-pagination
@@ -129,6 +138,16 @@
       },
     },
     methods: {
+      clear() {
+        this.search= '';
+        this.status= '';
+        this.category= '';
+        this.sort= 'name_asc';
+        this.query(1);
+      },
+      show(id) {
+        window.location.href = "/projects/"+id;
+      },
       query(page) {
         this.isLoading = true
         window.scrollTo({top:0, left:0, behavior: 'smooth' })
@@ -143,7 +162,6 @@
             'sort': this.sort
           }),
           success: (data) => {
-            console.log(data)
             this.current = data.pagy.page;
             this.total = data.pagy.count;
             this.items = data.data;
