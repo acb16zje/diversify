@@ -2,6 +2,8 @@
 
 # Controller for projects
 class ProjectsController < ApplicationController
+  include ProjectsQuery
+
   before_action :set_project, only: %i[show edit update destroy]
 
   layout 'user'
@@ -14,15 +16,14 @@ class ProjectsController < ApplicationController
   def query
     return render nothing: true, status: :bad_request unless valid_page?
 
-    scope = authorized_scope(ProjectsQuery.call(params))
+    scope = authorized_scope(call(params))
 
     pagy, records = pagy(scope, page: params[:page])
     render json: { data: records, pagy: pagy_metadata(pagy) }
   end
 
   # GET /projects/1
-  def show
-  end
+  def show; end
 
   # GET /projects/new
   def new
@@ -30,8 +31,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /projects
   def create

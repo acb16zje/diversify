@@ -1,32 +1,31 @@
 # frozen_string_literal: true
 
-# Class for Project policies
-class ProjectsQuery
-  def self.call(params = {}, relation = Project.all)
+# Class for Project query
+module ProjectsQuery
+  def call(params = {}, relation = Project.all)
     search_params = params.except(:page, :sort, :name).permit(
       :status, :category
     ).delete_if { |_, value| value.blank? }
     relation = search(relation, search_params)
     relation = name(relation, params[:name])
-    relation = sort(relation, params[:sort])
-    relation
+    sort(relation, params[:sort])
   end
 
-  def self.name(relation, name)
+  def name(relation, name)
     return relation if name.blank?
 
     relation.where('name LIKE ?', "%#{name}%")
   end
 
-  def self.sort(relation, sort)
+  def sort(relation, sort)
     relation.order(sort_items(sort))
   end
 
-  def self.search(relation, search_params)
+  def search(relation, search_params)
     relation.where(search_params)
   end
 
-  def self.sort_items(order)
+  def sort_items(order)
     case order
     when 'name_desc'
       'name desc'
