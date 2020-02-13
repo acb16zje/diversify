@@ -43,7 +43,7 @@
           .field.is-grouped.is-grouped-multiline
             .control
               .select
-                = f.date_select :birthdate, start_year: current_user.created_at.year, end_year: Time.current.year - 80,
+                = f.date_select :birthdate, start_year: Time.current.year - 7, end_year: Time.current.year - 80,
                   prompt: { day: 'Select day', month: 'Select month', year: 'Select year' },
                   date_separator: '</div></div><div class="control"><div class="select">'
           .field

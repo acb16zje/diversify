@@ -25,6 +25,10 @@
 
 # User model
 class User < ApplicationRecord
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+
   has_many :projects, dependent: :destroy
   has_many :user_personalities, dependent: :destroy
   has_many :personalities, through: :user_personalities
@@ -45,13 +49,7 @@ class User < ApplicationRecord
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 
-  validate :valid_birthdate?, on: :update
-
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+  validate :provided_birthdate, on: :update
 
   after_commit :disable_password_automatically_set,
                on: :update,
@@ -88,19 +86,27 @@ class User < ApplicationRecord
     update(password_automatically_set: false)
   end
 
-  def valid_birthdate?
-    return if birthdate.blank?
+  def provided_birthdate
+    return if birthdate_before_type_cast.blank?
 
-    age = ((Time.current - birthdate.to_time) / 1.year.seconds).floor
+    date = Date.new(
+      birthdate_before_type_cast[1], # year
+      birthdate_before_type_cast[2], # month
+      birthdate_before_type_cast[3]  # day of month
+    )
 
-    if birthdate >= created_at.to_date
+    if date >= created_at.to_date
       errors.add(:birthdate, 'must be before the account creation date')
       return
     end
 
+    age = ((Time.current - date.to_time) / 1.year.seconds).floor
+
     return if age.between?(6, 80)
 
     errors.add(:age, 'must be between 6 and 80 years old')
+  rescue StandardError
+    errors.add(:date, 'is invalid')
   end
 
 end
