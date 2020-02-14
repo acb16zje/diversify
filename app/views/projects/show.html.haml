@@ -1,6 +1,15 @@
-%p#notice= notice
+- content_for :title, @project.name
 
-
-= link_to 'Edit', edit_project_path(@project)
-\|
-= link_to 'Back', projects_path
+%section.section#projects
+  .container
+  .columns.is-vcentered
+    .column.is-narrow
+      - if @project.avatar.attached?
+        %img{src: "#{@project.avatar}"}
+      - else
+        %img{src: "http://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{@project.name[0]}"}
+    .column
+      %h1.title.is-2
+        =@project.name
+      =@project.user.name
+      =@project.visibility

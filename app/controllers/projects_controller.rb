@@ -5,6 +5,7 @@ class ProjectsController < ApplicationController
   include ProjectsQuery
 
   before_action :set_project, only: %i[show edit update destroy]
+  skip_before_action :authenticate_user!, only: %i[index show query]
 
   layout 'user'
 
@@ -14,7 +15,7 @@ class ProjectsController < ApplicationController
   end
 
   def query
-    return render nothing: true, status: :bad_request unless valid_page?
+    return render json: {}, status: :bad_request unless valid_page?
 
     scope = authorized_scope(call(params))
 
@@ -23,7 +24,9 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1
-  def show; end
+  def show
+    authorize! @project
+  end
 
   # GET /projects/new
   def new
@@ -72,6 +75,6 @@ class ProjectsController < ApplicationController
   end
 
   def valid_page?
-    params[:page].to_i.is_a? Numeric
+    params[:page].to_i > 0
   end
 end

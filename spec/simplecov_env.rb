@@ -29,7 +29,6 @@ module SimpleCovEnv
         load_profile 'rails'
 
         add_filter 'vendor/'
-        add_filter 'app/controllers/projects_controller.rb'
         add_filter 'app/controllers/reviews_controller.rb'
         add_filter 'app/controllers/tasks_controller.rb'
         add_filter 'app/controllers/teams_controller.rb'
@@ -41,7 +40,6 @@ module SimpleCovEnv
         add_filter 'app/models/license.rb'
         add_filter 'app/models/personality.rb'
         add_filter 'app/models/preference.rb'
-        add_filter 'app/models/project.rb'
         add_filter 'app/models/review.rb'
         add_filter 'app/models/skill.rb'
         add_filter 'app/models/skill_level.rb'
