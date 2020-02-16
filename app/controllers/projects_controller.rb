@@ -28,6 +28,10 @@ class ProjectsController < ApplicationController
     authorize! @project
   end
 
+  def self
+    @projects = Project.where(user: current_user)
+  end
+
   # GET /projects/new
   def new
     @project = Project.new

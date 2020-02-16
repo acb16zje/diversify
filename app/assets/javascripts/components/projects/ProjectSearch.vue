@@ -90,10 +90,9 @@
                              'tag is-danger':project.status === 'Completed'}"
               >
                 Status: {{ project.status }}
-                Visibility: {{ project.visibility }}
               </span>
               <span class="tag is-primary">
-                Category: {{ categories[project.category_id-1]['name'] }}
+                Category: {{ categories[project.category_id-1]["name"] }}
               </span>
               <div class="project-description">
                 <p>

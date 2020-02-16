@@ -1,0 +1,11 @@
+- content_for :title, 'My Projects'
+
+%section
+  .content
+    .container
+      %b-tabs{ 'type': 'is-toggle', 'expanded': '' }
+        %b-tab-item{ 'active': '', 'label': 'Your Projects' }
+          %=
+        %b-tab-item{ 'label': 'Joined Projects' }
+          %p I'm the second tab
+

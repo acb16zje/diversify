@@ -5,11 +5,15 @@
   .columns.is-vcentered
     .column.is-narrow
       - if @project.avatar.attached?
-        %img{src: "#{@project.avatar}"}
+        %img{ src: @project.avatar.to_s }
       - else
-        %img{src: "http://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{@project.name[0]}"}
+        %img{ src: "http://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{@project.name[0]}" }
     .column
       %h1.title.is-2
-        =@project.name
-      =@project.user.name
-      =@project.visibility
+        = @project.name
+        - if @project.visibility == 'Public'
+          %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
+        - else
+          %span.icon.iconify{ 'data-icon': 'fa:lock' }
+      %p Owned by: #{@project.user.name}
+
