@@ -8,7 +8,7 @@
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
 #  status      :string           default("active"), not null
-#  visibility  :string           default("public", not null
+#  visibility  :string           default("public"), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint

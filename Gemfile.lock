@@ -12,7 +12,7 @@ GIT
 
 GIT
   remote: https://github.com/rails/webpacker.git
-  revision: 3eecc5c0596a276eb36cc84bb30829a584b6b1c0
+  revision: ac0c726d57d3b16df833b06bf041c7560c0a7a05
   specs:
     webpacker (4.2.2)
       activesupport (>= 4.2)
@@ -113,6 +113,10 @@ GEM
     activerecord (6.0.2.1)
       activemodel (= 6.0.2.1)
       activesupport (= 6.0.2.1)
+    activerecord-pg_enum (1.1.0)
+      activerecord (>= 4.1.0)
+      activesupport
+      pg
     activestorage (6.0.2.1)
       actionpack (= 6.0.2.1)
       activejob (= 6.0.2.1)
@@ -353,7 +357,7 @@ GEM
     rubocop-rails (2.4.2)
       rack (>= 1.1)
       rubocop (>= 0.72.0)
-    rubocop-rspec (1.38.0)
+    rubocop-rspec (1.38.1)
       rubocop (>= 0.68.1)
     ruby-progressbar (1.10.1)
     ruby-vips (2.0.17)
@@ -411,6 +415,7 @@ PLATFORMS
 DEPENDENCIES
   action_policy
   active_storage_validations
+  activerecord-pg_enum
   ahoy_matey
   airbrake!
   annotate

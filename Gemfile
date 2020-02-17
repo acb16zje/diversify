@@ -22,6 +22,9 @@ gem 'responders'
 # PostgreSQL database
 gem 'pg'
 
+# Enum column support for Rails schema
+gem 'activerecord-pg_enum'
+
 # Active Storage
 gem 'active_storage_validations'
 

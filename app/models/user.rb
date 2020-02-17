@@ -29,17 +29,18 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
 
-  has_many :projects, dependent: :destroy
+  has_one_attached :avatar
+  has_one :license, dependent: :destroy
+
+  has_many :identities, dependent: :destroy
   has_many :user_personalities, dependent: :destroy
   has_many :personalities, through: :user_personalities
   has_many :preferences, dependent: :destroy
-  has_many :tasks, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
+  has_many :projects, dependent: :destroy
+  has_many :tasks, dependent: :destroy
   # has_and_belongs_to_many :teams
   has_many :reviews, dependent: :destroy
-  has_one :license, dependent: :destroy
-  has_many :identities, dependent: :destroy
-  has_one_attached :avatar
 
   validates :email,
             presence: true,
@@ -50,6 +51,8 @@ class User < ApplicationRecord
                      size: { less_than: 200.kilobytes }
 
   validate :provided_birthdate, on: :update
+
+  before_commit :create_license, on: :create
 
   after_commit :disable_password_automatically_set,
                on: :update,
@@ -79,6 +82,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def create_license
+    super
+  end
 
   def disable_password_automatically_set
     return unless password_automatically_set
