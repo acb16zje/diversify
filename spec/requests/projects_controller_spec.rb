@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+SORT_TIME = %w[name_asc name_desc date_asc date_desc].freeze
 
 describe ProjectsController, type: :request do
   let(:user) { create(:user) }
@@ -8,21 +9,25 @@ describe ProjectsController, type: :request do
   let(:project) { create(:project) }
   let(:private_project) { create(:project, :private, user: admin) }
   let(:owned_project) { create(:project, :private, user: user) }
-  SORT_TIME = %w[name_asc name_desc date_asc date_desc]
+  let(:valid_params) do
+    {
+      page: 1,
+      name: 'test',
+      category: 'test',
+      status: 'Ongoing',
+      sort: 'name_asc',
+      type: 'projects'
+    }
+  end
 
   describe 'authorisations' do
     before { sign_in user }
 
     it 'has authorized scope' do
-      expect { post query_projects_path,params: {
-          page: 1,
-          name: 'test',
-          category: 'test',
-          status: 'Ongoing',
-          sort: 'name_asc'
-        }
-      }.to have_authorized_scope(:active_record_relation)
-        .with(ProjectPolicy)
+      expect do
+        post query_projects_path,
+             params: valid_params
+      end.to have_authorized_scope(:active_record_relation).with(ProjectPolicy)
     end
   end
 
@@ -54,7 +59,8 @@ describe ProjectsController, type: :request do
             name: 'test',
             category: 'test',
             status: 'Ongoing',
-            sort: sort
+            sort: sort,
+            type: 'projects'
           }
           expect(response).to have_http_status(:ok)
         }
@@ -68,7 +74,8 @@ describe ProjectsController, type: :request do
           name: '',
           category: 'test',
           status: 'Ongoing',
-          sort: 'name_asc'
+          sort: 'name_asc',
+          type: 'bla'
         }
         expect(response).to have_http_status(:bad_request)
       }
@@ -91,6 +98,7 @@ describe ProjectsController, type: :request do
         get project_path(private_project)
         expect(response).to have_http_status(:forbidden)
       end
+
       it 'allow access for owned private project' do
         get project_path(owned_project)
         expect(response).to have_http_status(:ok)
@@ -103,6 +111,24 @@ describe ProjectsController, type: :request do
         get project_path(private_project)
         expect(response).to have_http_status(:forbidden)
       end
+    end
+  end
+
+  describe 'GET #self' do
+    describe 'when signed in' do
+      before { sign_in user }
+
+      it {
+        get self_projects_path
+        expect(response).to have_http_status(:ok)
+      }
+    end
+
+    describe 'when signed out' do
+      it {
+        get self_projects_path
+        expect(response).to redirect_to new_user_session_path
+      }
     end
   end
 end

@@ -11,6 +11,10 @@
       = nav_link_to 'Profile', path: settings_profile_path, class: 'panel-block'
       = nav_link_to 'Account', path: settings_account_path, class: 'panel-block'
       = nav_link_to 'Emails', path: settings_emails_path, class: 'panel-block'
+      %p.panel-heading
+        User Profile
+      = nav_link_to 'Personalities', path: '#', class: 'panel-block'
+      = nav_link_to 'Skills', path: '#', class: 'panel-block'
 
 - content_for :footer do
   = render 'layouts/footer'
