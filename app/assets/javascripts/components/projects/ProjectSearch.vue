@@ -94,6 +94,9 @@
               <span class="tag is-primary">
                 Category: {{ categories[project.category_id-1]["name"] }}
               </span>
+              <span v-if="type !== 'projects'" class="tag is-light">
+                Visibility: {{ project.visibility }}
+              </span>
               <div class="project-description">
                 <p>
                   {{ project.description }}
@@ -125,6 +128,10 @@ import Rails from '@rails/ujs';
 
 export default {
   props: {
+    type: {
+      type: String,
+      required: true
+    },
     originalCat: {
       type: String,
       required: true,
@@ -175,6 +182,7 @@ export default {
           category: this.category,
           status: this.status,
           sort: this.sort,
+          type: this.type
         }),
         success: (data) => {
           this.current = data.pagy.page;

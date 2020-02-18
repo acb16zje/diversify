@@ -1,5 +1,7 @@
-%h1 New project
+- content_for :title, 'Create Project'
 
-= render 'form'
+%section.section#projects
+  .container
+    %h1.title Create Project
 
-= link_to 'Back', projects_path
+    = link_to 'Back', projects_path

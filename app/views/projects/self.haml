@@ -1,10 +1,19 @@
 - content_for :title, 'My Projects'
 
-%section
-  .content
-    .container
-      %b-tabs{ 'type': 'is-toggle', 'expanded': '' }
-        %b-tab-item{ 'active': '', 'label': 'Your Projects' }
-          %p I'm the first tab
-        %b-tab-item{ 'label': 'Joined Projects' }
-          %p I'm the second tab
+%section.section
+  .container
+    .columns
+      .column
+        %h1.title.is-1 My Projects
+      .column
+        .is-pulled-right
+          = link_to new_project_path, class:'button is-primary' do
+            %p New Project
+            %span.icon
+              %span.iconify{ 'data-icon': 'el:plus' }
+    %b-tabs{ 'type': 'is-toggle', 'expanded': '' }
+      %b-tab-item{ 'active': '', 'label': 'Your Projects' }
+        %project-search{ 'original-cat': @categories.to_json, 'type': 'owned' }
+      %b-tab-item{ 'label': 'Joined Projects' }
+        // WILL BE IMPLEMENTED WHEN TEAMS ARE ADDED
+        -# %project-search{ 'original-cat': @categories.to_json, 'type': 'joined' }

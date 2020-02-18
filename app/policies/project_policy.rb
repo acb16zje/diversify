@@ -11,6 +11,6 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    record.user_id == user&.id || record.visibility == 'Public'
+    record.user_id == user&.id || record.visibility == 'Public' || user&.admin?
   end
 end

@@ -3,7 +3,9 @@
 # Class for Project query
 module ProjectsQuery
   def call(params = {}, relation = Project.all)
-    search_params = params.except(:page, :sort, :name).permit(
+    relation = Project.where(user: current_user) if params[:type] == 'owned'
+
+    search_params = params.except(:page, :sort, :name, :type).permit(
       :status, :category
     ).delete_if { |_, value| value.blank? }
     relation = search(relation, search_params)

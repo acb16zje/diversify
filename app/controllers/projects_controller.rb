@@ -29,7 +29,8 @@ class ProjectsController < ApplicationController
   end
 
   def self
-    @projects = Project.where(user: current_user)
+    @categories = Category.all
+    @owned_projects = Project.where(user: current_user)
   end
 
   # GET /projects/new
@@ -79,6 +80,7 @@ class ProjectsController < ApplicationController
   end
 
   def valid_page?
-    params[:page].to_i > 0
+    params[:page].to_i.positive? &&
+      %w[projects joined owned].include?(params[:type])
   end
 end
