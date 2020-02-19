@@ -29,11 +29,11 @@
               = link_to 'Get started for free', newsletter_pages_path(type: 'Free'), class: 'button is-primary is-medium'
 
         .column
-          .card.border
+          .card
             .card-content
               .content
                 %h5.title.is-5.has-text-centered Professional
-                %h2.title.is-2.has-text-centered £ 15 / month
+                %h2.title.is-2.has-text-centered £ 10 / month
 
                 %p.card-text.small.is-flex
                   %span.icon
@@ -43,7 +43,7 @@
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
-                  %span Create unlimited projects
+                  %span Unlimited private projects
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{ 'data-icon': 'fa-solid:check' }
@@ -60,11 +60,11 @@
               = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Pro'), class: 'button is-primary is-medium'
 
         .column
-          .card
+          .card.border
             .card-content
               .content
-                %h5.title.is-5.has-text-centered Enterprise
-                %h2.title.is-2.has-text-centered £ 165 / year
+                %h5.title.is-5.has-text-centered Ultimate
+                %h2.title.is-2.has-text-centered £ 20 / month
 
                 %p.card-text.small.is-flex
                   %span.icon
@@ -78,13 +78,9 @@
                 %p.card-text.small.is-flex
                   %span.icon.has-text-success
                     %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
-                  %span Unlimited sub-accounts
-                %p.card-text.small.is-flex
-                  %span.icon.has-text-success
-                    %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Unlimited active tasks
             %footer.card-footer
-              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Enterprise'), class: 'button is-primary is-medium'
+              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Ultimate'), class: 'button is-primary is-medium'
 
   %section.hero.is-medium
     .hero-body
@@ -109,7 +105,7 @@
               %th Features
               %th{ align: 'center' } Casual
               %th{ align: 'center' } Professional
-              %th{ align: 'center' } Enterprise
+              %th{ align: 'center' } Ultimate
           %tbody
             %tr
               %th 1
@@ -126,7 +122,7 @@
             %tr
               %th 2
               %td Create public projects
-              %td{ align: 'center' } 5
+              %td{ align: 'center' } Unlimited
               %td{ align: 'center' } Unlimited
               %td{ align: 'center' } Unlimited
 
@@ -143,7 +139,7 @@
               %th 4
               %td Members per project
               %td{ align: 'center' } 10
-              %td{ align: 'center' } 50
+              %td{ align: 'center' } 30
               %td{ align: 'center' } Unlimited
 
             %tr
@@ -181,8 +177,8 @@
             %tr
               %th 8
               %td No. of active tasks
-              %td{ align: 'center' } 15
-              %td{ align: 'center' } 100
+              %td{ align: 'center' } 20
+              %td{ align: 'center' } 60
               %td{ align: 'center' } Unlimited
 
             %tr

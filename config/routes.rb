@@ -81,6 +81,7 @@ Rails.application.routes.draw do
     end
   end
 
+  # /settings/:path
   scope module: :users do
     namespace :settings do
       resource :profile, only: %i[show update] do
@@ -89,6 +90,10 @@ Rails.application.routes.draw do
 
       resource :account, only: :show do
         delete 'disconnect_omniauth'
+      end
+
+      resource :billing, only: :show do
+
       end
 
       resource :emails, only: :show do
@@ -101,6 +106,7 @@ Rails.application.routes.draw do
   resources :projects do
     collection do
       post 'query'
+      get 'self'
     end
   end
 

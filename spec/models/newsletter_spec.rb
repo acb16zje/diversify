@@ -17,7 +17,7 @@ describe Newsletter, type: :model do
   let(:newsletter) { create(:newsletter) }
 
   describe 'associations' do
-    it { is_expected.to have_one(:rich_text_content) }
+    it { is_expected.to have_rich_text(:content) }
   end
 
   describe 'validations' do

@@ -61,7 +61,7 @@ class PagesController < ApplicationController
   end
 
   def valid_subscription_type?
-    %w[Free Pro Enterprise].include? params[:type]
+    %w[Free Pro Ultimate].include? params[:type]
   end
 
   def valid_social_type?

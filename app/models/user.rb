@@ -25,17 +25,22 @@
 
 # User model
 class User < ApplicationRecord
-  has_many :projects, dependent: :destroy
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable,
+         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+
+  has_one_attached :avatar
+  has_one :license, dependent: :destroy
+
+  has_many :identities, dependent: :destroy
   has_many :user_personalities, dependent: :destroy
   has_many :personalities, through: :user_personalities
   has_many :preferences, dependent: :destroy
-  has_many :tasks, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
+  has_many :projects, dependent: :destroy
+  has_many :tasks, dependent: :destroy
   # has_and_belongs_to_many :teams
   has_many :reviews, dependent: :destroy
-  has_one :license, dependent: :destroy
-  has_many :identities, dependent: :destroy
-  has_one_attached :avatar
 
   validates :email,
             presence: true,
@@ -45,13 +50,9 @@ class User < ApplicationRecord
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 
-  validate :valid_birthdate?, on: :update
+  validate :provided_birthdate, on: :update
 
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+  before_commit :create_license, on: :create
 
   after_commit :disable_password_automatically_set,
                on: :update,
@@ -82,25 +83,37 @@ class User < ApplicationRecord
 
   private
 
+  def create_license
+    super
+  end
+
   def disable_password_automatically_set
     return unless password_automatically_set
 
     update(password_automatically_set: false)
   end
 
-  def valid_birthdate?
-    return if birthdate.blank?
+  def provided_birthdate
+    return if birthdate_before_type_cast.blank?
 
-    age = ((Time.current - birthdate.to_time) / 1.year.seconds).floor
+    date = Date.new(
+      birthdate_before_type_cast[1], # year
+      birthdate_before_type_cast[2], # month
+      birthdate_before_type_cast[3]  # day of month
+    )
 
-    if birthdate >= created_at.to_date
+    if date >= created_at.to_date
       errors.add(:birthdate, 'must be before the account creation date')
       return
     end
 
+    age = ((Time.current - date.to_time) / 1.year.seconds).floor
+
     return if age.between?(6, 80)
 
     errors.add(:age, 'must be between 6 and 80 years old')
+  rescue StandardError
+    errors.add(:date, 'is invalid')
   end
 
 end

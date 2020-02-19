@@ -46,9 +46,9 @@ FactoryBot.define do
       properties { { type: 'Pro' } }
     end
 
-    trait :enterprise do
+    trait :ultimate do
       pricing_link
-      properties { { type: 'Enterprise' } }
+      properties { { type: 'Ultimate' } }
     end
 
     # Social share traits

@@ -44,10 +44,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if errors.blank?
       @user = identity.user
-      unless @user.avatar.attached?
-        downloaded_image = open(request.env['omniauth.auth'].info.image)
-        @user.avatar.attach(io: downloaded_image, filename: 'foo.jpg')
-      end
     else
       flash[:toast] = { type: 'error', message: errors }
       redirect_to new_user_registration_url

@@ -8,7 +8,7 @@ describe 'Metrics > Dashboard', :js, type: :feature do
       before do
         create(:ahoy_event, :free)
         create(:ahoy_event, :pro)
-        create(:ahoy_event, :enterprise)
+        create(:ahoy_event, :ultimate)
 
         visit metrics_path
       end

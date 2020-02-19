@@ -1,6 +1,8 @@
+
+
 - content_for :title, 'Browse Projects'
 
 %section.section#projects
   .container
     %h1.title.is-1 Browse Projects
-    %project-search{ 'original-cat': @categories.to_json }
+    %project-search{ 'original-cat': @categories.to_json, 'type': 'projects' }

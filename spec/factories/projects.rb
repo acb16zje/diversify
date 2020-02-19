@@ -27,5 +27,15 @@
 
 FactoryBot.define do
   factory :project do
+    description { 'lorem ipsum' }
+    name { 'Project' }
+    status { 'active' }
+    visibility { 'Public' }
+    association :category, factory: :category
+    association :user, factory: :user
+  end
+
+  trait :private do
+    visibility { 'private' }
   end
 end

@@ -28,34 +28,86 @@ describe Users::Settings::ProfilesController, type: :request do
   describe 'PATCH #update' do
     before { sign_in user }
 
-    context 'with valid birthdate' do
+    shared_examples 'returns Bad Request' do
       it {
-        patch settings_profile_path, params: { user: { birthdate: '1/1/1970' } }
+        patch settings_profile_path, params: params
+
+        expect(response).to have_http_status(:bad_request)
+      }
+    end
+
+    context 'with empty birthdate' do
+      it {
+        patch settings_profile_path, params: { user: { birthdate: '' } }
 
         expect(response).to have_http_status(:ok)
       }
     end
 
-    context 'with invalid birthdate' do
-      it 'returns HTTP 400 for birthdate >= created_at' do
-        patch settings_profile_path, params: {
-          user: { birthdate: user.created_at }
+    context 'with invalid request syntax' do
+      let(:params) { { user: { birthdate: '1/1/1970' } } }
+
+      it_behaves_like 'returns Bad Request'
+    end
+
+    context 'when age between 6 and 80' do
+      let(:params) do
+        {
+          user: {
+            'birthdate(1i)': 1990,
+            'birthdate(2i)': 1,
+            'birthdate(3i)': 1
+          }
         }
-        expect(response).to have_http_status(:bad_request)
       end
 
-      it 'returns HTTP 400 for age < 6' do
-        patch settings_profile_path, params: {
-          user: { birthdate: Time.current - 1.year }
+      it {
+        patch settings_profile_path, params: params
+
+        expect(response).to have_http_status(:ok)
+      }
+    end
+
+    context 'when birthdate >= created_at' do
+      let(:params) do
+        {
+          user: {
+            'birthdate(1i)': user.created_at.year,
+            'birthdate(2i)': user.created_at.month,
+            'birthdate(3i)': user.created_at.day
+          }
         }
-        expect(response).to have_http_status(:bad_request)
       end
 
-      it 'returns HTTP 400 for age > 80' do
-        patch settings_profile_path, params: { user: { birthdate: '1/1/1800' } }
+      it_behaves_like 'returns Bad Request'
+    end
 
-        expect(response).to have_http_status(:bad_request)
+    context 'when age < 6' do
+      let(:params) do
+        {
+          user: {
+            'birthdate(1i)': Time.current.year - 5,
+            'birthdate(2i)': 1,
+            'birthdate(3i)': 1
+          }
+        }
       end
+
+      it_behaves_like 'returns Bad Request'
+    end
+
+    context 'when age > 80' do
+      let(:params) do
+        {
+          user: {
+            'birthdate(1i)': Time.current.year - 81,
+            'birthdate(2i)': 1,
+            'birthdate(3i)': 1
+          }
+        }
+      end
+
+      it_behaves_like 'returns Bad Request'
     end
   end
 

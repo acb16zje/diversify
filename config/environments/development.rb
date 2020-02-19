@@ -8,6 +8,7 @@ Rails.application.configure do
   # Preview email in the browser instead of sending it
   config.action_mailer.default_url_options = { host: 'localhost:3000' }
   config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.asset_host = 'http://localhost:3000'
 
   # In the development environment your application's code is reloaded on
   # every request. This slows down response time but is perfect for development
@@ -52,8 +53,6 @@ Rails.application.configure do
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
-  config.action_controller.asset_host = 'http://localhost:3000'
 
   # Debug mode disables concatenation and preprocessing of assets.
   # This option may cause significant delays in view rendering with a large

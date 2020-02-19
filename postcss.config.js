@@ -16,14 +16,14 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     'disabled',
   ],
   whitelistPatternsChildren: [
-    /modal/, /navbar/, /dropdown/, /pagination/, /level/, /trix/,
+    /modal/, /navbar/, /dropdown/, /pagination/, /level/, /trix/, /tabs/,
   ],
 });
 
 module.exports = {
   plugins: [
     postCssImport,
-    // purgeCss,
+    purgeCss,
     cssNano,
   ],
 };

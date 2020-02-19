@@ -8,7 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  config.secret_key = '3248ee4017459408e3c0cd2078f32220686d8c26854f5d2b9ff3b2142e366091815150eb0e03fe05f1c64f64e7ed69be51a7ed8409ec431c06307747643a8844'
+  # config.secret_key =
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
@@ -114,7 +114,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  config.pepper = '0832550a1620e2d5ae3feb8217958e7eb311fcd38614b1830bfffc2ff61370e8f5be179a5a6aec979ccd657b770276c1a6b736caf70d6b5ec6fe66a4d3442c95'
+  config.pepper = Rails.application.credentials.pepper
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -260,9 +260,18 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
-  config.omniauth :google_oauth2, '719224855783-s9u7alktljkerf5lj9euetef0lpjjrvr.apps.googleusercontent.com', 'sBV9T2pm0152A-kYyZtDIM7v', access_type: 'online', skip_jwt: true
-  config.omniauth :twitter, 'U73tmcf1RtiKanL4Pg3OV52lP', 'fQUhTZYKZc0c2o88fIOwl7yOdDiLiXTJi5hXEcRE4QPO2XOTAF'
-  config.omniauth :facebook, '529414087675445', '03f889cb51fb7fe1ec6e267624da5a85', token_params: { parse: :json }
+  config.omniauth :google_oauth2,
+                  Rails.application.credentials.google_oauth2[:app_id],
+                  Rails.application.credentials.google_oauth2[:app_secret],
+                  access_type: 'online',
+                  skip_jwt: true
+  config.omniauth :twitter,
+                  Rails.application.credentials.twitter[:app_id],
+                  Rails.application.credentials.twitter[:app_secret]
+  config.omniauth :facebook,
+                  Rails.application.credentials.facebook[:app_id],
+                  Rails.application.credentials.facebook[:app_secret],
+                  token_params: { parse: :json }
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

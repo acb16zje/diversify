@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 namespace :production do
-  # Prepare the deployment requirements
+  desc 'Prepare the deployment requirements'
   task prepare: :environment do
     # Check ssh-agent, and do ssh-add
-    system Rails.root.join('lib/scripts/ssh-agent.sh').to_s
+    system ". #{Rails.root.join('lib/scripts/ssh-agent.sh')}"
 
     # Remove old webpack output
     Rake::Task['webpacker:clobber'].invoke

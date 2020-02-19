@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_160345) do
+ActiveRecord::Schema.define(version: 2020_02_13_223322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "plan_name", ["free", "pro", "ultimate"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -141,12 +144,10 @@ ActiveRecord::Schema.define(version: 2020_02_03_160345) do
   end
 
   create_table "licenses", force: :cascade do |t|
-    t.date "start_date", null: false
+    t.enum "plan", default: "free", null: false, as: "plan_name"
     t.bigint "user_id"
-    t.bigint "subscription_plan_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["subscription_plan_id"], name: "index_licenses_on_subscription_plan_id"
     t.index ["user_id"], name: "index_licenses_on_user_id"
   end
 
@@ -212,15 +213,6 @@ ActiveRecord::Schema.define(version: 2020_02_03_160345) do
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
-  create_table "sessions", force: :cascade do |t|
-    t.string "session_id", null: false
-    t.text "data"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
-    t.index ["updated_at"], name: "index_sessions_on_updated_at"
-  end
-
   create_table "skill_levels", force: :cascade do |t|
     t.integer "experience", default: 0, null: false
     t.integer "level", default: 0, null: false
@@ -239,14 +231,6 @@ ActiveRecord::Schema.define(version: 2020_02_03_160345) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_skills_on_category_id"
-  end
-
-  create_table "subscription_plans", force: :cascade do |t|
-    t.string "name", null: false
-    t.float "monthly_cost", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["name"], name: "index_subscription_plans_on_name", unique: true
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -300,7 +284,6 @@ ActiveRecord::Schema.define(version: 2020_02_03_160345) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
-  add_foreign_key "licenses", "subscription_plans"
   add_foreign_key "licenses", "users"
   add_foreign_key "newsletter_feedbacks", "newsletter_subscriptions"
   add_foreign_key "preferences", "users"
