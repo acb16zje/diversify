@@ -14,7 +14,7 @@ describe ProjectsController, type: :request do
       page: 1,
       name: 'test',
       category: 'test',
-      status: 'Ongoing',
+      status: 'Active',
       sort: 'name_asc',
       type: 'projects'
     }
@@ -58,7 +58,7 @@ describe ProjectsController, type: :request do
             page: 1,
             name: 'test',
             category: 'test',
-            status: 'Ongoing',
+            status: 'Active',
             sort: sort,
             type: 'projects'
           }
@@ -73,7 +73,7 @@ describe ProjectsController, type: :request do
           page: 'bla',
           name: '',
           category: 'test',
-          status: 'Ongoing',
+          status: 'Active',
           sort: 'name_asc',
           type: 'bla'
         }

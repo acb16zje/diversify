@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_223322) do
+ActiveRecord::Schema.define(version: 2020_02_19_042901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
   create_enum "plan_name", ["free", "pro", "ultimate"]
+  create_enum "status_name", ["Open", "Active", "Completed"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -191,12 +192,12 @@ ActiveRecord::Schema.define(version: 2020_02_13_223322) do
   create_table "projects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
-    t.string "status", default: "active", null: false
-    t.string "visibility", default: "public", null: false
     t.bigint "category_id"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "status", default: "Active", null: false, as: "status_name"
+    t.boolean "visibility", default: true
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
