@@ -7,8 +7,8 @@
 #  id          :bigint           not null, primary key
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
-#  status      :string           default("active"), not null
-#  visibility  :string           default("public"), not null
+#  status      :enum             default("Active"), not null
+#  visibility  :boolean          default(TRUE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint
@@ -29,13 +29,13 @@ FactoryBot.define do
   factory :project do
     description { 'lorem ipsum' }
     name { 'Project' }
-    status { 'active' }
-    visibility { 'Public' }
+    status { 'Active' }
+    visibility { true }
     association :category, factory: :category
     association :user, factory: :user
   end
 
   trait :private do
-    visibility { 'private' }
+    visibility { false }
   end
 end

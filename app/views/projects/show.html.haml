@@ -11,7 +11,7 @@
     .column
       %h1.title.is-2
         = @project.name
-        - if @project.visibility == 'Public'
+        - if @project.visibility
           %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
         - else
           %span.icon.iconify{ 'data-icon': 'fa:lock' }

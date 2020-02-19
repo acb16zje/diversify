@@ -7,8 +7,8 @@
 #  id          :bigint           not null, primary key
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
-#  status      :string           default("active"), not null
-#  visibility  :string           default("public"), not null
+#  status      :enum             default("Active"), not null
+#  visibility  :boolean          default(TRUE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint
@@ -36,5 +36,4 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
   validates :status, presence: true
-  validates :visibility, presence: true
 end

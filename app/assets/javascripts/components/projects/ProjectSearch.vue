@@ -23,8 +23,8 @@
             <option value="">
               All
             </option>
-            <option value="Ongoing">
-              Ongoing
+            <option value="Active">
+              Active
             </option>
             <option value="Completed">
               Completed
@@ -86,7 +86,7 @@
               <h1 class="is-1 is-title">
                 {{ project.name }}
               </h1>
-              <span :class="{'tag is-success':project.status === 'Ongoing',
+              <span :class="{'tag is-success':project.status === 'Active',
                              'tag is-danger':project.status === 'Completed'}"
               >
                 Status: {{ project.status }}
@@ -95,7 +95,7 @@
                 Category: {{ categories[project.category_id-1]["name"] }}
               </span>
               <span v-if="type !== 'projects'" class="tag is-light">
-                Visibility: {{ project.visibility }}
+                Visibility: {{ project.visibility ? "Public" : "Private" }}
               </span>
               <div class="project-description">
                 <p>
