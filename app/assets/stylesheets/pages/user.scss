@@ -74,4 +74,62 @@
       margin-bottom: 10px;
     }
   }
+
+  #billing-setting {
+    .columns {
+      flex-wrap: wrap;
+    }
+
+    .card {
+      min-width: 300px;
+      border-radius: 0.25rem;
+
+      header.card-header {
+        border-bottom: 1px solid #dbdbdb;
+      }
+
+      .card-content {
+        padding: 16px;
+
+        .price-per-month {
+          display: flex;
+          flex-direction: row;
+          color: #1f78d1;
+          line-height: 1;
+
+          .price {
+            font-size: 48px;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 0;
+          }
+
+          .condition {
+            font-size: 16px;
+            font-weight: 600;
+            margin: auto 0;
+          }
+        }
+
+        .price-per-year {
+          color: #1f78d1;
+          font-size: 13px;
+          font-weight: 600;
+        }
+
+        ul {
+          list-style: none;
+        }
+      }
+
+      hr {
+        background-color: #e1e1e1;
+      }
+
+      footer.card-footer {
+        flex-direction: row-reverse;
+        padding: 1rem;
+      }
+    }
+  }
 }

@@ -21,7 +21,7 @@
 
 # License model
 class License < ApplicationRecord
-  enum plan: { free: 'free', pro: 'pro', enterprise: 'enterprise' }
+  enum plan: { free: 'free', pro: 'pro', ultimate: 'ultimate' }
 
   belongs_to :user
 

@@ -29,7 +29,7 @@ describe License, type: :model do
   describe 'validations' do
     it {
       is_expected.to define_enum_for(:plan)
-        .with_values(free: 'free', pro: 'pro', enterprise: 'enterprise')
+        .with_values(free: 'free', pro: 'pro', ultimate: 'ultimate')
         .backed_by_column_of_type(:enum)
     }
 

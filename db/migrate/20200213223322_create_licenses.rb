@@ -1,6 +1,6 @@
 class CreateLicenses < ActiveRecord::Migration[6.0]
   def change
-    create_enum 'plan_name', %w[free pro enterprise]
+    create_enum 'plan_name', %w[free pro ultimate]
 
     create_table :licenses do |t|
       t.enum :plan, as: :plan_name, default: 'free', null: false

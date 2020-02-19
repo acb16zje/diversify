@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_02_13_223322) do
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
-  create_enum "plan_name", ["free", "pro", "enterprise"]
+  create_enum "plan_name", ["free", "pro", "ultimate"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
