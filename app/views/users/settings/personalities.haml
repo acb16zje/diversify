@@ -8,24 +8,24 @@
     %a.button.is-primary.align-bottom{href: 'https://www.16personalities.com/free-personality-test'} Click Here
   .content
     %h4.title.is-4 Current Personality
-    -if current_user.user_personality.nil?
-      %section.hero.is-danger.has-background
-        = image_tag 'avatar/large/chris.jpg', { class:'hero-background is-transparent' }
-        .hero-body
-          .container
-            %h1.title
-              No Personality Set
-    - else
-      - p = current_user.user_personality.personality
+    - if @user_p.persisted?
       %section.hero.is-info.has-background
         = image_tag 'avatar/large/chris.jpg', { class:'hero-background is-transparent' }
         .hero-body
           .container
             %h1.title
-              = p.to_name
+              = @user_p.personality.to_name
             %h2.subtitle
-              = p.trait
+              = @user_p.personality.trait
+    -else
+      %section.hero.is-danger.has-background
+        = image_tag 'avatar/large/ade.jpg', { class:'hero-background is-transparent' }
+        .hero-body
+          .container
+            %h1.title
+              No Personality Set
     .section
+      - p = @user_p.persisted? ? @user_p.personality : Personality.new
       = form_with model: p, url: settings_personality_path, method: :patch, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
         %h5.is-5 Mind
         .switch-field
