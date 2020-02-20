@@ -15,5 +15,28 @@ class Personality < ApplicationRecord
   has_many :user_personalities
   has_many :users, through: :user_personalities
 
+  NAME = {
+    ISTJ: 'Logistician',
+    INFJ: 'Advocate',
+    INTJ: 'Architect',
+    ENFJ: 'Protagonist',
+    ISTP: 'Virtuoso',
+    ESFJ: 'Consul',
+    INFP: 'Mediator',
+    ESFP: 'Entertainer',
+    ENFP: 'Campaigner',
+    ESTP: 'Entrepreneur',
+    ESTJ: 'Executive',
+    ENTJ: 'Commander',
+    INTP: 'Logician',
+    ISFJ: 'Defender',
+    ENTP: 'Debater',
+    ISFP: 'Adventurer'
+  }.freeze
+
+  def self.to_name(trait)
+    NAME[trait.to_sym]
+  end
+
   validates :trait, presence: true, uniqueness: true
 end

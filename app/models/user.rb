@@ -33,8 +33,8 @@ class User < ApplicationRecord
   has_one :license, dependent: :destroy
 
   has_many :identities, dependent: :destroy
-  has_many :user_personalities, dependent: :destroy
-  has_many :personalities, through: :user_personalities
+  has_one :user_personality, dependent: :destroy
+  has_one :personalities, through: :user_personality
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
   has_many :projects, dependent: :destroy

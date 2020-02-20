@@ -30,6 +30,16 @@ PERSONALITIES.each do |personality|
   )
 end
 
+UserPersonality.create!(
+  user: admin,
+  personality: Personality.all.first
+)
+
+UserPersonality.create!(
+  user: user,
+  personality: Personality.all.first
+)
+
 cat = Category.create!(
   name: 'Programming'
 )

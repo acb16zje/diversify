@@ -1,0 +1,25 @@
+- content_for :title, 'Personalities settings'
+
+%section.settings-section#personality-setting
+  .content
+    %h4.title.is-4 Personality Profile
+    %p
+      Please use the following link to know your personality.
+    %a.button.is-primary.align-bottom{href: 'https://www.16personalities.com/free-personality-test'} Click Here
+
+    -if current_user.user_personality.nil?
+      %section.hero.is-danger
+        .hero-body
+          .container
+            %h1.title
+              No Personality Set
+    - else
+      - trait = current_user.user_personality.personality.trait
+      %section.hero.is-info
+        .hero-body
+          .container
+            %h1.title
+              = Personality.to_name(trait)
+            %h2.subtitle
+              = trait
+    -# = form_with url: , method: :post, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
