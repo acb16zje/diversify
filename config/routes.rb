@@ -96,7 +96,7 @@ Rails.application.routes.draw do
 
       end
 
-      resource :personality, only: :show do
+      resource :personality, only: %i[show update] do
 
       end
 

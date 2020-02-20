@@ -34,9 +34,16 @@ class Personality < ApplicationRecord
     ISFP: 'Adventurer'
   }.freeze
 
-  def self.to_name(trait)
+  def to_name
     NAME[trait.to_sym]
   end
 
-  validates :trait, presence: true, uniqueness: true
+  def trait
+    (mind + energy + nature + tactic).upcase
+  end
+
+  validates :mind, presence: true
+  validates :energy, presence: true
+  validates :nature, presence: true
+  validates :tactic, presence: true
 end

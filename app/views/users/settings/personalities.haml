@@ -6,20 +6,53 @@
     %p
       Please use the following link to know your personality.
     %a.button.is-primary.align-bottom{href: 'https://www.16personalities.com/free-personality-test'} Click Here
-
+  .content
+    %h4.title.is-4 Current Personality
     -if current_user.user_personality.nil?
-      %section.hero.is-danger
+      %section.hero.is-danger.has-background
+        = image_tag 'avatar/large/chris.jpg', { class:'hero-background is-transparent' }
         .hero-body
           .container
             %h1.title
               No Personality Set
     - else
-      - trait = current_user.user_personality.personality.trait
-      %section.hero.is-info
+      - p = current_user.user_personality.personality
+      %section.hero.is-info.has-background
+        = image_tag 'avatar/large/chris.jpg', { class:'hero-background is-transparent' }
         .hero-body
           .container
             %h1.title
-              = Personality.to_name(trait)
+              = p.to_name
             %h2.subtitle
-              = trait
-    -# = form_with url: , method: :post, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
+              = p.trait
+    .section
+      = form_with model: p, url: settings_personality_path, method: :patch, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
+        %h5.is-5 Mind
+        .switch-field
+          = f.radio_button :mind, 'i', id: 'radio-i'
+          %label.button.is-fullwidth{:for => 'radio-i'} Introvert
+          = f.radio_button :mind, 'e', id: 'radio-e'
+          %label.button.is-fullwidth{:for => 'radio-e'} Extrovert
+        %h5.is-5 Energy
+        .switch-field
+          = f.radio_button :energy, 's', id: 'radio-s'
+          %label.button.is-fullwidth{:for => 'radio-s'} Observant
+          = f.radio_button :energy, 'n', id: 'radio-n'
+          %label.button.is-fullwidth{:for => 'radio-n'} Intuitive
+        %h5.is-5 Nature
+        .switch-field
+          = f.radio_button :nature, 't', id: 'radio-t'
+          %label.button.is-fullwidth{:for => 'radio-t'} Thinking
+          = f.radio_button :nature, 'f', id: 'radio-f'
+          %label.button.is-fullwidth{:for => 'radio-f'} Feeling
+        %h5.is-5 Tactics
+        .switch-field
+          = f.radio_button :tactic, 'j', id: 'radio-j'
+          %label.button.is-fullwidth{:for => 'radio-j'} Judging
+          = f.radio_button :tactic, 'p', id: 'radio-p'
+          %label.button.is-fullwidth{:for => 'radio-p'} Prospecting
+        .field
+          .control
+            = f.submit 'Set Personality', class: 'button is-warning'
+
+

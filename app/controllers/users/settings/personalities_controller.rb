@@ -5,4 +5,6 @@ class Users::Settings::PersonalitiesController < Users::Settings::BaseController
     render 'users/settings/personalities'
   end
 
+  def update; end
+
 end

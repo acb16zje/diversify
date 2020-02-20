@@ -16,8 +16,12 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "energies", ["n", "s"]
+  create_enum "minds", ["i", "e"]
+  create_enum "natures", ["f", "t"]
   create_enum "plan_name", ["free", "pro", "ultimate"]
   create_enum "status_name", ["Open", "Active", "Completed"]
+  create_enum "tactics", ["p", "j"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -175,7 +179,10 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
   end
 
   create_table "personalities", force: :cascade do |t|
-    t.string "trait", default: "", null: false
+    t.enum "mind", as: "minds"
+    t.enum "energy", as: "energies"
+    t.enum "nature", as: "natures"
+    t.enum "tactic", as: "tactics"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
