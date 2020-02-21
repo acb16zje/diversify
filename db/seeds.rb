@@ -21,14 +21,22 @@ user = User.create!(
   admin: false
 )
 
-PERSONALITIES = %w[ISTJ INFJ INTJ ENFJ ISTP ESFJ INFP ESFP ENFP ESTP ESTJ ENTJ
-                   INTP ISFJ ENTP ISFP].freeze
+PERSONALITIES = %w[istj infj intj enfj istp esfj infp esfp enfp estp estj entj
+                   intp isfj entp isfp].freeze
 
 PERSONALITIES.each do |personality|
   Personality.create!(
-    trait: personality
+    mind: personality[0],
+    energy: personality[1],
+    nature: personality[2],
+    tactic: personality[3]
   )
 end
+
+UserPersonality.create!(
+  user: user,
+  personality: Personality.all.first
+)
 
 cat = Category.create!(
   name: 'Programming'

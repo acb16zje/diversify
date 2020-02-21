@@ -36,6 +36,13 @@ FactoryBot.define do
     end
   end
 
+  trait :personality do
+    after(:create) do |user|
+      personality = create(:personality)
+      create(:user_personality, user: user, personality: personality)
+    end
+  end
+
   trait :with_avatar do
     avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
   end

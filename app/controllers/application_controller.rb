@@ -33,6 +33,11 @@ class ApplicationController < ActionController::Base
     render_403
   end
 
+  rescue_from ActiveRecord::StatementInvalid do
+    render json: { message: 'Invalid Statement' },
+    status: :unprocessable_entity
+  end
+
   private
 
   def render_403
