@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative 'user_helper'
 
 describe 'new Session > User', :js, type: :system do
   let(:user) do
@@ -24,8 +25,7 @@ describe 'new Session > User', :js, type: :system do
 
   describe 'sign in user' do
     it 'can request session' do
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
+      fill_form(user.email, user.password)
       click_button 'Sign in'
       expect(page).to have_content('Introduction')
     end
@@ -41,8 +41,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when wrong password' do
       it 'alerts user error' do
-        fill_in 'user_email', with: 'admin@email.com'
-        fill_in 'user_password', with: 'wrong password'
+        fill_form('admin@email.com', 'wrong password')
         click_button 'Sign in'
         expect(page).to have_content('Invalid email')
       end
@@ -50,7 +49,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when email missing @' do
       it 'prompts user to complete email' do
-        fill_in 'user_email', with: 'admin'
+        fill_form('admin', '')
         click_button 'Sign in'
         expect(email).to have_content('is missing an')
       end
@@ -58,7 +57,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when email incomplete after @' do
       it 'prompt user to complete email' do
-        fill_in 'user_email', with: 'admin@'
+        fill_form('admin@', '')
         click_button 'Sign in'
         expect(email).to have_content('Please enter a part following')
       end
@@ -73,7 +72,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when password is blank' do
       it 'prompt user to fill in password' do
-        fill_in 'user_email', with: 'admin@email.com'
+        fill_form('admin@email.com', '')
         click_button 'Sign in'
         expect(password).to have_content('Please fill in this field')
       end
