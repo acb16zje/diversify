@@ -17,14 +17,12 @@ describe 'new Session > User', :js, type: :system do
   end
 
   describe 'show sign in page' do
-    it { expect(page).to have_content('Sign in to Diversify') }
+    it do
+      expect(page).to have_content('Sign in to Diversify')
+    end
   end
 
   describe 'sign in user' do
-    before do
-      visit new_user_session_path
-    end
-
     it 'can request session' do
       fill_in 'user_email', with: user.email
       fill_in 'user_password', with: user.password
@@ -39,10 +37,6 @@ describe 'new Session > User', :js, type: :system do
     end
     let(:password) do
       find('#user_password').native.attribute('validationMessage')
-    end
-
-    before do
-      visit new_user_session_path
     end
 
     context 'when wrong password' do
@@ -117,7 +111,7 @@ describe 'new Session > User', :js, type: :system do
     context 'when redirecting to password recovery page' do
       it 'redirects to password recovery page' do
         click_link 'Forgot password?'
-        expect(page.path).to have_content('Forgot your password?')
+        expect(page).to have_content('Forgot your password?')
       end
     end
   end

@@ -23,10 +23,6 @@ describe 'new Registration > User', :js, type: :system do
   end
 
   describe 'sign up user' do
-    before do
-      visit new_user_registration_path
-    end
-
     it 'can register user' do
       fill_in 'user_email', with: 'newemail@email.com'
       fill_in 'user_password', with: 'password'
@@ -41,10 +37,6 @@ describe 'new Registration > User', :js, type: :system do
     end
     let(:password) do
       find('#user_password').native.attribute('validationMessage')
-    end
-
-    before do
-      visit new_user_registration_path
     end
 
     context 'when using a duplicate email address' do
