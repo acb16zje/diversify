@@ -4,14 +4,7 @@ require 'rails_helper'
 require_relative 'user_helper'
 
 describe 'new Registration > User', :js, type: :system do
-  let(:user) do
-    User.create(
-      name: 'User',
-      email: 'user@email.com',
-      password: 'password',
-      admin: false
-    )
-  end
+  let(:user) { create(:user) }
 
   before do
     visit new_user_registration_path

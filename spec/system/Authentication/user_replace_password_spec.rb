@@ -7,14 +7,7 @@ describe 'new Password > Password', :js, type: :system do
     visit new_user_password_path
   end
 
-  let(:user) do
-    User.create(
-      name: 'User',
-      email: 'user@email.com',
-      password: 'password',
-      admin: false
-    )
-  end
+  let(:user) { create(:user) }
 
   describe 'show password reset page' do
     it do
