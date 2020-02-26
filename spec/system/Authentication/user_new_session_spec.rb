@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative 'user_helper'
 
 describe 'new Session > User', :js, type: :system do
   let(:user) { create(:user) }
