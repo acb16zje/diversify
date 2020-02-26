@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative 'user_helper'
 
 describe 'new Session > User', :js, type: :system do
-  let(:user) do
-    User.create(
-      name: 'User',
-      email: 'user@email.com',
-      password: 'password',
-      admin: false
-    )
-  end
+  let(:user) { create(:user) }
 
   before do
     visit new_user_session_path
@@ -24,8 +18,7 @@ describe 'new Session > User', :js, type: :system do
 
   describe 'sign in user' do
     it 'can request session' do
-      fill_in 'user_email', with: user.email
-      fill_in 'user_password', with: user.password
+      fill_form(user.email, user.password)
       click_button 'Sign in'
       expect(page).to have_content('Introduction')
     end
@@ -41,8 +34,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when wrong password' do
       it 'alerts user error' do
-        fill_in 'user_email', with: 'admin@email.com'
-        fill_in 'user_password', with: 'wrong password'
+        fill_form('admin@email.com', 'wrong password')
         click_button 'Sign in'
         expect(page).to have_content('Invalid email')
       end
@@ -50,7 +42,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when email missing @' do
       it 'prompts user to complete email' do
-        fill_in 'user_email', with: 'admin'
+        fill_form('admin', '')
         click_button 'Sign in'
         expect(email).to have_content('is missing an')
       end
@@ -58,7 +50,7 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when email incomplete after @' do
       it 'prompt user to complete email' do
-        fill_in 'user_email', with: 'admin@'
+        fill_form('admin@', '')
         click_button 'Sign in'
         expect(email).to have_content('Please enter a part following')
       end
@@ -73,31 +65,32 @@ describe 'new Session > User', :js, type: :system do
 
     context 'when password is blank' do
       it 'prompt user to fill in password' do
-        fill_in 'user_email', with: 'admin@email.com'
+        fill_form('admin@email.com', '')
         click_button 'Sign in'
         expect(password).to have_content('Please fill in this field')
       end
     end
   end
 
-  describe 'sign in with omniauth_providers' do
-    context 'when signing in with google' do
-      it 'allows user to sign in with google' do
-        page.find(:css, '.button.google_oauth2').click
+  describe 'sign in with omniauth' do
+    OmniAuth.config.test_mode = true
+
+    Devise.omniauth_providers.each do |provider|
+      before do
+        Rails.application.env_config['devise.mapping'] = Devise.mappings[:user]
+        Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[provider]
+      end
+
+      context "when user signs in with #{provider}" do
+        before { hash(provider) }
+
+        it 'logs in user' do
+          page.find(:css, ".button.#{provider}").click
+          post "/users/auth/#{provider}/callback"
+          expect(response).to redirect_to(root_path)
+        end
       end
     end
-
-    # context 'when signing in with facebook' do
-    #   it 'allows user to sign in with facebook' do
-    #     page.find(:css, '.facebook.button').click
-    #   end
-    # end
-    #
-    # context 'when signing in with Twitter' do
-    #   it 'allows user to sign in with Twitter' do
-    #     page.find(:css, '.twitter.button').click
-    #   end
-    # end
   end
 
   describe 'can access other authentication pages' do

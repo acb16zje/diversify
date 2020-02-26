@@ -1,16 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require_relative 'user_helper'
 
 describe 'new Registration > User', :js, type: :system do
-  let(:user) do
-    User.create(
-      name: 'User',
-      email: 'user@email.com',
-      password: 'password',
-      admin: false
-    )
-  end
+  let(:user) { create(:user) }
 
   before do
     visit new_user_registration_path
@@ -24,8 +18,6 @@ describe 'new Registration > User', :js, type: :system do
 
   describe 'sign up user' do
     it 'can register user' do
-      fill_in 'user_email', with: 'newemail@email.com'
-      fill_in 'user_password', with: 'password'
       click_button 'Sign up'
       expect(page).to have_content('Introduction')
     end
@@ -41,8 +33,7 @@ describe 'new Registration > User', :js, type: :system do
 
     context 'when using a duplicate email address' do
       it 'alerts user error' do
-        fill_in 'user_email', with: user.email
-        fill_in 'user_password', with: user.password
+        fill_form(user.email, user.password)
         click_button 'Sign up'
         expect(page).to have_content('has already been taken')
       end
@@ -50,7 +41,7 @@ describe 'new Registration > User', :js, type: :system do
 
     context 'when email missing @' do
       it 'prompts user to complete email' do
-        fill_in 'user_email', with: 'admin'
+        fill_form('admin', '')
         click_button 'Sign up'
         expect(email).to have_content('is missing an')
       end
@@ -58,7 +49,7 @@ describe 'new Registration > User', :js, type: :system do
 
     context 'when email incomplete after @' do
       it 'prompt user to complete email' do
-        fill_in 'user_email', with: 'admin@'
+        fill_form('email@', '')
         click_button 'Sign up'
         expect(email).to have_content('Please enter a part following')
       end
