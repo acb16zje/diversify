@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'creating new session', :js, type: :system do
+describe 'new Session > User', :js, type: :system do
   let(:user) do
     User.create(
       name: 'User',
@@ -50,6 +50,7 @@ describe 'creating new session', :js, type: :system do
         fill_in 'user_email', with: 'admin@email.com'
         fill_in 'user_password', with: 'wrong password'
         click_button 'Sign in'
+        expect(page).to have_content('Invalid email')
       end
     end
 
@@ -105,7 +106,7 @@ describe 'creating new session', :js, type: :system do
     # end
   end
 
-  describe 'can access other login pages' do
+  describe 'can access other authentication pages' do
     context 'when redirecting to sign up page' do
       it 'redirects to sign up' do
         click_link 'Create an account'
