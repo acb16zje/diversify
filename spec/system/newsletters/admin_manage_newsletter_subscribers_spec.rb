@@ -22,7 +22,6 @@ describe 'Metrics > Subscriber Management', :js, type: :feature do
   #     expect(page).to have_no_content(subscriber.email)
   #   end
   # end
-
   context 'without subscriber' do
     let(:user) { create(:user) }
 
