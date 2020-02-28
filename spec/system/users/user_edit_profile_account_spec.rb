@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'password_helper'
+require_relative 'user_helper'
 
 describe 'Edit User Profile > Settings', :js, type: :system do
   let(:omniauth_user) { create(:user, password_automatically_set: true) }
@@ -86,7 +86,7 @@ describe 'Edit User Profile > Settings', :js, type: :system do
       end
     end
 
-    context 'when all fields except old password are used' do
+    context 'when all fields except old password are filled' do
       it 'prompt user to fill in the old password field' do
         fill_password_form('twentytwo', 'twentytwo')
         click_button 'Update'
@@ -101,6 +101,39 @@ describe 'Edit User Profile > Settings', :js, type: :system do
         click_button 'Update'
         expect(page).to have_content('Current password is invalid')
       end
+    end
+  end
+
+  # describe 'sign in with omniauth' do
+  #   OmniAuth.config.test_mode = true
+  #
+  #   Devise.omniauth_providers.each do |provider|
+  #     before do
+  #       Rails.application.env_config['devise.mapping'] = Devise.mappings[:user]
+  #       Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[provider]
+  #     end
+  #
+  #     context "when user signs in with #{provider}" do
+  #       before { hash(provider) }
+  #
+  #       it 'logs in user' do
+  #         page.find(:css, ".button.#{provider}").click
+  #         post "/users/auth/#{provider}/callback"
+  #         expect(response).to redirect_to(root_path)
+  #       end
+  #     end
+  #   end
+  # end
+
+  describe 'delete account' do
+    before do
+      sign_in manual_user
+      visit settings_account_path
+    end
+
+    it 'alert user to confirm' do
+      page.find(:css, '.button.is-danger').click
+      expect(page.alert).to have_content('Are you sure?')
     end
   end
 end
