@@ -9,7 +9,7 @@ end
 
 # Rails core
 gem 'rails'
-gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
+gem 'webpacker'
 
 gem 'bootsnap'
 
@@ -53,9 +53,6 @@ gem 'hamlit'
 # Pagination
 gem 'pagy'
 
-# Advance search forms
-gem 'ransack', github: 'activerecord-hackery/ransack'
-
 # Metrics Charts
 gem 'ahoy_matey'
 gem 'chartkick'
@@ -68,9 +65,8 @@ gem 'premailer-rails'
 group :development, :test do
   gem 'byebug'
 
-  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
-    gem lib, github: "rspec/#{lib}"
-  end
+  # https://github.com/rspec/rspec-rails/pull/2117
+  gem 'rspec-rails', '~> 4.0.0.beta'
 end
 
 group :development do
