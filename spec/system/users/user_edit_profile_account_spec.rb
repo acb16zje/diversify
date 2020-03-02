@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'user_helper'
 
 describe 'Edit User Profile > Settings', :js, type: :system do
   let(:omniauth_user) { create(:user, password_automatically_set: true) }

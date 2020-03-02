@@ -41,6 +41,8 @@ RSpec.configure do |config|
 
   # Include custom helpers
   config.include OAuthHelper
+  config.include NewsletterHelper
+  config.include UserHelper
 
   config.after { Warden.test_reset! }
 

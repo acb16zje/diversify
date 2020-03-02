@@ -6,10 +6,12 @@ require_relative 'user_helper'
 describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
   let(:user) { create(:user) }
 
+  before do
+    sign_in user
+  end
+
   it 'unsubscribe from settings page' do
     visit settings_profile_path
-    fill_form(user.email, user.password)
-    click_button 'Sign in'
     click_link 'Emails'
     if find_button('Subscribe Newsletter').visible?
       click_button 'Subscribe Newsletter'
