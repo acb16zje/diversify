@@ -14,9 +14,9 @@ default:
   test:
     adapter:  postgresql
     host:     postgres
-    database: ci_test
-    username: runner
-    password: password
+    database: $POSTGRES_DB
+    username: $POSTGRES_USER
+    password: $POSTGRES_PASSWORD
   EOF
 
 .default-cache: &default-cache
@@ -50,7 +50,7 @@ setup-test-env:
     <<: *default-cache
   script:
     - *db-setup
-    - bundle exec rake db:reset RAILS_ENV=test
+    - bundle exec rails db:drop db:create db:schema:load RAILS_ENV=test
     - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
   artifacts:
     expire_in: 1d
@@ -96,6 +96,16 @@ coverage:
   stage: post-test
   when: always
   <<: *pull-cache
+  variables:
+    GIT_STRATEGY: none
   script:
     - bundle exec ruby lib/scripts/merge-simplecov.rb
+    - git config --global user.email 'engzerjun@gmail.com'
+    - git config --global user.name 'juneezee'
+    - git remote set-url origin https://acb16zje:StWb33dF6ygoCLxNwkoR@git.shefcompsci.org.uk/com4525-2019-20/team07/cd-class.git/
+    - git fetch origin coverage-report:coverage-report
+    - git checkout coverage-report
+    - git add coverage/
+    - 'git commit -m "docs: coverage report $(date +"%d-%b-%Y %R")"'
+    - git push origin coverage-report
   coverage: '/LOC \((\d+\.\d+%)\) covered.$/'
