@@ -3,14 +3,7 @@
 require 'rails_helper'
 
 describe 'Show User > Profile', :js, type: :system do
-  let(:user) do
-    User.create(
-      name: 'User',
-      email: 'user@email.com',
-      password: 'password',
-      admin: false
-    )
-  end
+  let(:user) { create(:user) }
 
   before do
     sign_in user
