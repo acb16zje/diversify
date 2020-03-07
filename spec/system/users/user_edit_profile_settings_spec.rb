@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'edit Profile > User', :js, type: :system do
+describe 'Edit Profile > User', :js, type: :system do
   let(:user) { create(:user) }
 
   before do

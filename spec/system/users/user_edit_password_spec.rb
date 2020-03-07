@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'new Password > Password', :js, type: :system do
+describe 'New Password > Password', :js, type: :system do
   before do
     visit new_user_password_path
   end

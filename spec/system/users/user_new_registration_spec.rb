@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'new Registration > User', :js, type: :system do
+describe 'New Registration > User', :js, type: :system do
   let(:user) { create(:user) }
 
   before do

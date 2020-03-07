@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'new Session > User', :js, type: :system do
+describe 'New Session > User', :js, type: :system do
   let(:user) { create(:user) }
 
   before do
