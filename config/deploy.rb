@@ -92,17 +92,11 @@ namespace :deploy do
 
       on roles(:web), in: :parallel do |server|
         run_locally do
-          execute :rsync,
-                  "-a --delete public/packs/ #{fetch(:user)}@#{server.hostname}:#{release_path}/public/packs/"
-          execute :rsync,
-                  "-a --delete public/assets/ #{fetch(:user)}@#{server.hostname}:#{release_path}/public/assets/"
+          execute :rsync, "-a --delete public/packs/ #{fetch(:user)}@#{server.hostname}:#{release_path}/public/packs/"
         end
       end
 
-      run_locally do
-        execute :rm, '-rf public/assets'
-        execute :rm, '-rf public/packs'
-      end
+      run_locally { execute :rm, '-rf public/packs' }
     end
   end
 
