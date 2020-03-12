@@ -1,8 +1,6 @@
 # COM4525 Genesys
 
-<img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/app/assets/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">
-
-## Team 7 - Helping teams to improve their performance through diversity
+<img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/public/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">public Team 7 - Helping teams to improve their performance through diversity
 
 ### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
 
