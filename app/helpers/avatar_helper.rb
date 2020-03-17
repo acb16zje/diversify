@@ -9,4 +9,12 @@ module AvatarHelper
 
     gravatar_image_url(user.email, size: 100, default: :retro, secure: true)
   end
+
+  def project_avatar(project)
+    if project.avatar.attached?
+      project.avatar.variant(resize: '100x100!')
+    else
+      "http://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{project.name[0]}"
+    end
+  end
 end

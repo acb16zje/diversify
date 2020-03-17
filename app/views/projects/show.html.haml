@@ -1,19 +1,33 @@
 - content_for :title, @project.name
 
-%section.section#projects
-  .container
-  .columns.is-vcentered
-    .column.is-narrow
-      - if @project.avatar.attached?
-        %img{ src: @project.avatar.to_s }
-      - else
-        %img{ src: "https://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{@project.name[0]}" }
-    .column
-      %h1.title.is-2
-        = @project.name
-        - if @project.visibility
-          %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
-        - else
-          %span.icon.iconify{ 'data-icon': 'fa:lock' }
-      %p Owned by: #{@project.user.name}
+%section.hero.is-primary#projects
+  .hero-body
+    .container
+      .columns.is-vcentered
+        .column.is-narrow
+          = image_tag project_avatar(@project)
+        .column
+          %h1.title.is-2
+            = @project.name
+            - if @project.visibility
+              %b-tooltip{ 'label': 'Public Project', 'position': 'is-right', 'type': 'is-info' }
+                %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
+            - else
+              %b-tooltip{ 'label': 'Private Project', 'position': 'is-right', 'type': 'is-primary' }
+                %span.icon.iconify{ 'data-icon': 'fa:lock' }
+          %p Owned by: #{@project.user.name}
+
+%section
+  %b-tabs{ 'type': 'is-boxed', 'expanded': '' }
+    %b-tab-item{ 'active': '' }
+      %template{ 'slot': 'header' }
+        %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
+        Tasks
+    %b-tab-item{ 'label': 'Your Team' }
+    %b-tab-item{ 'label': 'Members' }
+    - if @project.user == current_user
+      %b-tab-item{ 'label': 'Project Applications' }
+      %b-tab-item{ 'label': 'Settings' }
+
+
 
