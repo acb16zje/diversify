@@ -90,6 +90,10 @@ class User < ApplicationRecord
     NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
+  def new_account?
+    projects.count.zero? && created_at > 1.day.ago
+  end
+
   private
 
   def create_license

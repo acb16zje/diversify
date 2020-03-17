@@ -3,5 +3,30 @@
 %section.section#projects
   .container
     %h1.title Create Project
-
-    = link_to 'Back', projects_path
+    = form_with model: Project.new, html: { '@ajax:error': 'ajaxError' } do |f|
+      .field
+        %label.label Project Title
+        .control
+          = f.text_field :name, class: 'input', required: ''
+      .field
+        %label.label Project Description
+        .control
+          = f.text_area :description, class: 'textarea'
+      - unless current_user.license.plan == 'free'
+        .field
+          .control
+            %label.checkbox
+              = f.check_box :visibility, class: 'checkbox', value: 'yes'
+              Public Project
+      .field
+        %label.label Max Members
+        .control
+      .field
+        %label.label Category
+        .control
+          .select
+            = f.collection_select :category_id, Category.all, :id, :name
+      .field.is-pulled-right
+        .control
+          = f.submit 'Create Project', class: 'button is-success'
+          = link_to 'Back', self_projects_path, class: 'button is-danger'

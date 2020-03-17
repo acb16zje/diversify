@@ -42,15 +42,18 @@ class ProjectsController < ApplicationController
   # def edit; end
 
   # POST /projects
-  # def create
-  #   @project = Project.new(project_params)
+  def create
+    project = Project.new(project_params)
+    project.user = current_user
 
-  #   if @project.save
-  #     redirect_to @project, notice: 'Project was successfully created.'
-  #   else
-  #     render :new
-  #   end
-  # end
+    if project.save!
+      flash[:toast] = { type: 'success', message: ['Project Created'] }
+      render js: "window.location = '#{project_path(project)}'"
+    else
+      render json: { message: 'Project Creation Failed' },
+             status: :unprocessable_entity
+    end
+  end
 
   # PATCH/PUT /projects/1
   # def update
@@ -75,9 +78,9 @@ class ProjectsController < ApplicationController
   end
 
   # Only allow a trusted parameter "white list" through.
-  # def project_params
-  #   params.fetch(:project, {})
-  # end
+  def project_params
+    params.require(:project).permit(:name, :description, :visibility, :category_id)
+  end
 
   def valid_page?
     params[:page].to_i.positive? &&

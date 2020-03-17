@@ -18,6 +18,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
   ],
   whitelistPatternsChildren: [
     /modal/, /navbar/, /dropdown/, /pagination/, /level/, /trix/, /tabs/,
+    /tooltip/,
   ],
 });
 

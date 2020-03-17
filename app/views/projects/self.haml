@@ -7,10 +7,17 @@
         %h1.title.is-1 My Projects
       .column
         .is-pulled-right
-          = link_to new_project_path, class:'button is-primary' do
-            %p New Project
-            %span.icon
-              %span.iconify{ 'data-icon': 'el:plus' }
+          - if current_user.new_account?
+            %b-tooltip{ 'label': 'Create Your First Project!', 'active': 'active', 'always': '', 'multilined': '', 'position': 'is-left', 'type': 'is-info', 'size': 'is-small' }
+              = link_to new_project_path, class: 'button is-primary' do
+                %p New Project
+                %span.icon
+                  %span.iconify{ 'data-icon': 'el:plus' }
+          - else
+            = link_to new_project_path, class: 'button is-primary' do
+              %p New Project
+              %span.icon
+                %span.iconify{ 'data-icon': 'el:plus' }
     %b-tabs{ 'type': 'is-toggle', 'expanded': '' }
       %b-tab-item{ 'active': '', 'label': 'Your Projects' }
         %project-search{ 'original-cat': @categories.to_json, 'type': 'owned' }
