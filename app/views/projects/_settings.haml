@@ -1,0 +1,44 @@
+.container
+  %section.settings-section
+    .content
+      = form_with model: @project, html: { '@ajax:error': 'ajaxError' } do |f|
+        .columns.is-vcentered
+          .column.is-3
+            %figure.image.is-128x128.is-pulled-right
+              = image_tag project_avatar(@project)
+          .column
+            %label.label Upload new avatar
+            .file.has-name
+              %label.file-label
+                = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg', class: 'file-input', '@change': 'avatarChanged'
+                %span.file-cta
+                  %span.file-label
+                    Choose an image
+                %span.file-name
+                  {{ avatarFilename }}
+            %p.has-text-grey Maximum file size allowed is 200KB
+        .columns.is-vcentered
+          .column.is-8
+            .field
+              %label.label Project Title
+              .control
+                = f.text_field :name, class: 'input', required: ''
+          .column
+            .field
+              %label.label Category
+              .control.is-expanded
+                .select.is-fullwidth
+                  = f.collection_select :category_id, Category.all, :id, :name
+        .field
+          %label.label Project Description
+          .control
+            = f.text_area :description, class: 'textarea'
+        - unless current_user.license.plan == 'free'
+          .field
+            .control
+              %label.checkbox
+                = f.check_box :visibility, class: 'checkbox', value: 'yes'
+                Public Project
+        .field
+          .control
+            = f.submit 'Save Settings', class: 'button is-success'

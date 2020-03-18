@@ -78,7 +78,7 @@
         <article class="media">
           <figure class="media-left">
             <figure class="image is-64x64">
-              <img :src="project.avatar || url(project.name[0])">
+              <img :src="images[project.id] || url(project.name[0])">
             </figure>
           </figure>
           <div class="media-content">
@@ -145,6 +145,7 @@ export default {
       sort: 'name_asc',
       categories: JSON.parse(this.originalCat),
       items: [],
+      images: [],
       current: 1,
       total: 0,
       perPage: 10,
@@ -185,9 +186,11 @@ export default {
           type: this.type,
         }),
         success: (data) => {
+          console.log(data);
           this.current = data.pagy.page;
           this.total = data.pagy.count;
           this.items = data.data;
+          this.images = data.images;
           this.isLoading = false;
         },
       });

@@ -13,21 +13,36 @@
               %b-tooltip{ 'label': 'Public Project', 'position': 'is-right', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
             - else
-              %b-tooltip{ 'label': 'Private Project', 'position': 'is-right', 'type': 'is-primary' }
+              %b-tooltip{ 'label': 'Private Project', 'position': 'is-right', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-icon': 'fa:lock' }
+
           %p Owned by: #{@project.user.name}
 
 %section
   %b-tabs{ 'type': 'is-boxed', 'expanded': '' }
     %b-tab-item{ 'active': '' }
       %template{ 'slot': 'header' }
-        %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
+        %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
         Tasks
-    %b-tab-item{ 'label': 'Your Team' }
-    %b-tab-item{ 'label': 'Members' }
+        %b-tag{ 'rounded': '' }= @project.tasks.count
+    %b-tab-item
+      %template{ 'slot': 'header' }
+        %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
+        Your Team
+        %b-tag{ 'rounded': '' }= @project.tasks.count
+    %b-tab-item
+      %template{ 'slot': 'header' }
+        %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
+        Members
     - if @project.user == current_user
-      %b-tab-item{ 'label': 'Project Applications' }
+      %b-tab-item
+        %template{ 'slot': 'header' }
+          %span.icon.iconify{ 'data-icon': 'mdi:application-import', 'data-inline': 'false' }
+          Applications
+          %b-tag{ 'rounded': '' } 0
       %b-tab-item{ 'label': 'Settings' }
-
-
+        %template{ 'slot': 'header' }
+          %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }
+          Settings
+        = render partial: 'settings'
 

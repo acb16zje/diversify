@@ -14,7 +14,8 @@ module AvatarHelper
     if project.avatar.attached?
       project.avatar.variant(resize: '100x100!')
     else
-      "http://via.placeholder.com/64x64/ab28f4'/FFFFFF?text=#{project.name[0]}"
+      "http://via.placeholder.com/128x128/ab28f4'/FFFFFF?text="\
+        "#{project.name[0]}"
     end
   end
 end

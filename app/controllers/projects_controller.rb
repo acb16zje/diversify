@@ -4,6 +4,7 @@
 class ProjectsController < ApplicationController
   include ProjectsQuery
 
+  before_action :set_project, only: %i[show update]
   skip_before_action :authenticate_user!, only: %i[index show query]
   before_action :set_project, only: %i[show]
 
@@ -20,7 +21,10 @@ class ProjectsController < ApplicationController
     scope = authorized_scope(call(params))
 
     pagy, records = pagy(scope, page: params[:page])
-    render json: { data: records, pagy: pagy_metadata(pagy) }
+
+    images = project_images(records)
+
+    render json: { data: records, pagy: pagy_metadata(pagy), images: images }
   end
 
   # GET /projects/1
@@ -46,23 +50,25 @@ class ProjectsController < ApplicationController
     project = Project.new(project_params)
     project.user = current_user
 
-    if project.save!
+    if project.save
       flash[:toast] = { type: 'success', message: ['Project Created'] }
       render js: "window.location = '#{project_path(project)}'"
     else
-      render json: { message: 'Project Creation Failed' },
+      render json: { message: project.errors.full_messages },
              status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /projects/1
-  # def update
-  #   if @project.update(project_params)
-  #     redirect_to @project, notice: 'Project was successfully updated.'
-  #   else
-  #     render :edit
-  #   end
-  # end
+  def update
+    if @project.update(project_params)
+      flash[:toast] = { type: 'success', message: ['Project Updated'] }
+      render js: "window.location = '#{project_path(@project)}'"
+    else
+      render json: { message: @project.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
 
   # DELETE /projects/1
   # def destroy
@@ -79,11 +85,23 @@ class ProjectsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def project_params
-    params.require(:project).permit(:name, :description, :visibility, :category_id, :avatar)
+    params.require(:project).permit(
+      :name, :description, :visibility, :category_id, :avatar
+    )
   end
 
   def valid_page?
     params[:page].to_i.positive? &&
       %w[projects joined owned].include?(params[:type])
+  end
+
+  def project_images(records)
+    images = {}
+    records.each do |record|
+      if record.avatar.attached?
+        images[record.id] = url_for(record.avatar.variant(resize: '100x100!'))
+      end
+    end
+    images
   end
 end
