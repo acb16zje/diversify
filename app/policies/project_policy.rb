@@ -11,4 +11,16 @@ class ProjectPolicy < ApplicationPolicy
   def show?
     record.visibility || owner? || user&.admin?
   end
+
+  def update?
+    record.user_id == user&.id || user&.admin?
+  end
+
+  def complete?
+    record.user_id == user&.id || user&.admin?
+  end
+
+  def uncomplete?
+    record.user_id == user&.id || user&.admin?
+  end
 end

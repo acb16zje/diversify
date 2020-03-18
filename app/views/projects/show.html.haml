@@ -1,14 +1,20 @@
 - content_for :title, @project.name
-
+- project_image = project_avatar(@project)
 %section.hero.is-primary#projects
   .hero-body
     .container
       .columns.is-vcentered
         .column.is-narrow
-          = image_tag project_avatar(@project)
+          = image_tag project_image
         .column
           %h1.title.is-2
             = @project.name
+            - if @project.status == 'Completed'
+              %b-tooltip{ 'label': 'Project Completed', 'position': 'is-top', 'type': 'is-info' }
+                %span.icon.iconify{ 'data-icon': 'ion:checkmark-done-circle-sharp', 'data-inline': 'false' }
+            - elsif @project.status == 'Open'
+              %b-tooltip{ 'label': 'Project is Receiving Applications', 'position': 'is-top', 'type': 'is-info' }
+                %span.icon.iconify{ 'data-icon': 'ic:baseline-person-add', 'data-inline': 'false' }
             - if @project.visibility
               %b-tooltip{ 'label': 'Public Project', 'position': 'is-right', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
@@ -29,7 +35,7 @@
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
         Your Team
-        %b-tag{ 'rounded': '' }= @project.tasks.count
+        %b-tag{ 'rounded': '' } 0
     %b-tab-item
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
@@ -44,5 +50,5 @@
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }
           Settings
-        = render partial: 'settings'
+        = render partial: 'settings', locals: { project_image: project_image }
 

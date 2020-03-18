@@ -109,6 +109,10 @@ Rails.application.routes.draw do
       post 'query'
       get 'self'
     end
+    member do
+      post 'complete'
+      post 'uncomplete'
+    end
   end
 
   # authenticated :user do

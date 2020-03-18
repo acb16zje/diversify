@@ -4,7 +4,7 @@
 class ProjectsController < ApplicationController
   include ProjectsQuery
 
-  before_action :set_project, only: %i[show update]
+  before_action :set_project, only: %i[show update complete uncomplete]
   skip_before_action :authenticate_user!, only: %i[index show query]
   before_action :set_project, only: %i[show]
 
@@ -61,8 +61,35 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1
   def update
+    authorize! @project
     if @project.update(project_params)
       flash[:toast] = { type: 'success', message: ['Project Updated'] }
+      render js: "window.location = '#{project_path(@project)}'"
+    else
+      render json: { message: @project.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
+  def complete
+    authorize! @project
+    @project.status = 'Completed'
+
+    if @project.save
+      flash[:toast] = { type: 'success', message: ['Project Archived'] }
+      render js: "window.location = '#{project_path(@project)}'"
+    else
+      render json: { message: @project.errors.full_messages },
+             status: :unprocessable_entity
+    end
+  end
+
+  def uncomplete
+    authorize! @project
+    @project.status = 'Active'
+
+    if @project.save
+      flash[:toast] = { type: 'success', message: ['Project Reactivated'] }
       render js: "window.location = '#{project_path(@project)}'"
     else
       render json: { message: @project.errors.full_messages },
