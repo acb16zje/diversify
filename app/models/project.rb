@@ -30,7 +30,7 @@ class Project < ApplicationRecord
 
   belongs_to :user
   belongs_to :category
-
+  has_many :reviews, dependent: :destroy
   has_one_attached :avatar
   has_many :teams, dependent: :destroy
   has_many :tasks, dependent: :destroy
@@ -44,4 +44,11 @@ class Project < ApplicationRecord
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 
+  before_commit :create_unassigned_team, on: :create
+
+  private
+
+  def create_unassigned_team
+    teams.create(name: 'Unassigned', team_size: 999)
+  end
 end

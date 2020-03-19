@@ -52,7 +52,7 @@
         %h1.title.is-2
           Unarchive Project
         %p.has-text-grey Reopens Project
-        = button_to 'Reactivate Project', uncomplete_project_path(@project), remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-warning'
+        = button_to 'Reactivate Project', uncomplete_project_path(@project), remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
       - else
         %h1.title.is-2
           Mark Project as Complete

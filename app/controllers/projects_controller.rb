@@ -4,7 +4,8 @@
 class ProjectsController < ApplicationController
   include ProjectsQuery
 
-  before_action :set_project, only: %i[show update complete uncomplete]
+  before_action :set_project, except: %i[index self query new create]
+  before_action :authorize_project, except: %i[index self show query new create]
   skip_before_action :authenticate_user!, only: %i[index show query]
   before_action :set_project, only: %i[show]
 
@@ -19,9 +20,7 @@ class ProjectsController < ApplicationController
     return head :bad_request unless valid_page?
 
     scope = authorized_scope(call(params))
-
     pagy, records = pagy(scope, page: params[:page])
-
     images = project_images(records)
 
     render json: { data: records, pagy: pagy_metadata(pagy), images: images }
@@ -38,63 +37,42 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/new
-  # def new
-  #   @project = Project.new
-  # end
-
-  # GET /projects/1/edit
-  # def edit; end
+  def new; end
 
   # POST /projects
   def create
-    project = Project.new(project_params)
-    project.user = current_user
-
-    if project.save
-      flash[:toast] = { type: 'success', message: ['Project Created'] }
-      render js: "window.location = '#{project_path(project)}'"
-    else
-      render json: { message: project.errors.full_messages },
-             status: :unprocessable_entity
-    end
+    @project = Project.new(project_params)
+    @project.user = current_user
+    @project.save ? project_success('Project Created') : project_fail
   end
 
   # PATCH/PUT /projects/1
   def update
-    authorize! @project
     if @project.update(project_params)
-      flash[:toast] = { type: 'success', message: ['Project Updated'] }
-      render js: "window.location = '#{project_path(@project)}'"
+      project_success('Project Updated')
     else
-      render json: { message: @project.errors.full_messages },
-             status: :unprocessable_entity
+      project_fail
     end
   end
 
   def complete
-    authorize! @project
     @project.status = 'Completed'
-
-    if @project.save
-      flash[:toast] = { type: 'success', message: ['Project Archived'] }
-      render js: "window.location = '#{project_path(@project)}'"
-    else
-      render json: { message: @project.errors.full_messages },
-             status: :unprocessable_entity
-    end
+    @project.save ? project_success('Project Archived') : project_fail
   end
 
   def uncomplete
-    authorize! @project
     @project.status = 'Active'
+    @project.save ? project_success('Project Reactivated') : project_fail
+  end
 
-    if @project.save
-      flash[:toast] = { type: 'success', message: ['Project Reactivated'] }
-      render js: "window.location = '#{project_path(@project)}'"
-    else
-      render json: { message: @project.errors.full_messages },
-             status: :unprocessable_entity
-    end
+  def open_application
+    @project.status = 'Open'
+    @project.save ? project_success('Applications Opened') : project_fail
+  end
+
+  def close_application
+    @project.status = 'Active'
+    @project.save ? project_success('Application Closed') : project_fail
   end
 
   # DELETE /projects/1
@@ -108,6 +86,10 @@ class ProjectsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_project
     @project = Project.find(params[:id])
+  end
+
+  def authorize_project
+    authorize! @project
   end
 
   # Only allow a trusted parameter "white list" through.
@@ -130,5 +112,15 @@ class ProjectsController < ApplicationController
       end
     end
     images
+  end
+
+  def project_success(message)
+    flash[:toast] = { type: 'success', message: [message] }
+    render js: "window.location = '#{project_path(@project)}'"
+  end
+
+  def project_fail
+    render json: { message: @project.errors.full_messages },
+           status: :unprocessable_entity
   end
 end

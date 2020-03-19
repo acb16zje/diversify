@@ -112,6 +112,8 @@ Rails.application.routes.draw do
     member do
       post 'complete'
       post 'uncomplete'
+      post 'open_application'
+      post 'close_application'
     end
   end
 

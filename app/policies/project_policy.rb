@@ -2,6 +2,9 @@
 
 # Class for Project policies
 class ProjectPolicy < ApplicationPolicy
+  alias_rule :update?, :complete?, :uncomplete?, :open_application?,
+             :close_application, to: :manage?
+
   relation_scope do |relation|
     next relation if user&.admin?
 
@@ -12,15 +15,7 @@ class ProjectPolicy < ApplicationPolicy
     record.visibility || owner? || user&.admin?
   end
 
-  def update?
-    record.user_id == user&.id || user&.admin?
-  end
-
-  def complete?
-    record.user_id == user&.id || user&.admin?
-  end
-
-  def uncomplete?
+  def manage?
     record.user_id == user&.id || user&.admin?
   end
 end

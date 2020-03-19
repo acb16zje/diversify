@@ -22,7 +22,7 @@
 
 class Team < ApplicationRecord
   belongs_to :project
-  has_many :users
+  has_many :users, dependent: :destroy
 
   validates :name, presence: true
   validates :team_size,

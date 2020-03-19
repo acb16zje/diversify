@@ -31,6 +31,7 @@
         %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
         Tasks
         %b-tag{ 'rounded': '' }= @project.tasks.count
+    //need to add show if joined team
     %b-tab-item
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
@@ -40,12 +41,13 @@
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
         Members
-    - if @project.user == current_user
+    - if user_signed_in? && (@project.user == current_user || current_user.admin?)
       %b-tab-item
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'mdi:application-import', 'data-inline': 'false' }
           Applications
           %b-tag{ 'rounded': '' } 0
+        = render partial: 'applications'
       %b-tab-item{ 'label': 'Settings' }
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }

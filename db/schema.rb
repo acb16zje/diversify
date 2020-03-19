@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
   create_enum "energies", ["S", "N"]
   create_enum "minds", ["I", "E"]
   create_enum "natures", ["T", "F"]
+  create_enum "application_type", ["invite", "application"]
   create_enum "plan_name", ["free", "pro", "ultimate"]
   create_enum "status_name", ["open", "active", "completed"]
   create_enum "tactics", ["J", "P"]
@@ -94,6 +95,16 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.datetime "started_at"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
+  end
+
+  create_table "applications", force: :cascade do |t|
+    t.enum "type", null: false, as: "application_type"
+    t.bigint "user_id"
+    t.bigint "project_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_applications_on_project_id"
+    t.index ["user_id"], name: "index_applications_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -287,6 +298,8 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "identities", "users"
+  add_foreign_key "applications", "projects"
+  add_foreign_key "applications", "users"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
   add_foreign_key "licenses", "users"
