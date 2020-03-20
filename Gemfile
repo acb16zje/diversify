@@ -8,8 +8,8 @@ source 'https://gems.shefcompsci.org.uk' do
 end
 
 # Rails core
-gem 'rails'
-gem 'webpacker'
+gem 'rails', '>= 6.0.2.2'
+gem 'webpacker', '>= 4.2.2'
 
 gem 'bootsnap'
 
@@ -17,7 +17,7 @@ gem 'bootsnap'
 gem 'puma'
 
 # Responders respond_to and respond_with
-gem 'responders'
+gem 'responders', '>= 3.0.0'
 
 # PostgreSQL database
 gem 'pg'
@@ -26,14 +26,14 @@ gem 'pg'
 gem 'activerecord-pg_enum'
 
 # Active Storage
-gem 'active_storage_validations'
+gem 'active_storage_validations', '>= 0.8.7'
 
 # Avatar
 gem 'gravatar_image_tag'
 gem 'image_processing'
 
 # Authentication libraries
-gem 'devise'
+gem 'devise', '>= 4.7.1'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
@@ -60,7 +60,7 @@ gem 'geocoder'
 gem 'groupdate'
 
 # CSS styles in action mailer
-gem 'premailer-rails'
+gem 'premailer-rails', '>= 1.10.3'
 
 group :development, :test do
   gem 'byebug'
@@ -89,7 +89,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '>= 5.1.1'
   gem 'shoulda-matchers'
   gem 'simplecov'
   gem 'webdrivers'
