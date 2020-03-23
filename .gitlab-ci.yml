@@ -96,8 +96,6 @@ coverage:
   stage: post-test
   when: always
   <<: *pull-cache
-  variables:
-    GIT_STRATEGY: none
   script:
     - bundle exec ruby lib/scripts/merge-simplecov.rb
     - source lib/scripts/push-coverage-report.sh
