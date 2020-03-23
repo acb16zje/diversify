@@ -6,7 +6,7 @@
 #
 #  id         :bigint           not null, primary key
 #  email      :string           not null
-#  subscribed :boolean          default(TRUE), not null
+#  subscribed :boolean          default("true"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

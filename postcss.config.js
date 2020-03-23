@@ -26,7 +26,7 @@ module.exports = {
   plugins: [
     tailwindcss,
     postCssImport,
-    purgeCss,
+    // purgeCss,
     cssNano,
   ],
 };

@@ -5,8 +5,8 @@
 # Table name: skill_levels
 #
 #  id         :bigint           not null, primary key
-#  experience :integer          default(0), not null
-#  level      :integer          default(0), not null
+#  experience :integer          default("0"), not null
+#  level      :integer          default("0"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  skill_id   :bigint

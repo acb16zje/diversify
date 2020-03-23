@@ -8,6 +8,7 @@ require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'action_policy/rspec'
 require 'action_policy/rspec/dsl'
+require 'active_storage_validations/matchers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -41,6 +42,7 @@ RSpec.configure do |config|
 
   # Include custom helpers
   config.include OAuthHelper
+  config.include ActiveStorageValidations::Matchers
 
   config.after { Warden.test_reset! }
 

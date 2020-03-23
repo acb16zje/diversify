@@ -17,5 +17,9 @@
       %h1.title.is-2
         Add User
       %p.has-text-grey Add User to Project
-      //= form_with add_user_project_path, html: { '@ajax:error': 'ajaxError' } do |f|
+      = form_with model: Application.new, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
+        = f.hidden_field :project_id, value: @project.id
+        = f.hidden_field :application_type, value: 'invite'
+        = f.collection_select :user_id, User.all, :id, :name
+        = f.submit 'Send Invitation', class: 'button'
 

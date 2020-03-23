@@ -98,9 +98,9 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
   end
 
   create_table "applications", force: :cascade do |t|
-    t.enum "type", null: false, as: "application_type"
-    t.bigint "user_id"
-    t.bigint "project_id"
+    t.enum "types", default: "Invite", null: false, as: "application_type"
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_applications_on_project_id"

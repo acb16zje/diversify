@@ -12,7 +12,7 @@ import Vue from 'vue/dist/vue.esm';
 import Buefy from 'buefy';
 import Icon from '../components/buefy/Icon.vue';
 import Toast from '../components/buefy/Toast.vue';
-import { dangerToast } from '../components/buefy/toast';
+import { dangerToast, successToast } from '../components/buefy/toast';
 
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
@@ -29,6 +29,13 @@ Vue.mixin({
         response.message.forEach((message) => dangerToast(message));
       } else {
         dangerToast(response.message || status);
+      }
+    },
+    ajaxSuccess({ detail: [response, status] }) {
+      if (Array.isArray(response.message)) {
+        response.message.forEach((message) => successToast(message));
+      } else {
+        successToast(response.message || status);
       }
     },
   },

@@ -5,7 +5,7 @@
 # Table name: preferences
 #
 #  id              :bigint           not null, primary key
-#  group_size      :integer          default(0), not null
+#  group_size      :integer          default("0"), not null
 #  preferred_tasks :text             default(""), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null

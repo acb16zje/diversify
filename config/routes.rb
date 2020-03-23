@@ -117,6 +117,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :applications
+
+  
   # authenticated :user do
   #   root to: , as: :authenticated_root
   # end
