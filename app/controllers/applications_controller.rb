@@ -1,24 +1,50 @@
-#frozen_string_literal: true
+# frozen_string_literal: true
 
+# Controller for applications/invites for projects
 class ApplicationsController < ApplicationController
-
   def create
-    application = Application.new(application_params)
-    application.project = Project.where(id: application.project_id).first
-    application.user = User.where(id: application.user_id).first
-    return render json: { message: 'Invalid Request' },
-                          status: :bad_request unless application.project&.visibility?
+    find_user
+    @application = Application.new(application_params)
 
-    if application.save
-      render json: { message: 'Invite Sent' }, status: :ok
+    return application_fail('Invalid Request') unless valid_request?
+
+    if @application.save
+      application_success('Invite Sent')
     else
-      render json: { message: application.errors.full_messages }, status: :bad_request
+      application_fail(@application.errors.full_messages)
+    end
+  end
+
+  def destroy
+    application = Application.where(user_id: params[:id]).first
+    if application.destroy
+      render json: {}, status: :ok
     end
   end
 
   private
 
   def application_params
-    params.require(:application).permit(:user_id, :project_id, :application_type)
+    params.require(:application).permit(:user_id, :project_id, :types)
+  end
+
+  def valid_request?
+    ((params[:application][:types] == 'Invite' &&
+      current_user == @application.project&.user) ||
+      (params[:application][:types] == 'Application' &&
+      @application.project&.visibility?)) && @application&.user
+  end
+
+  def application_success(message)
+    render json: { message: message}, status: :ok
+  end
+
+  def application_fail(message)
+    render json: { message: message }, status: :bad_request
+  end
+
+  def find_user
+    params[:application][:user_id] =
+      User.where(name: params[:application][:user_id]).first&.id
   end
 end

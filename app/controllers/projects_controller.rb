@@ -29,6 +29,8 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   def show
     authorize! @project
+    @invites = User.select(:id,:name).joins(:applications)
+                   .where(applications: { types: 'Invite', project: @project })
   end
 
   def self

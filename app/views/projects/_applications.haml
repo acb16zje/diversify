@@ -16,10 +16,14 @@
           = button_to 'Open Applications', open_application_project_path(@project), remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
       %h1.title.is-2
         Add User
-      %p.has-text-grey Add User to Project
+      %p.has-text-grey Invite User to Project
+      %application-table{ 'original-data': @invites.to_json }
       = form_with model: Application.new, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
         = f.hidden_field :project_id, value: @project.id
-        = f.hidden_field :application_type, value: 'invite'
-        = f.collection_select :user_id, User.all, :id, :name
-        = f.submit 'Send Invitation', class: 'button'
+        = f.hidden_field :types, value: 'Invite'
+        .field
+          %label.label Username
+          .control
+            = f.text_field :user_id, class: 'input'
+        = f.submit 'Send Invitation', class: 'button is-success'
 

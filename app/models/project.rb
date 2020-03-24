@@ -34,6 +34,7 @@ class Project < ApplicationRecord
   has_one_attached :avatar
   has_many :teams, dependent: :destroy
   has_many :tasks, dependent: :destroy
+  has_many :applications, dependent: :destroy
 
   validates :name, presence: true
   validates :status, presence: true

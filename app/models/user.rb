@@ -44,6 +44,7 @@ class User < ApplicationRecord
   has_many :skill_levels, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :tasks, dependent: :destroy
+  has_many :applications, dependent: :destroy
   # has_and_belongs_to_many :teams
   has_many :reviews,
            foreign_key: :reviewer_id,
