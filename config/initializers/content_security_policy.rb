@@ -8,6 +8,7 @@
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src     :none
+  policy.connect_src     :self
   policy.form_action     :self
   policy.frame_ancestors :none
   policy.frame_src       'https://www.google.com',
