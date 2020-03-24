@@ -8,7 +8,7 @@ describe AvatarHelper, type: :helper do
 
   describe '#user_avatar' do
 
-    context 'without avatar'  do
+    context 'without avatar' do
       subject { user_avatar(gravatar_user) }
 
       it { is_expected.to include(Digest::MD5.hexdigest(gravatar_user.email)) }

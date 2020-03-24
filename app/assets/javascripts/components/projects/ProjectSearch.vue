@@ -92,10 +92,10 @@
                 Status: {{ project.status }}
               </span>
               <span class="tag is-primary">
-                Category: {{ categories[project.category_id-1]["name"] }}
+                Category: {{ categories[project.category_id-1]['name'] }}
               </span>
               <span v-if="type !== 'projects'" class="tag is-light">
-                Visibility: {{ project.visibility ? "Public" : "Private" }}
+                Visibility: {{ project.visibility ? 'Public' : 'Private' }}
               </span>
               <div class="project-description">
                 <p>
@@ -130,7 +130,7 @@ export default {
   props: {
     type: {
       type: String,
-      required: true
+      required: true,
     },
     originalCat: {
       type: String,
@@ -182,7 +182,7 @@ export default {
           category: this.category,
           status: this.status,
           sort: this.sort,
-          type: this.type
+          type: this.type,
         }),
         success: (data) => {
           this.current = data.pagy.page;
@@ -193,9 +193,7 @@ export default {
       });
     },
     url(text) {
-      let theUrl = `http://via.placeholder.com/${64}x${64}`;
-      theUrl += '/ab28f4';
-      theUrl += '/FFFFFF';
+      let theUrl = `https://via.placeholder.com/64/ab28f4/FFFFFF`;
       if (text) theUrl += `?text=${encodeURIComponent(text)}`;
       return theUrl;
     },

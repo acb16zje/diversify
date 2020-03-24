@@ -1,7 +1,7 @@
 - content_for :id, 'user'
 
 - content_for :javascript do
-  = javascript_packs_with_chunks_tag 'user', defer: ''
+  = javascript_packs_with_chunks_tag 'user', defer: '', nonce: true
 
 - if controller_path.include?('settings')
   - content_for :sidebar do

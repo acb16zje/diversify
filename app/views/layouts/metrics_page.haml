@@ -2,9 +2,9 @@
 
 - content_for :javascript do
   - if current_controller?(:newsletters)
-    = javascript_packs_with_chunks_tag 'metrics/newsletter', defer: ''
+    = javascript_packs_with_chunks_tag 'metrics/newsletter', defer: '', nonce: true
   - else
-    = javascript_packs_with_chunks_tag 'metrics/metrics', defer: ''
+    = javascript_packs_with_chunks_tag 'metrics/metrics', defer: '', nonce: true
 
 - content_for :sidebar do
   %aside.menu
