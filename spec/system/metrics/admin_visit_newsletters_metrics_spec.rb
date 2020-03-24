@@ -13,21 +13,21 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
       visit newsletter_metrics_path
     end
 
-    context 'in Newsletter Subscription by Date' do
+    context 'with Newsletter Subscription by Date' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'in Unsubscription by Newsletter' do
+    context 'with Unsubscription by Newsletter' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'in Unsubscription Reason' do
+    context 'with Unsubscription Reason' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_no_content('No data')
@@ -41,7 +41,7 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
       visit newsletter_metrics_path
     end
 
-    context 'in Newsletter Subscription by Date' do
+    context 'with Newsletter Subscription by Date' do
       it 'shows no Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         # Some reason the data from factorybot remains
@@ -49,14 +49,14 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
       end
     end
 
-    context 'in Unsubscription by Newsletter' do
+    context 'with Unsubscription by Newsletter' do
       it 'shows bo Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'in Unsubscription Reason' do
+    context 'with Unsubscription Reason' do
       it 'shows bo Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_content('No data')

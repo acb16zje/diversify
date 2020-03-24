@@ -4,7 +4,6 @@ require 'rails_helper'
 
 describe AdminPolicy, type: :policy do
   let(:user) { build_stubbed :user }
-
   let(:context) { { user: user } }
 
   describe_rule :manage? do

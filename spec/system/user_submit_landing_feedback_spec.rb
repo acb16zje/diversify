@@ -13,7 +13,6 @@ describe 'Landing page > Feedback', :js, type: :feature do
   end
 
   describe 'cannot submit feedback' do
-
     it 'not choose emojis' do
       select('Social Media', from: 'landing_feedback_channel').select_option
       click_button 'Submit'

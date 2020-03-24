@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 describe 'Edit User Profile > Settings', :js, type: :system do
-  let(:omniauth_user) { create(:user, password_automatically_set: true) }
+  let(:omniauth_user) { create(:omniauth_user) }
 
   let(:manual_user) { create(:user) }
 

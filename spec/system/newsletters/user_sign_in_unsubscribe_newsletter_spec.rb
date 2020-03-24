@@ -20,5 +20,4 @@ describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
     end
     expect(page).to have_content('Newsletter Unsubscribed')
   end
-
 end
