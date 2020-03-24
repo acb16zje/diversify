@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'user_helper'
 
 describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
   let(:user) { create(:user) }
@@ -10,7 +9,7 @@ describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
     sign_in user
   end
 
-  it 'unsubscribe from settings page' do
+  it 'unsubscribes' do
     visit settings_profile_path
     click_link 'Emails'
     if find_button('Subscribe Newsletter').visible?

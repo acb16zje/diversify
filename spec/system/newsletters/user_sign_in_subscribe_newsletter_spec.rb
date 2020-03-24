@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require_relative 'user_helper'
 
 describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
   let(:user) { create(:user) }
@@ -9,7 +8,7 @@ describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
   before do
     sign_in user
   end
-  
+
   describe 'subscribe newsletter' do
     it 'from settings page' do
       visit settings_profile_path

@@ -2,33 +2,29 @@
 
 require 'rails_helper'
 
-describe 'Metrics > Subscriber Management', :js, type: :feature do
-  # context 'with subscribers' do
-    # let(:subscriber) { create(:subscriber) }
-  #   let(:user) { create(:user) }
+describe 'Metrics > Subscriber Management', :js, type: :system do
+  let(:admin) { create(:admin) }
+  let(:subscriber) { create(:newsletter_subscription, subscribed: true) }
 
-  #   before do
-  #     login_as(user)
-  #     # subscriber
-  #     visit subscribers_newsletters_path
-  #   end
+  before do
+    sign_in admin
+    visit subscribers_newsletters_path
+  end
 
-  #   specify 'can see subscribers' do
-  #     expect(page).to have_content(subscriber.email)
-  #   end
-
-  #   specify 'can unsubscribe user' do
-  #     accept_confirm { find("tr#subscriber#{subscriber.id} td a").click }
-  #     expect(page).to have_no_content(subscriber.email)
-  #   end
-  # end
   context 'without subscriber' do
-    let(:user) { create(:user) }
-
     it 'shows no data' do
-      login_as(user)
-      visit subscribers_newsletters_path
-      expect(page).to have_content('No data available in table')
+      expect(page).to have_content('No data')
+    end
+  end
+
+  context 'with subscribers' do
+    it 'can see subscribers' do
+      expect(page).to have_content(subscriber.email)
+    end
+
+    it 'can unsubscribe user' do
+      accept_confirm { find("tr#subscriber#{subscriber.id} td a").click }
+      expect(page).to have_no_content(subscriber.email)
     end
   end
 end
