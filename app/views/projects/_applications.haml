@@ -17,7 +17,7 @@
       %h1.title.is-2
         Add User
       %p.has-text-grey Invite User to Project
-      %application-table{ 'original-data': @invites.to_json }
+      %application-table{ 'original-data': @invites.to_json, 'project-id': @project.id }
       = form_with model: Application.new, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
         = f.hidden_field :project_id, value: @project.id
         = f.hidden_field :types, value: 'Invite'

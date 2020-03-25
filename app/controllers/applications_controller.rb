@@ -3,9 +3,9 @@
 # Controller for applications/invites for projects
 class ApplicationsController < ApplicationController
   def create
+    puts(params)
     find_user
     @application = Application.new(application_params)
-
     return application_fail('Invalid Request') unless valid_request?
 
     if @application.save
@@ -25,18 +25,20 @@ class ApplicationsController < ApplicationController
   private
 
   def application_params
-    params.require(:application).permit(:user_id, :project_id, :types)
+    params.permit(:user_id, :project_id, :types)
   end
 
   def valid_request?
-    ((params[:application][:types] == 'Invite' &&
+    ((params[:types] == 'Invite' &&
       current_user == @application.project&.user) ||
-      (params[:application][:types] == 'Application' &&
+      (params[:types] == 'Application' &&
       @application.project&.visibility?)) && @application&.user
   end
 
   def application_success(message)
-    render json: { message: message}, status: :ok
+    render json: {
+      message: message, id: @application.user_id, name: @application.user.name
+    }, status: :ok
   end
 
   def application_fail(message)
@@ -44,7 +46,7 @@ class ApplicationsController < ApplicationController
   end
 
   def find_user
-    params[:application][:user_id] =
-      User.where(name: params[:application][:user_id]).first&.id
+    params[:user_id] =
+      User.where(name: params[:user_id]).first&.id
   end
 end
