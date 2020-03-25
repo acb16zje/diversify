@@ -1,14 +1,16 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
 import ProjectSearch from '../components/projects/ProjectSearch.vue';
-import ApplicationTable from '../components/projects/ApplicationTable.vue';
+// import ApplicationTable from '../components/projects/ApplicationTable.vue';
+import InviteTable from '../components/projects/InviteTable.vue';
 import { successToast } from '../components/buefy/toast';
 
 new Vue({
   el: '#user',
   components: {
     ProjectSearch,
-    ApplicationTable,
+    // ApplicationTable,
+    InviteTable,
   },
   data: {
     avatarFilename: 'No file attached',

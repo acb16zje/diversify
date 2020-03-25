@@ -47,6 +47,10 @@ class Project < ApplicationRecord
 
   before_commit :create_unassigned_team, on: :create
 
+  def applicable?
+    status == 'Open' && visibility
+  end
+
   private
 
   def create_unassigned_team

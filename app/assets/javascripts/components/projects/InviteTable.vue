@@ -25,7 +25,7 @@
     <b-field>
       <b-input v-model="username" placeholder="Username" />
       <p class="control">
-        <b-button @click="invite" class="button is-primary">
+        <b-button class="button is-primary" @click="invite">
           Invite
         </b-button>
       </p>
@@ -59,9 +59,9 @@ export default {
       Rails.ajax({
         url: `/applications/${row.id}`,
         type: 'DELETE',
-        data: {
+        data: new URLSearchParams({
           types: 'Invite',
-        },
+        }),
         success: () => {
           successToast('Invite Canceled');
           this.data = this.data.filter((x) => x !== row);
