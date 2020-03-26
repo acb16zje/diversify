@@ -275,7 +275,14 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
+    t.index ["users_id"], name: "index_teams_on_users_id"
+  end
+
+  create_table "teams_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -291,9 +298,11 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "password_automatically_set", default: false, null: false
     t.bigint "personality_id"
+    t.bigint "team_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["personality_id"], name: "index_users_on_personality_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["team_id"], name: "index_users_on_team_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
@@ -318,4 +327,6 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
   add_foreign_key "tasks", "users"
   add_foreign_key "teams", "projects"
   add_foreign_key "users", "personalities"
+  add_foreign_key "teams", "users", column: "users_id"
+  add_foreign_key "users", "teams"
 end

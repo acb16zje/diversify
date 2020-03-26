@@ -114,12 +114,13 @@ Rails.application.routes.draw do
       post 'uncomplete'
       post 'open_application'
       post 'close_application'
+      post 'accept'
     end
   end
 
   resources :applications
 
-  
+
   # authenticated :user do
   #   root to: , as: :authenticated_root
   # end

@@ -22,10 +22,16 @@
 
 class Team < ApplicationRecord
   belongs_to :project
-  has_many :users, dependent: :destroy
+  # has_many :teams_user
+  has_and_belongs_to_many :users
 
   validates :name, presence: true
   validates :team_size,
             presence: true,
             numericality: { greater_than_or_equal_to: 0 }
+  validates :name, uniqueness: {
+    scope: :project_id,
+    message: 'already Exist'
+  }
+
 end

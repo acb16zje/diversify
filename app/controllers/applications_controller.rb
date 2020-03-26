@@ -8,30 +8,20 @@ class ApplicationsController < ApplicationController
     return application_fail('Invalid Request') unless valid_request?
 
     if @application.save
-      if params[:types] == 'Invite'
-        application_success('Invite Sent')
-      else
-        flash[:toast] = { type: 'success', message: ['Application Sent'] }
-        render js: "window.location = '#{project_path(@application.project.id)}'"
-      end
+      application_success
     else
       application_fail(@application.errors.full_messages)
     end
   end
 
   def destroy
-    puts(params)
-    application = Application.where(user_id: params[:id], types: params[:types]).first
-    if application.destroy
-      if params[:types] == 'Invite'
-        render json: {}, status: :ok
-      else
-        flash[:toast] = { type: 'success', message: ['Application Deleted'] }
-        render js: "window.location = '#{project_path(application.project.id)}'"
-      end
+    @application = Application.where(
+      user_id: params[:id], types: params[:types]
+    ).first
+    if @application.destroy
+      destroy_success
     else
-      render json: { message: application.errors.full_messages },
-             error: :bad_request
+      application_fail(@application.errors.full_messages)
     end
   end
 
@@ -49,10 +39,25 @@ class ApplicationsController < ApplicationController
       @application.project&.visibility?)) && @application&.user
   end
 
-  def application_success(message)
-    render json: {
-      message: message, id: @application.user_id, name: @application.user.name
-    }, status: :ok
+  def application_success
+    if params[:types] == 'Invite'
+      render json: {
+        message: 'Invite Sent', id: @application.user_id,
+        name: @application.user.name
+      }, status: :ok
+    else
+      flash[:toast] = { type: 'success', message: ['Application Sent'] }
+      render js: "window.location = '#{project_path(@application.project.id)}'"
+    end
+  end
+
+  def destroy_success
+    if current_user == @application.project.user
+      render json: {}, status: :ok
+    else
+      flash[:toast] = { type: 'success', message: ['Application Deleted'] }
+      render js: "window.location = '#{project_path(@application.project.id)}'"
+    end
   end
 
   def application_fail(message)

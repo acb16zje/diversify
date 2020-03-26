@@ -13,25 +13,20 @@
           </a>
         </b-table-column>
         <b-table-column label="Action" centered>
-          <a data-confirm="Are you sure?" @click="cancelInvite(props.row)">
-            Cancel Invite
+          <a data-confirm="Are you sure?" class="button is-success" @click="accept(props.row)">
+            Accept
+          </a>
+          <a data-confirm="Are you sure?" class="button is-danger" @click="decline(props.row)">
+            Decline
           </a>
         </b-table-column>
       </template>
       <template v-slot:empty>
         <div class="content has-text-grey has-text-centered">
-          <p>No Invites</p>
+          <p>No Applications</p>
         </div>
       </template>
     </b-table>
-    <b-field>
-      <b-input v-model="username" placeholder="Username" />
-      <p class="control">
-        <b-button class="button is-primary" @click="invite">
-          Invite
-        </b-button>
-      </p>
-    </b-field>
   </section>
 </template>
 
@@ -57,38 +52,29 @@ export default {
     };
   },
   methods: {
-    cancelInvite(row) {
+    decline(row) {
       Rails.ajax({
         url: `/applications/${row.id}`,
         type: 'DELETE',
         data: new URLSearchParams({
-          types: 'Invite',
+          types: 'Application',
         }),
         success: () => {
-          successToast('Invite Canceled');
+          successToast('Application Declined');
           this.data = this.data.filter((x) => x !== row);
         },
       });
     },
-    invite() {
+    accept(row) {
       Rails.ajax({
-        url: '/applications',
+        url: `/projects/${this.projectId}/accept`,
         type: 'POST',
         data: new URLSearchParams({
-          user_id: this.username,
-          project_id: this.projectId,
-          types: 'Invite',
+          user_id: row.id,
         }),
-        success: (data) => {
-          successToast(data.message);
-          this.data.push({ name: data.name, id: data.id });
-        },
-        error: (data) => {
-          if (Array.isArray(data.message)) {
-            data.message.forEach((message) => dangerToast(message));
-          } else {
-            dangerToast(data.message || data.status);
-          }
+        success: () => {
+          successToast('Application Accepted');
+          this.data = this.data.filter((x) => x !== row);
         },
       });
     },

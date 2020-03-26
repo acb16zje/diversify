@@ -38,6 +38,7 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_one :license, dependent: :destroy
+  has_and_belongs_to_many :teams
 
   has_many :identities, dependent: :destroy
   has_many :preferences, dependent: :destroy
@@ -45,7 +46,6 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :applications, dependent: :destroy
-  # has_and_belongs_to_many :teams
   has_many :reviews,
            foreign_key: :reviewer_id,
            class_name: 'Review',

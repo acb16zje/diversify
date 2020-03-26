@@ -28,9 +28,15 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
+  #puts ("DONKEY #{@project.teams.where(name: 'Unassigned').first.users.count}")
     authorize! @project
     @invites = User.select(:id,:name).joins(:applications)
                    .where(applications: { types: 'Invite', project: @project })
+    @applications = User.select(:id,:name).joins(:applications)
+                        .where(applications:
+                        {
+                          types: 'Application', project: @project
+                        })
   end
 
   def self
@@ -75,6 +81,22 @@ class ProjectsController < ApplicationController
   def close_application
     @project.status = 'Active'
     @project.save ? project_success('Application Closed') : project_fail
+  end
+
+  def accept
+    puts params
+    user = User.where(id: params[:user_id]).first
+    team = @project.teams.where(name: 'Unassigned').first
+    puts("Team is here #{team}")
+    team.users << user
+    if team.save
+      application = Application.where(user: user, types: 'Application').first
+      puts("Application is here #{application}")
+      application.destroy
+      render json: {}, status: :ok
+    else
+      project_fail
+    end
   end
 
   # DELETE /projects/1
