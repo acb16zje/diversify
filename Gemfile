@@ -66,7 +66,7 @@ group :development, :test do
   gem 'byebug'
 
   # https://github.com/rspec/rspec-rails/pull/2117
-  gem 'rspec-rails', '~> 4.0.0.beta'
+  gem 'rspec-rails'
 end
 
 group :development do
