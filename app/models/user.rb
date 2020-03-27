@@ -40,7 +40,11 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :tasks, dependent: :destroy
   # has_and_belongs_to_many :teams
-  has_many :reviews, dependent: :destroy
+  has_many :reviews,
+           foreign_key: :reviewer_id,
+           class_name: 'Review',
+           dependent: :nullify,
+           inverse_of: :reviewer
 
   validates :email,
             presence: true,
