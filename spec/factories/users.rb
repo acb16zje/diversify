@@ -38,8 +38,7 @@ FactoryBot.define do
 
   trait :personality do
     after(:create) do |user|
-      personality = create(:personality)
-      create(:user_personality, user: user, personality: personality)
+      create(:user_personality, user: user, personality: create(:personality))
     end
   end
 

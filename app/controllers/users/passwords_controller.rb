@@ -30,11 +30,7 @@ class Users::PasswordsController < Devise::PasswordsController
     self.resource = resource_class.reset_password_by_token(resource_params)
     yield resource if block_given?
 
-    if resource.errors.empty?
-      update_success
-    else
-      update_fail
-    end
+    resource.errors.empty? ? update_success : update_fail
   end
 
   # protected

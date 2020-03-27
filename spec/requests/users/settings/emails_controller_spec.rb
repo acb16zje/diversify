@@ -3,44 +3,39 @@
 require 'rails_helper'
 
 describe Users::Settings::EmailsController, type: :request do
-  let(:user) { create(:user) }
-  let(:newsletter_user) { create(:user, :newsletter) }
-
   describe 'POST #subscribe' do
+    subject(:request) { post subscribe_settings_emails_path }
+
+    let(:user) { create(:user) }
+
+    it_behaves_like 'not accessible to unauthenticated users'
+
     context 'when logged in' do
-      before { sign_in user }
-
-      it {
-        post subscribe_settings_emails_path
+      before do
+        sign_in user
+        request
         follow_redirect!
-        expect(response.body).to include('Newsletter Subscribed')
-      }
-    end
+      end
 
-    context 'when not logged in' do
-      it {
-        post subscribe_settings_emails_path
-        expect(response).to redirect_to new_user_session_path
-      }
+      it { expect(response.body).to include('Newsletter Subscribed') }
     end
   end
 
   describe 'POST #unsubscribe' do
+    subject(:request) { post unsubscribe_settings_emails_path }
+
+    let(:newsletter_user) { create(:user, :newsletter) }
+
+    it_behaves_like 'not accessible to unauthenticated users'
+
     context 'when logged in' do
-      before { sign_in newsletter_user }
-
-      it {
-        post unsubscribe_settings_emails_path
+      before do
+        sign_in newsletter_user
+        request
         follow_redirect!
-        expect(response.body).to include('Newsletter Unsubscribed')
-      }
-    end
+      end
 
-    context 'when not logged in' do
-      it {
-        post unsubscribe_settings_emails_path
-        expect(response).to redirect_to new_user_session_path
-      }
+      it { expect(response.body).to include('Newsletter Unsubscribed') }
     end
   end
 end

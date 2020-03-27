@@ -34,7 +34,7 @@ class User < ApplicationRecord
 
   has_many :identities, dependent: :destroy
   has_one :user_personality, dependent: :destroy
-  has_one :personalities, through: :user_personality
+  has_one :personality, through: :user_personality
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
   has_many :projects, dependent: :destroy

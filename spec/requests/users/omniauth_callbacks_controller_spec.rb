@@ -15,23 +15,23 @@ describe Users::OmniauthCallbacksController, type: :request do
 
     describe "sign in with #{provider}" do
       context 'with valid account' do
-        before { hash(provider) }
-
-        it {
+        before do
+          hash(provider)
           post "/users/auth/#{provider}/callback"
-          expect(response).to redirect_to(root_path)
-        }
+        end
+
+        it { expect(response).to redirect_to(root_path) }
       end
 
       context 'with taken email' do
         let(:test_user) { create(:omniauth_user, providers: ['test']) }
 
-        before { hash(provider, test_user.email) }
-
-        it {
+        before do
+          hash(provider, test_user.email)
           post "/users/auth/#{provider}/callback"
-          expect(response).to redirect_to(new_user_registration_path)
-        }
+        end
+
+        it { expect(response).to redirect_to(new_user_registration_path) }
       end
     end
 
@@ -39,25 +39,25 @@ describe Users::OmniauthCallbacksController, type: :request do
       before { sign_in user }
 
       context 'with valid account' do
-        before { hash(provider) }
-
-        it {
+        before do
+          hash(provider)
           post "/users/auth/#{provider}/callback"
           follow_redirect!
-          expect(response.body).to include('Account Connected')
-        }
+        end
+
+        it { expect(response.body).to include('Account Connected') }
       end
 
       context 'with taken account' do
         let(:omni_user) { create(:omniauth_user, providers: [provider]) }
 
-        before { hash(provider, omni_user.email) }
-
-        it {
+        before do
+          hash(provider, omni_user.email)
           post "/users/auth/#{provider}/callback"
           follow_redirect!
-          expect(response.body).to include('Account has been taken')
-        }
+        end
+
+        it { expect(response.body).to include('Account has been taken') }
       end
     end
   end

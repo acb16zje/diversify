@@ -6,48 +6,21 @@ describe Users::Settings::ProfilesController, type: :request do
   let(:user) { create(:user) }
 
   describe 'GET #show' do
-    context 'when signed in' do
-      before { sign_in user }
+    subject(:request) { get settings_profile_path }
 
-      it 'allows user to edit own profile' do
-        get settings_profile_path
-
-        expect(response).to have_http_status(:ok)
-      end
-    end
-
-    context 'when signed out' do
-      it 'redirects to sign in page' do
-        get settings_profile_path
-
-        expect(response).to redirect_to new_user_session_path
-      end
-    end
+    it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'not accessible to unauthenticated users'
   end
 
   describe 'PATCH #update' do
+    subject(:request) { patch settings_profile_path, params: params }
+
     before { sign_in user }
 
-    shared_examples 'returns Bad Request' do
-      it {
-        patch settings_profile_path, params: params
-
-        expect(response).to have_http_status(:bad_request)
-      }
-    end
-
     context 'with empty birthdate' do
-      it {
-        patch settings_profile_path, params: { user: { birthdate: '' } }
+      let(:params) { { user: { birthdate: '' } } }
 
-        expect(response).to have_http_status(:ok)
-      }
-    end
-
-    context 'with invalid request syntax' do
-      let(:params) { { user: { birthdate: '1/1/1970' } } }
-
-      it_behaves_like 'returns Bad Request'
+      it_behaves_like 'returns 200 OK'
     end
 
     context 'when age between 6 and 80' do
@@ -61,11 +34,13 @@ describe Users::Settings::ProfilesController, type: :request do
         }
       end
 
-      it {
-        patch settings_profile_path, params: params
+      it_behaves_like 'returns 200 OK'
+    end
 
-        expect(response).to have_http_status(:ok)
-      }
+    context 'with invalid request syntax' do
+      let(:params) { { user: { birthdate: '1/1/1970' } } }
+
+      it_behaves_like 'returns 400 Bad Request'
     end
 
     context 'when birthdate >= created_at' do
@@ -79,7 +54,7 @@ describe Users::Settings::ProfilesController, type: :request do
         }
       end
 
-      it_behaves_like 'returns Bad Request'
+      it_behaves_like 'returns 400 Bad Request'
     end
 
     context 'when age < 6' do
@@ -93,7 +68,7 @@ describe Users::Settings::ProfilesController, type: :request do
         }
       end
 
-      it_behaves_like 'returns Bad Request'
+      it_behaves_like 'returns 400 Bad Request'
     end
 
     context 'when age > 80' do
@@ -107,29 +82,27 @@ describe Users::Settings::ProfilesController, type: :request do
         }
       end
 
-      it_behaves_like 'returns Bad Request'
+      it_behaves_like 'returns 400 Bad Request'
     end
   end
 
   describe 'DELETE #remove_avatar' do
+    subject(:request) { delete remove_avatar_settings_profile_path }
+
     let(:user_with_avatar) { create(:user, :with_avatar) }
 
-    context 'with avatar' do
+    it_behaves_like 'not accessible to unauthenticated users'
+
+    context 'when signed in with avatar' do
       before { sign_in user_with_avatar }
 
-      it {
-        delete remove_avatar_settings_profile_path
-        expect(response).to redirect_to(settings_profile_path)
-      }
+      it_behaves_like 'redirects to', :settings_profile_path
     end
 
-    context 'without avatar' do
+    context 'when signed in without avatar' do
       before { sign_in user }
 
-      it {
-        delete remove_avatar_settings_profile_path
-        expect(response).to have_http_status(:not_found)
-      }
+      it_behaves_like 'returns 404 Not Found'
     end
   end
 end

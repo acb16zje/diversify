@@ -60,9 +60,8 @@ describe NewsletterSubscription, type: :model do
   describe 'after_commit hook' do
     describe '#send_welcome', type: :mailer do
       it 'send welcome email on create' do
-        expect do
-          create(:newsletter_subscription)
-        end.to have_enqueued_mail(NewsletterMailer, :send_welcome)
+        expect { create(:newsletter_subscription) }
+          .to have_enqueued_mail(NewsletterMailer, :send_welcome)
       end
     end
   end

@@ -35,23 +35,25 @@ describe Identity, type: :model do
     it { is_expected.to validate_presence_of(:user_id) }
 
     describe 'UNIQUE provider, uid' do
+      subject(:identity) do
+        build_stubbed(:identity, provider: 'test', uid: 1, user: second_user)
+      end
+
       before { Identity.create(provider: 'test', uid: 1, user: first_user) }
 
       it 'returns false for duplicate entry' do
-        identity = build_stubbed(:identity, provider: 'test', uid: 1,
-                                            user: second_user)
-
         expect(identity.validate).to be_falsey
       end
     end
 
     describe 'UNIQUE provider, user_id' do
+      subject(:identity) do
+        build_stubbed(:identity, provider: 'test', uid: 2, user: first_user)
+      end
+
       before { Identity.create(provider: 'test', uid: 1, user: first_user) }
 
       it 'returns false for duplicate entry' do
-        identity = build_stubbed(:identity, provider: 'test', uid: 2,
-                                            user: first_user)
-
         expect(identity.validate).to be_falsey
       end
     end

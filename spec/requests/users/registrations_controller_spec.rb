@@ -6,98 +6,86 @@ describe Users::RegistrationsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
-    context 'when valid sign up details' do
-      it {
-        post '/users', params: {
-          'user[email]': '123@email.com',
-          'user[password]': '12345678'
-        }
-        expect(response).to have_http_status(:ok)
-      }
+    subject(:request) { post user_registration_path, params: params }
+
+    context 'with valid sign up details' do
+      let(:params) do
+        { 'user[email]': '123@email.com', 'user[password]': '12345678' }
+      end
+
+      it_behaves_like 'returns 200 OK'
     end
 
-    context 'when invalid sign up details' do
-      it {
-        post '/users', params: {
-          'user[email]': '1234',
-          'user[password]': '1234'
-        }
-        expect(response).to have_http_status(:bad_request)
-      }
+    context 'with invalid sign up details' do
+      let(:params) { { 'user[email]': '1234', 'user[password]': '1234' } }
+
+      it_behaves_like 'returns 400 Bad Request'
     end
 
     context 'when email has been taken' do
-      it {
-        post '/users', params: {
-          'user[email]': user.email,
-          'user[password]': user.password
-        }
-        expect(response).to have_http_status(:bad_request)
-      }
+      let(:params) do
+        { 'user[email]': user.email, 'user[password]': user.password }
+      end
+
+      it_behaves_like 'returns 400 Bad Request'
     end
   end
 
-  describe 'PUT #update' do
-    context 'when logged in' do
-      before { sign_in user }
+  describe 'PATCH #update' do
+    subject(:request) { patch user_registration_path, params: params }
 
-      context 'when valid inputs' do
-        it {
-          put '/users', params: {
-            'user[current_password]': user.password,
-            'user[password]': 'newPassword',
-            'user[password_confirmation]': 'newPassword'
-          }
-          expect(response).to have_http_status(:ok)
-        }
-      end
-
-      context 'when invalid current password' do
-        it {
-          put '/users', params: {
-            'user[current_password]': 'invalidPass',
-            'user[password]': 'newPassword',
-            'user[password_confirmation]': 'newPassword'
-          }
-          expect(response).to have_http_status(:bad_request)
-        }
-      end
-
-      context 'when invalid new password' do
-        it {
-          put '/users', params: {
-            'user[current_password]': user.password,
-            'user[password]': '',
-            'user[password_confirmation]': ''
-          }
-          expect(response).to have_http_status(:bad_request)
-        }
-      end
-    end
-
-    context 'when not logged in' do
-      it {
-        put '/users', params: {
+    context 'when valid inputs' do
+      let(:params) do
+        {
           'user[current_password]': user.password,
           'user[password]': 'newPassword',
           'user[password_confirmation]': 'newPassword'
         }
-        expect(response).to redirect_to new_user_session_path
-      }
+      end
+
+      it_behaves_like 'accessible to authenticated users'
+      it_behaves_like 'not accessible to unauthenticated users'
     end
 
-    context 'when OAuth user sets up password' do
-      let(:omni_user) { create(:omniauth_user) }
+    context 'when invalid current password' do
+      before { sign_in user }
 
-      before { sign_in omni_user }
-
-      it {
-        put '/users', params: {
+      let(:params) do
+        {
+          'user[current_password]': 'invalidPass',
           'user[password]': 'newPassword',
           'user[password_confirmation]': 'newPassword'
         }
-        expect(response).to have_http_status(:ok)
-      }
+      end
+
+      it_behaves_like 'returns 400 Bad Request'
+    end
+
+    context 'when invalid new password' do
+      before { sign_in user }
+
+      let(:params) do
+        {
+          'user[current_password]': user.password,
+          'user[password]': '',
+          'user[password_confirmation]': ''
+        }
+      end
+
+      it_behaves_like 'returns 400 Bad Request'
+    end
+
+    context 'when OAuth user sets up password' do
+      let(:params) do
+        {
+          'user[password]': 'newPassword',
+          'user[password_confirmation]': 'newPassword'
+        }
+      end
+
+      before { sign_in create(:omniauth_user) }
+
+      it_behaves_like 'returns 200 OK'
     end
   end
 end

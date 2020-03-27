@@ -9,67 +9,32 @@ describe MetricsController, type: :request do
   describe 'authorisations' do
     before { sign_in admin }
 
-    it {
-      expect { get metrics_path }
-        .to be_authorized_to(:manage?, admin).with(MetricPolicy)
-    }
-    it {
-      expect { get traffic_metrics_path }
-        .to be_authorized_to(:manage?, admin).with(MetricPolicy)
-    }
+    describe '#index' do
+      it {
+        expect { get metrics_path }
+          .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+      }
+    end
+
+    describe '#traffic' do
+      it {
+        expect { get traffic_metrics_path }
+          .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+      }
+    end
   end
 
   describe '#index' do
-    context 'when not signed in' do
-      it {
-        get metrics_path
-        expect(response).to redirect_to(new_user_session_path)
-      }
-    end
+    subject(:request) { get metrics_path }
 
-    context 'when signed in as user' do
-      before { sign_in user }
-
-      it {
-        get metrics_path
-        expect(response).to have_http_status(:forbidden)
-      }
-    end
-
-    context 'when signed in as admin' do
-      before { sign_in admin }
-
-      it {
-        get metrics_path
-        expect(response).to have_http_status(:ok)
-      }
-    end
+    it_behaves_like 'accessible to admin users'
+    it_behaves_like 'not accessible to non-admin users'
   end
 
   describe '#traffic' do
-    context 'when not signed in' do
-      it {
-        get traffic_metrics_path
-        expect(response).to redirect_to(new_user_session_path)
-      }
-    end
+    subject(:request) { get traffic_metrics_path }
 
-    context 'when signed in as user' do
-      before { sign_in user }
-
-      it {
-        get traffic_metrics_path
-        expect(response).to have_http_status(:forbidden)
-      }
-    end
-
-    context 'when signed in as admin' do
-      before { sign_in admin }
-
-      it {
-        get traffic_metrics_path
-        expect(response).to have_http_status(:ok)
-      }
-    end
+    it_behaves_like 'accessible to admin users'
+    it_behaves_like 'not accessible to non-admin users'
   end
 end

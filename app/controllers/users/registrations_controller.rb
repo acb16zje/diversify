@@ -80,11 +80,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_success
-    if resource.active_for_authentication?
-      sign_up(resource_name, resource)
-    else
-      expire_data_after_sign_in!
-    end
+    sign_up(resource_name, resource)
     render js: "window.location='#{root_path}'"
   end
 

@@ -2,88 +2,97 @@
 
 require 'rails_helper'
 
-CHART_ROUTES = %w[
-  subscription_ratio
-  subscription_by_date
-  landing_page_feedback
-  social_share_ratio
-  social_share_by_date
-  referrers_ratio
-  referrers_by_date
-  average_time_spent_per_page
-  number_of_visits_per_page
-  newsletter_subscription_by_date
-  unsubscription_reason
-].freeze
-
 describe ChartsController, type: :request do
   let(:user) { create(:user) }
+  let(:admin) { create(:admin) }
 
-  CHART_ROUTES.each do |route|
-    describe "##{route}" do
-      context 'when not signed in' do
+  describe 'authorisations' do
+    before { sign_in admin }
+
+    described_class.instance_methods(false).each do |route|
+
+      describe "##{route}" do
         it {
-          get "/charts/#{route}"
-          expect(response).to redirect_to(new_user_session_path)
+          expect { get "/charts/#{route}" }
+            .to be_authorized_to(:manage?, admin).with(MetricPolicy)
         }
       end
+    end
+  end
 
-      context 'when signed in' do
-        before { sign_in user }
+  described_class.instance_methods(false).each do |route|
+    next if route == :unsubscription_by_newsletter
 
-        specify 'no date selected' do
-          get "/charts/#{route}", params: { chart: { date: '' } }
-          expect(response.content_type).to include('application/json')
+    describe "##{route}" do
+      subject(:request) { get "/charts/#{route}", params: params }
+
+      context 'with no date selected' do
+        let(:params) { { chart: { date: '' } } }
+
+        it_behaves_like 'accessible to admin users'
+        it_behaves_like 'not accessible to non-admin users'
+      end
+
+      context 'with range of dates selected' do
+        let(:params) do
+          { chart: { date: "#{Date.yesterday}, #{Date.tomorrow}" } }
         end
 
-        specify 'invalid single date selected' do
-          expect {
-            get "/charts/#{route}", params: { chart: { date: 'invalid date' } }
-          }.to raise_error(ActionController::BadRequest)
-        end
+        it_behaves_like 'accessible to admin users'
+        it_behaves_like 'not accessible to non-admin users'
+      end
 
-        specify 'range of dates selected' do
-          get "/charts/#{route}",
-              params: { chart: { date: "#{Date.yesterday}, #{Date.tomorrow}" } }
-          expect(response.content_type).to include('application/json')
-        end
+      context 'with invalid single date selected' do
+        let(:params) { { chart: { date: 'invalid date' } } }
+
+        before { sign_in admin }
+
+        it { expect { request }.to raise_error(ActionController::BadRequest) }
       end
     end
   end
 
   # Special format
   describe '#unsubscription_by_newsletter' do
-    context 'when signed in' do
-      let(:newsletter) { create(:newsletter) }
-      let(:feedback_after_newsletter) do
-        create(:newsletter_feedback, :no_longer, created_at: Time.zone.tomorrow)
+    subject(:request) do
+      get '/charts/unsubscription_by_newsletter', params: params
+    end
+
+    let(:newsletter) { create(:newsletter) }
+
+    before do
+      newsletter
+      create(:newsletter_feedback, :no_longer, created_at: Time.zone.tomorrow)
+    end
+
+    context 'with no date selected' do
+      let(:params) { { chart: { date: '' } } }
+
+      it_behaves_like 'accessible to admin users'
+      it_behaves_like 'not accessible to non-admin users'
+
+      it 'returns all newsletter before feedback' do
+        sign_in admin
+        request
+        expect(response.body).to eq("[[\"#{newsletter.title}, #{newsletter.created_at.utc.strftime('%d-%m-%Y')}\",1]]")
+      end
+    end
+
+    context 'with range of dates selected' do
+      let(:params) do
+        { chart: { date: "#{Time.zone.yesterday}, #{Time.zone.yesterday}" } }
       end
 
-      before do
-        newsletter
-        feedback_after_newsletter
-        sign_in user
-      end
+      it_behaves_like 'accessible to admin users'
+      it_behaves_like 'not accessible to non-admin users'
+    end
 
-      specify 'no date selected' do
-        get '/charts/unsubscription_by_newsletter',
-            params: { chart: { date: '' } }
-        expect(response.body)
-          .to eq("[[\"#{newsletter.title}, #{newsletter.created_at.utc.strftime('%d-%m-%Y')}\",1]]")
-      end
+    context 'with single date selected' do
+      let(:params) { { chart: { date: Time.zone.today.to_s } } }
 
-      specify 'single date selected' do
-        expect {
-          get '/charts/unsubscription_by_newsletter',
-              params: { chart: { date: "#{Date.today}" } }
-        }.to raise_error(ActionController::BadRequest)
-      end
+      before { sign_in admin }
 
-      specify 'range of dates selected' do
-        get '/charts/unsubscription_by_newsletter',
-            params: { chart: { date: "#{Date.yesterday}, #{Date.yesterday}" } }
-        expect(response.body).to include('[]')
-      end
+      it { expect { request }.to raise_error(ActionController::BadRequest) }
     end
   end
 end

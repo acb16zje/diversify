@@ -6,68 +6,68 @@ describe Users::PasswordsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
-    context 'when valid email' do
-      it {
-        post '/users/password', params: {
-          'user[email]': user.email
-        }
-        expect(response).to have_http_status(:ok)
-      }
+    subject(:request) { post user_password_path, params: params }
+
+    context 'with valid email' do
+      let(:params) { { 'user[email]': user.email } }
+
+      it_behaves_like 'returns 200 OK'
     end
 
-    context 'when invalid email' do
-      it {
-        post '/users/password', params: {
-          'user[email]': 'fake@email.com'
-        }
-        expect(response).to have_http_status(:bad_request)
-      }
+    context 'with invalid email' do
+      let(:params) { { 'user[email]': 'fake@email.com' } }
+
+      it_behaves_like 'returns 400 Bad Request'
     end
   end
 
-  describe 'PUT #update' do
-    let(:generate_token) { 
-      Devise.token_generator.generate(User, :reset_password_token) }
-    
+  describe 'PATCH #update' do
+    subject(:request) { patch user_password_path, params: params }
+
+    let(:generate_token) do
+      Devise.token_generator.generate(User, :reset_password_token)
+    end
+
     before do
-      @raw, hashed = generate_token
-      user.reset_password_token = hashed
+      user.reset_password_token = generate_token[1]
       user.reset_password_sent_at = Time.now.utc
       user.save
     end
 
-    context 'when valid password' do
-      it {
-        put '/users/password', params: {
-          'user[reset_password_token]': @raw,
+    context 'with valid password' do
+      let(:params) do
+        {
+          'user[reset_password_token]': generate_token[0],
           'user[password]': 'newPassword',
           'user[password_confirmation]': 'newPassword'
         }
-        expect(response).to have_http_status(:ok)
-      }
+      end
+
+      it_behaves_like 'returns 200 OK'
     end
 
-    context 'when invalid password' do
-      it {
-        put '/users/password', params: {
-          'user[reset_password_token]': @raw,
+    context 'with invalid password' do
+      let(:params) do
+        {
+          'user[reset_password_token]': generate_token[0],
           'user[password]': 'newPassword',
           'user[password_confirmation]': ''
         }
-        expect(response).to have_http_status(:bad_request)
-      }
+      end
+
+      it_behaves_like 'returns 400 Bad Request'
     end
 
-    context 'when invalid token' do
-      it {
-        put '/users/password', params: {
+    context 'with invalid token' do
+      let(:params) do
+        {
           'user[reset_password_token]': '1234',
           'user[password]': 'newPassword',
           'user[password_confirmation]': 'newPassword'
         }
-        expect(response).to have_http_status(:bad_request)
-      }
+      end
+
+      it_behaves_like 'returns 400 Bad Request'
     end
-      
   end
 end

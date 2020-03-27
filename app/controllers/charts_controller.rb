@@ -4,6 +4,8 @@
 class ChartsController < ApplicationController
   include ChartsFilterDate
 
+  before_action :chart_authorize
+
   before_action :load_ahoy_event_subscriptions,
                 only: %i[subscription_ratio subscription_by_date]
 
@@ -117,6 +119,10 @@ class ChartsController < ApplicationController
 
   def chart_params
     params.require(:chart).permit(:date)
+  end
+
+  def chart_authorize
+    authorize! current_user, with: MetricPolicy
   end
 
   def load_ahoy_event_subscriptions

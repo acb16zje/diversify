@@ -6,27 +6,26 @@ describe Users::SessionsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #sign_in' do
+    subject(:request) { post user_session_path, params: params }
+
     context 'with valid sign in' do
-      it 'sign in and redirect to home page' do
-        post user_session_path,
-             params: { user: { email: user.email, password: user.password } }
-        expect(response).to have_http_status(:ok)
-      end
+      let(:params) { { user: { email: user.email, password: user.password } } }
+
+      it_behaves_like 'returns 200 OK'
     end
 
     context 'with invalid sign in params' do
-      it 'sends error' do
-        post user_session_path,
-             params: { user: { email: 'fake@email.com', password: 'fake123' } }
-        expect(response).to have_http_status(:unauthorized)
+      let(:params) do
+        { user: { email: 'fake@email.com', password: 'fake123' } }
       end
+
+      it_behaves_like 'returns 401 Unauthorized'
     end
 
     context 'with no sign in params' do
-      it 'sends error' do
-        post user_session_path
-        expect(response).to have_http_status(:unauthorized)
-      end
+      let(:params) { {} }
+
+      it_behaves_like 'returns 401 Unauthorized'
     end
   end
 end

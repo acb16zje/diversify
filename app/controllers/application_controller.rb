@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :exception, prepend: true
 
   include Pagy::Backend
 
@@ -30,24 +30,14 @@ class ApplicationController < ActionController::Base
     # Exception object contains the following information
     # ex.policy #=> policy class, e.g. UserPolicy
     # ex.rule #=> applied rule, e.g. :show?
-    render_403
+    render_404
   end
 
   rescue_from ActiveRecord::StatementInvalid do
-    render json: { message: 'Invalid Statement' },
-    status: :unprocessable_entity
+    render json: { message: 'Invalid Statement' }, status: :unprocessable_entity
   end
 
   private
-
-  def render_403
-    respond_to do |format|
-      format.html {
-        render 'errors/error_403', layout: 'errors', status: :forbidden
-      }
-      format.any { head :forbidden }
-    end
-  end
 
   def render_404
     respond_to do |format|

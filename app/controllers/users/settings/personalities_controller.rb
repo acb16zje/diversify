@@ -20,6 +20,10 @@ class Users::Settings::PersonalitiesController < Users::Settings::BaseController
 
   private
 
+  def personalities_params
+    params.require(:personality).permit(:mind, :energy, :nature, :tactic)
+  end
+
   def prepare_user_personality
     @user_p =
       if current_user.user_personality.nil?
@@ -32,9 +36,5 @@ class Users::Settings::PersonalitiesController < Users::Settings::BaseController
   def update_success
     flash[:toast] = { type: 'success', message: ['Personality Updated'] }
     render js: "window.location = '#{settings_personality_path}'"
-  end
-
-  def personalities_params
-    params.require(:personality).permit(:mind, :energy, :nature, :tactic)
   end
 end

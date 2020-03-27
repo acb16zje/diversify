@@ -4,96 +4,52 @@ require 'rails_helper'
 
 describe Users::Settings::PersonalitiesController, type: :request do
   let(:user) { create(:user) }
-  let(:personality) { create(:personality) }
-  let(:user_personality) { create(:user,:personality) }
+
   describe 'GET #show' do
-    context 'when signed in' do
-      before { sign_in user }
+    subject(:request) { get settings_personality_path }
 
-      it {
-        get settings_personality_path
-        expect(response).to have_http_status(:ok)
-      }
-    end
-
-    context 'when signed out' do
-
-      it {
-        get settings_personality_path
-        expect(response).to redirect_to new_user_session_path
-      }
-    end
+    it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'not accessible to unauthenticated users'
   end
 
   describe 'PATCH #update' do
-    context 'when initial selection' do
+    subject(:request) { patch settings_personality_path, params: params }
+
+    let(:personality) { create(:personality) }
+    let(:user_personality) { create(:user, :personality) }
+
+    context 'with initial selection' do
       before { sign_in user_personality }
 
-      it {
-        patch settings_personality_path,
-          params: {
-            personality: {
-              mind: 'i',
-              energy: 's',
-              nature: 'f',
-              tactic: 'j'
-            }
-          }
-        expect(response).to have_http_status(:ok)
-      }
+      let(:params) do
+        { personality: { mind: 'i', energy: 's', nature: 'f', tactic: 'j' } }
+      end
+
+      it_behaves_like 'returns 200 OK'
     end
 
-    context 'when valid input' do
+    context 'with valid input' do
+      before { personality }
+
+      let(:params) do
+        { personality: { mind: 'i', energy: 's', nature: 'f', tactic: 'j' } }
+      end
+
+      it_behaves_like 'accessible to authenticated users'
+      it_behaves_like 'not accessible to unauthenticated users'
+    end
+
+    context 'with invalid input' do
       before do
         sign_in user
         personality
       end
 
-      it {
-        patch settings_personality_path,
-          params: {
-            personality: {
-              mind: 'i',
-              energy: 's',
-              nature: 'f',
-              tactic: 'j'
-            }
-          }
-        expect(response).to have_http_status(:ok)
-      }
-    end
-
-    context 'when invalid input' do
-      before do
-        sign_in user
-        personality
+      let(:params) do
+        { personality: { mind: '', energy: '', nature: '', tactic: '' } }
       end
 
-      it {
-        patch settings_personality_path,
-          params: {
-            personality: {
-              mind: 'i',
-              energy: 's',
-              nature: 'f',
-              tactic: ''
-            }
-          }
-        expect(response).to have_http_status(:unprocessable_entity)
-      }
-
-      it {
-        patch settings_personality_path,
-          params: {
-            personality: {
-              mind: 'e',
-              energy: 's',
-              nature: 'f',
-              tactic: 'j'
-            }
-          }
-        expect(response).to have_http_status(:unprocessable_entity)
-      }
+      it_behaves_like 'returns 422 Unprocessable Entity'
     end
   end
 end

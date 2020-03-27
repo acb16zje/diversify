@@ -5,7 +5,6 @@ require 'rails_helper'
 describe NewslettersController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
-  let(:newsletter_user) { create(:user, :newsletter) }
   let(:newsletter) { create(:newsletter) }
 
   describe 'authorisations' do
@@ -30,15 +29,7 @@ describe NewslettersController, type: :request do
     end
 
     describe '#create' do
-      subject(:request) do
-        post newsletters_path,
-             params: {
-               newsletter: {
-                 title: newsletter.title,
-                 content: newsletter.content
-               }
-             }
-      end
+      subject(:request) { post newsletters_path(newsletter) }
 
       it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
     end
@@ -50,221 +41,145 @@ describe NewslettersController, type: :request do
     end
   end
 
-  shared_examples 'allows access' do
-    it { expect(response).to have_http_status(:ok) }
-  end
-
-  shared_examples 'deny access' do
-    it { expect(response).to have_http_status(:forbidden) }
-  end
-
-  shared_examples 'redirect to login' do
-    it { expect(response).to redirect_to new_user_session_path }
-  end
-
   describe 'GET #index' do
-    context 'when signed in as admin' do
-      before do
-        sign_in admin
-        get newsletters_path
-      end
+    subject(:request) { get newsletters_path }
 
-      it_behaves_like 'allows access'
-    end
-
-    context 'when signed in as user' do
-      before do
-        sign_in user
-        get newsletters_path
-      end
-
-      it_behaves_like 'deny access'
-    end
-
-    context 'when signed out' do
-      before { get newsletters_path }
-
-      it_behaves_like 'redirect to login'
-    end
+    it_behaves_like 'accessible to admin users'
+    it_behaves_like 'not accessible to non-admin users'
   end
 
   describe 'GET #new' do
-    context 'when signed in as admin' do
-      before do
-        sign_in admin
-        get new_newsletter_path
-      end
+    subject(:request) { get new_newsletter_path }
 
-      it_behaves_like 'allows access'
-    end
-
-    context 'when signed in as user' do
-      before do
-        sign_in user
-        get new_newsletter_path
-      end
-
-      it_behaves_like 'deny access'
-    end
-
-    context 'when signed out' do
-      before { get new_newsletter_path }
-
-      it_behaves_like 'redirect to login'
-    end
+    it_behaves_like 'accessible to admin users'
+    it_behaves_like 'not accessible to non-admin users'
   end
 
   describe 'POST #create' do
-    before { sign_in admin }
+    subject(:request) { post newsletters_path, params: params }
 
     context 'with valid inputs' do
-      it {
-        post newsletters_path,
-             params: {
-               newsletter: {
-                 title: newsletter.title, content: newsletter.content
-               }
-             }
-        expect(response).to have_http_status(:ok)
-      }
+      let(:params) do
+        { newsletter: { title: newsletter.title, content: newsletter.content } }
+      end
+
+      it_behaves_like 'accessible to admin users'
+      it_behaves_like 'not accessible to non-admin users'
     end
 
-    context 'with invalid inputs' do
-      it {
-        post newsletters_path,
-             params: { newsletter: { title: '', content: newsletter.content } }
-        expect(response).to have_http_status(:unprocessable_entity)
-      }
+    context 'with missing params as admin' do
+      let(:params) do
+        { newsletter: { title: '', content: newsletter.content } }
+      end
+
+      before { sign_in admin }
+
+      it_behaves_like 'returns 422 Unprocessable Entity'
     end
   end
 
   describe 'GET #show' do
-    context 'when signed in as admin' do
+    subject(:request) { get newsletter_path(params) }
+
+    context 'with valid newsletter' do
+      let(:params) { newsletter }
+
+      it_behaves_like 'accessible to admin users'
+      it_behaves_like 'not accessible to non-admin users'
+    end
+
+    context 'with invalid newsletter as admin' do
+      let(:params) { 0 }
+
+      before { sign_in admin }
+
+      it_behaves_like 'returns 404 Not Found'
+    end
+
+    context 'with XHR request as admin' do
       before do
         sign_in admin
-        get newsletter_path(newsletter)
-      end
-
-      it_behaves_like 'allows access'
-
-      it 'returns OK for valid newsletter' do
-        get newsletter_path(newsletter.id)
-        expect(response).to have_http_status(:ok)
-      end
-
-      it 'returns Not Found for invalid newsletter' do
-        get newsletter_path(0)
-        expect(response).to have_http_status(:not_found)
-      end
-
-      it 'returns JSON for XHR request' do
         get newsletter_path(newsletter), xhr: true
-        expect(response.content_type).to include('application/json')
-      end
-    end
-
-    context 'when signed in as user' do
-      before do
-        sign_in user
-        get newsletter_path(newsletter)
       end
 
-      it_behaves_like 'deny access'
-    end
-
-    context 'when signed out' do
-      before { get newsletter_path(newsletter) }
-
-      it_behaves_like 'redirect to login'
+      it { expect(response.content_type).to include('application/json') }
     end
   end
 
   describe 'GET #subscribers' do
-    context 'when signed in as admin' do
-      before do
-        sign_in admin
-        get subscribers_newsletters_path
-      end
+    subject(:request) { get subscribers_newsletters_path }
 
-      it_behaves_like 'allows access'
-    end
-
-    context 'when signed in as user' do
-      before do
-        sign_in user
-        get subscribers_newsletters_path
-      end
-
-      it_behaves_like 'deny access'
-    end
-
-    context 'when signed out' do
-      before { get subscribers_newsletters_path }
-
-      it_behaves_like 'redirect to login'
-    end
+    it_behaves_like 'accessible to admin users'
+    it_behaves_like 'not accessible to non-admin users'
   end
 
   describe 'POST #subscribe' do
-    context 'when valid input' do
-      it {
-        post subscribe_newsletters_path(email: 'test@email.com')
-        expect(response).to have_http_status(:ok)
-      }
+    subject(:request) { post subscribe_newsletters_path(email: email) }
+
+    context 'with valid email' do
+      let(:email) { 'test@email.com' }
+
+      it_behaves_like 'accessible to authenticated users'
+      it_behaves_like 'accessible to unauthenticated users'
     end
 
-    context 'when invalid input' do
-      it {
-        post subscribe_newsletters_path(email: 'invalid input')
-        expect(response).to have_http_status(:unprocessable_entity)
-      }
+    context 'with invalid email' do
+      let(:email) { 'invalid email' }
+
+      it_behaves_like 'returns 422 Unprocessable Entity'
     end
   end
 
   describe 'GET #unsubscribe' do
-    before { get unsubscribe_newsletters_path }
+    subject(:request) { get unsubscribe_newsletters_path }
 
-    it_behaves_like 'allows access'
+    it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'accessible to unauthenticated users'
   end
 
   describe 'POST #post_unsubscribe' do
+    subject(:request) { post unsubscribe_newsletters_path, params: params }
+
+    let(:newsletter_user) { create(:user, :newsletter) }
+
     context 'with valid input' do
-      it {
-        post unsubscribe_newsletters_path,
-             params: {
-               newsletter_unsubscription: {
-                 email: newsletter_user.email,
-                 reasons: ['no_longer']
-               }
-             }
-        expect(response).to have_http_status(:ok)
-      }
+      let(:params) do
+        {
+          newsletter_unsubscription: {
+            email: newsletter_user.email,
+            reasons: ['no_longer']
+          }
+        }
+      end
+
+      it_behaves_like 'accessible to authenticated users'
+      it_behaves_like 'accessible to unauthenticated users'
     end
 
     context 'with invalid input' do
-      it {
-        post unsubscribe_newsletters_path,
-             params: {
-               newsletter_unsubscription: {
-                 email: newsletter_user.email,
-                 reasons: ['invalid']
-               }
-             }
-        expect(response).to have_http_status(:unprocessable_entity)
-      }
+      let(:params) do
+        {
+          newsletter_unsubscription: {
+            email: newsletter_user.email,
+            reasons: ['invalid']
+          }
+        }
+      end
+
+      it_behaves_like 'returns 422 Unprocessable Entity'
     end
 
     context 'with not subscribed email' do
-      it {
-        post unsubscribe_newsletters_path,
-             params: {
-               newsletter_unsubscription: {
-                 email: 'randon@email.com',
-                 reasons: ['no_longer']
-               }
-             }
-        expect(response).to have_http_status(:ok)
-      }
+      let(:params) do
+        {
+          newsletter_unsubscription: {
+            email: 'randon@email.com',
+            reasons: ['no_longer']
+          }
+        }
+      end
+
+      it_behaves_like 'returns 200 OK'
     end
   end
 end
