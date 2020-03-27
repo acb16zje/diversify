@@ -88,4 +88,17 @@ describe Users::RegistrationsController, type: :request do
       it_behaves_like 'returns 200 OK'
     end
   end
+
+  describe 'DELETE #destroy' do
+    subject(:request) { delete user_registration_path }
+
+    before { sign_in user }
+
+    it_behaves_like 'redirects to', :root_path
+
+    it 'deletes the user' do
+      request
+      expect(User.all).not_to include(user)
+    end
+  end
 end
