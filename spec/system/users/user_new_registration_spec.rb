@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 describe 'New Registration > User', :js, type: :system do
-  let(:user) { create(:user) }
+  let(:new_user_email) { generate(:email) }
+  let(:existing_user) { create(:user) }
 
   before do
     visit new_user_registration_path
@@ -17,6 +18,7 @@ describe 'New Registration > User', :js, type: :system do
 
   describe 'sign up user' do
     it 'can register user' do
+      fill_form(new_user_email, '12345678')
       click_button 'Sign up'
       expect(page).to have_content('Introduction')
     end
@@ -32,7 +34,7 @@ describe 'New Registration > User', :js, type: :system do
 
     context 'when using a duplicate email address' do
       it 'alerts user error' do
-        fill_form(user.email, user.password)
+        fill_form(existing_user.email, existing_user.password)
         click_button 'Sign up'
         expect(page).to have_content('has already been taken')
       end

@@ -2,16 +2,18 @@
 
 require 'rails_helper'
 
-describe 'Metrics > Send newsletter', :js, type: :feature do
+describe 'Metrics > Send newsletter', :js, type: :system do
+  let(:admin) { create(:admin) }
+
   before do
+    sign_in admin
     visit new_newsletter_path
     instance_double(NewsletterSubscription.name, email: 'test@test.com')
   end
 
   describe 'sending a newsletter' do
     before { send_newsletter }
-
-    it { expect(page).to have_current_path(newsletters_path) }
+    
     it { expect(page).to have_content('random title') }
   end
 

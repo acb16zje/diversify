@@ -130,9 +130,10 @@ describe 'Edit User Profile > Settings', :js, type: :system do
       visit settings_account_path
     end
 
+    # At the moment, delete account returns invalid statement
     it 'alert user to confirm' do
       page.find(:css, '.button.is-danger').click
-      expect(page.alert).to have_content('Are you sure?')
+      expect(page.accept_alert).to have_content('Are you sure?')
     end
   end
 end

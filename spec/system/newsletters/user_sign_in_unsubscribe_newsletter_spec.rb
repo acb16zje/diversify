@@ -9,7 +9,7 @@ describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
     sign_in user
   end
 
-  it 'unsubscribes' do
+  it 'can unsubscribes' do
     visit settings_profile_path
     click_link 'Emails'
     if find_button('Subscribe Newsletter').visible?

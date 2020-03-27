@@ -4,8 +4,6 @@ require 'rails_helper'
 
 describe 'New Personalities > User', :js, type: :system do
   let(:user) { create(:user) }
-  # let(:personality) { create(:personality) }
-  # let(:user_personality) { create(:user, :personality) }
 
   before do
     sign_in user
