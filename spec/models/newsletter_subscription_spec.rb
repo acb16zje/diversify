@@ -26,15 +26,19 @@ describe NewsletterSubscription, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:email) }
-    it { is_expected.to validate_uniqueness_of(:email) }
     it { is_expected.to allow_value('foo@bar.com').for(:email) }
     it { is_expected.not_to allow_value('foobar').for(:email) }
+
+    describe 'UNIQUE email' do
+      subject { create(:newsletter_subscription) }
+
+      it { is_expected.to validate_uniqueness_of(:email) }
+    end
   end
 
   describe 'scopes' do
-    # Local variable to share across examples
-    subscribed = described_class.create(email: '1@1.com')
-    unsubscribed = described_class.create(email: '2@1.com', subscribed: false)
+    let!(:subscribed) { create(:newsletter_subscription) }
+    let!(:unsubscribed) { create(:newsletter_subscription, :unsubscribed) }
 
     describe '.all_subscribed_emails' do
       subject { described_class.all_subscribed_emails }

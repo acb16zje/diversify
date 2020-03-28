@@ -39,7 +39,7 @@ describe Identity, type: :model do
         build_stubbed(:identity, provider: 'test', uid: 1, user: second_user)
       end
 
-      before { Identity.create(provider: 'test', uid: 1, user: first_user) }
+      before { create(:identity, provider: 'test', uid: 1, user: first_user) }
 
       it 'returns false for duplicate entry' do
         expect(identity.validate).to be_falsey
@@ -51,7 +51,7 @@ describe Identity, type: :model do
         build_stubbed(:identity, provider: 'test', uid: 2, user: first_user)
       end
 
-      before { Identity.create(provider: 'test', uid: 1, user: first_user) }
+      before { create(:identity, provider: 'test', uid: 1, user: first_user) }
 
       it 'returns false for duplicate entry' do
         expect(identity.validate).to be_falsey
