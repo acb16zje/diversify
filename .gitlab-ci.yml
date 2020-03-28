@@ -51,7 +51,6 @@ setup-test-env:
   script:
     - *db-setup
     - bundle exec rails db:drop db:create db:schema:load RAILS_ENV=test
-    - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
   artifacts:
     expire_in: 1d
     paths:
@@ -63,15 +62,14 @@ setup-test-env:
   dependencies: ['setup-test-env']
   needs: ['setup-test-env']
   script:
-    - bundle exec rake $CI_JOB_NAME
+    - bundle exec rspec ${CI_JOB_NAME//[:]/\/}
   artifacts:
     paths:
-      - 'coverage/$CI_JOB_NAME' # look for the unique CI_JOB_NAME folder for this run
-    name: 'CI_JOB_NAME Coverage' # Give it a unique artifact name
-    when: always # Always extract the artifact, even if not all tests passed.
-    expire_in: 1d
+      - 'coverage/$CI_JOB_NAME'
+    when: always
+    expire_in: 1h
 
-spec:mailers spec:helpers spec:policies spec:validators:
+spec:helpers spec:mailers spec:policies spec:validators:
   extends: .rspec
 
 spec:models:
@@ -80,8 +78,10 @@ spec:models:
 spec:requests:
   extends: .rspec
 
-# spec:system:
-#   extends: .rspec
+#spec/system:
+#  extends: .rspec
+#  before_script:
+#    - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
 
 coverage:
   stage: post-test
