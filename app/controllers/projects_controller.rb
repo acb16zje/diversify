@@ -5,7 +5,6 @@ class ProjectsController < ApplicationController
   include ProjectsQuery
 
   before_action :set_project, except: %i[index self query new create]
-  before_action :authorize_project, except: %i[index self show query new create]
   skip_before_action :authenticate_user!, only: %i[index show query]
   before_action :set_project, only: %i[show]
 
@@ -21,16 +20,14 @@ class ProjectsController < ApplicationController
 
     scope = authorized_scope(call(params))
     pagy, records = pagy(scope, page: params[:page])
-    images = project_images(records)
 
-    render json: { data: records, pagy: pagy_metadata(pagy), images: images }
+    render json: { data: records, pagy: pagy_metadata(pagy),
+                   images: project_images(records) }
   end
 
   # GET /projects/1
   def show
-  #puts ("DONKEY #{@project.teams.where(name: 'Unassigned').first.users.count}")
-    authorize! @project
-    @invites = User.select(:id,:name).joins(:applications)
+    @invites = User.select(:id, :name).joins(:applications)
                    .where(applications: { types: 'Invite', project: @project })
     @applications = User.select(:id,:name).joins(:applications)
                         .where(applications:
@@ -63,56 +60,19 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def complete
-    @project.status = 'Completed'
-    @project.save ? project_success('Project Archived') : project_fail
-  end
+  def change_status
+    return if @project.status != 'Active' && params[:status] != 'Active'
 
-  def uncomplete
-    @project.status = 'Active'
-    @project.save ? project_success('Project Reactivated') : project_fail
+    message = prepare_message
+    @project.status = params[:status]
+    @project.save ? project_success(message) : project_fail
   end
-
-  def open_application
-    @project.status = 'Open'
-    @project.save ? project_success('Applications Opened') : project_fail
-  end
-
-  def close_application
-    @project.status = 'Active'
-    @project.save ? project_success('Application Closed') : project_fail
-  end
-
-  def accept
-    puts params
-    user = User.where(id: params[:user_id]).first
-    team = @project.teams.where(name: 'Unassigned').first
-    puts("Team is here #{team}")
-    team.users << user
-    if team.save
-      application = Application.where(user: user, types: 'Application').first
-      puts("Application is here #{application}")
-      application.destroy
-      render json: {}, status: :ok
-    else
-      project_fail
-    end
-  end
-
-  # DELETE /projects/1
-  # def destroy
-  #   @project.destroy
-  #   redirect_to projects_url, notice: 'Project was successfully destroyed.'
-  # end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_project
     @project = Project.find(params[:id])
-  end
-
-  def authorize_project
     authorize! @project
   end
 
@@ -131,9 +91,9 @@ class ProjectsController < ApplicationController
   def project_images(records)
     images = {}
     records.each do |record|
-      if record.avatar.attached?
-        images[record.id] = url_for(record.avatar.variant(resize: '100x100!'))
-      end
+      next unless record.avatar.attached?
+
+      images[record.id] = url_for(record.avatar.variant(resize: '100x100!'))
     end
     images
   end
@@ -146,5 +106,16 @@ class ProjectsController < ApplicationController
   def project_fail
     render json: { message: @project.errors.full_messages },
            status: :unprocessable_entity
+  end
+
+  def prepare_message
+    case params[:status]
+    when 'Completed' then 'Project Archived'
+    when 'Active'
+      @project.applications.where(types: 'Application').destroy_all
+      @project.status == 'Completed' ? 'Project Activated' : 'Project Closed'
+    when 'Open' then 'Project Opened'
+    else ''
+    end
   end
 end

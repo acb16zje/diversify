@@ -2,30 +2,44 @@
 
 # Controller for applications/invites for projects
 class ApplicationsController < ApplicationController
+  before_action :prepare_accept, only: :accept
+
   def create
     find_user
     @application = Application.new(application_params)
     return application_fail('Invalid Request') unless valid_request?
 
-    if @application.save
-      application_success
-    else
-      application_fail(@application.errors.full_messages)
-    end
+    @application.save ? application_success : application_fail
   end
 
   def destroy
-    @application = Application.where(
-      user_id: params[:id], types: params[:types]
-    ).first
-    if @application.destroy
-      destroy_success
+    @application = Application.find_by(application_params)
+    @application.destroy ? destroy_success : application_fail
+  end
+
+  def accept
+    return unless valid_accept?
+
+    @team.users << @user
+    if @team.save
+      application.destroy
+      render json: {}, status: :ok
     else
-      application_fail(@application.errors.full_messages)
+      project_fail
     end
   end
 
   private
+
+  def prepare_accept
+    @application = Applications.find_by(
+      project: params[:project_id], user: params[:user_id], types: 'Application')
+    @team = application.project.teams.find_by(name: 'Unassigned')
+  end
+
+  def valid_accept?
+    @team.present? && @application.present?
+  end
 
   def application_params
     params.except(:authenticity_token).permit(:user_id, :project_id, :types)
@@ -60,8 +74,9 @@ class ApplicationsController < ApplicationController
     end
   end
 
-  def application_fail(message)
-    render json: { message: message }, status: :bad_request
+  def application_fail
+    render json: { message: @application.errors.full_messages },
+           status: :bad_request
   end
 
   def find_user

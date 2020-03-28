@@ -68,6 +68,13 @@ export default {
           successToast('Invite Canceled');
           this.data = this.data.filter((x) => x !== row);
         },
+        error: (data) => {
+          if (Array.isArray(data.message)) {
+            data.message.forEach((message) => dangerToast(message));
+          } else {
+            dangerToast(data.message || data.status);
+          }
+        },
       });
     },
     invite() {

@@ -63,18 +63,33 @@ export default {
           successToast('Application Declined');
           this.data = this.data.filter((x) => x !== row);
         },
+        error: (data) => {
+          if (Array.isArray(data.message)) {
+            data.message.forEach((message) => dangerToast(message));
+          } else {
+            dangerToast(data.message || data.status);
+          }
+        },
       });
     },
     accept(row) {
       Rails.ajax({
-        url: `/projects/${this.projectId}/accept`,
+        url: `/applications/accept`,
         type: 'POST',
         data: new URLSearchParams({
           user_id: row.id,
+          project_id: this.projectId,
         }),
         success: () => {
           successToast('Application Accepted');
           this.data = this.data.filter((x) => x !== row);
+        },
+        error: (data) => {
+          if (Array.isArray(data.message)) {
+            data.message.forEach((message) => dangerToast(message));
+          } else {
+            dangerToast(data.message || data.status);
+          }
         },
       });
     },

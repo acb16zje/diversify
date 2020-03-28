@@ -110,15 +110,15 @@ Rails.application.routes.draw do
       get 'self'
     end
     member do
-      post 'complete'
-      post 'uncomplete'
-      post 'open_application'
-      post 'close_application'
-      post 'accept'
+      post 'change_status'
     end
   end
 
-  resources :applications
+  resources :applications do
+    collection do
+      post 'accept'
+    end
+  end
 
 
   # authenticated :user do
