@@ -53,6 +53,9 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1
   def update
+    return project_fail('Bad Request') if
+      params[:project].key?(:visibility) && current_user.license.plan == 'free'
+
     if @project.update(project_params)
       project_success('Project Updated')
     else
@@ -117,7 +120,6 @@ class ProjectsController < ApplicationController
       @project.invites.where(types: 'Application').destroy_all
       @project.status == 'Completed' ? 'Project Activated' : 'Project Closed'
     when 'Open' then 'Project Opened'
-    else ''
     end
   end
 end

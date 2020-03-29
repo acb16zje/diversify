@@ -3,6 +3,7 @@
 # Class for Project policies
 class ProjectPolicy < ApplicationPolicy
   alias_rule :update?, :change_status, to: :manage?
+
   relation_scope do |relation|
     next relation if user&.admin?
 

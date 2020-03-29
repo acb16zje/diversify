@@ -32,6 +32,7 @@ FactoryBot.define do
     status { 'active' }
     association :category, factory: :category
     association :user, factory: :user
+    avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
   end
 
   trait :private do
