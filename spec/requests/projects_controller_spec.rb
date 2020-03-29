@@ -6,27 +6,50 @@ describe ProjectsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'authorisations' do
-    subject(:request) do
-      post query_projects_path, params: {
-        page: 1,
-        name: 'test',
-        category: 'test',
-        status: 'active',
-        sort: 'name_asc',
-        type: 'projects'
-      }
-    end
+    let(:project) { create(:project) }
 
     before { sign_in user }
 
-    it 'has authorized scope' do
-      expect { request }
-        .to have_authorized_scope(:active_record_relation).with(ProjectPolicy)
+    describe 'has authorized scope' do
+
+      subject(:request) do
+        post query_projects_path, params: {
+          page: 1,
+          name: 'test',
+          category: 'test',
+          status: 'Active',
+          sort: 'name_asc',
+          type: 'projects'
+        }
+      end
+
+      it do
+        expect { request }
+          .to have_authorized_scope(:active_record_relation).with(ProjectPolicy)
+      end
+    end
+
+    describe '#show' do
+      subject(:request) { get project_path(project) }
+
+      it { expect { request }.to be_authorized_to(:show?, project) }
+    end
+
+    describe '#update' do
+      subject(:request) { patch project_path(project) }
+
+      it { expect { request }.to be_authorized_to(:manage?, project) }
+    end
+
+    describe '#change_status' do
+      subject(:request) { post change_status_project_path(project) }
+
+      it { expect { request }.to be_authorized_to(:manage?, project) }
     end
   end
 
   describe 'GET #index' do
-    subject(:request) { get projects_path(user) }
+    subject(:request) { get projects_path }
 
     it_behaves_like 'accessible to authenticated users'
     it_behaves_like 'accessible to unauthenticated users'

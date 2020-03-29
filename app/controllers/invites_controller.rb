@@ -14,7 +14,6 @@ class InvitesController < ApplicationController
 
   def destroy
     @invite = Invite.find_by(invite_params)
-    puts(@invite)
     authorize! @invite
     @invite.destroy ? destroy_success : invite_fail(nil)
   end
@@ -45,16 +44,24 @@ class InvitesController < ApplicationController
   end
 
   def invite_params
-    params.except(:id,:_method, :authenticity_token)
-          .permit(:user_id, :project_id, :types)
+    params.except(:_method, :authenticity_token)
+          .permit(:id, :user_id, :project_id, :types)
   end
 
   def valid_request?
-    ((params[:types] == 'Invite' &&
+    (valid_invite? || valid_application?) && @invite&.user
+  end
+
+  def valid_invite?
+    params[:types] == 'Invite' &&
       current_user == @invite.project&.user &&
-      current_user != @invite.user) ||
-      (params[:types] == 'Application' &&
-      @invite.project&.visibility?)) && @invite&.user
+      current_user != @invite.user
+  end
+
+  def valid_application?
+    params[:types] == 'Application' &&
+      @invite.project&.visibility? &&
+      current_user == @invite.user
   end
 
   def invite_success
@@ -86,6 +93,6 @@ class InvitesController < ApplicationController
 
   def find_user
     params[:user_id] =
-      User.where(name: params[:user_id]).first&.id
+      User.find_by(email: params[:user_id])&.id
   end
 end

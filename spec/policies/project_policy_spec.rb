@@ -31,6 +31,7 @@ describe ProjectPolicy, type: :policy do
 
     context 'when as admin' do
       before { user.admin = true }
+
       it { is_expected.to eq(%w[Test Test2]) }
     end
 

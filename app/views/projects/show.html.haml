@@ -31,7 +31,7 @@
               .is-pulled-right
                 You have already been invited! Check your notifications
             - elsif current_user != @project.user && @project.applicable?
-              = button_to 'Join', invites_path(user_id: current_user.name, project_id: @project.id, types: 'Application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
+              = button_to 'Join', invites_path(user_id: current_user.email, project_id: @project.id, types: 'Application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
 %section
   %b-tabs{ 'type': 'is-boxed', 'expanded': '' }
     %b-tab-item{ 'active': '' }

@@ -25,7 +25,7 @@
       </template>
     </b-table>
     <b-field>
-      <b-input v-model="username" placeholder="Username" />
+      <b-input v-model="email" placeholder="Email" />
       <p class="control">
         <b-button class="button is-primary" @click="invite">
           Invite
@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       data: JSON.parse(this.originalData),
-      username: '',
+      email: '',
     };
   },
   methods: {
@@ -82,7 +82,7 @@ export default {
         url: '/invites',
         type: 'POST',
         data: new URLSearchParams({
-          user_id: this.username,
+          user_id: this.email,
           project_id: this.projectId,
           types: 'Invite',
         }),

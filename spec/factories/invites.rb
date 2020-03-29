@@ -21,7 +21,12 @@
 #
 FactoryBot.define do
   factory :invite do
+    types { 'Invite' }
     association :project, factory: :project
     association :user, factory: :user
+  end
+
+  factory :application, parent: :invite do
+    types { 'Application' }
   end
 end
