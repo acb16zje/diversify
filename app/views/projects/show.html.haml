@@ -24,13 +24,14 @@
 
           %p Owned by: #{@project.user.name}
         .column
-          - if user_signed_in? && current_user.applications.where(project: @project, types: 'Application').count.positive?
-            = button_to 'Cancel Application', application_path(id: current_user.id, types: 'Application'), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger is-pulled-right', form: { '@ajax:error': 'ajaxError' }
-          - elsif user_signed_in? && current_user.applications.where(project: @project, types: 'Invite').count.positive?
-            .is-pulled-right
-              You have already been invited! Check your notifications
-          - elsif user_signed_in? && current_user != @project.user && @project.applicable?
-            = button_to 'Join', applications_path(user_id: current_user.name, project_id: @project.id, types: 'Application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
+          - unless !user_signed_in? || current_user.in_team?(@project)
+            - if current_user.invites.where(project: @project, types: 'Application').count.positive?
+              = button_to 'Cancel Application', invite_path(user_id: current_user.id, types: 'Application', project_id: @project.id), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger is-pulled-right', form: { '@ajax:error': 'ajaxError' }
+            - elsif current_user.invites.where(project: @project, types: 'Invite').count.positive?
+              .is-pulled-right
+                You have already been invited! Check your notifications
+            - elsif current_user != @project.user && @project.applicable?
+              = button_to 'Join', invites_path(user_id: current_user.name, project_id: @project.id, types: 'Application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
 %section
   %b-tabs{ 'type': 'is-boxed', 'expanded': '' }
     %b-tab-item{ 'active': '' }

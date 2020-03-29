@@ -22,7 +22,6 @@
 
 class Team < ApplicationRecord
   belongs_to :project
-  # has_many :teams_user
   has_and_belongs_to_many :users
 
   validates :name, presence: true

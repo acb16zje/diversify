@@ -5,8 +5,8 @@
     %h1.title Create Project
     = form_with model: Project.new, html: { '@ajax:error': 'ajaxError' } do |f|
       .columns.is-vcentered
-        .column.is-2
-          %figure.image.is-128x128
+        .column.is-3
+          %figure.image.is-128x128.container
             = image_tag "https://via.placeholder.com/128x128/ab28f4'/FFFFFF?text=Diversify", class: 'is-rounded', id: 'avatar'
         .column
           %label.label Upload new avatar

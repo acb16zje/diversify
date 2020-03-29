@@ -2,7 +2,7 @@
 
 # == Schema Information
 #
-# Table name: applications
+# Table name: invites
 #
 #  id         :bigint           not null, primary key
 #  types      :enum             default("Invite"), not null
@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_applications_on_project_id  (project_id)
-#  index_applications_on_user_id     (user_id)
+#  index_invites_on_project_id  (project_id)
+#  index_invites_on_user_id     (user_id)
 #
 # Foreign Keys
 #
@@ -23,21 +23,21 @@
 #
 require 'rails_helper'
 
-describe Application, type: :model do
+describe Invite, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:project) }
   end
 
-  # UNABLE TO GET IT TO WORK
-  # FIX LATER
-  # describe 'validations' do
-  #   subject { FactoryBot.create(:application) }
+  describe 'validations' do
+    let(:invite) { create(:invite) }
 
-  #   it {
-  #     subject.types = 'Invite'
-  #     is_expected.to validate_uniqueness_of(:types)
-  #       .scoped_to(:project_id, :user_id)
-  #   }
-  # end
+    it {
+      invite.types = 'Invite'
+      invite.should validate_uniqueness_of(:user_id)
+        .scoped_to(:project_id).with_message(
+          'has already been invited/applied'
+        )
+    }
+  end
 end

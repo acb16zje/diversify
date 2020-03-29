@@ -97,16 +97,6 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end
 
-  create_table "applications", force: :cascade do |t|
-    t.enum "types", default: "Invite", null: false, as: "application_type"
-    t.bigint "user_id", null: false
-    t.bigint "project_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_applications_on_project_id"
-    t.index ["user_id"], name: "index_applications_on_user_id"
-  end
-
   create_table "categories", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -138,6 +128,16 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
     t.index ["provider", "user_id"], name: "index_identities_on_provider_and_user_id", unique: true
     t.index ["user_id"], name: "index_identities_on_user_id"
+  end
+
+  create_table "invites", force: :cascade do |t|
+    t.enum "types", default: "Invite", null: false, as: "application_type"
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_invites_on_project_id"
+    t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
   create_table "issues", force: :cascade do |t|
@@ -275,14 +275,14 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "users_id"
     t.index ["project_id"], name: "index_teams_on_project_id"
-    t.index ["users_id"], name: "index_teams_on_users_id"
   end
 
   create_table "teams_users", id: false, force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "team_id", null: false
+    t.index ["team_id"], name: "index_teams_users_on_team_id"
+    t.index ["user_id"], name: "index_teams_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -302,13 +302,12 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["personality_id"], name: "index_users_on_personality_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["team_id"], name: "index_users_on_team_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "identities", "users"
-  add_foreign_key "applications", "projects"
-  add_foreign_key "applications", "users"
+  add_foreign_key "invites", "projects"
+  add_foreign_key "invites", "users"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
   add_foreign_key "licenses", "users"

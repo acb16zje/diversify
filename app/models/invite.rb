@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
-# Table name: applications
+# Table name: invites
 #
 #  id         :bigint           not null, primary key
 #  types      :enum             default("Invite"), not null
@@ -11,17 +13,19 @@
 #
 # Indexes
 #
-#  index_applications_on_project_id  (project_id)
-#  index_applications_on_user_id     (user_id)
+#  index_invites_on_project_id  (project_id)
+#  index_invites_on_user_id     (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (project_id => projects.id)
 #  fk_rails_...  (user_id => users.id)
 #
-FactoryBot.define do
-  factory :application do
-    association :project, factory: :project
-    association :user, factory: :user
-  end
+class Invite < ApplicationRecord
+  belongs_to :project
+  belongs_to :user
+  validates :user_id, uniqueness: {
+    scope: :project_id,
+    message: 'has already been invited/applied'
+  }
 end

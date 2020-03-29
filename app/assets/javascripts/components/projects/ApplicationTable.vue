@@ -5,6 +5,7 @@
       :paginated="true"
       :hoverable="true"
       :per-page="10"
+      :mobile-cards="true"
     >
       <template v-slot="props">
         <b-table-column field="user" label="Username" sortable searchable>
@@ -13,12 +14,14 @@
           </a>
         </b-table-column>
         <b-table-column label="Action" centered>
-          <a data-confirm="Are you sure?" class="button is-success" @click="accept(props.row)">
-            Accept
-          </a>
-          <a data-confirm="Are you sure?" class="button is-danger" @click="decline(props.row)">
-            Decline
-          </a>
+          <div class="buttons has-addons is-centered">
+            <button data-confirm="Are you sure?" class="button is-success" @click="accept(props.row)">
+              Accept
+            </button>
+            <button data-confirm="Are you sure?" class="button is-danger" @click="decline(props.row)">
+              Decline
+            </button>
+          </div>
         </b-table-column>
       </template>
       <template v-slot:empty>
@@ -54,7 +57,7 @@ export default {
   methods: {
     decline(row) {
       Rails.ajax({
-        url: `/applications/${row.id}`,
+        url: `/invites/${row.id}`,
         type: 'DELETE',
         data: new URLSearchParams({
           types: 'Application',
@@ -74,7 +77,7 @@ export default {
     },
     accept(row) {
       Rails.ajax({
-        url: `/applications/accept`,
+        url: `/invites/accept`,
         type: 'POST',
         data: new URLSearchParams({
           user_id: row.id,

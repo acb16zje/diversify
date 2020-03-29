@@ -59,7 +59,7 @@ export default {
   methods: {
     cancelInvite(row) {
       Rails.ajax({
-        url: `/applications/${row.id}`,
+        url: `/invites/${row.id}`,
         type: 'DELETE',
         data: new URLSearchParams({
           types: 'Invite',
@@ -79,7 +79,7 @@ export default {
     },
     invite() {
       Rails.ajax({
-        url: '/applications',
+        url: '/invites',
         type: 'POST',
         data: new URLSearchParams({
           user_id: this.username,

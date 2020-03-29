@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Policy for Newsletter controller
+# Policy for Metrics controller
 class MetricPolicy < ApplicationPolicy
   alias_rule :index?, to: :manage?
 

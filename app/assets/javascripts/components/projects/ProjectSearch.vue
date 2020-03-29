@@ -186,7 +186,6 @@ export default {
           type: this.type,
         }),
         success: (data) => {
-          console.log(data);
           this.current = data.pagy.page;
           this.total = data.pagy.count;
           this.items = data.data;

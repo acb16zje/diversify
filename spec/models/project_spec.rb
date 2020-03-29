@@ -8,7 +8,7 @@
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
 #  status      :enum             default("Active"), not null
-#  visibility  :boolean          default("true")
+#  visibility  :boolean          default(TRUE)
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint
@@ -33,6 +33,7 @@ describe Project, type: :model do
     it { is_expected.to have_many(:teams) }
     it { is_expected.to have_many(:reviews) }
     it { is_expected.to have_many(:tasks) }
+    it { is_expected.to have_many(:invites) }
   end
 
   describe 'validations' do

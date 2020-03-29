@@ -27,10 +27,10 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
-    @invites = User.select(:id, :name).joins(:applications)
-                   .where(applications: { types: 'Invite', project: @project })
-    @applications = User.select(:id,:name).joins(:applications)
-                        .where(applications:
+    @invites = User.select(:id, :name).joins(:invites)
+                   .where(invites: { types: 'Invite', project: @project })
+    @applications = User.select(:id,:name).joins(:invites)
+                        .where(invites:
                         {
                           types: 'Application', project: @project
                         })
@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     @project.user = current_user
-    @project.save ? project_success('Project Created') : project_fail
+    @project.save ? project_success('Project Created') : project_fail(nil)
   end
 
   # PATCH/PUT /projects/1
@@ -56,16 +56,17 @@ class ProjectsController < ApplicationController
     if @project.update(project_params)
       project_success('Project Updated')
     else
-      project_fail
+      project_fail(nil)
     end
   end
 
   def change_status
-    return if @project.status != 'Active' && params[:status] != 'Active'
+    return project_fail('Invalid Status Change') if
+      @project.status != 'Active' && params[:status] != 'Active'
 
     message = prepare_message
     @project.status = params[:status]
-    @project.save ? project_success(message) : project_fail
+    @project.save ? project_success(message) : project_fail(nil)
   end
 
   private
@@ -103,8 +104,9 @@ class ProjectsController < ApplicationController
     render js: "window.location = '#{project_path(@project)}'"
   end
 
-  def project_fail
-    render json: { message: @project.errors.full_messages },
+  def project_fail(message)
+    message ||= @project.errors.full_messages
+    render json: { message: message },
            status: :unprocessable_entity
   end
 
@@ -112,7 +114,7 @@ class ProjectsController < ApplicationController
     case params[:status]
     when 'Completed' then 'Project Archived'
     when 'Active'
-      @project.applications.where(types: 'Application').destroy_all
+      @project.invites.where(types: 'Application').destroy_all
       @project.status == 'Completed' ? 'Project Activated' : 'Project Closed'
     when 'Open' then 'Project Opened'
     else ''

@@ -1,8 +1,8 @@
-class CreateApplications < ActiveRecord::Migration[6.0]
+class CreateInvites < ActiveRecord::Migration[6.0]
   def change
     create_enum 'application_type', %w[Invite Application]
 
-    create_table :applications do |t|
+    create_table :invites do |t|
       t.enum :types, as: :application_type, default: 'Invite', null: false
 
       t.references :user, foreign_key: true, null: false

@@ -114,7 +114,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :applications do
+  resources :invites do
     collection do
       post 'accept'
     end

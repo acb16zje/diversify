@@ -5,12 +5,12 @@
 # Table name: users
 #
 #  id                         :bigint           not null, primary key
-#  admin                      :boolean          default("false")
+#  admin                      :boolean          default(FALSE)
 #  birthdate                  :date
 #  email                      :string           default(""), not null
 #  encrypted_password         :string           default(""), not null
 #  name                       :string           default(""), not null
-#  password_automatically_set :boolean          default("false"), not null
+#  password_automatically_set :boolean          default(FALSE), not null
 #  remember_created_at        :datetime
 #  reset_password_sent_at     :datetime
 #  reset_password_token       :string
@@ -45,7 +45,7 @@ class User < ApplicationRecord
   has_many :skill_levels, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :tasks, dependent: :destroy
-  has_many :applications, dependent: :destroy
+  has_many :invites, dependent: :destroy
   has_many :reviews,
            foreign_key: :reviewer_id,
            class_name: 'Review',
@@ -93,6 +93,10 @@ class User < ApplicationRecord
 
   def new_account?
     projects.count.zero? && created_at > 1.day.ago
+  end
+
+  def in_team?(project)
+    teams.where(project: project).any?
   end
 
   private
