@@ -6,19 +6,13 @@ class Users::Settings::AccountsController < Users::Settings::BaseController
   end
 
   def disconnect_omniauth
-    if disconnect_provider_allowed?
-      res = current_user.identities.destroy_by(provider: params[:provider])
+    identity = current_user.identities.find_by!(provider: params[:provider])
 
-      flash[:toast] = if res == []
-                        { type: 'error', message: ['Invalid Request'] }
-                      else
-                        { type: 'success', message: ['Account Disconnected'] }
-                      end
+    if disconnect_provider_allowed?
+      identity.destroy
+      flash[:toast_success] = 'Account Disconnected'
     else
-      flash[:toast] = {
-        type: 'error',
-        message: ['Please set up a password before disabling all Social Accounts']
-      }
+      flash[:toast_error] = 'Please set up a password before disabling all Social Accounts'
     end
 
     redirect_to settings_account_path

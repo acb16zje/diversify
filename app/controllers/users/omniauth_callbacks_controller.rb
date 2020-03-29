@@ -45,7 +45,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if errors.blank?
       @user = identity.user
     else
-      flash[:toast] = { type: 'error', message: errors }
+      flash[:toast_error] = errors
       redirect_to new_user_registration_url
     end
   end
@@ -55,13 +55,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if identity.errors.blank?
       @user = identity.user
     else
-      flash[:toast] = { type: 'error', message: identity.errors.full_messages }
+      flash[:toast_error] = identity.errors.full_messages
       redirect_to settings_account_path
     end
   end
 
   def connect_success_action
-    flash[:toast] = { type: 'success', message: ['Account Connected'] }
+    flash[:toast_success] = 'Account Connected'
     redirect_to settings_account_path
   end
 

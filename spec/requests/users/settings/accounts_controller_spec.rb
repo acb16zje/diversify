@@ -5,10 +5,12 @@ require 'rails_helper'
 describe Users::Settings::AccountsController, type: :request do
 
   describe 'POST #disconnect_omniauth' do
-    before do
+    subject(:request) { delete disconnect_omniauth_settings_account_path, params: params }
+
+    before do |test|
       sign_in omni_user
-      delete disconnect_omniauth_settings_account_path, params: params
-      follow_redirect!
+      request
+      follow_redirect! unless test.metadata[:no_redirect]
     end
 
     Devise.omniauth_providers.each do |social|
@@ -34,11 +36,11 @@ describe Users::Settings::AccountsController, type: :request do
       it { expect(response.body).to include('Account Disconnected') }
     end
 
-    context 'with invalid social account' do
-      let(:omni_user) { create(:user) }
-      let(:params) { { provider: 'test' } }
+    context 'with invalid social account', :no_redirect do
+      let(:omni_user) { create(:omniauth_user, providers: ['google']) }
+      let(:params) { { provider: 'invalid' } }
 
-      it { expect(response.body).to include('Invalid Request') }
+      it { expect(response.body).to include('Not Found') }
     end
   end
 end

@@ -25,7 +25,7 @@ class NewslettersController < ApplicationController
     newsletter = Newsletter.new(newsletter_params)
 
     if newsletter.save
-      flash[:toast] = { type: 'success', message: ['Newsletter sent'] }
+      flash[:toast_success] = 'Newsletter sent'
       render js: "window.location = '#{newsletter_path(newsletter)}'"
     else
       render json: { message: 'Send Failed' }, status: :unprocessable_entity

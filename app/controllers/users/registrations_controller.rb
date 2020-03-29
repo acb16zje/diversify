@@ -89,7 +89,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       bypass_sign_in resource, scope: resource_name
     end
 
-    flash[:toast] = { type: 'success', message: ['Password Changed'] }
+    flash[:toast_success] = 'Password Changed'
     render js: "window.location='#{settings_account_path}'"
   end
 

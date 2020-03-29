@@ -1,3 +1,4 @@
-- if flash[:toast].present?
-  - flash[:toast]['message'].each do |message|
-    %toast{ 'type': flash[:toast]['type'], 'message': message }
+- flash.each do |key, value|
+  - if key.include? 'toast'
+    - Array(value).each do |message|
+      %toast{ 'type': key.match(/toast_(?<type>\w+)/)[:type], 'message': message }

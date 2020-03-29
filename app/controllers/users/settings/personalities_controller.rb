@@ -34,7 +34,7 @@ class Users::Settings::PersonalitiesController < Users::Settings::BaseController
   end
 
   def update_success
-    flash[:toast] = { type: 'success', message: ['Personality Updated'] }
+    flash[:toast_success] = 'Personality Updated'
     render js: "window.location = '#{settings_personality_path}'"
   end
 end
