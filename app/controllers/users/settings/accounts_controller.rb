@@ -18,6 +18,12 @@ class Users::Settings::AccountsController < Users::Settings::BaseController
     redirect_to settings_account_path
   end
 
+  def reset_password
+    current_user.send_reset_password_instructions
+    flash[:toast_success] = 'Check your email for reset instruction'
+    redirect_to settings_account_path
+  end
+
   private
 
   def disconnect_provider_allowed?

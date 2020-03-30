@@ -3,27 +3,29 @@
 %section.settings-section
   .content
     %h4.title.is-4 Change Password
-    = form_with model: current_user, url: registration_path(current_user), method: :patch, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
+    = form_with model: current_user, url: registration_path(current_user), method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
       - unless current_user.password_automatically_set?
         .field
           %label.label Old password
-          %i (we need your current password to confirm your changes)
           .control
-          = f.password_field :current_password, autocomplete: 'current-password', class: 'input'
+            = f.password_field :current_password, autocomplete: 'current-password', class: 'input'
+          %p.help You must provide your current password in order to change it.
       .field
         %label.label New password
         .control
           = f.password_field :password, autocomplete: 'new-password', class: 'input'
-          - if @minimum_password_length
-            %em
-              (#{@minimum_password_length} characters minimum)
+          %p.help Minimum #{Devise.password_length.min} characters
       .field
         %label.label Confirm new password
         .control
           = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input'
 
-      .actions
-        = f.submit 'Update', class: 'button is-warning'
+      .field.is-grouped.items-center
+        .control
+          = f.submit 'Save password', class: 'button is-success'
+        .control
+          = link_to 'I forgot my password', reset_password_settings_account_path, method: :put,
+            data: { disable_with: 'Sending email...' }
 
 %section.settings-section
   .content
@@ -38,7 +40,7 @@
               %span.has-text-black= provider_label(provider)
             - if current_user.oauth_provider_connected?(provider)
               = button_to 'Disconnect', disconnect_omniauth_settings_account_path(provider: provider), method: :delete,
-                  class: 'button has-text-danger has-text-weight-semibold', data: { disable: true }, '@ajax:error': 'ajaxError'
+                class: 'button has-text-danger has-text-weight-semibold', data: { disable: true }, '@ajax:error': 'ajaxError'
             - else
               = button_to 'Connect', omniauth_authorize_path(current_user, provider), class: 'button', data: { disable: true }
 
@@ -46,4 +48,5 @@
   .content
     %h4.title.is-4.has-text-danger Delete my account
     %p Once you delete your account, there is no going back. Please be certain.
-    = link_to 'Delete my account', registration_path(current_user), data: { confirm: 'Are you sure?' }, method: :delete, class: 'button is-danger'
+    = button_to 'Delete my account', registration_path(current_user), method: :delete,
+      class: 'button is-danger', data: { disable: true, confirm: 'Are you sure?' }

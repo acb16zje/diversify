@@ -90,6 +90,7 @@ Rails.application.routes.draw do
 
       resource :account, only: :show do
         delete 'disconnect_omniauth'
+        put 'reset_password'
       end
 
       resource :billing, only: :show do

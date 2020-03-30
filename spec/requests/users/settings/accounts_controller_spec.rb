@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Users::Settings::AccountsController, type: :request do
 
-  describe 'POST #disconnect_omniauth' do
+  describe 'DELETE #disconnect_omniauth' do
     subject(:request) { delete disconnect_omniauth_settings_account_path, params: params }
 
     before do |test|
@@ -41,6 +41,18 @@ describe Users::Settings::AccountsController, type: :request do
       let(:params) { { provider: 'invalid' } }
 
       it { expect(response.body).to include('Not Found') }
+    end
+  end
+
+  describe 'PUT #reset_password' do
+    subject(:request) { put reset_password_settings_account_path }
+
+    it_behaves_like 'not accessible to unauthenticated users'
+
+    describe 'when signed in' do
+      before { sign_in create(:user) }
+
+      it_behaves_like 'redirects to', :settings_account_path
     end
   end
 end
