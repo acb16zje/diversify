@@ -1,3 +1,4 @@
+const tailwindcss = require('tailwindcss');
 const postCssImport = require('postcss-import');
 const cssNano = require('cssnano');
 const purgeCss = require('@fullhuman/postcss-purgecss')({
@@ -7,7 +8,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     './app/**/*.js',
     './app/**/*.vue',
   ],
-  defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
+  defaultExtractor: (content) => content.match(/[\w-:/]+/g) || [],
   whitelist: [
     '::placeholder',
     'img',
@@ -22,6 +23,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
 
 module.exports = {
   plugins: [
+    tailwindcss,
     postCssImport,
     purgeCss,
     cssNano,
