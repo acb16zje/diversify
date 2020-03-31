@@ -52,7 +52,7 @@ setup-test-env:
     - *db-setup
     - bundle exec rails db:drop db:create db:schema:load RAILS_ENV=test
   artifacts:
-    expire_in: 1d
+    expire_in: 1h
     paths:
       - config/database.yml
 
