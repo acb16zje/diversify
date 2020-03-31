@@ -103,7 +103,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_success(message)
-    flash[:toast] = { type: 'success', message: [message] }
+    flash[:toast_success] = message
     render js: "window.location = '#{project_path(@project)}'"
   end
 

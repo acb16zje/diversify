@@ -71,7 +71,7 @@ class InvitesController < ApplicationController
         name: @invite.user.name
       }, status: :ok
     else
-      flash[:toast] = { type: 'success', message: ['Application Sent'] }
+      flash[:toast_success] = 'Application Sent'
       render js: "window.location = '#{project_path(@invite.project.id)}'"
     end
   end
@@ -80,7 +80,7 @@ class InvitesController < ApplicationController
     if current_user == @invite.project.user
       render json: {}, status: :ok
     else
-      flash[:toast] = { type: 'success', message: ['Application Deleted'] }
+      flash[:toast_success] = 'Application Deleted'
       render js: "window.location = '#{project_path(@invite.project.id)}'"
     end
   end
