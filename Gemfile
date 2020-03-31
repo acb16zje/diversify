@@ -64,8 +64,6 @@ gem 'premailer-rails'
 
 group :development, :test do
   gem 'byebug'
-
-  # https://github.com/rspec/rspec-rails/pull/2117
   gem 'rspec-rails'
 end
 
