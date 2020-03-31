@@ -15,8 +15,11 @@ Rails.application.config.content_security_policy do |policy|
                          'https://platform.twitter.com'
   policy.img_src         :self, :https, :data, :blob
   policy.manifest_src    :self
-  policy.script_src      :self, :https, :unsafe_eval
-  policy.style_src       :self, :unsafe_inline
+  policy.script_src      :self,
+                         'https://code.iconify.design',
+                         'https://api.iconify.design',
+                         :unsafe_eval
+  policy.style_src       :self
 
   # If you are using webpack-dev-server then specify webpack-dev-server host
   if Rails.env.development?
@@ -36,7 +39,7 @@ Rails.application.config.content_security_policy_nonce_generator =
   ->(_request) { SecureRandom.base64(16) }
 
 # Set the nonce only to specific directives
-Rails.application.config.content_security_policy_nonce_directives = %w[script-src]
+# Rails.application.config.content_security_policy_nonce_directives = %w[script-src]
 
 # Report CSP violations to a specified URI
 # For further information see the following documentation:
