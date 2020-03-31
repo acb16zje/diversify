@@ -1,4 +1,4 @@
-const tailwindcss = require('tailwindcss');
+const tailwindcss = require('tailwindcss')({ important: true });
 const postCssImport = require('postcss-import');
 const cssNano = require('cssnano');
 const purgeCss = require('@fullhuman/postcss-purgecss')({

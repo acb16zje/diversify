@@ -1,39 +1,40 @@
 - content_for :title, 'Account settings'
 
-%section.settings-section
-  .content
-    %h4.title.is-4 Change Password
-    = form_with model: current_user, url: registration_path(current_user), method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
-      - unless current_user.password_automatically_set?
+.content.settings
+  .columns
+    .column.is-4
+      %h4.title.is-4 Change Password
+    .column
+      = form_with model: current_user, url: registration_path(current_user), method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
+        - unless current_user.password_automatically_set?
+          .field
+            %label.label Old password
+            .control
+              = f.password_field :current_password, autocomplete: 'current-password', class: 'input', required: true
+            %p.help You must provide your current password in order to change it.
         .field
-          %label.label Old password
+          %label.label New password
           .control
-            = f.password_field :current_password, autocomplete: 'current-password', class: 'input'
-          %p.help You must provide your current password in order to change it.
-      .field
-        %label.label New password
-        .control
-          = f.password_field :password, autocomplete: 'new-password', class: 'input'
-          %p.help Minimum #{Devise.password_length.min} characters
-      .field
-        %label.label Confirm new password
-        .control
-          = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input'
+            = f.password_field :password, autocomplete: 'new-password', class: 'input', required: true
+            %p.help Minimum #{Devise.password_length.min} characters
+        .field
+          %label.label Confirm new password
+          .control
+            = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input', required: true
 
-      .field.is-grouped.items-center
-        .control
-          = f.submit 'Save password', class: 'button is-success'
-        .control
-          = link_to 'I forgot my password', reset_password_settings_account_path, method: :put,
-            data: { disable_with: 'Sending email...' }
-
-%section.settings-section
-  .content
-    %h4.title.is-4 Social Accounts
-    .columns
-      - Devise.omniauth_providers.each do |provider|
-        .column.is-narrow
-          .buttons.has-addons
+        .field.is-grouped.is-grouped-multiline.items-center
+          .control
+            = f.submit 'Save password', class: 'button is-success'
+          .control
+            = link_to 'I forgot my password', reset_password_settings_account_path, method: :put,
+              data: { disable_with: 'Sending email...' }
+  .columns
+    .column.is-4
+      %h4.title.is-4 Social Accounts
+    .column
+      .flex.flex-wrap
+        - Devise.omniauth_providers.each do |provider|
+          .buttons.has-addons.mr-5.mb-3
             .button.is-static{ class: provider_label(provider) }
               %span.icon
                 %span.iconify.is-24{ 'data-icon': provider_icon(provider) }
@@ -43,10 +44,10 @@
                 class: 'button has-text-danger has-text-weight-semibold', data: { disable: true }, '@ajax:error': 'ajaxError'
             - else
               = button_to 'Connect', omniauth_authorize_path(current_user, provider), class: 'button', data: { disable: true }
-
-%section.settings-section
-  .content
-    %h4.title.is-4.has-text-danger Delete my account
-    %p Once you delete your account, there is no going back. Please be certain.
-    = button_to 'Delete my account', registration_path(current_user), method: :delete,
-      class: 'button is-danger', data: { disable: true, confirm: 'Are you sure?' }
+  .columns
+    .column.is-4
+      %h4.title.is-4.has-text-danger Delete account
+    .column
+      %p Once you delete your account, there is no going back. Please be certain.
+      = button_to 'Delete my account', registration_path(current_user), method: :delete,
+        class: 'button is-danger', data: { disable: true, confirm: 'Are you sure?' }
