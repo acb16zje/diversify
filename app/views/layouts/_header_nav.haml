@@ -1,6 +1,7 @@
 %b-navbar#navbar{ transparent: '', 'fixed-top': '', 'spaced': '', 'wrapper-class': 'container' }
   %template{ slot: 'brand' }
     .navbar-item.is-hidden-desktop
+      = render 'shared/notification_dropdown'
       = render 'shared/user_dropdown'
 
     = link_to root_path, class: 'navbar-item logo' do
@@ -17,4 +18,5 @@
       = nav_link_to 'Newsletter', path: newsletter_pages_path, class: 'navbar-item'
   %template{ slot: 'end' }
     .is-hidden-touch
+      = render 'shared/notification_dropdown'
       = render 'shared/user_dropdown'

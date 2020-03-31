@@ -32,9 +32,10 @@ describe Invite, type: :model do
   describe 'validations' do
     let(:invite) { create(:invite) }
 
+    before { invite.types = 'Invite' }
+
     it {
-      invite.types = 'Invite'
-      invite.should validate_uniqueness_of(:user_id)
+      is_expected.to validate_uniqueness_of(:user_id)
         .scoped_to(:project_id).with_message(
           'has already been invited/applied'
         )

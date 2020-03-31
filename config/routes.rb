@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
+  notify_to :users, with_devise: :users, controller: 'users/notifications_with_devise'
+
   # /:path
   resources :pages, path: '', only: [] do
     collection do

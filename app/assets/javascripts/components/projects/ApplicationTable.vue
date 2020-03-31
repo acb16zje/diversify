@@ -60,6 +60,7 @@ export default {
         url: `/invites/${row.id}`,
         type: 'DELETE',
         data: new URLSearchParams({
+          project_id: this.projectId,
           types: 'Application',
         }),
         success: () => {

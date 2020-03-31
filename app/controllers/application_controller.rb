@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :track_ahoy_visit
 
   before_action :authenticate_user!
+  before_action :check_notification
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery with: :exception, prepend: true
@@ -15,6 +16,13 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     update_attrs = %i[password password_confirmation current_password]
     devise_parameter_sanitizer.permit :account_update, keys: update_attrs
+  end
+
+  def check_notification
+    return unless user_signed_in?
+
+    @notifications = current_user.notifications.limit(5)
+    @not_num = current_user.notifications.unopened_only.size
   end
 
   rescue_from ActionController::ParameterMissing do

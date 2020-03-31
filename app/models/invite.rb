@@ -28,4 +28,12 @@ class Invite < ApplicationRecord
     scope: :project_id,
     message: 'has already been invited/applied'
   }
+
+  acts_as_notifiable :users,
+                     targets: ->(invite, key) { [invite.user] },
+                     notifiable_path: :project_notifiable_path
+
+  def project_notifiable_path
+    project_path(invite.project)
+  end
 end

@@ -26,7 +26,7 @@
         .column
           - unless !user_signed_in? || current_user.in_team?(@project)
             - if current_user.invites.where(project: @project, types: 'Application').count.positive?
-              = button_to 'Cancel Application', invite_path(user_id: current_user.id, types: 'Application', project_id: @project.id), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger is-pulled-right', form: { '@ajax:error': 'ajaxError' }
+              = button_to 'Cancel Application', invite_path(id: current_user.id, types: 'Application', project_id: @project.id), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger is-pulled-right', form: { '@ajax:error': 'ajaxError' }
             - elsif current_user.invites.where(project: @project, types: 'Invite').count.positive?
               .is-pulled-right
                 You have already been invited! Check your notifications
