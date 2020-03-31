@@ -2,7 +2,7 @@
   "private": true,
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
-    "@iconify/iconify": "^1.0.4",
+    "@iconify/iconify": "^1.0.5",
     "@rails/actiontext": "^6.0.2-2",
     "@rails/ujs": "^6.0.2-2",
     "@rails/webpacker": "^5.0.1",
