@@ -1,18 +1,21 @@
 - content_for :title, 'Reset Password'
 
 .box
-  %h1.title.is-4.has-text-centered Change your password
   = form_with model: resource, url: password_path(resource), method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
     = f.hidden_field :reset_password_token
     .field
+      %label.label New password
       .control
-      - if @minimum_password_length
-        %em
-          (#{@minimum_password_length} characters minimum)
-        %br/
-      = f.password_field :password, autofocus: true, autocomplete: 'new-password', placeholder: 'Password', class: 'input'
+        = f.password_field :password, autofocus: true, autocomplete: 'new-password', class: 'input'
+        %em Minimum #{@minimum_password_length} characters
+    .field
+      %label.label Confirm new password
+      .control
+        = f.password_field :password_confirmation, autocomplete: 'new-password', class: 'input'
     .field
       .control
-        = f.password_field :password_confirmation, autocomplete: 'new-password', placeholder: 'Password Confirmation', class: 'input'
-    .actions
-      = f.submit 'Change my password', class: 'button is-primary'
+        = f.submit 'Change password', class: 'button is-info is-fullwidth'
+
+.box.callout.has-text-centered
+  %p.is-inline Didn't receive a confirmation email?
+  = link_to 'Request a new one', new_user_password_path

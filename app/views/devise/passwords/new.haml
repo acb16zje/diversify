@@ -3,7 +3,7 @@
 .box
   %h1.title.is-4.has-text-centered Forgot your password?
   .content
-    = form_with model: resource, url: password_path(resource), html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
+    = form_with model: resource, url: password_path(resource), html: { '@ajax:success': 'sendResetSuccess', '@ajax:error': 'ajaxError' } do |f|
       .field
         .control
           = f.email_field :email, autofocus: true, autocomplete: 'email', class: 'input', placeholder: 'Email', required: ''

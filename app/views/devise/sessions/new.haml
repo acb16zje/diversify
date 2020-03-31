@@ -11,16 +11,16 @@
         %label.label Password
         .control
           = f.password_field :password, autocomplete: 'current-password', class: 'input', required: ''
-      - if devise_mapping.rememberable?
-        .field.is-flex
-          .control
-            = f.label :remember_me, class: 'checkbox' do
-              = f.check_box :remember_me
-              Remember me
-          .control
-            = link_to 'Forgot password?', new_user_password_path
-      .actions
-        = f.submit 'Sign in', class: 'button is-success is-fullwidth'
+      .field.is-flex
+        .control
+          = f.label :remember_me, class: 'checkbox' do
+            = f.check_box :remember_me
+            Remember me
+        .control
+          = link_to 'Forgot password?', new_user_password_path
+      .field
+        .control
+          = f.submit 'Sign in', class: 'button is-success is-fullwidth'
 
 = render 'devise/shared/omniauth_box'
 

@@ -13,10 +13,11 @@
         %label.label Password
         .control
           = f.password_field :password, autocomplete: 'new-password', class: 'input', required: ''
-          - if @minimum_password_length
-            %em #{@minimum_password_length} characters minimum
-      .actions
-        = f.submit 'Sign up', class: 'button is-info is-fullwidth'
+          %em Minimum #{@minimum_password_length} characters
+
+      .field
+        .control
+          = f.submit 'Sign up', class: 'button is-info is-fullwidth'
 
 
 = render 'devise/shared/omniauth_box'
