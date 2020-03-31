@@ -16,8 +16,9 @@ require 'rails_helper'
 
 describe LandingFeedback, type: :model do
   describe 'validations' do
-    it { is_expected.to validate_presence_of(:smiley) }
     it { is_expected.to validate_presence_of(:channel) }
+    it { is_expected.to validate_presence_of(:interest) }
+    it { is_expected.to validate_presence_of(:smiley) }
 
     it {
       is_expected.to validate_inclusion_of(:channel)

@@ -36,9 +36,11 @@ Metrics/MethodLength:
   Exclude:
     - 'db/migrate/*'
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Style/Documentation:
-  Exclude:
-    - 'db/migrate/*'
+  Enabled: false
 
 # RSpec Settings
 RSpec/ImplicitSubject:

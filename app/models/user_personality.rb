@@ -21,7 +21,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# UserPersonality model
 class UserPersonality < ApplicationRecord
   belongs_to :user
   belongs_to :personality

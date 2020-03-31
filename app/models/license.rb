@@ -19,7 +19,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# License model
 class License < ApplicationRecord
   enum plan: { free: 'free', pro: 'pro', ultimate: 'ultimate' }
 

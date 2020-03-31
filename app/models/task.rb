@@ -27,7 +27,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# Task model
 class Task < ApplicationRecord
   belongs_to :project
   belongs_to :user

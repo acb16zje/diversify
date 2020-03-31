@@ -13,7 +13,6 @@
 #  updated_at :datetime         not null
 #
 
-# Personality model
 class Personality < ApplicationRecord
   has_many :user_personalities
   has_many :users, through: :user_personalities

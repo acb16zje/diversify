@@ -19,7 +19,6 @@
 #  fk_rails_...  (newsletter_subscription_id => newsletter_subscriptions.id)
 #
 
-# NewsletterFeedback model
 class NewsletterFeedback < ApplicationRecord
   REASONS = { no_longer: 'I no longer want to receive these emails',
               too_frequent: 'The emails are too frequent',

@@ -19,7 +19,6 @@
 #  index_ahoy_events_on_visit_id       (visit_id)
 #
 
-# Ahoy Event model
 class Ahoy::Event < ApplicationRecord
   include Ahoy::QueryMethods
 

@@ -15,7 +15,6 @@
 #  index_newsletter_subscriptions_on_email  (email) UNIQUE
 #
 
-# NewsletterSubscription Model
 class NewsletterSubscription < ApplicationRecord
   has_many :newsletter_feedbacks, dependent: :nullify
 

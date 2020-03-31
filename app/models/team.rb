@@ -20,7 +20,6 @@
 #  fk_rails_...  (project_id => projects.id)
 #
 
-# Team model
 class Team < ApplicationRecord
   belongs_to :project
   has_many :users

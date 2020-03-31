@@ -20,7 +20,6 @@
 #  fk_rails_...  (category_id => categories.id)
 #
 
-# Skill model
 class Skill < ApplicationRecord
   belongs_to :category
   has_and_belongs_to_many :tasks

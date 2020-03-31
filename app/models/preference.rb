@@ -20,7 +20,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# Preference model
 class Preference < ApplicationRecord
   belongs_to :user
 

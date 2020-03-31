@@ -37,7 +37,6 @@
 #  index_ahoy_visits_on_visit_token  (visit_token) UNIQUE
 #
 
-# Ahoy Visit model
 class Ahoy::Visit < ApplicationRecord
   self.table_name = 'ahoy_visits'
 

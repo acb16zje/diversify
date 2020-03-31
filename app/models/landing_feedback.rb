@@ -12,7 +12,6 @@
 #  updated_at :datetime         not null
 #
 
-# LandingFeedback model
 class LandingFeedback < ApplicationRecord
   CHANNEL = [
     'Social Media',
@@ -21,6 +20,7 @@ class LandingFeedback < ApplicationRecord
     'Recommended by others'
   ].freeze
 
-  validates :smiley, presence: true
   validates :channel, presence: true, inclusion: { in: CHANNEL }
+  validates :interest, presence: true
+  validates :smiley, presence: true
 end

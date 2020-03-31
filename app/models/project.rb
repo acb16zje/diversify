@@ -25,7 +25,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# Project model
 class Project < ApplicationRecord
   belongs_to :user
   belongs_to :category

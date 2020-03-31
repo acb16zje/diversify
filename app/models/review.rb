@@ -26,7 +26,6 @@
 #  fk_rails_...  (reviewer_id => users.id)
 #
 
-# Review model
 class Review < ApplicationRecord
   belongs_to :project
   belongs_to :reviewer, class_name: 'User'

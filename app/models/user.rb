@@ -23,18 +23,17 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-# User model
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: %i[google_oauth2 twitter facebook]
+         :omniauthable, omniauth_providers: Devise.omniauth_providers
 
   has_one_attached :avatar
   has_one :license, dependent: :destroy
-
-  has_many :identities, dependent: :destroy
   has_one :user_personality, dependent: :destroy
   has_one :personality, through: :user_personality
+
+  has_many :identities, dependent: :destroy
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
   has_many :projects, dependent: :destroy

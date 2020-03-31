@@ -23,7 +23,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# SkillLevel model
 class SkillLevel < ApplicationRecord
   belongs_to :user
   belongs_to :skill

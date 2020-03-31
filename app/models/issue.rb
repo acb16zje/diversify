@@ -24,7 +24,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-# Issue model
 class Issue < ApplicationRecord
   belongs_to :user
   belongs_to :project
