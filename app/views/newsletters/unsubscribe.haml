@@ -8,7 +8,7 @@
     = javascript_packs_with_chunks_tag 'landing_page', defer: ''
 
   %body.has-text-centered
-    #app
+    #landing-page
       %section.section#unsubscribe
         .container.box.has-text-centered
           .columns
@@ -28,7 +28,7 @@
                 - NewsletterFeedback::REASONS.each do |key, desc|
                   .field
                     .control
-                      = f.label "reasons_#{key}", class: 'checkbox' do
+                      = f.label "reasons_#{key}", class: 'checkbox select-none' do
                         = f.check_box :reasons, { multiple: '' }, key, nil
                         = desc
 

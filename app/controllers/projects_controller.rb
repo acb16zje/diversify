@@ -4,8 +4,8 @@
 class ProjectsController < ApplicationController
   include ProjectsQuery
 
-  before_action :set_project, only: %i[show]
   skip_before_action :authenticate_user!, only: %i[index show query]
+  before_action :set_project, only: %i[show]
 
   layout 'user'
 
@@ -15,7 +15,7 @@ class ProjectsController < ApplicationController
   end
 
   def query
-    return render json: {}, status: :bad_request unless valid_page?
+    return head :bad_request unless valid_page?
 
     scope = authorized_scope(call(params))
 

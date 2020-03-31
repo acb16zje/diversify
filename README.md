@@ -1,6 +1,8 @@
 # COM4525 Genesys
 
-<img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/public/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">public Team 7 - Helping teams to improve their performance through diversity
+<img width="200" src="https://raw.githubusercontent.com/Juneezee/project/master/public/images/logo/logo_horizontal.svg?sanitize=true" alt="Logo">
+
+## Team 7 - Helping teams to improve their performance through diversity
 
 ### Zer Jun Eng, Jia Hua Ng, Neville Kitala, Wonwoo Soh
 
@@ -12,7 +14,6 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/juneezee/project/badge)](https://www.codefactor.io/repository/github/juneezee/project/issues)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/d609b36fd4534ca48d8c86e762fa0d51)](https://www.codacy.com/manual/Juneezee/project?utm_source=github.com&utm_medium=referral&utm_content=Juneezee/project&utm_campaign=Badge_Grade)
 [![codebeat badge](https://codebeat.co/badges/01195a38-ef45-42b3-a609-14d65e55a40c)](https://codebeat.co/projects/github-com-juneezee-project-master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/15caec6bd7c9484d2e75/maintainability)](https://codeclimate.com/github/Juneezee/project/issues)
 [![DeepScan grade](https://deepscan.io/api/teams/5941/projects/8683/branches/108632/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=5941&pid=8683&bid=108632)
 
 [![security](https://hakiri.io/github/Juneezee/project/master.svg)](https://hakiri.io/github/Juneezee/project/master)
@@ -45,4 +46,3 @@ bundle install
 
 1.  Run `rails s` in a terminal session
 2.  Run `bin/webpack-dev-server` in a separate terminal session
-

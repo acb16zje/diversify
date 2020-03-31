@@ -10,7 +10,7 @@
 
       .columns.is-mobile.is-multiline
         .column
-          .card
+          .card.h-full
             .card-image
               %figure.image
                 = image_tag 'avatar/large/zerjun.png'
@@ -20,7 +20,7 @@
               %p Lead Developer
 
         .column
-          .card
+          .card.h-full
             .card-image
               %figure.image
                 = image_tag 'avatar/large/jiahua.jpg'
@@ -30,7 +30,7 @@
               %p Back-end developer
 
         .column
-          .card
+          .card.h-full
             .card-image
               %figure.image
                 = image_tag 'avatar/large/neville.jpg'
@@ -40,7 +40,7 @@
               %p Front-end Developer
 
         .column
-          .card
+          .card.h-full
             .card-image
               %figure.image
                 = image_tag 'avatar/large/wonwoo.jpg'
@@ -65,7 +65,7 @@
         .tile.is-vertical.is-8
           .tile
             .tile.is-parent.is-vertical
-              %article.tile.is-child.notification.border
+              %article.tile.is-child.notification.border-primary
                 %p.title Punctuality
                 %p
                   We promise to deliver this project soon.
@@ -75,7 +75,7 @@
                 %p.title Quality
                 %p We promise you a quality product that will meet all your requirements.
             .tile.is-parent
-              %article.tile.is-child.notification.border
+              %article.tile.is-child.notification.border-primary
                 %h3.title.is-3 Transparency
                 %p We aim to let you, the customer know everything that is going on with this product.
                 %p
@@ -94,7 +94,7 @@
               %p We plan to be on call for any problems experienced on this site.
 
         .tile.is-parent
-          %article.tile.is-child.notification.border
+          %article.tile.is-child.notification.border-primary
             .content
               %p.title Diversity
               %p We’re committed to working in a diverse team and to create a healthy working environment that’s inclusive of people of all backgrounds.
@@ -103,13 +103,13 @@
                 = link_to 'Get to know the wonderful team', 'about#team', class: 'small-white'
               who’s building our product, supporting our customers, and creating educational content.
 
-  %section.section#contact
+  %section.section
     .container
-      %h3.title.is-3.has-text-centered Contact Us
+      %h3.title.is-3.has-text-centered.mb-12 Contact Us
 
       .columns
         .column
-          %h3.title.is-6.has-text-danger
+          %h3.title.is-6.has-text-danger.mb-4
             %span.icon
               %span.iconify{ 'data-icon': 'gridicons:location' }
             Address
@@ -117,13 +117,13 @@
           %p 1 Vicar Lane, Sheffield,
           %p S1 2LT
 
-          %h3.title.is-6.has-text-danger
+          %h3.title.is-6.has-text-danger.mb-4.mt-8
             %span.icon
               %span.iconify{ 'data-icon': 'dashicons:email-alt' }
             Email
           = mail_to 'info@epigenesys.org.uk'
 
-          %h3.title.is-6.has-text-danger
+          %h3.title.is-6.has-text-danger.mb-4.mt-8
             %span.icon
               %span.iconify{ 'data-icon': 'el:phone' }
             Phone
