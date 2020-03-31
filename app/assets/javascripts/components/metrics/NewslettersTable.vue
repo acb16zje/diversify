@@ -4,7 +4,7 @@
     :paginated="true"
     :hoverable="true"
     :per-page="10"
-    :row-class="() => 'pointer'"
+    :row-class="() => 'cursor-pointer'"
     :default-sort="['created_at', 'desc']"
     @click="rowClicked"
   >

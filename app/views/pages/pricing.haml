@@ -26,7 +26,8 @@
                     %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Skill set manager
             %footer.card-footer
-              = link_to 'Get started for free', newsletter_pages_path(type: 'Free'), class: 'button is-primary is-medium'
+              = link_to 'Get started for free', newsletter_pages_path(type: 'Free'),
+                class: 'button is-primary is-medium w-full rounded-none'
 
         .column
           .card
@@ -57,10 +58,11 @@
                     %span.iconify{ 'data-icon': 'fa-solid:check' }
                   %span Issue board
             %footer.card-footer
-              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Pro'), class: 'button is-primary is-medium'
+              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Pro'),
+                class: 'button is-primary is-medium w-full rounded-none'
 
         .column
-          .card.border
+          .card.border-primary
             .card-content
               .content
                 %h5.title.is-5.has-text-centered Ultimate
@@ -80,7 +82,8 @@
                     %span.iconify{ 'data-icon': 'icomoon-free:infinite' }
                   %span Unlimited active tasks
             %footer.card-footer
-              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Ultimate'), class: 'button is-primary is-medium'
+              = link_to 'Start 14-day free trial', newsletter_pages_path(type: 'Ultimate'),
+                class: 'button is-primary is-medium w-full rounded-none'
 
   %section.hero.is-medium
     .hero-body
@@ -98,7 +101,7 @@
         Find the right plan for your projects.
 
       .table-container
-        %table.table.is-striped.is-fullwidth.has-text-left.border
+        %table.table.is-striped.is-fullwidth.has-text-left
           %thead
             %tr
               %th

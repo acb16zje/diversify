@@ -1,6 +1,6 @@
 - content_for :title, 'Love for Diversify'
 
-%section.section#features
+%section.section
   -# Join feature
   .container
     .columns.is-vcentered
@@ -39,12 +39,11 @@
         .columns
           .column
             .media
-              .media-left.has-centered
+              .media-left.has-centered.mx-auto
                 %figure.image.is-128x128
                   = image_tag 'avatar/large/daniel.jpg', class: 'is-rounded'
 
           .column.is-two-thirds
-
             .content.title.has-text-left
               %h2.title.has-text-danger.iconify{ 'data-icon': 'el:quotes' }
               Diversify is the gold standard for team building and public projects. Cheers guys!
@@ -86,12 +85,11 @@
         .columns
           .column
             .media
-              .media-left.has-centered
+              .media-left.has-centered.mx-auto
                 %figure.image.is-128x128
                   = image_tag 'avatar/large/steve.jpg', class: 'is-rounded'
 
           .column.is-two-thirds
-
             .content.title.has-text-left
               %h2.title.has-text-danger.iconify{ 'data-icon': 'el:quotes' }
               Diversify is definitely a torch bearer in employee satisfaction
