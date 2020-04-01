@@ -6,14 +6,14 @@
       .notification_header
         %h1.title.is-1
           Notifications
-        = link_to open_all_notifications_path_for(@target, @index_options.slice(:routing_scope, :devise_default_routes)), method: :post, remote: true do
-          %span.notification_count
-            %span{ class: ('unopened' if @target.has_unopened_notifications?(@index_options)) }
-              You have
-              = @target.unopened_notification_count(@index_options)
-              New Notifications
+        %p.has-text-grey
+          You have
+          = @target.unopened_notification_count(@index_options)
+          New Notifications
+        - if @target.has_unopened_notifications?(@index_options)
+          = link_to open_all_notifications_path_for(@target, @index_options.slice(:routing_scope, :devise_default_routes)), method: :post, remote: true, class: 'button is-primary' do
+            Open All Notifications
       .notifications
-        - if @index_options[:with_group_members]
-          = render_notification @notifications, @index_options.slice(:routing_scope, :devise_default_routes).merge(fallback: :default_without_grouping, with_group_members: true)
-        - else
-          = render_notification @notifications, @index_options.slice(:routing_scope, :devise_default_routes)
+        - @records.each do |record|
+          = render_notification(record)
+        = pagy_bulma_nav(@pagy).html_safe

@@ -46,6 +46,8 @@ class ProjectsController < ApplicationController
 
   # POST /projects
   def create
+    return project_fail('Bad Request') if valid_project?
+
     @project = Project.new(project_params)
     @project.user = current_user
     @project.save ? project_success('Project Created') : project_fail(nil)
@@ -53,8 +55,7 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1
   def update
-    return project_fail('Bad Request') if
-      params[:project].key?(:visibility) && current_user.license.plan == 'free'
+    return project_fail('Bad Request') if valid_project?
 
     if @project.update(project_params)
       project_success('Project Updated')
@@ -85,6 +86,11 @@ class ProjectsController < ApplicationController
     params.require(:project).permit(
       :name, :description, :visibility, :category_id, :avatar
     )
+  end
+
+  def valid_project?
+    !current_user.admin? &&
+      params[:project].key?(:visibility) && current_user.license.plan == 'free'
   end
 
   def valid_page?
