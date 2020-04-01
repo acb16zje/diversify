@@ -66,6 +66,7 @@ class InvitesController < ApplicationController
 
   def invite_success
     if params[:types] == 'Invite'
+      @invite.notify :user, key: 'invite.invite'
       render json: {
         message: 'Invite Sent', id: @invite.user_id,
         name: @invite.user.name

@@ -34,6 +34,6 @@ class Invite < ApplicationRecord
                      notifiable_path: :project_notifiable_path
 
   def project_notifiable_path
-    project_path(invite.project)
+    project_path(project)
   end
 end

@@ -1,12 +1,14 @@
 - if user_signed_in?
   %b-dropdown.is-right{ animation: '' }
-    %button.button.is-rounded{ slot: 'trigger' }
-      %span.icon.is-medium
+    %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
+      %span
         %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }
-      %b-tag{ 'rounded': '' }= @not_num
+        %b-tag{ 'rounded': '' }= @not_num
     .dropdown-item
-
       - if @notifications.blank?
         No Notifications
       - else
         = render_notifications(@notifications, fallback: :default)
+      %hr.dropdown-divider
+        = link_to 'View All', user_notifications_path(current_user)
+

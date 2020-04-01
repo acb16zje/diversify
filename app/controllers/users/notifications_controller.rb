@@ -1,4 +1,10 @@
-class Users::NotificationsWithDeviseController < ActivityNotification::NotificationsWithDeviseController
+# frozen_string_literal: true
+
+# Modified controller for ActivityNotification
+class Users::NotificationsController < ActivityNotification::NotificationsWithDeviseController
+
+  layout 'notifications'
+
   # GET /:target_type/:target_id/notifications
   def index
     super
