@@ -44,8 +44,7 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
     context 'with Newsletter Subscription by Date' do
       it 'shows no Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
-        # Some reason the data from factorybot remains
-        # expect(page).to have_content('No data')
+        expect(page).to have_content('No data')
       end
     end
 

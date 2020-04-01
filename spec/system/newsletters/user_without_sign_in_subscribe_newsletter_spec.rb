@@ -11,10 +11,10 @@ describe 'Landing page Newsletter > Subscribe', :js, type: :system do
       expect(page).to have_content('Thanks for subscribing')
     end
 
-    # it 'checks email unique constraint' do
-    #   subscribe(true)
-    #   expect(page).to have_content('')
-    # end
+    it 'checks email unique constraint' do
+      subscribe(true)
+      expect(page).to have_content('')
+    end
 
     specify 'type="email" has been changed' do
       empty_email_subscribe

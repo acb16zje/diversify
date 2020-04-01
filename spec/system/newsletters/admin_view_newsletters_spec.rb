@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe 'Metrics > Newsletter Archive', :js, type: :system do
   let(:admin) { create(:admin) }
-  
+
   before { sign_in admin }
 
   context 'with newsletter' do
@@ -17,7 +17,7 @@ describe 'Metrics > Newsletter Archive', :js, type: :system do
     it 'can show newsletter modal' do
       visit newsletters_path
       find('tr', text: newsletter.title).click
-      within('.modal-card') do
+      within '.modal-card' do
         expect(page).to have_content('some content of the email')
       end
     end
