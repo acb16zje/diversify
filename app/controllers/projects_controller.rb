@@ -27,13 +27,15 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
-    @invites = User.select(:id, :name).joins(:invites)
+    @invites = User.select('users.id, users.email, invites.id AS invite_id')
+                   .joins(:invites)
                    .where(invites: { types: 'Invite', project: @project })
-    @applications = User.select(:id,:name).joins(:invites)
-                        .where(invites:
-                        {
-                          types: 'Application', project: @project
-                        })
+    @applications = User.select(
+      'users.id, users.email, invites.id AS invite_id'
+    ).joins(:invites).where(invites:
+      {
+        types: 'Application', project: @project
+      })
   end
 
   def self

@@ -7,9 +7,9 @@
       :per-page="10"
     >
       <template v-slot="props">
-        <b-table-column field="user" label="Username" sortable searchable>
+        <b-table-column field="email" label="Email" sortable searchable>
           <a :href="'/users/'+ props.row.id">
-            {{ props.row.name }}
+            {{ props.row.email }}
           </a>
         </b-table-column>
         <b-table-column label="Action" centered>
@@ -56,12 +56,16 @@ export default {
       email: '',
     };
   },
+  created() {
+    console.log(this.data);
+  },
   methods: {
     cancelInvite(row) {
       Rails.ajax({
-        url: `/invites/${row.id}`,
+        url: `/invites/${row.invite_id}`,
         type: 'DELETE',
         data: new URLSearchParams({
+          user_id: row.id,
           project_id: this.projectId,
           types: 'Invite',
         }),
@@ -89,7 +93,7 @@ export default {
         }),
         success: (data) => {
           successToast(data.message);
-          this.data.push({ name: data.name, id: data.id });
+          this.data.push({ email: data.email, id: data.id, invite_id: data.invite_id });
         },
         error: (data) => {
           if (Array.isArray(data.message)) {

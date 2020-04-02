@@ -1,5 +1,5 @@
 - if user_signed_in?
-  %b-dropdown.is-right{ animation: '' }
+  %b-dropdown#notification.is-right{ animation: '' }
     %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
       %span
         %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }

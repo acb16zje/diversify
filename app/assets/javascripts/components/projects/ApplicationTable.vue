@@ -8,9 +8,9 @@
       :mobile-cards="true"
     >
       <template v-slot="props">
-        <b-table-column field="user" label="Username" sortable searchable>
+        <b-table-column field="email" label="Email" sortable searchable>
           <a :href="'/users/'+ props.row.id">
-            {{ props.row.name }}
+            {{ props.row.email }}
           </a>
         </b-table-column>
         <b-table-column label="Action" centered>
@@ -51,15 +51,15 @@ export default {
   data() {
     return {
       data: JSON.parse(this.originalData),
-      username: '',
     };
   },
   methods: {
     decline(row) {
       Rails.ajax({
-        url: `/invites/${row.id}`,
+        url: `/invites/${row.invite_id}`,
         type: 'DELETE',
         data: new URLSearchParams({
+          user_id: row.id,
           project_id: this.projectId,
           types: 'Application',
         }),

@@ -14,19 +14,19 @@ class InvitesController < ApplicationController
 
   def destroy
     @invite = Invite.find_by(invite_params)
+    return invite_fail('Invalid Request') if @invite.blank?
+
     authorize! @invite
     @invite.destroy ? destroy_success : invite_fail(nil)
   end
 
   def accept
-    return invite_fail('Invalid Request') unless valid_accept?
-
     authorize! @invite
 
     @team.users << @invite.user
     if @team.save
       @invite.destroy
-      render json: {}, status: :ok
+      accept_success
     else
       invite_fail(nil)
     end
@@ -36,11 +36,9 @@ class InvitesController < ApplicationController
 
   def prepare_accept
     @invite = Invite.find_by(invite_params)
-    @team = @invite.project.teams.find_by(name: 'Unassigned')
-  end
+    return invite_fail('Invalid Request') if @invite.blank?
 
-  def valid_accept?
-    @team.present? && @invite.present?
+    @team = @invite.project.teams.find_by(name: 'Unassigned')
   end
 
   def invite_params
@@ -68,8 +66,8 @@ class InvitesController < ApplicationController
     if params[:types] == 'Invite'
       @invite.notify :user, key: 'invite.invite'
       render json: {
-        message: 'Invite Sent', id: @invite.user_id,
-        name: @invite.user.name
+        message: 'Invite Sent', invite_id: @invite.id,
+        email: @invite.user.email, id: @invite.user_id
       }, status: :ok
     else
       flash[:toast_success] = 'Application Sent'
@@ -77,11 +75,20 @@ class InvitesController < ApplicationController
     end
   end
 
+  def accept_success
+    if current_user == @invite.user
+      flash[:toast_success] = 'Joined Project'
+      render js: "window.location = '#{project_path(@invite.project.id)}'"
+    else
+      render json: {}, status: :ok
+    end
+  end
+
   def destroy_success
     if current_user == @invite.project.user
       render json: {}, status: :ok
     else
-      flash[:toast_success] = 'Application Deleted'
+      flash[:toast_success] = "#{@invite.types} Canceled"
       render js: "window.location = '#{project_path(@invite.project.id)}'"
     end
   end
