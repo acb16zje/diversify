@@ -16,11 +16,17 @@
 #  reset_password_token       :string
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  personality_id             :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_personality_id        (personality_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (personality_id => personalities.id)
 #
 
 FactoryBot.define do
@@ -36,10 +42,8 @@ FactoryBot.define do
     end
   end
 
-  trait :personality do
-    after(:create) do |user|
-      create(:user_personality, user: user, personality: create(:personality))
-    end
+  trait :with_personality do
+    personality
   end
 
   trait :with_avatar do

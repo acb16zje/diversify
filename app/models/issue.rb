@@ -10,7 +10,7 @@
 #  status      :string           not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
-#  project_id  :bigint
+#  project_id  :bigint           not null
 #  user_id     :bigint
 #
 # Indexes
@@ -27,4 +27,6 @@
 class Issue < ApplicationRecord
   belongs_to :user
   belongs_to :project
+
+  validates :project_id, presence: true
 end

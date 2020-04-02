@@ -7,7 +7,7 @@ class CreateIssues < ActiveRecord::Migration[6.0]
       t.text :description, null: false
       t.string :status,    null: false
 
-      t.references :project, foreign_key: true
+      t.references :project, foreign_key: true, null: false
       t.references :user, foreign_key: true
 
       t.timestamps

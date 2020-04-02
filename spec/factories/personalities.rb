@@ -12,12 +12,16 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_personalities_on_mind_and_energy_and_nature_and_tactic  (mind,energy,nature,tactic) UNIQUE
+#
 
 FactoryBot.define do
   factory :personality do
-    mind { 'i' }
-    energy { 's' }
-    nature { 'f' }
-    tactic { 'j' }
+    mind { 'I' }
+    energy { 'S' }
+    nature { 'F' }
+    tactic { 'J' }
   end
 end

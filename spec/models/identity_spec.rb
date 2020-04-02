@@ -17,6 +17,10 @@
 #  index_identities_on_provider_and_user_id  (provider,user_id) UNIQUE
 #  index_identities_on_user_id               (user_id)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (user_id => users.id)
+#
 
 
 require 'rails_helper'

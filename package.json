@@ -6,7 +6,7 @@
     "@rails/actiontext": "^6.0.2-2",
     "@rails/ujs": "^6.0.2-2",
     "@rails/webpacker": "^5.0.1",
-    "buefy": "^0.8.13",
+    "buefy": "^0.8.15",
     "chart.js": "^2.9.3",
     "css-loader": "^3.4.2",
     "cssnano": "^4.1.10",

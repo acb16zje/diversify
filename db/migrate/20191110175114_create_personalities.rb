@@ -2,16 +2,11 @@
 
 class CreatePersonalities < ActiveRecord::Migration[6.0]
   def change
-    # create_enum 'traits', %w[
-    #   ISTJ INFJ INTJ ENFJ
-    #   ISTP ESFJ INFP ESFP
-    #   ENFP ESTP ESTJ ENTJ
-    #   INTP ISFJ ENTP ISFP
-    # ]
-    create_enum 'minds', %w[i e]
-    create_enum 'energies', %w[n s]
-    create_enum 'natures', %w[f t]
-    create_enum 'tactics', %w[p j]
+
+    create_enum 'minds', %w[I E]
+    create_enum 'energies', %w[S N]
+    create_enum 'natures', %w[T F]
+    create_enum 'tactics', %w[J P]
 
     create_table :personalities do |t|
       t.enum :mind, as: :minds

@@ -7,7 +7,7 @@
     .columns.flex-wrap
       .column
         .card
-          %header.card-header.has-background-white-ter.is-shadowless
+          %header.card-header.has-background-white-ter
             .card-header-title.is-block
               Free Plan
               - if current_user.license.free?
@@ -19,7 +19,7 @@
             .price-per-year.is-invisible
               billed annually at £180
             %hr
-            %ul.is-marginless
+            %ul
               %li Join unlimited projects
               %li Automated team building
               %li Skill set manager
@@ -31,7 +31,7 @@
               %button.button.is-success Upgrade
       .column
         .card
-          %header.card-header.has-background-white-ter.is-shadowless
+          %header.card-header.has-background-white-ter
             .card-header-title.is-block
               Pro Plan
               - if current_user.license.pro?
@@ -43,7 +43,7 @@
             .price-per-year
               billed annually at £180
             %hr
-            %ul.is-marginless
+            %ul
               %li.has-text-weight-bold All Free features
               %li Unlimited private projects
               %li Automated task allocation
@@ -55,7 +55,7 @@
               %button.button.is-success Upgrade
       .column
         .card
-          %header.card-header.has-background-white-ter.is-shadowless
+          %header.card-header.has-background-white-ter
             .card-header-title.is-block
               Ultimate Plan
               - if current_user.license.ultimate?
@@ -67,7 +67,7 @@
             .price-per-year
               billed annually at £240
             %hr
-            %ul.is-marginless
+            %ul
               %li.has-text-weight-bold All Pro features
               %li Unlimited members per projects
               %li Unlimited active tasks

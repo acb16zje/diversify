@@ -12,40 +12,43 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_personalities_on_mind_and_energy_and_nature_and_tactic  (mind,energy,nature,tactic) UNIQUE
+#
 
 class Personality < ApplicationRecord
-  has_many :user_personalities
-  has_many :users, through: :user_personalities
-
-  NAME = {
-    ISTJ: 'Logistician',
-    INFJ: 'Advocate',
+  TYPES = {
     INTJ: 'Architect',
-    ENFJ: 'Protagonist',
-    ISTP: 'Virtuoso',
-    ESFJ: 'Consul',
-    INFP: 'Mediator',
-    ESFP: 'Entertainer',
-    ENFP: 'Campaigner',
-    ESTP: 'Entrepreneur',
-    ESTJ: 'Executive',
-    ENTJ: 'Commander',
     INTP: 'Logician',
-    ISFJ: 'Defender',
+    ENTJ: 'Commander',
     ENTP: 'Debater',
-    ISFP: 'Adventurer'
+    INFJ: 'Advocate',
+    INFP: 'Mediator',
+    ENFJ: 'Protagonist',
+    ENFP: 'Campaigner',
+    ISTJ: 'Logistician',
+    ISFJ: 'Defender',
+    ESTJ: 'Executive',
+    ESFJ: 'Consul',
+    ISTP: 'Virtuoso',
+    ISFP: 'Adventurer',
+    ESTP: 'Entrepreneur',
+    ESFP: 'Entertainer'
   }.freeze
 
-  def to_name
-    NAME[trait.to_sym]
+  has_many :users, dependent: :nullify
+
+  validates :mind, presence: true, inclusion: { in: %w[I E] }
+  validates :energy, presence: true, inclusion: { in: %w[S N] }
+  validates :nature, presence: true, inclusion: { in: %w[T F] }
+  validates :tactic, presence: true, inclusion: { in: %w[J P] }
+
+  def to_type
+    TYPES[trait.to_sym]
   end
 
   def trait
-    (mind + energy + nature + tactic).upcase
+    mind + energy + nature + tactic
   end
-
-  validates :mind, presence: true
-  validates :energy, presence: true
-  validates :nature, presence: true
-  validates :tactic, presence: true
 end

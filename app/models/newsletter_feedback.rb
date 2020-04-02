@@ -5,10 +5,11 @@
 # Table name: newsletter_feedbacks
 #
 #  id                         :bigint           not null, primary key
+#  email                      :string           default(""), not null
 #  reasons                    :string           default([]), not null, is an Array
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
-#  newsletter_subscription_id :bigint
+#  newsletter_subscription_id :bigint           not null
 #
 # Indexes
 #

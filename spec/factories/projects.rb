@@ -7,12 +7,12 @@
 #  id          :bigint           not null, primary key
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
-#  status      :enum             default("Active"), not null
-#  visibility  :boolean          default(TRUE)
+#  status      :enum             default("active"), not null
+#  visibility  :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint
-#  user_id     :bigint
+#  user_id     :bigint           not null
 #
 # Indexes
 #
@@ -29,8 +29,7 @@ FactoryBot.define do
   factory :project do
     description { 'lorem ipsum' }
     name { 'Project' }
-    status { 'Active' }
-    visibility { true }
+    status { 'active' }
     association :category, factory: :category
     association :user, factory: :user
   end

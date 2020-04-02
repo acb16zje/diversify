@@ -7,12 +7,12 @@
 #  id          :bigint           not null, primary key
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
-#  status      :enum             default("Active"), not null
-#  visibility  :boolean          default(TRUE)
+#  status      :enum             default("active"), not null
+#  visibility  :boolean          default(TRUE), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  category_id :bigint
-#  user_id     :bigint
+#  user_id     :bigint           not null
 #
 # Indexes
 #
@@ -26,13 +26,19 @@
 #
 
 class Project < ApplicationRecord
+  enum status: { open: 'open', active: 'active', completed: 'completed' }
+
   belongs_to :user
   belongs_to :category
-  has_many :teams
-  has_many :reviews
-  has_many :tasks
+
   has_one_attached :avatar
+  has_many :teams, dependent: :destroy
+  has_many :tasks, dependent: :destroy
 
   validates :name, presence: true
   validates :status, presence: true
+
+  def status
+    super.capitalize
+  end
 end

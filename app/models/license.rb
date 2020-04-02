@@ -12,7 +12,7 @@
 #
 # Indexes
 #
-#  index_licenses_on_user_id  (user_id)
+#  index_licenses_on_user_id  (user_id) UNIQUE
 #
 # Foreign Keys
 #

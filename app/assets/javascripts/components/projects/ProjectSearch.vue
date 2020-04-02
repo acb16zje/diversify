@@ -23,10 +23,10 @@
             <option value="">
               All
             </option>
-            <option value="Active">
+            <option value="active">
               Active
             </option>
-            <option value="Completed">
+            <option value="completed">
               Completed
             </option>
           </b-select>
@@ -70,7 +70,7 @@
     <div id="projects-list">
       <b-loading :is-full-page="false" :active.sync="isLoading" :can-cancel="false" />
       <template v-if="items.length === 0">
-        <div class="content has-text-grey has-text-centered">
+        <div class="content has-text-grey text-center">
           <p>No Project :(</p>
         </div>
       </template>

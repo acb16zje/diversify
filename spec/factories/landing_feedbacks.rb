@@ -6,7 +6,7 @@
 #
 #  id         :bigint           not null, primary key
 #  channel    :string           default(""), not null
-#  interest   :boolean          default(TRUE)
+#  interest   :boolean          default(TRUE), not null
 #  smiley     :string           default(""), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

@@ -15,24 +15,11 @@ describe Users::Settings::PersonalitiesController, type: :request do
   describe 'PATCH #update' do
     subject(:request) { patch settings_personality_path, params: params }
 
-    let(:personality) { create(:personality) }
-    let(:user_personality) { create(:user, :personality) }
-
-    context 'with initial selection' do
-      before { sign_in user_personality }
-
-      let(:params) do
-        { personality: { mind: 'i', energy: 's', nature: 'f', tactic: 'j' } }
-      end
-
-      it_behaves_like 'returns 200 OK'
-    end
+    before { create(:personality) }
 
     context 'with valid input' do
-      before { personality }
-
       let(:params) do
-        { personality: { mind: 'i', energy: 's', nature: 'f', tactic: 'j' } }
+        { personality: { mind: 'I', energy: 'S', nature: 'F', tactic: 'J' } }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -40,10 +27,7 @@ describe Users::Settings::PersonalitiesController, type: :request do
     end
 
     context 'with invalid input' do
-      before do
-        sign_in user
-        personality
-      end
+      before { sign_in user }
 
       let(:params) do
         { personality: { mind: '', energy: '', nature: '', tactic: '' } }

@@ -1,7 +1,7 @@
 - content_for :title, 'Reset Password'
 
 .box
-  %h1.title.is-4.has-text-centered Forgot your password?
+  %h1.title.is-4.text-center Forgot your password?
   .content
     = form_with model: resource, url: password_path(resource), html: { '@ajax:success': 'sendResetSuccess', '@ajax:error': 'ajaxError' } do |f|
       .field
@@ -11,6 +11,6 @@
         .control
           = f.submit 'Send reset password instructions', class: 'button is-info is-fullwidth'
 
-.box.callout.has-text-centered
+.box.callout.text-center
   %p.is-inline Already have an account?
   = link_to 'Sign in', new_user_session_path

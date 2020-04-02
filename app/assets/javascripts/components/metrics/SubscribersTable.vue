@@ -28,7 +28,7 @@
     </template>
 
     <template v-slot:empty>
-      <div class="content has-text-grey has-text-centered">
+      <div class="content has-text-grey text-center">
         <p>No data</p>
       </div>
     </template>

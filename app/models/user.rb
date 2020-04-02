@@ -16,11 +16,17 @@
 #  reset_password_token       :string
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
+#  personality_id             :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_personality_id        (personality_id)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (personality_id => personalities.id)
 #
 
 class User < ApplicationRecord
@@ -28,10 +34,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: Devise.omniauth_providers
 
+  belongs_to :personality, optional: true
+
   has_one_attached :avatar
   has_one :license, dependent: :destroy
-  has_one :user_personality, dependent: :destroy
-  has_one :personality, through: :user_personality
 
   has_many :identities, dependent: :destroy
   has_many :preferences, dependent: :destroy

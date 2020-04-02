@@ -97,9 +97,7 @@ Rails.application.routes.draw do
 
       end
 
-      resource :personality, only: %i[show update] do
-
-      end
+      resource :personality, only: %i[show update]
 
       resource :emails, only: :show do
         post 'subscribe'

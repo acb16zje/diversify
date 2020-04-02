@@ -6,6 +6,8 @@ class CreateNewsletterFeedbacks < ActiveRecord::Migration[6.0]
       t.string :email,   null: false, default: ''
       t.string :reason,  null: false, default: ''
 
+      t.references :newsletter_subscription, foreign_key: true, null: false
+
       t.timestamps
     end
   end

@@ -1,58 +1,79 @@
 - content_for :title, 'Personalities settings'
 
-%section.settings-section#personality-setting
-  .content
-    %h4.title.is-4 Personality Profile
-    %p
-      Please use the following link to know your personality.
-    %a.button.is-primary.align-bottom{href: 'https://www.16personalities.com/free-personality-test'} Click Here
-  .content
-    %h4.title.is-4 Current Personality
-    - if @user_p.persisted?
-      %section.hero.is-info.has-background
-        = image_tag 'avatar/large/chris.jpg', { class:'hero-background is-transparent' }
-        .hero-body
-          .container
-            %h1.title
-              = @user_p.personality.to_name
-            %h2.subtitle
-              = @user_p.personality.trait
-    -else
-      %section.hero.is-danger.has-background
-        = image_tag 'avatar/large/ade.jpg', { class:'hero-background is-transparent' }
-        .hero-body
-          .container
-            %h1.title
-              No Personality Set
-    .section
-      - p = @user_p.persisted? ? @user_p.personality : Personality.new
-      = form_with model: p, url: settings_personality_path, method: :patch, html: { class: 'form', '@ajax:error': 'ajaxError' } do |f|
-        %h5.is-5 Mind
-        .switch-field
-          = f.radio_button :mind, 'i', id: 'radio-i'
-          %label.button.is-fullwidth{:for => 'radio-i'} Introvert
-          = f.radio_button :mind, 'e', id: 'radio-e'
-          %label.button.is-fullwidth{:for => 'radio-e'} Extrovert
-        %h5.is-5 Energy
-        .switch-field
-          = f.radio_button :energy, 's', id: 'radio-s'
-          %label.button.is-fullwidth{:for => 'radio-s'} Observant
-          = f.radio_button :energy, 'n', id: 'radio-n'
-          %label.button.is-fullwidth{:for => 'radio-n'} Intuitive
-        %h5.is-5 Nature
-        .switch-field
-          = f.radio_button :nature, 't', id: 'radio-t'
-          %label.button.is-fullwidth{:for => 'radio-t'} Thinking
-          = f.radio_button :nature, 'f', id: 'radio-f'
-          %label.button.is-fullwidth{:for => 'radio-f'} Feeling
-        %h5.is-5 Tactics
-        .switch-field
-          = f.radio_button :tactic, 'j', id: 'radio-j'
-          %label.button.is-fullwidth{:for => 'radio-j'} Judging
-          = f.radio_button :tactic, 'p', id: 'radio-p'
-          %label.button.is-fullwidth{:for => 'radio-p'} Prospecting
+.content.settings
+  .columns
+    .column.is-4
+      %h4.title.is-4 Personality
+      %p.subtitle.is-6
+        Learn more about your personality type by following the
+        = link_to  'personalities chart', 'https://upload.wikimedia.org/wikipedia/commons/1/1f/MyersBriggsTypes.png', target: '_blank'
+    .column
+      - if current_user.personality
+        %label.label Current personality
+        %figure.image.mt-0
+          .type
+            = File.read("#{Rails.root}/public/images/personalities/#{current_user.personality.to_type.downcase}.svg").html_safe
+
+          %h4.text-center.mt-3= current_user.personality.to_type
+
+      = form_with model: @personality, url: settings_personality_path, method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
         .field
           .control
-            = f.submit 'Set Personality', class: 'button is-warning'
+            %label.label Are you outwardly or inwardly focused?
+            .field
+              = f.label :mind_i, class: 'b-radio radio' do
+                = f.radio_button :mind, 'I', required: true
+                %span.check
+                %span.control-label Introversion (I)
 
+            .field
+              = f.label :mind_e, class: 'b-radio radio' do
+                = f.radio_button :mind, 'E'
+                %span.check
+                %span.control-label Extraversion (E)
 
+        .field
+          .control
+            %label.label How do you prefer to take information?
+            .field
+              = f.label :energy_s, class: 'b-radio radio' do
+                = f.radio_button :energy, 'S', required: true
+                %span.check
+                %span.control-label Sensing (S)
+            .field
+              = f.label :energy_n, class: 'b-radio radio' do
+                = f.radio_button :energy, 'N'
+                %span.check
+                %span.control-label Intuition (N)
+
+        .field
+          .control
+            %label.label How do you prefer to make decisions?
+            .field
+              = f.label :nature_t, class: 'b-radio radio' do
+                = f.radio_button :nature, 'T', required: true
+                %span.check
+                %span.control-label Thinking (T)
+            .field
+              = f.label :nature_f, class: 'b-radio radio' do
+                = f.radio_button :nature, 'F'
+                %span.check
+                %span.control-label Feeling (F)
+
+        .field
+          .control
+            %label.label How do you prefer to live your outer life?
+            .field
+              = f.label :tactic_j, class: 'b-radio radio' do
+                = f.radio_button :tactic, 'J', required: true
+                %span.check
+                %span.control-label Judging (J)
+            .field
+              = f.label :tactic_p, class: 'b-radio radio' do
+                = f.radio_button :tactic, 'P'
+                %span.check
+                %span.control-label Perception (P)
+
+        .field
+          .control
+            = f.submit 'Save changes', class: 'button is-success'

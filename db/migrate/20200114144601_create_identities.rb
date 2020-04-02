@@ -3,7 +3,7 @@ class CreateIdentities < ActiveRecord::Migration[6.0]
     create_table :identities do |t|
       t.string :uid
       t.string :provider
-      t.references :user
+      t.references :user, foreign_key: true
 
       t.timestamps
     end

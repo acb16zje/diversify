@@ -10,18 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_19_042901) do
+ActiveRecord::Schema.define(version: 2020_04_02_123308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
-  create_enum "energies", ["n", "s"]
-  create_enum "minds", ["i", "e"]
-  create_enum "natures", ["f", "t"]
+  create_enum "energies", ["S", "N"]
+  create_enum "minds", ["I", "E"]
+  create_enum "natures", ["T", "F"]
   create_enum "plan_name", ["free", "pro", "ultimate"]
-  create_enum "status_name", ["Open", "Active", "Completed"]
-  create_enum "tactics", ["p", "j"]
+  create_enum "status_name", ["open", "active", "completed"]
+  create_enum "tactics", ["J", "P"]
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -132,7 +133,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.string "name", null: false
     t.text "description", null: false
     t.string "status", null: false
-    t.bigint "project_id"
+    t.bigint "project_id", null: false
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -143,7 +144,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
   create_table "landing_feedbacks", force: :cascade do |t|
     t.string "smiley", default: "", null: false
     t.string "channel", default: "", null: false
-    t.boolean "interest", default: true
+    t.boolean "interest", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -153,14 +154,15 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_licenses_on_user_id"
+    t.index ["user_id"], name: "index_licenses_on_user_id", unique: true
   end
 
   create_table "newsletter_feedbacks", force: :cascade do |t|
+    t.string "email", default: "", null: false
     t.string "reasons", default: [], null: false, array: true
+    t.bigint "newsletter_subscription_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "newsletter_subscription_id"
     t.index ["newsletter_subscription_id"], name: "index_newsletter_feedbacks_on_newsletter_subscription_id"
   end
 
@@ -185,6 +187,7 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.enum "tactic", as: "tactics"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["mind", "energy", "nature", "tactic"], name: "index_personalities_on_mind_and_energy_and_nature_and_tactic", unique: true
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -199,12 +202,12 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
   create_table "projects", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
+    t.boolean "visibility", default: true, null: false
+    t.enum "status", default: "active", null: false, as: "status_name"
     t.bigint "category_id"
-    t.bigint "user_id"
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.enum "status", default: "Active", null: false, as: "status_name"
-    t.boolean "visibility", default: true
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
@@ -264,15 +267,6 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.index ["project_id"], name: "index_teams_on_project_id"
   end
 
-  create_table "user_personalities", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "personality_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["personality_id"], name: "index_user_personalities_on_personality_id"
-    t.index ["user_id"], name: "index_user_personalities_on_user_id"
-  end
-
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -285,11 +279,14 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "password_automatically_set", default: false, null: false
+    t.bigint "personality_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["personality_id"], name: "index_users_on_personality_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "identities", "users"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
   add_foreign_key "licenses", "users"
@@ -307,6 +304,5 @@ ActiveRecord::Schema.define(version: 2020_02_19_042901) do
   add_foreign_key "tasks", "skills", column: "skills_id"
   add_foreign_key "tasks", "users"
   add_foreign_key "teams", "projects"
-  add_foreign_key "user_personalities", "personalities"
-  add_foreign_key "user_personalities", "users"
+  add_foreign_key "users", "personalities"
 end

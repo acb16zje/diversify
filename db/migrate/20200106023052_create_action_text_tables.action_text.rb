@@ -12,9 +12,5 @@ class CreateActionTextTables < ActiveRecord::Migration[6.0]
 
       t.index %i[record_type record_id name], name: 'index_action_text_rich_texts_uniqueness', unique: true
     end
-
-    # rubocop:todo Rails/ReversibleMigration
-    remove_column :newsletters, :content
-    # rubocop:enable Rails/ReversibleMigration
   end
 end
