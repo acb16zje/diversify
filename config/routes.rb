@@ -93,9 +93,7 @@ Rails.application.routes.draw do
         put 'reset_password'
       end
 
-      resource :billing, only: :show do
-
-      end
+      resource :billing, only: %i[show update]
 
       resource :personality, only: %i[show update]
 

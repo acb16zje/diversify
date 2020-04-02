@@ -28,7 +28,8 @@
             - if current_user.license.free?
               %button.button{ disabled: true } Upgrade
             - else
-              %button.button.is-success Upgrade
+              = button_to 'Downgrade', settings_billing_path(plan: 'free'), method: :put,
+                class: 'button is-success', data: { disable: true }
       .column
         .card
           %header.card-header.has-background-white-ter
@@ -52,7 +53,9 @@
             - if current_user.license.pro?
               %button.button{ disabled: true } Upgrade
             - else
-              %button.button.is-success Upgrade
+              = button_to current_user.license.ultimate? ? 'Downgrade' : 'Upgrade',
+                settings_billing_path(plan: 'pro'), method: :put,
+                class: 'button is-success', data: { disable: true }
       .column
         .card
           %header.card-header.has-background-white-ter
@@ -76,4 +79,5 @@
             - if current_user.license.ultimate?
               %button.button{ disabled: true } Upgrade
             - else
-              %button.button.is-success Upgrade
+              = button_to 'Upgrade', settings_billing_path(plan: 'ultimate'), method: :put,
+                class: 'button is-success', data: { disable: true }
