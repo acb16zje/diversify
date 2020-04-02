@@ -19,9 +19,13 @@
 
 FactoryBot.define do
   factory :personality do
-    mind { 'I' }
-    energy { 'S' }
-    nature { 'F' }
-    tactic { 'J' }
+    intj
+
+    trait :intj do
+      mind { 'I' }
+      energy { 'N' }
+      nature { 'T' }
+      tactic { 'J' }
+    end
   end
 end

@@ -34,20 +34,14 @@ module SimpleCovEnv
         add_filter 'app/controllers/teams_controller.rb'
 
         add_filter 'app/jobs'
-
         add_filter 'app/models/category.rb'
         add_filter 'app/models/issue.rb'
-        add_filter 'app/models/license.rb'
-        add_filter 'app/models/personality.rb'
         add_filter 'app/models/preference.rb'
         add_filter 'app/models/review.rb'
         add_filter 'app/models/skill.rb'
         add_filter 'app/models/skill_level.rb'
-        add_filter 'app/models/subscription_plan.rb'
         add_filter 'app/models/task.rb'
         add_filter 'app/models/team.rb'
-        add_filter 'app/models/user_personality.rb'
-
         add_filter 'lib/'
 
         add_group 'Policies', 'app/policies'
