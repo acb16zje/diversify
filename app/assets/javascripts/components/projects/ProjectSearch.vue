@@ -86,8 +86,8 @@
               <h1 class="is-1 is-title">
                 {{ project.name }}
               </h1>
-              <span :class="{'tag is-success':project.status !== 'Completed',
-                             'tag is-danger':project.status === 'Completed'}"
+              <span :class="{'tag is-success':project.status !== 'completed',
+                             'tag is-danger':project.status === 'completed'}"
               >
                 Status: {{ project.status }}
               </span>

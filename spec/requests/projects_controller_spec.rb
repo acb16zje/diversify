@@ -17,7 +17,7 @@ describe ProjectsController, type: :request do
           page: 1,
           name: 'test',
           category: 'test',
-          status: 'Active',
+          status: 'active',
           sort: 'name_asc',
           type: 'projects'
         }
@@ -67,7 +67,7 @@ describe ProjectsController, type: :request do
             page: 1,
             name: project.name,
             category: project.category.id,
-            status: 'Active',
+            status: 'active',
             sort: sort,
             type: 'projects'
           }
@@ -248,7 +248,7 @@ describe ProjectsController, type: :request do
       post change_status_project_path(project), params: params
     }
 
-    %w[Open Completed Active].each do |status|
+    %w[open completed active].each do |status|
       context 'with valid status change' do
         let(:project) { create(:project, user: user) }
         let(:params) do
@@ -261,9 +261,9 @@ describe ProjectsController, type: :request do
     end
 
     context 'with invalid status change' do
-      let(:project) { create(:project, user: user, status: 'Open') }
+      let(:project) { create(:project, user: user, status: 'open') }
       let(:params) do
-        { status: 'Completed' }
+        { status: 'completed' }
       end
 
       before { sign_in user }
@@ -273,9 +273,9 @@ describe ProjectsController, type: :request do
 
     context 'when not project owner' do
       let(:user2) { create(:user) }
-      let(:project) { create(:project, user: user, status: 'Active') }
+      let(:project) { create(:project, user: user, status: 'active') }
       let(:params) do
-        { status: 'Open' }
+        { status: 'open' }
       end
 
       before { sign_in user2 }

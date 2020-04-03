@@ -1,0 +1,15 @@
+%div{ class: "notification_#{notification.id}" }
+  - if notification.notifiable.blank?
+    - if notification.notifier.present?
+      = link_to notification.notifier do
+        = yield :notification_content
+    - else
+      = yield :notification_content
+  - elsif notification.unopened?
+    .unopened_circle
+    = link_to open_notification_path_for(notification, parameters.slice(:routing_scope, :devise_default_routes).merge(move: true)), method: :put do
+      = yield :notification_content
+    .unopened_wrapper
+  - else
+    = link_to move_notification_path_for(notification, parameters.slice(:routing_scope, :devise_default_routes)) do
+      = yield :notification_content

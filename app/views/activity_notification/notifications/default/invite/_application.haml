@@ -6,9 +6,7 @@
         = image_tag(project_avatar(notification.notifier))
     .list_text_wrapper
       %p.list_text
-        You
-        = notification.notifiable.present? ? 'are' : 'were'
-        invited to join
+        New application for
         %strong= notification.notifier.present? ? notification.notifier.name : 'PROJECT NAME'
         %br/
         %span= notification.created_at.strftime('%b %d %H:%M')

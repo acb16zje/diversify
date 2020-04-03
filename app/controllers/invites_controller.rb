@@ -64,7 +64,6 @@ class InvitesController < ApplicationController
 
   def invite_success
     if params[:types] == 'Invite'
-      @invite.notify :user, key: 'invite.invite'
       render json: {
         message: 'Invite Sent', invite_id: @invite.id,
         email: @invite.user.email, id: @invite.user_id
@@ -94,7 +93,7 @@ class InvitesController < ApplicationController
   end
 
   def invite_fail(message)
-    message ||= @application.errors.full_messages
+    message ||= @invite.errors.full_messages
     render json: { message: message },
            status: :bad_request
   end

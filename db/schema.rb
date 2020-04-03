@@ -16,10 +16,10 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
+  create_enum "application_type", ["Invite", "Application"]
   create_enum "energies", ["S", "N"]
   create_enum "minds", ["I", "E"]
   create_enum "natures", ["T", "F"]
-  create_enum "application_type", ["invite", "application"]
   create_enum "plan_name", ["free", "pro", "ultimate"]
   create_enum "status_name", ["open", "active", "completed"]
   create_enum "tactics", ["J", "P"]
@@ -338,7 +338,6 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "password_automatically_set", default: false, null: false
     t.bigint "personality_id"
-    t.bigint "team_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["personality_id"], name: "index_users_on_personality_id"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -366,6 +365,4 @@ ActiveRecord::Schema.define(version: 2020_04_02_123308) do
   add_foreign_key "tasks", "users"
   add_foreign_key "teams", "projects"
   add_foreign_key "users", "personalities"
-  add_foreign_key "teams", "users", column: "users_id"
-  add_foreign_key "users", "teams"
 end

@@ -6,7 +6,6 @@ class ProjectsController < ApplicationController
 
   before_action :set_project, except: %i[index self query new create]
   skip_before_action :authenticate_user!, only: %i[index show query]
-  before_action :set_project, only: %i[show]
 
   layout 'user'
 
@@ -68,7 +67,7 @@ class ProjectsController < ApplicationController
 
   def change_status
     return project_fail('Invalid Status Change') if
-      @project.status != 'Active' && params[:status] != 'Active'
+      @project.status != 'Active' && params[:status] != 'active'
 
     message = prepare_message
     @project.status = params[:status]
@@ -123,11 +122,11 @@ class ProjectsController < ApplicationController
 
   def prepare_message
     case params[:status]
-    when 'Completed' then 'Project Archived'
-    when 'Active'
+    when 'completed' then 'Project Archived'
+    when 'active'
       @project.invites.where(types: 'Application').destroy_all
-      @project.status == 'Completed' ? 'Project Activated' : 'Project Closed'
-    when 'Open' then 'Project Opened'
+      @project.status == 'completed' ? 'Project Activated' : 'Project Closed'
+    when 'open' then 'Project Opened'
     end
   end
 end

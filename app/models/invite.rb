@@ -29,11 +29,25 @@ class Invite < ApplicationRecord
     message: 'has already been invited/applied'
   }
 
+  after_commit :send_notification, on: :create
+
   acts_as_notifiable :users,
-                     targets: ->(invite, key) { [invite.user] },
+                     targets: lambda { |invite, key|
+                       if key == 'invite.invite'
+                         [invite.user]
+                       elsif key == 'invite.application'
+                         [invite.project.user]
+                       end
+                     },
                      notifiable_path: :project_notifiable_path
+
+  private
 
   def project_notifiable_path
     project_path(project)
+  end
+
+  def send_notification
+    notify :user, key: "invite.#{types.downcase}", notifier: project
   end
 end

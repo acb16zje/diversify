@@ -45,6 +45,8 @@ class ApplicationController < ActionController::Base
     render json: { message: 'Invalid Statement' }, status: :unprocessable_entity
   end
 
+  rescue_from Pagy::OverflowError, with: :redirect_to_last_page
+
   private
 
   def render_404
@@ -54,5 +56,9 @@ class ApplicationController < ActionController::Base
       format.js { render json: '', status: :not_found }
       format.any { head :not_found }
     end
+  end
+
+  def redirect_to_last_page(exception)
+    redirect_to url_for(page: exception.pagy.last), notice: "Page ##{params[:page]} is overflowing. Showing page #{exception.pagy.last} instead."
   end
 end
