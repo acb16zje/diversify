@@ -35,7 +35,7 @@
         %label.label Project Description
         .control
           = f.text_area :description, class: 'textarea'
-      - unless current_user.license.plan == 'free'
+      - if current_user.can_change_visibility?
         .field
           .control
             %label.checkbox

@@ -38,7 +38,6 @@ describe Project, type: :model do
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
-    it { is_expected.to validate_presence_of(:status) }
 
     it 'verifies avatar datatype' do
       is_expected.to validate_content_type_of(:avatar)

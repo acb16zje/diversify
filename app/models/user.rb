@@ -97,8 +97,18 @@ class User < ApplicationRecord
     projects.count.zero? && created_at > 1.day.ago
   end
 
-  def in_team?(project)
+  def in_project?(project)
     teams.where(project: project).any?
+  end
+
+  def can_change_visibility?
+    admin || license.plan != 'free'
+  end
+
+  def self.relevant_invite(type, project)
+    self.select('users.id, users.email, invites.id AS invite_id')
+        .joins(:invites)
+        .where(invites: { types: type, project: project })
   end
 
   private

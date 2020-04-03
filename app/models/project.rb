@@ -42,6 +42,7 @@ class Project < ApplicationRecord
   def status
     super.capitalize
   end
+
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 

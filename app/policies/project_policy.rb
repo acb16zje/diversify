@@ -12,7 +12,7 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
     record.visibility || record.user_id == user&.id || user&.admin? ||
-      user&.in_team?(record)
+      user&.in_project?(record)
   end
 
   def manage?

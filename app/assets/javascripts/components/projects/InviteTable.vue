@@ -56,9 +56,6 @@ export default {
       email: '',
     };
   },
-  created() {
-    console.log(this.data);
-  },
   methods: {
     cancelInvite(row) {
       Rails.ajax({

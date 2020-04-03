@@ -5,14 +5,13 @@ class ProjectsController < ApplicationController
   include ProjectsQuery
 
   before_action :set_project, except: %i[index self query new create]
+  before_action :set_category, only: %i[index self]
   skip_before_action :authenticate_user!, only: %i[index show query]
 
   layout 'user'
 
   # GET /projects
-  def index
-    @categories = Category.all
-  end
+  def index; end
 
   def query
     return head :bad_request unless valid_page?
@@ -26,19 +25,11 @@ class ProjectsController < ApplicationController
 
   # GET /projects/1
   def show
-    @invites = User.select('users.id, users.email, invites.id AS invite_id')
-                   .joins(:invites)
-                   .where(invites: { types: 'Invite', project: @project })
-    @applications = User.select(
-      'users.id, users.email, invites.id AS invite_id'
-    ).joins(:invites).where(invites:
-      {
-        types: 'Application', project: @project
-      })
+    @invites = User.relevant_invite('Invite', @project)
+    @applications = User.relevant_invite('Application', @project)
   end
 
   def self
-    @categories = Category.all
     @owned_projects = Project.where(user: current_user)
   end
 
@@ -89,24 +80,18 @@ class ProjectsController < ApplicationController
     )
   end
 
+  def set_category
+    @categories = Category.all
+  end
+
   def valid_project?
-    !current_user.admin? &&
-      params[:project].key?(:visibility) && current_user.license.plan == 'free'
+    params[:project].key?(:visibility) &&
+      !current_user.can_change_visibility?
   end
 
   def valid_page?
     params[:page].to_i.positive? &&
       %w[projects joined owned].include?(params[:type])
-  end
-
-  def project_images(records)
-    images = {}
-    records.each do |record|
-      next unless record.avatar.attached?
-
-      images[record.id] = url_for(record.avatar.variant(resize: '100x100!'))
-    end
-    images
   end
 
   def project_success(message)

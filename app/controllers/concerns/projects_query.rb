@@ -39,4 +39,14 @@ module ProjectsQuery
       'name asc'
     end
   end
+
+  def project_images(records)
+    images = {}
+    records.each do |record|
+      next unless record.avatar.attached?
+
+      images[record.id] = url_for(record.avatar.variant(resize: '100x100!'))
+    end
+    images
+  end
 end
