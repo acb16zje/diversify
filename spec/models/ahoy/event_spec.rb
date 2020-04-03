@@ -34,12 +34,6 @@ describe Ahoy::Event, type: :model do
   describe 'scopes' do
     subject(:model) { described_class }
 
-    describe '.subscriptions' do
-      let(:subscription_event) { create(:ahoy_event, :free) }
-
-      it { expect(model.subscriptions).to include(subscription_event) }
-    end
-
     describe '.action' do
       let(:action_event) { create(:ahoy_event, :ran_action) }
 

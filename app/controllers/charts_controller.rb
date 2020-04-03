@@ -6,7 +6,7 @@ class ChartsController < ApplicationController
 
   before_action :chart_authorize
 
-  before_action :load_ahoy_event_subscriptions,
+  before_action :load_plan_subscriptions,
                 only: %i[subscription_ratio subscription_by_date]
 
   before_action :load_landing_page_feedback, only: :landing_page_feedback
@@ -32,8 +32,6 @@ class ChartsController < ApplicationController
   # These charts are filtered by 'time' column
   before_action :filter_date_by_time_column,
                 only: %i[
-                  subscription_ratio
-                  subscription_by_date
                   social_share_ratio
                   social_share_by_date
                   average_time_spent_per_page
@@ -41,7 +39,7 @@ class ChartsController < ApplicationController
                 ]
 
   # These charts are filtered by 'created_at' column
-  before_action :filter_date_by_created_at_column,
+  before_action :filter_date_by_created_at,
                 only: %i[
                   landing_page_feedback
                   newsletter_subscription_by_date
@@ -49,16 +47,19 @@ class ChartsController < ApplicationController
                   unsubscription_reason
                 ]
 
+  before_action :filter_date_by_updated_at,
+                only: %i[subscription_ratio subscription_by_date]
+
   # These charts are filtered by 'started_at' column
-  before_action :filter_date_by_started_at_column,
+  before_action :filter_date_by_started_at,
                 only: %i[referrers_ratio referrers_by_date]
 
   def subscription_ratio
-    render json: @records.type_size
+    render json: @records.size
   end
 
   def subscription_by_date
-    render json: @records.type_time_size.chart_json
+    render json: @records.group_by_day(:updated_at).size.chart_json
   end
 
   def landing_page_feedback
@@ -125,8 +126,8 @@ class ChartsController < ApplicationController
     authorize! current_user, with: MetricPolicy
   end
 
-  def load_ahoy_event_subscriptions
-    @records = Ahoy::Event.subscriptions
+  def load_plan_subscriptions
+    @records = License.group(:plan)
   end
 
   def load_ahoy_event_social

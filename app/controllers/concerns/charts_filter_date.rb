@@ -7,11 +7,15 @@ module ChartsFilterDate
     filter_date('time')
   end
 
-  def filter_date_by_created_at_column
+  def filter_date_by_created_at
     filter_date('created_at')
   end
 
-  def filter_date_by_started_at_column
+  def filter_date_by_updated_at
+    filter_date('updated_at')
+  end
+
+  def filter_date_by_started_at
     filter_date('started_at')
   end
 

@@ -10,14 +10,6 @@ class PagesController < ApplicationController
 
   layout 'landing_page'
 
-  # Function to track subscriptions
-  # should be changed once proper subscription system has been completed
-  def newsletter
-    return unless valid_subscription_type?
-
-    ahoy.track('Clicked pricing link', type: params[:type])
-  end
-
   def track_social
     return head :bad_request unless valid_social_type?
 
@@ -58,10 +50,6 @@ class PagesController < ApplicationController
   def valid_pathname?(pathname)
     [root_path, pricing_pages_path, about_pages_path, love_pages_path,
      feedback_pages_path].include? pathname
-  end
-
-  def valid_subscription_type?
-    %w[Free Pro Ultimate].include? params[:type]
   end
 
   def valid_social_type?

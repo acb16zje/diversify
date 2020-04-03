@@ -27,7 +27,6 @@ class Ahoy::Event < ApplicationRecord
   belongs_to :visit
   belongs_to :user, optional: true
 
-  scope :subscriptions, -> { where(name: 'Clicked pricing link') }
   scope :action, -> { where(name: 'Ran action') }
   scope :social, -> { where(name: 'Click Social') }
   scope :type_size, -> { group("properties ->> 'type'").size }
