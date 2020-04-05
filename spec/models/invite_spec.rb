@@ -30,15 +30,27 @@ describe Invite, type: :model do
   end
 
   describe 'validations' do
-    let(:invite) { create(:invite) }
+    let(:invite) { build(:invite) }
 
-    before { invite.types = 'Invite' }
+    context 'when validate uniqueness of user and project' do
 
-    it {
-      is_expected.to validate_uniqueness_of(:user_id)
-        .scoped_to(:project_id).with_message(
-          'has already been invited/applied'
-        )
-    }
+      before { invite.types = 'Invite' }
+
+      it {
+        is_expected.to validate_uniqueness_of(:user_id)
+          .scoped_to(:project_id).with_message(
+            'has already been invited/applied'
+          )
+      }
+    end
+
+    context 'when validate user is not project owner' do
+      before do
+        invite.project.user = invite.user
+        invite.save
+      end
+
+      it { expect(invite.errors.full_messages).to include('Owner cannot be added to project') }
+    end
   end
 end

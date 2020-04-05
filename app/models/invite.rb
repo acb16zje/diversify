@@ -24,6 +24,9 @@
 class Invite < ApplicationRecord
   belongs_to :project
   belongs_to :user
+
+  validate :not_owner
+
   validates :user_id, uniqueness: {
     scope: :project_id,
     message: 'has already been invited/applied'
@@ -33,13 +36,17 @@ class Invite < ApplicationRecord
 
   acts_as_notifiable :users,
                      targets: lambda { |invite, key|
-                       if key == 'invite.invite'
+                       if %w[invite.invite decline.application].include? key
                          [invite.user]
-                       elsif key == 'invite.application'
+                       elsif %w[invite.application decline.invite].include? key
                          [invite.project.user]
                        end
                      },
                      notifiable_path: :project_notifiable_path
+
+  def managed?(manager)
+    (manager&.admin? && user != manager) || manager == project.user
+  end
 
   private
 
@@ -48,6 +55,11 @@ class Invite < ApplicationRecord
   end
 
   def send_notification
-    notify :user, key: "invite.#{types.downcase}", notifier: project
+    notify :user, key: "invite.#{types.downcase}",
+                  parameters: { default: project }, notifier: project
+  end
+
+  def not_owner
+    errors[:base] << 'Owner cannot be added to project' if user == project&.user
   end
 end

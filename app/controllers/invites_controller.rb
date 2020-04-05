@@ -7,21 +7,23 @@ class InvitesController < ApplicationController
   def create
     find_user
     @invite = Invite.new(invite_params)
-    return invite_fail('Invalid Request') unless valid_request?
+
+    return invite_fail('Invalid Request') unless allowed_to?(:create?, @invite)
 
     @invite.save ? invite_success : invite_fail(nil)
   end
 
   def destroy
     @invite = Invite.find_by(invite_params)
-    return invite_fail('Invalid Request') if @invite.blank?
 
-    authorize! @invite
+    return invite_fail('Invalid Request') if @invite.blank?
+    return invite_fail('Invalid Request') unless allowed_to?(:destroy?, @invite)
+
     @invite.destroy ? destroy_success : invite_fail(nil)
   end
 
   def accept
-    authorize! @invite
+    return invite_fail('Invalid Request') unless allowed_to?(:accept?, @invite)
 
     @team.users << @invite.user
     if @team.save
@@ -46,22 +48,6 @@ class InvitesController < ApplicationController
           .permit(:id, :user_id, :project_id, :types)
   end
 
-  def valid_request?
-    (valid_invite? || valid_application?) && @invite&.user
-  end
-
-  def valid_invite?
-    params[:types] == 'Invite' &&
-      current_user == @invite.project&.user &&
-      current_user != @invite.user
-  end
-
-  def valid_application?
-    params[:types] == 'Application' &&
-      @invite.project&.visibility? &&
-      current_user == @invite.user
-  end
-
   def invite_success
     if params[:types] == 'Invite'
       render json: {
@@ -83,12 +69,29 @@ class InvitesController < ApplicationController
     end
   end
 
+  def decline?
+    (@invite.user == current_user && @invite.types == 'Invite') ||
+      (@invite.types == 'Application' && @invite.user != current_user)
+  end
+
+  def destroy_notification
+    if decline?
+      @invite.notify :user, key: "decline.#{@invite.types.downcase}",
+                            parameters: { default: @invite.project },
+                            notifier: @invite.project
+    else
+      ActivityNotification::Notification
+        .find_by(notifiable_type: 'Invite', notifiable_id: @invite.id)&.destroy
+    end
+  end
+
   def destroy_success
-    if current_user == @invite.project.user
+    destroy_notification
+    if @invite.managed?(current_user)
       render json: {}, status: :ok
     else
       flash[:toast_success] = "#{@invite.types} Canceled"
-      render js: "window.location = '#{project_path(@invite.project.id)}'"
+      render js: "window.location = '#{project_path(@invite.project)}'"
     end
   end
 

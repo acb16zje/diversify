@@ -1,0 +1,14 @@
+- content_for :notification_content, flush: true do
+  %div{ class: "notification_list #{ notification.opened? ? 'opened' : 'unopened' }" }
+    .notification_list_cover
+    .list_image
+      - if notification.notifier.present?
+        = image_tag(project_avatar(notification.notifier))
+    .list_text_wrapper
+      %p.list_text
+        You have been declined from joining
+        %strong= notification.notifier.present? ? notification.notifier.name : 'PROJECT NAME'
+        %br/
+        %span= notification.created_at.strftime('%b %d %H:%M')
+
+= render partial: 'shared/notification', locals: { notification: notification, parameters: parameters }
