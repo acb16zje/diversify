@@ -36,9 +36,9 @@ class Invite < ApplicationRecord
 
   acts_as_notifiable :users,
                      targets: lambda { |invite, key|
-                       if %w[invite.invite decline.application].include? key
+                       if %w[accept.application invite.invite decline.application].include? key
                          [invite.user]
-                       elsif %w[invite.application decline.invite].include? key
+                       elsif %w[accept.invite invite.application decline.invite].include? key
                          [invite.project.user]
                        end
                      },
@@ -46,6 +46,11 @@ class Invite < ApplicationRecord
 
   def managed?(manager)
     (manager&.admin? && user != manager) || manager == project.user
+  end
+
+  def send_accept_notification
+    notify :user, key: "accept.#{types.downcase}",
+                  parameters: { default: project }, notifier: project
   end
 
   private

@@ -27,6 +27,7 @@ class InvitesController < ApplicationController
 
     @team.users << @invite.user
     if @team.save
+      @invite.send_accept_notification
       @invite.destroy
       accept_success
     else

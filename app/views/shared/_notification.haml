@@ -1,7 +1,8 @@
 %div{ class: "notification_#{notification.id}" }
+  = notification.parameters.default
   - if notification.notifiable.blank?
-    - if notification.parameters.default.present?
-      = link_to notification.default do
+    - if notification.notifier.present?
+      = link_to notification.notifier do
         = yield :notification_content
     - else
       = yield :notification_content

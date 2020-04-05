@@ -4,7 +4,7 @@
     .list_image
     .list_text_wrapper
       %p.list_text
-        %strong= notification.notifier.present? ? notification.notifier.printable_notifier_name : 'Someone'
+        %strong= notification.notifier.present? ? notification.notifier.name : 'Someone'
         - if notification.group_member_notifier_exists?
           = " and #{notification.group_member_notifier_count} other"
           = notification.notifier.present? ? notification.notifier.printable_type.downcase.pluralize(notification.group_member_notifier_count) : 'people'
