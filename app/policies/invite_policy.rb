@@ -4,7 +4,7 @@
 class InvitePolicy < ApplicationPolicy
 
   def create?
-    record.user && (valid_invite? || valid_application?)
+    record&.user.present? && (valid_invite? || valid_application?)
   end
 
   def accept?
@@ -12,7 +12,7 @@ class InvitePolicy < ApplicationPolicy
   end
 
   def destroy?
-    record.project.user_id == user&.id||
+    record.project.user_id == user&.id ||
       user&.admin? || record.user_id == user&.id
   end
 

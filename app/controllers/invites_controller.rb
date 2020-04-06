@@ -31,7 +31,7 @@ class InvitesController < ApplicationController
       @invite.destroy
       accept_success
     else
-      invite_fail(nil)
+      invite_fail('There is a problem joining project')
     end
   end
 

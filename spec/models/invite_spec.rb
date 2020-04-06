@@ -34,10 +34,8 @@ describe Invite, type: :model do
 
     context 'when validate uniqueness of user and project' do
 
-      before { invite.types = 'Invite' }
-
       it {
-        is_expected.to validate_uniqueness_of(:user_id)
+        expect(invite).to validate_uniqueness_of(:user_id)
           .scoped_to(:project_id).with_message(
             'has already been invited/applied'
           )
