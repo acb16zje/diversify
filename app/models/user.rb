@@ -98,7 +98,7 @@ class User < ApplicationRecord
   end
 
   def in_project?(project)
-    teams.where(project: project).any?
+    teams&.where(project: project).any? || project&.user == self
   end
 
   def can_change_visibility?

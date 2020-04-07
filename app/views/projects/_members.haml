@@ -1,0 +1,50 @@
+.container
+  %section.settings-section
+    .container
+      .columns.is-vcentered
+        .column
+          %h1.title.is-2
+            Members
+        .column
+          - if user_signed_in? && (current_user == @project.user || current_user.admin?)
+            .is-pulled-right
+              .buttons.has-addons
+                = link_to '#', class: 'button is-info' do
+                  %p Build Team
+                  %span.icon
+                    %span.iconify{ 'data-icon': 'ant-design:tool-filled' }
+                = link_to new_team_path, class: 'button is-primary' do
+                  %p New Team
+                  %span.icon
+                    %span.iconify{ 'data-icon': 'el:plus' }
+      - if @project.no_member?
+        .content
+          No Members
+      - else
+        - @project.teams.each do |team|
+          .card
+            %header.card-header
+              %p.card-header-title
+                = team.name
+            .card-content
+              .content
+                - team.users.each do |user|
+                  %article.media
+                    %figure.media-left
+                      %p.image.is-32x32
+                        = image_tag user_avatar(user)
+                    .media-content
+                      .content
+                        .columns
+                          .column.has-text-centered
+                            %div
+                              = link_to user do
+                                %p.has-text-weight-medium= user.name
+                          .column.has-text-centered
+                            %div
+                              %p.heading Task Contributed
+                              %p 0
+                          .column.has-text-centered
+                            %div
+                              %p.heading Best Compability
+                              %p -

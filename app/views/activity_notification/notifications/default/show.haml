@@ -1,7 +1,11 @@
-.notification_wrapper
-  .notification_header
-    %h1
-      Notification to #{@target.printable_target_name}
-  %ul
-    .notifications
-      = render_notification(@notification, fallback: :default)
+- content_for :title, 'Notification'
+
+%section.section#notification
+  .container
+    .notification_wrapper
+      .notification_header
+        %h1.title.is-1
+          Notification to #{@target.printable_target_name}
+      .container
+        .notifications
+          = render_notification @notification, fallback: :default

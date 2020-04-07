@@ -52,6 +52,10 @@ class Project < ApplicationRecord
     status == 'Open' && visibility
   end
 
+  def no_member?
+    teams.size == 1 && teams.first.users.empty?
+  end
+
   private
 
   def create_unassigned_team

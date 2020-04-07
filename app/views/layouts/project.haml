@@ -1,0 +1,9 @@
+- content_for :id, 'project'
+
+- content_for :javascript do
+  = javascript_packs_with_chunks_tag 'project', defer: '', nonce: true
+
+- content_for :footer do
+  = render 'layouts/footer'
+
+= render template: 'layouts/application'

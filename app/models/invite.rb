@@ -26,6 +26,7 @@ class Invite < ApplicationRecord
   belongs_to :user
 
   validate :not_owner
+  validate :in_project
 
   validates :user_id, uniqueness: {
     scope: :project_id,
@@ -66,5 +67,9 @@ class Invite < ApplicationRecord
 
   def not_owner
     errors[:base] << 'Owner cannot be added to project' if user == project&.user
+  end
+
+  def in_project
+    errors[:base] << 'User already in project' if user&.in_project?(project)
   end
 end

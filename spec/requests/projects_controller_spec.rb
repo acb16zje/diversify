@@ -283,4 +283,54 @@ describe ProjectsController, type: :request do
       it_behaves_like 'returns 404 Not Found'
     end
   end
+
+  describe 'POST #count' do
+    subject(:request) {
+      post count_project_path(project), params: params
+    }
+
+    let(:project) { create(:project, user: user) }
+
+    %w[task team application].each do |type|
+      context "when valid query for #{type}" do
+        let(:params) { { type: type } }
+
+        it_behaves_like 'accessible to authenticated users'
+        it_behaves_like 'not accessible to unauthenticated users'
+      end
+    end
+
+    context 'when invalid type ' do
+      let(:params) { { type: 'bla' } }
+
+      before { sign_in user }
+
+      it_behaves_like 'returns 400 Bad Request'
+    end
+  end
+
+  describe 'POST #data' do
+    subject(:request) {
+      post data_project_path(project), params: params
+    }
+
+    let(:project) { create(:project, user: user) }
+
+    %w[Invite Application].each do |type|
+      context "when valid query for #{type}" do
+        let(:params) { { types: type } }
+
+        it_behaves_like 'accessible to authenticated users'
+        it_behaves_like 'not accessible to unauthenticated users'
+      end
+    end
+
+    context 'when invalid type ' do
+      let(:params) { { type: 'bla' } }
+
+      before { sign_in user }
+
+      it_behaves_like 'returns 400 Bad Request'
+    end
+  end
 end

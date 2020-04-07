@@ -48,7 +48,28 @@ describe Invite, type: :model do
         invite.save
       end
 
-      it { expect(invite.errors.full_messages).to include('Owner cannot be added to project') }
+      it {
+        expect(invite.errors.full_messages).to include(
+          'Owner cannot be added to project'
+        )
+      }
+    end
+
+    context 'when validate user is in project' do
+      let(:project) { create(:project) }
+
+      before do
+        invite.project = project
+        invite.project.teams.first.users << invite.user
+        invite.save
+
+      end
+
+      it {
+        expect(invite.errors.full_messages).to include(
+          'User already in project'
+        )
+      }
     end
   end
 end

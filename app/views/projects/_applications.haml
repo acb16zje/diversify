@@ -9,7 +9,6 @@
           = button_to 'Close Application', change_status_project_path(@project), remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
           %h1.title.is-5
             Applications
-
         - elsif @project.status == 'Active'
           %h1.title.is-2
             Open Application
@@ -17,7 +16,7 @@
           = button_to 'Open Applications', change_status_project_path(@project), remote: true, params: { status: 'open' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
     - if @project.visibility && @project.status == 'Open'
       .box
-        %application-table{ 'original-data': @applications.to_json, 'project-id': @project.id }
+        %application-table{ 'project-id': @project.id }
     .content
       %h1.title.is-2
         Invite User
@@ -25,4 +24,4 @@
     %h1.title.is-5
       Invites
     .box
-      %invite-table{ 'original-data': @invites.to_json, 'project-id': @project.id }
+      %invite-table{ 'project-id': @project.id }

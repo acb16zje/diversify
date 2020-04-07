@@ -37,28 +37,38 @@
             - elsif current_user != @project.user && @project.applicable?
               = button_to 'Join', invites_path(user_id: current_user.email, project_id: @project.id, types: 'Application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
 %section
-  %b-tabs{ 'type': 'is-boxed', 'expanded': '', 'destroy-on-hide': '' }
-    %b-tab-item{ 'active': '' }
-      %template{ 'slot': 'header' }
-        %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
-        Tasks
-        %b-tag{ 'rounded': '' }= @project.tasks.size
-    //need to add show if joined team
-    %b-tab-item
-      %template{ 'slot': 'header' }
-        %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
-        Your Team
-        %b-tag{ 'rounded': '' } 0
+  %b-tabs{ 'destroy-on-hide': '', 'type': 'is-boxed', 'expanded': '', 'v-model': 'selected', '@change': "getId(#{@project.id})" }
     %b-tab-item
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
         Members
+      = render partial: 'members'
+    - if user_signed_in? && current_user.in_project?(@project)
+      %b-tab-item
+        %template{ 'slot': 'header' }
+          %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
+          Tasks
+          - if @project.tasks.size.positive?
+            %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
+              %p= @project.tasks.size
+          %b-tag{ 'v-if': 'taskCount > 0', 'rounded': '' }
+            {{ taskCount }}
+      %b-tab-item
+        %template{ 'slot': 'header' }
+          %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
+          Your Team
+          -# %b-tag{ 'rounded': '' }
+          -#   {{ teamCount }}
     - if user_signed_in? && (@project.user == current_user || current_user.admin?)
       %b-tab-item
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'mdi:application-import', 'data-inline': 'false' }
           Applications
-          %b-tag{ 'rounded': '' } 0
+          - if @project.invites.size.positive?
+            %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
+              %p= @project.invites.size
+          %b-tag{ 'rounded': '', 'v-if': 'applicationCount > 0' }
+            %p {{ applicationCount }}
         = render partial: 'applications'
       %b-tab-item{ 'label': 'Settings' }
         %template{ 'slot': 'header' }

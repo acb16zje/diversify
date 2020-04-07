@@ -113,6 +113,8 @@ Rails.application.routes.draw do
     end
     member do
       post 'change_status'
+      post 'count'
+      post 'data'
     end
   end
 
@@ -122,6 +124,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :teams
 
   # authenticated :user do
   #   root to: , as: :authenticated_root

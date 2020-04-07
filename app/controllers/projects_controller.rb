@@ -8,7 +8,7 @@ class ProjectsController < ApplicationController
   before_action :set_category, only: %i[index self]
   skip_before_action :authenticate_user!, only: %i[index show query]
 
-  layout 'user'
+  layout 'project'
 
   # GET /projects
   def index; end
@@ -24,10 +24,7 @@ class ProjectsController < ApplicationController
   end
 
   # GET /projects/1
-  def show
-    @invites = User.relevant_invite('Invite', @project)
-    @applications = User.relevant_invite('Application', @project)
-  end
+  def show; end
 
   def self
     @owned_projects = Project.where(user: current_user)
@@ -63,6 +60,30 @@ class ProjectsController < ApplicationController
     message = prepare_message
     @project.status = params[:status]
     @project.save ? project_success(message) : project_fail(nil)
+  end
+
+  def count
+    return head :bad_request unless
+    params.key?(:type) && %w[task team application].include?(params[:type])
+
+    count = case params[:type]
+    when 'task'
+      @project.tasks.size
+    when 'team'
+      0
+    when 'application'
+      @project.invites.size
+    end
+
+    render json: { count: count }, status: :ok
+  end
+
+  def data
+    return head :bad_request unless
+    params.key?(:types) && %w[Invite Application].include?(params[:types])
+
+    render json: { data: User.relevant_invite(params[:types], @project) },
+           status: :ok
   end
 
   private

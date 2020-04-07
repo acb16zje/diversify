@@ -39,10 +39,6 @@ import { dangerToast, successToast } from '../buefy/toast';
 
 export default {
   props: {
-    originalData: {
-      type: String,
-      required: true,
-    },
     projectId: {
       type: String,
       required: true,
@@ -50,10 +46,28 @@ export default {
   },
   data() {
     return {
-      data: JSON.parse(this.originalData),
+      data: [],
+      isLoading: false,
     };
   },
+  created() {
+    this.getData();
+  },
   methods: {
+    getData() {
+      this.isLoading = true;
+      Rails.ajax({
+        url: `/projects/${this.projectId}/data`,
+        type: 'POST',
+        data: new URLSearchParams({
+          types: 'Application',
+        }),
+        success: (data) => {
+          this.data = data.data;
+          this.isLoading = false;
+        },
+      });
+    },
     decline(row) {
       Rails.ajax({
         url: `/invites/${row.invite_id}`,

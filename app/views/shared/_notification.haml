@@ -1,4 +1,4 @@
-%div{ class: "notification_#{notification.id}" }``  = notification.parameters.default
+%div{ class: "notification_#{notification.id}" }
   - if notification.notifiable.blank?
     - if notification.notifier.present?
       = link_to notification.notifier do

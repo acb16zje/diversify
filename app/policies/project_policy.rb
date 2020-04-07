@@ -18,4 +18,12 @@ class ProjectPolicy < ApplicationPolicy
   def manage?
     record.user_id == user&.id || user&.admin?
   end
+
+  def count?
+    user.in_project?(record) || user.admin?
+  end
+
+  def data?
+    user == record.user || user.admin?
+  end
 end
