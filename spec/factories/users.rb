@@ -34,20 +34,20 @@ FactoryBot.define do
     email { generate(:email) }
     password { '12345678' }
     name { generate(:name) }
-  end
 
-  trait :newsletter do
-    after(:create) do |user|
-      create(:newsletter_subscription, email: user.email)
+    trait :newsletter do
+      after(:create) do |user|
+        create(:newsletter_subscription, email: user.email)
+      end
     end
-  end
 
-  trait :with_personality do
-    personality
-  end
+    trait :with_personality do
+      personality
+    end
 
-  trait :with_avatar do
-    avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
+    trait :with_avatar do
+      avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
+    end
   end
 
   factory :omniauth_user, parent: :user do

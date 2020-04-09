@@ -97,12 +97,11 @@ describe NewslettersController, type: :request do
     end
 
     context 'with XHR request as admin' do
-      before do
-        sign_in admin
-        get newsletter_path(newsletter), xhr: true
-      end
+      subject(:request) { get newsletter_path(newsletter), xhr: true }
 
-      it { expect(response.content_type).to include('application/json') }
+      before { sign_in admin }
+
+      it_behaves_like 'returns JSON response'
     end
   end
 

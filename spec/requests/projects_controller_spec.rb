@@ -4,29 +4,42 @@ require 'rails_helper'
 
 describe ProjectsController, type: :request do
   let(:user) { create(:user) }
+  let(:project) { create(:project) }
 
   describe 'authorisations' do
-    let(:project) { create(:project) }
-
     before { sign_in user }
 
-    describe 'has authorized scope' do
+    describe 'authorized_scope :own' do
+      subject(:request) { get projects_path, params: { personal: true } }
 
-      subject(:request) do
-        post query_projects_path, params: {
-          page: 1,
-          name: 'test',
-          category: 'test',
-          status: 'active',
-          sort: 'name_asc',
-          type: 'projects'
-        }
-      end
-
-      it do
+      it {
         expect { request }
-          .to have_authorized_scope(:active_record_relation).with(ProjectPolicy)
-      end
+          .to have_authorized_scope(:active_record_relation)
+          .as(:own)
+          .with(ProjectPolicy)
+      }
+    end
+
+    describe 'authorized_scope :joined' do
+      subject(:request) { get projects_path }
+
+      it {
+        expect { request }
+          .to have_authorized_scope(:active_record_relation)
+          .as(:joined)
+          .with(ProjectPolicy)
+      }
+    end
+
+    describe 'authorized_scope :explore' do
+      subject(:request) { get explore_projects_path }
+
+      it {
+        expect { request }
+          .to have_authorized_scope(:active_record_relation)
+          .as(:explore)
+          .with(ProjectPolicy)
+      }
     end
 
     describe '#show' do
@@ -52,45 +65,35 @@ describe ProjectsController, type: :request do
     subject(:request) { get projects_path }
 
     it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'not accessible to unauthenticated users'
+  end
+
+  describe 'GET #explore' do
+    subject(:request) { get explore_projects_path }
+
+    it_behaves_like 'accessible to authenticated users'
     it_behaves_like 'accessible to unauthenticated users'
   end
 
-  describe 'POST #query' do
-    subject(:request) { post query_projects_path, params: params }
-
-    let(:project) { create(:project) }
-
-    %w[name_asc name_desc date_asc date_desc].each do |sort|
-      context "with valid input, sort method: #{sort}" do
-        let(:params) do
-          {
-            page: 1,
-            name: project.name,
-            category: project.category.id,
-            status: 'active',
-            sort: sort,
-            type: 'projects'
-          }
-        end
-
-        it_behaves_like 'accessible to authenticated users'
-        it_behaves_like 'accessible to unauthenticated users'
-      end
+  describe 'GET #index JSON' do
+    subject(:request) do
+      get projects_path, xhr: true,
+                         headers: { accept: 'application/json' },
+                         params: params
     end
 
-    context 'with invalid input' do
-      let(:params) do
-        {
-          page: 'bla',
-          name: '',
-          category: 'test',
-          status: 'active',
-          sort: 'name_asc',
-          type: 'bla'
-        }
-      end
+    before { sign_in user }
 
-      it_behaves_like 'returns 400 Bad Request'
+    context 'with valid params' do
+      let(:params) { { name: 'valid', status: 'open' } }
+
+      it_behaves_like 'returns JSON response'
+    end
+
+    context 'with invalid page' do
+      let(:params) { { page: -1 } }
+
+      it_behaves_like 'returns 404 Not Found'
     end
   end
 
@@ -134,13 +137,6 @@ describe ProjectsController, type: :request do
     end
   end
 
-  describe 'GET #self' do
-    subject(:request) { get self_projects_path }
-
-    it_behaves_like 'accessible to authenticated users'
-    it_behaves_like 'not accessible to unauthenticated users'
-  end
-
   describe 'GET #new' do
     subject(:request) { get new_project_path }
 
@@ -155,8 +151,11 @@ describe ProjectsController, type: :request do
 
     context 'with valid inputs' do
       let(:params) do
-        { project: { name: 'Test', description: 'Test',
-                     category_id: category.id } }
+        {
+          project: {
+            name: 'Test', description: 'Test', category_id: category.id
+          }
+        }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -165,8 +164,9 @@ describe ProjectsController, type: :request do
 
     context 'with invalid inputs' do
       let(:params) do
-        { project: { name: 'Test', description: 'Test',
-                     category_id: 'a' } }
+        {
+          project: { name: 'Test', description: 'Test', category_id: 'a' }
+        }
       end
 
       before { sign_in user }
@@ -176,8 +176,12 @@ describe ProjectsController, type: :request do
 
     context 'when set visibility with valid license' do
       let(:params) do
-        { project: { name: 'Test', description: 'Test',
-                     visibility: 'false', category_id: category.id } }
+        {
+          project: {
+            name: 'Test', description: 'Test', visibility: false,
+            category_id: category.id
+          }
+        }
       end
 
       before { user.license.plan = 'pro' }
@@ -194,11 +198,12 @@ describe ProjectsController, type: :request do
 
     context 'with valid inputs' do
       let(:params) do
-        { project: {
-          name: 'Test', description: 'Test',
-          category_id: category.id,
-          avatar: fixture_file_upload('spec/fixtures/squirtle.png')
-        } }
+        {
+          project: {
+            name: 'Test', description: 'Test', category_id: category.id,
+            avatar: fixture_file_upload('spec/fixtures/squirtle.png')
+          }
+        }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -207,11 +212,12 @@ describe ProjectsController, type: :request do
 
     context 'with invalid inputs' do
       let(:params) do
-        { project: {
-          name: 'Test', description: 'Test',
-          category_id: 'a',
-          avatar: fixture_file_upload('spec/fixtures/squirtle.png')
-        } }
+        {
+          project: {
+            name: 'Test', description: 'Test', category_id: 'a',
+            avatar: fixture_file_upload('spec/fixtures/squirtle.png')
+          }
+        }
       end
 
       before { sign_in user }
@@ -221,8 +227,12 @@ describe ProjectsController, type: :request do
 
     context 'when set visibility with valid license' do
       let(:params) do
-        { project: { name: 'Test', description: 'Test',
-                     visibility: 'false', category_id: category.id } }
+        {
+          project: {
+            name: 'Test', description: 'Test', visibility: 'false',
+            category_id: category.id
+          }
+        }
       end
 
       before { user.license.plan = 'pro' }
@@ -233,8 +243,11 @@ describe ProjectsController, type: :request do
     context 'when not owner of project' do
       let(:user2) { create(:user) }
       let(:params) do
-        { project: { name: 'Test', description: 'Test',
-                     category_id: category.id } }
+        {
+          project: {
+            name: 'Test', description: 'Test', category_id: category.id
+          }
+        }
       end
 
       before { sign_in user2 }
@@ -244,16 +257,14 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #change_status' do
-    subject(:request) {
+    subject(:request) do
       post change_status_project_path(project), params: params
-    }
+    end
 
     %w[open completed active].each do |status|
       context 'with valid status change' do
         let(:project) { create(:project, user: user) }
-        let(:params) do
-          { status: status }
-        end
+        let(:params) { { status: status } }
 
         it_behaves_like 'accessible to authenticated users'
         it_behaves_like 'not accessible to unauthenticated users'
@@ -262,9 +273,7 @@ describe ProjectsController, type: :request do
 
     context 'with invalid status change' do
       let(:project) { create(:project, user: user, status: 'open') }
-      let(:params) do
-        { status: 'completed' }
-      end
+      let(:params) { { status: 'completed' } }
 
       before { sign_in user }
 
@@ -274,9 +283,7 @@ describe ProjectsController, type: :request do
     context 'when not project owner' do
       let(:user2) { create(:user) }
       let(:project) { create(:project, user: user, status: 'active') }
-      let(:params) do
-        { status: 'open' }
-      end
+      let(:params) { { status: 'open' } }
 
       before { sign_in user2 }
 
@@ -285,14 +292,12 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #count' do
-    subject(:request) {
-      post count_project_path(project), params: params
-    }
+    subject(:request) { post count_project_path(project), params: params }
 
     let(:project) { create(:project, user: user) }
 
     %w[task team application].each do |type|
-      context "when valid query for #{type}" do
+      context "with valid query for #{type}" do
         let(:params) { { type: type } }
 
         it_behaves_like 'accessible to authenticated users'
@@ -300,7 +305,7 @@ describe ProjectsController, type: :request do
       end
     end
 
-    context 'when invalid type ' do
+    context 'with invalid type' do
       let(:params) { { type: 'bla' } }
 
       before { sign_in user }
@@ -310,14 +315,12 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #data' do
-    subject(:request) {
-      post data_project_path(project), params: params
-    }
+    subject(:request) { post data_project_path(project), params: params }
 
     let(:project) { create(:project, user: user) }
 
     %w[Invite Application].each do |type|
-      context "when valid query for #{type}" do
+      context "with valid query for #{type}" do
         let(:params) { { types: type } }
 
         it_behaves_like 'accessible to authenticated users'
@@ -325,7 +328,7 @@ describe ProjectsController, type: :request do
       end
     end
 
-    context 'when invalid type ' do
+    context 'with invalid type' do
       let(:params) { { type: 'bla' } }
 
       before { sign_in user }

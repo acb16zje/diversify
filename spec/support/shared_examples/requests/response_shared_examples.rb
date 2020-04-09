@@ -33,6 +33,12 @@ shared_examples 'returns 422 Unprocessable Entity' do
   it { expect(response).to have_http_status(:unprocessable_entity) }
 end
 
+shared_examples 'returns JSON response' do
+  before { request }
+
+  it { expect(response.content_type).to include('application/json') }
+end
+
 shared_examples 'redirects to' do |path|
   before { request }
 

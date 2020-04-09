@@ -3,26 +3,40 @@
 require 'rails_helper'
 
 describe ProjectPolicy, type: :policy do
-  let(:user) { build_stubbed :user }
-  let(:record) { create(:project) }
+  let(:user) { build_stubbed(:user) }
+  let(:record) { build_stubbed(:project) }
 
   let(:context) { { user: user } }
 
-  describe 'relation scope' do
-
+  describe 'relation_scope(:own)' do
     subject do
-      policy.apply_scope(
-        target,
-        type: :active_record_relation).pluck(:name)
+      policy.apply_scope(target, type: :active_record_relation, name: :own)
+        .pluck(:name)
     end
 
+    let(:user) { create(:user) }
+    let(:target) { Project.where(name: %w[Test Test2]) }
+
     before do
-      create(:project, name: 'Test')
+      create(:project, name: 'Test', visibility: false, user: user)
       create(:project, name: 'Test2', visibility: false)
     end
 
-    let(:target) do
-      Project.where(name: %w[Test Test2])
+    it { is_expected.to eq(%w[Test]) }
+  end
+
+  describe 'relation_scope(:explore)' do
+    subject do
+      policy.apply_scope(target, type: :active_record_relation, name: :explore)
+        .pluck(:name)
+    end
+
+    let(:target) { Project.where(name: %w[Test Test2]) }
+
+    before do
+      # Both belongs to another user
+      create(:project, name: 'Test')
+      create(:project, name: 'Test2', visibility: false)
     end
 
     context 'when as user' do
@@ -34,7 +48,6 @@ describe ProjectPolicy, type: :policy do
 
       it { is_expected.to eq(%w[Test Test2]) }
     end
-
   end
 
   describe_rule :show? do
@@ -44,7 +57,7 @@ describe ProjectPolicy, type: :policy do
       before { record.visibility = false }
 
       succeed 'when user is owner' do
-        before {record.user = user}
+        before { record.user = user }
       end
 
       succeed 'when user is admin' do
@@ -52,6 +65,8 @@ describe ProjectPolicy, type: :policy do
       end
 
       succeed 'when user is in team' do
+        let(:record) { create(:project) }
+
         before { record.teams.find_by(name: 'Unassigned').users << user }
       end
     end
@@ -59,20 +74,22 @@ describe ProjectPolicy, type: :policy do
 
   describe_rule :manage? do
     succeed 'when user is owner' do
-      before {record.user = user}
+      before { record.user = user }
     end
 
     succeed 'when user is admin' do
       before { user.admin = true }
     end
 
-    failed 'when not owner or admin'
+    failed 'when user is not owner or admin'
   end
 
   describe_rule :count? do
-    failed 'when not user not member'
+    failed 'when not user is not member'
 
     succeed 'when user is member' do
+      let(:record) { create(:project) }
+
       before { record.teams.first.users << user }
     end
 
@@ -86,7 +103,7 @@ describe ProjectPolicy, type: :policy do
   end
 
   describe_rule :data? do
-    failed 'when user not management'
+    failed 'when user is not management'
 
     succeed 'when user is owner' do
       before { record.user = user }
