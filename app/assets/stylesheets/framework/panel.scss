@@ -1,0 +1,14 @@
+.panel {
+
+  ul li {
+    .panel-block {
+      &:first-child {
+        border-top: 0;
+      }
+    }
+
+    ul li .panel-block {
+      padding-left: 2.25rem;
+    }
+  }
+}

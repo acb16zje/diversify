@@ -3,19 +3,36 @@
 - content_for :javascript do
   = javascript_packs_with_chunks_tag 'user', defer: '', nonce: true
 
-- if controller_path.include?('settings')
+- if controller_path.include?('users/settings')
   - content_for :sidebar do
     %nav.panel
       %p.panel-heading User Settings
-      = nav_link_to 'Profile', path: settings_profile_path, class: 'panel-block'
-      = nav_link_to 'Account', path: settings_account_path, class: 'panel-block'
-      = nav_link_to 'Billing', path: settings_billing_path, class: 'panel-block'
-      = nav_link_to 'Emails', path: settings_emails_path, class: 'panel-block'
+      %ul
+        %li
+          = nav_link_to 'Profile', path: settings_profile_path, class: 'panel-block' do
+            %span.icon.mr-2
+              %span.iconify.text-lg{ 'data-icon': 'fa-regular:user-circle' }
+          %ul
+            %li
+              = nav_link_to 'Personality', path: settings_personality_path, class: 'panel-block' do
+                %span.icon.mr-2
+                  %span.iconify.text-lg{ 'data-icon': 'fa-solid:theater-masks' }
+            %li
+              = nav_link_to 'Skills', path: '#', class: 'panel-block' do
+                %span.icon.mr-2
+                  %span.iconify.text-lg{ 'data-icon': 'mdi:head-cog-outline' }
 
-    %nav.panel
-      %p.panel-heading User Profile
-      = nav_link_to 'Personality', path: settings_personality_path, class: 'panel-block'
-      = nav_link_to 'Skills', path: '#', class: 'panel-block'
+      = nav_link_to 'Account', path: settings_account_path, class: 'panel-block' do
+        %span.icon.mr-2
+          %span.iconify.text-lg{ 'data-icon': 'mdi:account-cog-outline' }
+
+      = nav_link_to 'Billing', path: settings_billing_path, class: 'panel-block'do
+        %span.icon.mr-2
+          %span.iconify.text-lg{ 'data-icon': 'bx:bx-credit-card' }
+
+      = nav_link_to 'Emails', path: settings_emails_path, class: 'panel-block' do
+        %span.icon.mr-2
+          %span.iconify.text-lg{ 'data-icon': 'ic:outline-email' }
 
 - content_for :footer do
   = render 'layouts/footer'

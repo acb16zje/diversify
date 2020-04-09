@@ -7,8 +7,8 @@
       = image_tag 'logo/logo_horizontal.svg', width: 150
   %template{ slot: 'start' }
     - if user_signed_in?
-      = nav_link_to 'Your Projects', path: self_projects_path, class: 'navbar-item'
-      = nav_link_to 'Browse Projects', path: projects_path, class: 'navbar-item'
+      = nav_link_to 'Your Projects', path: projects_path, class: 'navbar-item'#, controller: :projects, action: :index
+      = nav_link_to 'Explore Projects', path: explore_projects_path, class: 'navbar-item'
     - else
       = nav_link_to 'Pricing', path: pricing_pages_path, class: 'navbar-item'
       = nav_link_to 'About', path: about_pages_path, class: 'navbar-item'

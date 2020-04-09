@@ -1,0 +1,27 @@
+#project-list-holder
+  - if projects.blank?
+    %h4.font-semibold.text-center.py-8 No projects
+  - else
+    %ul
+      - projects.each do |project|
+        %li.project-list-item
+          .project-avatar
+            = link_to project do
+              = project_icon(project)
+          .project-details
+            .flex.flex-wrap.items-center
+              = link_to project, class: 'fullname' do
+                %span= "#{project.user_name} / "
+                %span.font-semibold= project.name
+
+              %p.visibility
+                %span.iconify{ 'data-icon': project.visibility ? 'ic:baseline-public' : 'bx:bxs-lock-alt' }
+                = project.visibility ? 'Public' : 'Private'
+
+            %p.description= project.description[0..117] + '...'
+
+            %a.tag.category.mr-2= project.category_name
+
+            %span.status
+              %span.status-colour{ class: project.status.downcase }
+              %span= project.status

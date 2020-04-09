@@ -39,8 +39,6 @@ Rails.application.routes.draw do
       get 'newsletter'
       get 'traffic'
       get 'social'
-      # Receives JSON of date and gets values for graphs
-      post 'update_graph_time'
     end
   end
 
@@ -106,11 +104,15 @@ Rails.application.routes.draw do
     end
   end
 
+  # /categories/:path
+  resources :categories, only: :index
+
+  # /projects/:path
   resources :projects do
     collection do
-      post 'query'
-      get 'self'
+      get 'explore'
     end
+
     member do
       post 'change_status'
       post 'count'
@@ -126,9 +128,9 @@ Rails.application.routes.draw do
 
   resources :teams
 
-  # authenticated :user do
-  #   root to: , as: :authenticated_root
-  # end
+  authenticated :user do
+    root to: 'projects#index', as: :authenticated_root
+  end
 
   root to: 'pages#home'
 end

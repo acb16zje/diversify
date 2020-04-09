@@ -26,6 +26,13 @@
 #
 
 class Project < ApplicationRecord
+  # To prevent ORDER BY injection
+  SORT_BY = {
+    created_asc: 'projects.created_at ASC',
+    created_desc: 'projects.created_at DESC',
+    name: 'projects.name ASC'
+  }.freeze
+
   enum status: { open: 'open', active: 'active', completed: 'completed' }
 
   belongs_to :user
@@ -36,17 +43,30 @@ class Project < ApplicationRecord
   has_many :tasks, dependent: :destroy
   has_many :invites, dependent: :destroy
 
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 100 }
   validates :status, presence: true
-
-  def status
-    super.capitalize
-  end
 
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 
+  scope :search, lambda { |params|
+    with_attached_avatar
+      .joins(:category, :user)
+      .select('projects.*')
+      .select('categories.name AS category_name')
+      .select('users.name AS user_name, users.email')
+      .where('projects.status::text ~ ?', params[:status] || '')
+      .where('categories.name ~* ?', params[:category] || '')
+      .where('projects.name ~* :query OR projects.description ~* :query',
+             query: params[:query] || '')
+      .order(SORT_BY[params[:sort]&.to_sym] || SORT_BY[:created_desc])
+  }
+
   before_commit :create_unassigned_team, on: :create
+
+  def status
+    super.capitalize
+  end
 
   def applicable?
     status == 'Open' && visibility

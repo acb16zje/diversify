@@ -15,7 +15,6 @@ $primary: #3e3cd3;
 @import "~buefy/src/scss/components/table";
 @import "~buefy/src/scss/components/tabs";
 @import "~buefy/src/scss/components/tooltip";
-/*! purgecss end ignore */
 
 @import "framework/base";
 @import "framework/button";
@@ -24,6 +23,7 @@ $primary: #3e3cd3;
 @import "framework/icon";
 @import "framework/layout";
 @import "framework/navbar";
+@import "framework/panel";
 
 // Page specific styles
 @import "pages/devise";
@@ -32,3 +32,4 @@ $primary: #3e3cd3;
 @import "pages/project";
 @import "pages/user";
 @import "pages/notification";
+/*! purgecss end ignore */

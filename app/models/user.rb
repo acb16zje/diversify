@@ -57,7 +57,10 @@ class User < ApplicationRecord
   validates :email,
             presence: true,
             uniqueness: true,
+            length: { maximum: 254 },
             format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  validates :name, length: { maximum: 255 }
 
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }

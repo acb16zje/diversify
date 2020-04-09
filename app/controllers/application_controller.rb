@@ -2,6 +2,8 @@
 
 # Default application controller
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
+
   # Ahoy gem, used in PagesController only
   skip_before_action :track_ahoy_visit
 
@@ -10,13 +12,6 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protect_from_forgery with: :exception, prepend: true
-
-  include Pagy::Backend
-
-  def configure_permitted_parameters
-    update_attrs = %i[password password_confirmation current_password]
-    devise_parameter_sanitizer.permit :account_update, keys: update_attrs
-  end
 
   def check_notification
     return unless user_signed_in?
@@ -29,15 +24,14 @@ class ApplicationController < ActionController::Base
     head :bad_request
   end
 
-  # RecordNotFound exception is raised when using *find* method
-  rescue_from ActiveRecord::RecordNotFound do
-    render_404
-  end
-
-  rescue_from ActionPolicy::Unauthorized do |_ex|
-    # Exception object contains the following information
-    # ex.policy #=> policy class, e.g. UserPolicy
-    # ex.rule #=> applied rule, e.g. :show?
+  # 1. RecordNotFound exception is raised when using *find* method
+  # 2. Exception object contains the following information
+  #    ex.policy #=> policy class, e.g. UserPolicy
+  #    ex.rule #=> applied rule, e.g. :show?
+  # 3. Pagy VariableError or OverflowError
+  rescue_from ActiveRecord::RecordNotFound,
+              ActionPolicy::Unauthorized,
+              Pagy::VariableError do
     render_404
   end
 
@@ -45,9 +39,16 @@ class ApplicationController < ActionController::Base
     render json: { message: 'Invalid Statement' }, status: :unprocessable_entity
   end
 
-  rescue_from Pagy::OverflowError, with: :redirect_to_last_page
+  def view_to_html_string(partial, locals = {})
+    render_to_string(partial, locals: locals, layout: false, formats: [:html])
+  end
 
   private
+
+  def configure_permitted_parameters
+    update_attrs = %i[password password_confirmation current_password]
+    devise_parameter_sanitizer.permit :account_update, keys: update_attrs
+  end
 
   def render_404
     respond_to do |format|
@@ -56,9 +57,5 @@ class ApplicationController < ActionController::Base
       format.js { render json: '', status: :not_found }
       format.any { head :not_found }
     end
-  end
-
-  def redirect_to_last_page(exception)
-    redirect_to url_for(page: exception.pagy.last), notice: "Page ##{params[:page]} is overflowing. Showing page #{exception.pagy.last} instead."
   end
 end

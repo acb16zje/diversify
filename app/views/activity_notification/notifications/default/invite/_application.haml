@@ -3,7 +3,8 @@
     .notification_list_cover
     .list_image
       - if notification.notifier.present?
-        = image_tag(project_avatar(notification.notifier))
+        .project-avatar
+          = project_icon(notification.notifier)
     .list_text_wrapper
       %p.list_text
         New application for

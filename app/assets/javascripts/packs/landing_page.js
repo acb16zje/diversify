@@ -40,9 +40,7 @@ new Vue({
     },
     ajaxSuccess(event) {
       const form = event.target;
-      form.outerHTML = `
-        <p class="subtitle is-5">${event.detail[0].message}</p>
-      `;
+      form.outerHTML = `<p class="subtitle is-5">${event.detail[0].message}</p>`;
     },
   },
 });

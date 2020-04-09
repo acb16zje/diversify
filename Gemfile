@@ -68,6 +68,9 @@ gem 'premailer-rails'
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
+
+  # Generate fake data
+  gem 'faker'
 end
 
 group :development do

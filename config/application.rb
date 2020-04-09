@@ -28,6 +28,7 @@ module Diversify
     config.exceptions_app = routes
 
     config.generators do |g|
+      g.assets false
       g.helper false
       g.fixture_replacement :factory_bot, dir: 'spec/factories'
       g.test_framework :rspec,

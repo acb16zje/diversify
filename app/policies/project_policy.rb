@@ -2,21 +2,30 @@
 
 # Class for Project policies
 class ProjectPolicy < ApplicationPolicy
-  alias_rule :update?, :change_status, to: :manage?
+  alias_rule :update?, :change_status?, to: :manage?
 
-  relation_scope do |relation|
-    next relation if user&.admin?
+  relation_scope(:own) do |scope|
+    scope.where(user: user)
+  end
 
-    relation.where(visibility: true).or(relation.where(user: user))
+  relation_scope(:joined) do |scope|
+    # TODO: joined
+    scope.where(user: user)
+  end
+
+  relation_scope(:explore) do |scope|
+    next scope if user&.admin
+
+    # TODO: joined
+    scope.where(visibility: true).or(scope.where(user: user))
   end
 
   def show?
-    record.visibility || record.user_id == user&.id || user&.admin? ||
-      user&.in_project?(record)
+    record.visibility || owner? || user&.admin? || user&.in_project?(record)
   end
 
   def manage?
-    record.user_id == user&.id || user&.admin?
+    owner? || user&.admin?
   end
 
   def count?
@@ -24,6 +33,6 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def data?
-    user == record.user || user.admin?
+    owner? || user.admin?
   end
 end

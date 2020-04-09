@@ -5,7 +5,7 @@ class CreateProjects < ActiveRecord::Migration[6.0]
     create_enum 'status_name', %w[open active completed]
 
     create_table :projects do |t|
-      t.string :name,        null: false, default: ''
+      t.string :name,        null: false, default: '', limit: 100
       t.text :description,   null: false, default: ''
       t.boolean :visibility, null: false, default: true
 

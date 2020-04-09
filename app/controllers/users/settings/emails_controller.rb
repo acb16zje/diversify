@@ -15,7 +15,7 @@ class Users::Settings::EmailsController < Users::Settings::BaseController
   def unsubscribe
     NewsletterSubscription.find_by(email: current_user.email)&.unsubscribe
 
-    flash[:toast_error] = 'Newsletter Unsubscribed'
+    flash[:toast_success] = 'Newsletter Unsubscribed'
     redirect_to settings_emails_path
   end
 end

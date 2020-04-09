@@ -9,8 +9,8 @@
         %fieldset{ 'disabled': @project.status == 'Completed' ? 'disabled' : false }
           .columns.is-vcentered
             .column.is-3
-              %figure.image.is-128x128.is-pulled-right
-                = image_tag project_image
+              .project-avatar
+                = project_icon(@project)
             .column
               %label.label Upload new avatar
               .file.has-name

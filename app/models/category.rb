@@ -18,5 +18,5 @@ class Category < ApplicationRecord
   has_many :skills, dependent: :nullify
   has_many :projects, dependent: :nullify
 
-  validates :name, uniqueness: true
+  validates :name, presence: true, uniqueness: true
 end

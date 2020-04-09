@@ -2,11 +2,15 @@
 
 # Helper for creating navigation links
 module NavHelper
-  def nav_link_to(name = nil, options = {})
+  def nav_link_to(name = nil, options = {}, &block)
     classes = [options.delete(:class)&.split(' ')]
     classes << 'is-active' if active_nav_link?(options)
 
-    link_to name, options[:path], class: classes
+    if block_given?
+      link_to(options[:path], class: classes) { capture(&block) + name }
+    else
+      link_to name, options[:path], class: classes
+    end
   end
 
   def active_nav_link?(options = {})

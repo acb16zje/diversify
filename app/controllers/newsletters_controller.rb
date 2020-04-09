@@ -37,9 +37,7 @@ class NewslettersController < ApplicationController
 
     return unless request.xhr?
 
-    render json: {
-      html: render_to_string('newsletters/_modal.haml', layout: false)
-    }
+    render json: { html: view_to_html_string('newsletters/_modal') }
   end
 
   def subscribers
@@ -73,7 +71,7 @@ class NewslettersController < ApplicationController
   private
 
   def newsletter_authorize
-    authorize!
+    authorize! with: NewsletterPolicy
   end
 
   def newsletter_params

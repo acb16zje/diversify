@@ -7,14 +7,18 @@
     "plugin:vue/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
   "rules": {
     "no-new": "off",
     "quotes": ["error", "single", { "allowTemplateLiterals": true }],
     "max-len": "off",
-    "vue/max-attributes-per-line": "off"
+    "vue/max-attributes-per-line": "off",
+    "no-param-reassign": ["error", {
+      "props": true,
+      "ignorePropertyModificationsFor": ["state"]
+    }]
   },
   "globals": {
     "_": true

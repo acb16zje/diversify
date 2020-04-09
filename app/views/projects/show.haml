@@ -1,11 +1,12 @@
 - content_for :title, @project.name
-- project_image = project_avatar(@project)
+
 %section.hero.is-primary#projects
   .hero-body
     .container
       .columns.is-vcentered
         .column.is-narrow
-          = image_tag project_image
+          .project-avatar
+            = project_icon(@project)
         .column
           %h1.title.is-2
             = @project.name
@@ -74,5 +75,5 @@
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }
           Settings
-        = render partial: 'settings', locals: { project_image: project_image }
+        = render partial: 'settings'
 

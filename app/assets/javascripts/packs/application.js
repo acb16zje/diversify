@@ -1,4 +1,3 @@
-/* eslint no-console:0 */
 // This file is automatically compiled by Webpack, along with any other files
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
@@ -9,6 +8,7 @@
 
 import '../../stylesheets/application.scss';
 import Vue from 'vue/dist/vue.esm';
+import Vuex from 'vuex';
 import Buefy from 'buefy';
 import Icon from '../components/buefy/Icon.vue';
 import Toast from '../components/buefy/Toast.vue';
@@ -17,6 +17,7 @@ import { dangerToast, successToast } from '../components/buefy/toast';
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
 
+Vue.use(Vuex);
 Vue.use(Buefy, { defaultIconComponent: Icon });
 
 Vue.mixin({

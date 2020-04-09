@@ -1,16 +1,221 @@
-.project-description {
-  position: relative;
-  height: 3em; /* exactly three lines */
-  overflow: hidden;
+$identicon-red: #ffebee;
+$identicon-orange: #fbe9e7;
+$identicon-yellow: #FFF275;
+$identicon-teal: #e0f2f1;
+$identicon-blue: #e3f2fd;
+$identicon-indigo: #e8eaf6;
+$identicon-purple: #f3e5f5;
 
-  &:after {
-    content: "";
-    text-align: right;
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 20%;
-    height: 1.2em;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+$identicon-backgrounds: $identicon-red,
+$identicon-orange,
+$identicon-yellow,
+$identicon-teal,
+$identicon-blue,
+$identicon-indigo,
+$identicon-purple;
+
+#project {
+  section.section .container {
+    .title-holder {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #d1d5da;
+    }
+
+    ul li.is-active a {
+      font-weight: 600;
+      border-bottom-width: 2px;
+    }
+
+    .component-holder {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #d1d5da;
+
+      .tabs a {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+
+      .tab-content {
+        padding: 0;
+      }
+    }
+
+    #project-search {
+      margin-top: 0.65rem;
+
+      .dropdown-trigger button {
+        font-weight: 600;
+        background-color: #eff3f6;
+        background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+
+        i {
+          font-style: normal;
+          padding-right: 0.25rem;
+          opacity: .75;
+        }
+      }
+
+      #category.dropdown {
+        .dropdown-content {
+          max-height: 300px;
+          overflow: auto;
+        }
+      }
+
+      .dropdown-item {
+        padding-left: 2.5rem;
+
+        &.is-active {
+          background-color: whitesmoke;
+          color: black;
+          font-weight: 600;
+
+          &:hover {
+            color: #0a0a0a;
+          }
+
+          &::before {
+            content: "\2713";
+            position: absolute;
+            left: 1rem;
+          }
+        }
+      }
+    }
+
+    #search-summary {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid #d1d5da;
+
+      strong {
+        font-weight: 600;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        user-select: none;
+        color: #586069;
+
+        &:hover {
+          color: #0366d6;
+        }
+      }
+    }
+
+    #project-list-holder {
+      li.project-list-item {
+        display: flex;
+        padding: 1rem 0;
+        border-bottom: 1px solid #d1d5da;
+      }
+    }
+
+    nav.pagination {
+      margin-top: 1.25rem;
+
+      @media screen and (min-width: 769px) {
+        justify-content: center;
+
+        ul.pagination-list {
+          flex-grow: 0;
+          width: 420px;
+        }
+      }
+    }
+  }
+
+  .project-avatar {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    margin-right: 1.25rem;
+
+    a {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .identicon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      font-size: 20px;
+      color: #4f4f4f;
+
+      @for $i from 1 through length($identicon-backgrounds) {
+        &.bg#{$i} {
+          background-color: nth($identicon-backgrounds, $i);
+        }
+      }
+    }
+  }
+
+  .project-details {
+    a.fullname {
+      font-size: 1.125rem;
+      margin-right: 1rem;
+
+      &:hover {
+        color: #0366d6;
+        text-decoration: underline;
+      }
+    }
+
+    p.visibility {
+      font-size: 12px;
+      line-height: 1;
+      margin: 0.25rem 0;
+      padding: 3px 4px;
+      border: 1px solid rgba(27, 31, 35, 0.3);
+      border-radius: 2px;
+    }
+
+    p.description {
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    a.category {
+      color: #0366d6;
+      background-color: #f1f8ff;
+
+      &:hover {
+        background-color: #def;
+        text-decoration: none;
+      }
+    }
+
+    span.status {
+      font-size: 0.875rem;
+
+      .status-colour {
+        position: relative;
+        top: 1px;
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+
+        &.active {
+          background-color: #f1a027;
+        }
+
+        &.completed {
+          background-color: #178600;
+        }
+      }
+    }
   }
 }

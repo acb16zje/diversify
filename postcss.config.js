@@ -17,8 +17,11 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     'disabled',
   ],
   whitelistPatternsChildren: [
-    /modal/, /navbar/, /dropdown/, /pagination/, /level/, /trix/, /tabs/,
-    /tooltip/,
+    // action-text
+    /trix/,
+
+    // buefy
+    /modal/, /navbar/, /dropdown/, /pagination/, /level/, /tabs/, /tooltip/,
   ],
 });
 
@@ -26,7 +29,7 @@ module.exports = {
   plugins: [
     tailwindcss,
     postCssImport,
-    // purgeCss,
+    purgeCss,
     cssNano,
   ],
 };

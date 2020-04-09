@@ -1,19 +1,21 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
 import Rails from '@rails/ujs';
-import ProjectSearch from '../components/projects/ProjectSearch.vue';
+import ProjectList from '../components/projects/ProjectList.vue';
 import ApplicationTable from '../components/projects/ApplicationTable.vue';
 import InviteTable from '../components/projects/InviteTable.vue';
 import { successToast, dangerToast } from '../components/buefy/toast';
 
+import projectStore from '../components/projects/store';
 
 new Vue({
   el: '#project',
   components: {
-    ProjectSearch,
+    ProjectList,
     ApplicationTable,
     InviteTable,
   },
+  store: projectStore,
   data: {
     id: -1,
     selected: 0,
