@@ -1,6 +1,6 @@
 <template>
   <b-table
-    :data="JSON.parse(originalData)"
+    :data="JSON.parse(data)"
     :paginated="true"
     :hoverable="true"
     :per-page="10"
@@ -40,7 +40,7 @@ import Modal from './Modal.vue';
 
 export default {
   props: {
-    originalData: {
+    data: {
       type: String,
       required: true,
     },

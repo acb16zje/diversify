@@ -41,14 +41,14 @@ import { successToast } from '../buefy/toast';
 
 export default {
   props: {
-    originalData: {
+    initialData: {
       type: String,
       required: true,
     },
   },
   data() {
     return {
-      data: JSON.parse(this.originalData),
+      data: JSON.parse(this.initialData),
     };
   },
   methods: {
