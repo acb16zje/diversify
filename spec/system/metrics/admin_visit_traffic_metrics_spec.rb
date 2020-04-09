@@ -7,7 +7,7 @@ describe 'Metrics > Traffic : Overview', :js, type: :system do
 
   describe 'with Data' do
     before do
-      create(:ahoy_event, :pricing_link)
+      create(:ahoy_event, :about_link)
       sign_in admin
       visit traffic_metrics_path
     end

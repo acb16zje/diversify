@@ -12,182 +12,182 @@ describe 'New Personalities > User', :js, type: :system do
 
   describe 'personality not setted yet' do
     it 'did not make any change' do
-      expect(page).to have_content('No Personality Set')
+      expect(page).to have_no_content('Current personality')
     end
 
     it 'try to save without any changes' do
-      click_button 'Set Personality'
-      expect(page).to have_content('Bad Request')
+      click_button 'Save changes'
+      expect(page).to have_no_content('Current personality')
     end
 
     it 'try to save with lack of certain option' do
-      choose('Introvert', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('Invalid Personality')
+      choose('personality_mind_i', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_no_content('Current personality')
     end
 
   end
 
   describe 'set personalities' do
     it 'personality is ISFJ' do
-      create(:personality)
-      choose('Introvert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ISFJ')
+      create(:personality, :isfj)
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Defender')
     end
 
     it 'personality is ISTJ' do
       create(:personality, :istj)
-      choose('Introvert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ISTJ')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Logistician')
 
     end
 
     it 'personality is INFJ' do
       create(:personality, :infj)
-      choose('Introvert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('INFJ')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Advocate')
     end
 
     it 'personality is INTJ' do
       create(:personality, :intj)
-      choose('Introvert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('INTJ')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Architect')
     end
 
     it 'personality is ENFJ' do
       create(:personality, :enfj)
-      choose('Extrovert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ENFJ')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Protagonist')
     end
 
     it 'personality is ISTP' do
       create(:personality, :istp)
-      choose('Introvert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ISTP')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Virtuoso')
     end
 
     it 'personality is ESFJ' do
       create(:personality, :esfj)
-      choose('Extrovert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ESFJ')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Consul')
     end
 
     it 'personality is INFP' do
       create(:personality, :infp)
-      choose('Introvert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('INFP')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Mediator')
     end
 
     it 'personality is ESFP' do
       create(:personality, :esfp)
-      choose('Extrovert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ESFP')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Entertainer')
     end
 
     it 'personality is ENFP' do
       create(:personality, :enfp)
-      choose('Extrovert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ENFP')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Campaigner')
     end
 
     it 'personality is ESTP' do
       create(:personality, :estp)
-      choose('Extrovert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ESTP')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Entrepreneur')
     end
 
     it 'personality is ESTJ' do
       create(:personality, :estj)
-      choose('Extrovert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ESTJ')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Executive')
     end
 
     it 'personality is ENTJ' do
       create(:personality, :entj)
-      choose('Extrovert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Judging', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ENTJ')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_j', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Commander')
     end
 
     it 'personality is INTP' do
       create(:personality, :intp)
-      choose('Introvert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('INTP')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Logician')
     end
 
     it 'personality is ENTP' do
       create(:personality, :entp)
-      choose('Extrovert', allow_label_click: true)
-      choose('Intuitive', allow_label_click: true)
-      choose('Thinking', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ENTP')
+      choose('personality_mind_e', allow_label_click: true)
+      choose('personality_energy_n', allow_label_click: true)
+      choose('personality_nature_t', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Debater')
     end
 
     it 'personality is ISFP' do
       create(:personality, :isfp)
-      choose('Introvert', allow_label_click: true)
-      choose('Observant', allow_label_click: true)
-      choose('Feeling', allow_label_click: true)
-      choose('Prospecting', allow_label_click: true)
-      click_button 'Set Personality'
-      expect(page).to have_content('ISFP')
+      choose('personality_mind_i', allow_label_click: true)
+      choose('personality_energy_s', allow_label_click: true)
+      choose('personality_nature_f', allow_label_click: true)
+      choose('personality_tactic_p', allow_label_click: true)
+      click_button 'Save changes'
+      expect(page).to have_content('Adventurer')
     end
   end
 end

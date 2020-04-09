@@ -27,110 +27,110 @@ FactoryBot.define do
       nature { 'T' }
       tactic { 'J' }
     end
-  end
 
-  trait :isfp do
-    mind { 'i' }
-    energy { 's' }
-    nature { 'f' }
-    tactic { 'p' }
-  end
+    trait :isfp do
+      mind { 'I' }
+      energy { 'S' }
+      nature { 'F' }
+      tactic { 'P' }
+    end
 
-  trait :entp do
-    mind { 'e' }
-    energy { 'n' }
-    nature { 't' }
-    tactic { 'p' }
-  end
+    trait :entp do
+      mind { 'E' }
+      energy { 'N' }
+      nature { 'T' }
+      tactic { 'P' }
+    end
 
-  trait :intp do
-    mind { 'i' }
-    energy { 'n' }
-    nature { 't' }
-    tactic { 'p' }
-  end
+    trait :intp do
+      mind { 'I' }
+      energy { 'N' }
+      nature { 'T' }
+      tactic { 'P' }
+    end
 
-  trait :entj do
-    mind { 'e' }
-    energy { 'n' }
-    nature { 't' }
-    tactic { 'j' }
-  end
+    trait :entj do
+      mind { 'E' }
+      energy { 'N' }
+      nature { 'T' }
+      tactic { 'J' }
+    end
 
-  trait :estj do
-    mind { 'e' }
-    energy { 's' }
-    nature { 't' }
-    tactic { 'j' }
-  end
+    trait :estj do
+      mind { 'E' }
+      energy { 'S' }
+      nature { 'T' }
+      tactic { 'J' }
+    end
 
-  trait :estp do
-    mind { 'e' }
-    energy { 's' }
-    nature { 't' }
-    tactic { 'p' }
-  end
+    trait :estp do
+      mind { 'E' }
+      energy { 'S' }
+      nature { 'T' }
+      tactic { 'P' }
+    end
 
-  trait :enfp do
-    mind { 'e' }
-    energy { 'n' }
-    nature { 'f' }
-    tactic { 'p' }
-  end
+    trait :enfp do
+      mind { 'E' }
+      energy { 'N' }
+      nature { 'F' }
+      tactic { 'P' }
+    end
 
-  trait :esfp do
-    mind { 'e' }
-    energy { 's' }
-    nature { 'f' }
-    tactic { 'p' }
-  end
+    trait :esfp do
+      mind { 'E' }
+      energy { 'S' }
+      nature { 'F' }
+      tactic { 'P' }
+    end
 
-  trait :infp do
-    mind { 'i' }
-    energy { 'n' }
-    nature { 'f' }
-    tactic { 'p' }
-  end
+    trait :infp do
+      mind { 'I' }
+      energy { 'N' }
+      nature { 'F' }
+      tactic { 'P' }
+    end
 
-  trait :esfj do
-    mind { 'e' }
-    energy { 's' }
-    nature { 'f' }
-    tactic { 'j' }
-  end
+    trait :esfj do
+      mind { 'E' }
+      energy { 'S' }
+      nature { 'F' }
+      tactic { 'J' }
+    end
 
-  trait :istp do
-    mind { 'i' }
-    energy { 's' }
-    nature { 't' }
-    tactic { 'p' }
-  end
+    trait :istp do
+      mind { 'I' }
+      energy { 'S' }
+      nature { 'T' }
+      tactic { 'P' }
+    end
 
-  trait :enfj do
-    mind { 'e' }
-    energy { 'n' }
-    nature { 'f' }
-    tactic { 'j' }
-  end
+    trait :enfj do
+      mind { 'E' }
+      energy { 'N' }
+      nature { 'F' }
+      tactic { 'J' }
+    end
 
-  trait :intj do
-    mind { 'i' }
-    energy { 'n' }
-    nature { 't' }
-    tactic { 'j' }
-  end
+    trait :isfj do
+      mind { 'I' }
+      energy { 'S' }
+      nature { 'F' }
+      tactic { 'J' }
+    end
 
-  trait :infj do
-    mind { 'i' }
-    energy { 'n' }
-    nature { 'f' }
-    tactic { 'j' }
-  end
+    trait :infj do
+      mind { 'I' }
+      energy { 'N' }
+      nature { 'F' }
+      tactic { 'J' }
+    end
 
-  trait :istj do
-    mind { 'i' }
-    energy { 's' }
-    nature { 't' }
-    tactic { 'j' }
+    trait :istj do
+      mind { 'I' }
+      energy { 'S' }
+      nature { 'T' }
+      tactic { 'J' }
+    end
   end
 end

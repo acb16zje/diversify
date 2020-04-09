@@ -31,6 +31,10 @@ FactoryBot.define do
       name { 'Time Spent' }
     end
 
+    trait :about_link do
+      name { 'Clicked about link' }
+    end
+
     # Social share traits
     trait :social_share do
       name { 'Click Social' }
