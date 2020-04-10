@@ -24,14 +24,6 @@
         border: 1px solid #afb6bb;
         border-radius: 5px;
       }
-
-      @at-root #signup {
-        .label:after {
-          padding-left: 5px;
-          color: #cb2431;
-          content: "*";
-        }
-      }
     }
 
     #oauth-box {

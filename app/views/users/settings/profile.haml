@@ -7,8 +7,8 @@
         %h4.title.is-4 Public Avatar
         %p.subtitle.is-6 You can change your avatar here or remove the current avatar to revert to gravatar.com
       .column
-        %figure.image.is-128x128
-          = image_tag user_avatar(current_user), class: 'is-rounded', id: 'avatar'
+        %figure.image.is-128x128.user-avatar-container
+          = image_tag user_avatar(current_user), id: 'avatar'
 
         %label.label Upload new avatar
         .file.has-name.my-3

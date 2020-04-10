@@ -7,3 +7,15 @@
     font-size: 24px;
   }
 }
+
+.user-avatar-container {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid #d6d6d6;
+
+  img {
+    height: 100%;
+  }
+}

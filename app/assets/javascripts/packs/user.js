@@ -6,7 +6,6 @@ new Vue({
   el: '#user',
   data: {
     avatarFilename: 'No file attached',
-    avatarDataUrl: null,
   },
   methods: {
     profileUpdateSuccess({ detail: [response] }) {
@@ -21,7 +20,7 @@ new Vue({
       const reader = new FileReader();
 
       reader.addEventListener('load', () => {
-        this.avatarDataUrl = reader.result;
+        document.getElementById('avatar').src = reader.result;
       }, false);
 
       if (file) {

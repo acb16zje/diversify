@@ -6,11 +6,11 @@
   .content
     = form_with model: resource, url: registration_path(resource), html: { '@ajax:error': 'ajaxError' } do |f|
       .field
-        %label.label Email
+        %label.label.required Email
         .control
           = f.email_field :email, autocomplete: 'email', class: 'input', required: '', autofocus: ''
       .field
-        %label.label Password
+        %label.label.required Password
         .control
           = f.password_field :password, autocomplete: 'new-password', class: 'input', required: ''
           %em Minimum #{@minimum_password_length} characters

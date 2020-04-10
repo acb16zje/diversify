@@ -106,8 +106,9 @@ class User < ApplicationRecord
     teams&.exists?(project: project) || project&.user == self
   end
 
+  # TODO: this should be in project policy
   def can_change_visibility?
-    admin || license.plan != 'free'
+    admin || !license.free?
   end
 
   def self.relevant_invite(type, project)

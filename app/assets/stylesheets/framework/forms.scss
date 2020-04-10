@@ -4,4 +4,12 @@
 
 .label {
   font-weight: 600;
+
+  &.required {
+    &:after {
+      padding-left: 5px;
+      color: #cb2431;
+      content: "*";
+    }
+  }
 }

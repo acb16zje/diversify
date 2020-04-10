@@ -17,13 +17,13 @@ new Vue({
   },
   store: projectStore,
   data: {
+    avatarFilename: 'No file attached',
+    avatarDataUrl: null,
     id: -1,
     selected: 0,
     taskCount: -1,
     applicationCount: -1,
     teamCount: -1,
-    avatarFilename: 'No file attached',
-    avatarDataUrl: null,
   },
   watch: {
     selected(value) {
@@ -63,13 +63,6 @@ new Vue({
           }
         },
       });
-    },
-    profileUpdateSuccess({ detail: [response] }) {
-      successToast(response.message);
-
-      if (this.avatarDataUrl) {
-        document.getElementById('avatar').src = this.avatarDataUrl;
-      }
     },
     avatarChanged(event) {
       const file = event.target.files[0];

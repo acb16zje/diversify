@@ -1,47 +1,71 @@
-- content_for :title, 'Create Project'
+- content_for :title, 'Create a New Project'
 
-%section.section#projects
-  .container.box
-    %h1.title Create Project
-    = form_with model: Project.new, html: { '@ajax:error': 'ajaxError' } do |f|
-      .columns.is-vcentered
-        .column.is-3
-          %figure.image.is-128x128.container
-            = image_tag "https://via.placeholder.com/128x128/ab28f4'/FFFFFF?text=Diversify", class: 'is-rounded', id: 'avatar'
-        .column
-          %label.label Upload new avatar
-          .file.has-name
-            %label.file-label
-              = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg', class: 'file-input', '@change': 'avatarChanged'
-              %span.file-cta
-                %span.file-label
-                  Choose an image
-              %span.file-name
-                {{ avatarFilename }}
-          %p.has-text-grey Maximum file size allowed is 200KB
-      .columns.is-vcentered
-        .column.is-8
-          .field
-            %label.label Project Title
-            .control
-              = f.text_field :name, class: 'input', required: ''
-        .column
-          .field
-            %label.label Category
-            .control.is-expanded
-              .select.is-fullwidth
-                = f.collection_select :category_id, Category.all, :id, :name
-      .field
-        %label.label Project Description
-        .control
-          = f.text_area :description, class: 'textarea'
-      - if current_user.can_change_visibility?
-        .field
+%section.section
+  .container{ class: 'max-w-2xl' }
+    %h4.title.is-4 Create a new project
+    %p.subtitle.is-6 A project is where you form your teams, organise your tasks, and collaborate with others.
+
+    .box
+      = form_with model: Project.new, html: { '@ajax:error': 'ajaxError' } do |f|
+        .columns.is-vcentered
+          .column.is-narrow
+            .project-avatar.m-auto.w-24.h-24
+              %img{ ':src': 'avatarDataUrl', 'v-if': 'avatarDataUrl' }
+              .identicon.bg1{ 'v-else': '' }  ?
+          .column
+            %label.label Upload new avatar
+            .file.has-name
+              %label.file-label
+                = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg',
+                  class: 'file-input', '@change': 'avatarChanged'
+                %span.file-cta
+                  %span.file-label
+                    Choose an image
+                %span.file-name
+                  {{ avatarFilename }}
+            %p.has-text-grey Maximum file size allowed is 200KB
+
+        .field.my-4
+          %label.label.required Project Title
           .control
-            %label.checkbox
-              = f.check_box :visibility, class: 'checkbox', value: 'yes'
-              Public Project
-      .field
-        .control
-          = f.submit 'Create Project', class: 'button is-success'
-          = link_to 'Back', projects_path, class: 'button is-danger'
+            = f.text_field :name, class: 'input w-1/2', required: '', maxlength: 100
+
+        .field.my-4
+          %label.label.required Category
+          .control
+            .select
+              = f.collection_select :category_id, Category.order(:name), :id, :name
+
+        .field.my-4
+          %label.label
+            Project Description
+            %span.text-xs.text-gray-600 (optional)
+          .control
+            = f.text_area :description, class: 'textarea'
+            %p.text-sm.mt-2
+              Be concise and informative, only the first 117 characters will be shown in the project list.
+
+        - if current_user.can_change_visibility?
+          .field.mb-4
+            .control
+              %label.label.required Visibility Level
+              .field.flex.items-center
+                = f.radio_button :visibility, true, checked: true, required: true
+                = f.label :visibility_true, class: 'inline-flex items-center ml-2' do
+                  %span.iconify.text-3xl.mr-1.flex-shrink-0{ 'data-icon': 'ic:baseline-public' }
+                  %div
+                    %p.font-semibold Public
+                    %p.text-sm Anyone can see this project. You choose who can join.
+
+              .field.flex.items-center
+                = f.radio_button :visibility, false
+                = f.label :visibility_false, class: 'inline-flex items-center ml-2' do
+                  %span.iconify.text-3xl.mr-1.flex-shrink-0{ 'data-icon': 'bx:bxs-lock-alt' }
+                  %div
+                    %p.font-semibold Private
+                    %p.text-sm Project access must be granted explicitly to each user.
+
+        .field.mt-8
+          .control.flex.justify-between
+            = f.submit 'Create Project', class: 'button is-success'
+            = link_to 'Cancel', projects_path, class: 'button'
