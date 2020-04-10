@@ -21,6 +21,6 @@ class LandingFeedback < ApplicationRecord
   ].freeze
 
   validates :channel, presence: true, inclusion: { in: CHANNEL }
-  validates :interest, presence: true
+  validates :interest, inclusion: { in: [true, false] }
   validates :smiley, presence: true
 end
