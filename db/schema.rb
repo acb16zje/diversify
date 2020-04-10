@@ -192,13 +192,13 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
   end
 
   create_table "notifications", force: :cascade do |t|
+    t.datetime "opened_at"
+    t.string "key", default: ""
+    t.bigint "user_id", null: false
     t.string "notifier_type"
     t.bigint "notifier_id"
     t.string "notifiable_type"
     t.bigint "notifiable_id"
-    t.datetime "opened_at"
-    t.string "key", default: ""
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
