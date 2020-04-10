@@ -17,6 +17,13 @@
 
   /* Desktop Navbar */
   @media screen and (min-width: 1024px) {
+    .navbar-brand #dropdowns {
+      position: absolute;
+      right: 0;
+      align-self: center;
+      padding-right: 0;
+    }
+
     .navbar-start a.navbar-item {
       color: black;
       display: inline-block;
@@ -56,6 +63,10 @@
 
         &.logo {
           margin-right: auto;
+
+          img {
+            width: 135px;
+          }
         }
       }
 

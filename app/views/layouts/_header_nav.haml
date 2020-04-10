@@ -1,10 +1,43 @@
 %b-navbar#navbar{ transparent: '', 'fixed-top': '', 'spaced': '', 'wrapper-class': 'container' }
   %template{ slot: 'brand' }
-    .navbar-item.is-hidden-desktop
-      = render 'shared/user_dropdown'
+    .navbar-item#dropdowns
+      - if user_signed_in?
+        %b-dropdown.is-right{ animation: '' }
+          %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
+            %span
+              %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }
+              %b-tag{ 'rounded': '' }= @not_num
+          .dropdown-item#notification
+            - if @notifications.blank?
+              #no-notification
+                No Notifications
+            - else
+              - @notifications.each do |notification|
+                = render partial: "notifications/#{notification.key}", locals: { notification: notification }
+            %hr.dropdown-divider
+              = link_to 'View All', notifications_path
+
+        %b-dropdown.is-right{ animation: '' }
+          %button.button.user-dropdown{ slot: 'trigger' }
+            %figure.image.is-32x32.user-avatar-container.border-none
+              = image_tag user_avatar(current_user)
+            %span.icon.is-small
+              %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
+          - unless current_controller?(:notifications)
+            = link_to notifications_path, class: 'is-hidden-desktop dropdown-item' do
+              Notifications
+              .is-pulled-right
+                %b-tag{ 'rounded': '', class: ('is-primary' if @not_num.positive?) }= @not_num
+          = link_to 'Profile', user_path(current_user), class: 'dropdown-item'
+          = link_to 'Settings', settings_profile_path, class: 'dropdown-item'
+          %hr.dropdown-divider
+          = link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+      - else
+        = link_to 'Sign in', new_user_session_path, class: 'button is-primary'
 
     = link_to root_path, class: 'navbar-item logo' do
       = image_tag 'logo/logo_horizontal.svg', width: 150
+
   %template{ slot: 'start' }
     - if user_signed_in?
       = nav_link_to 'Your Projects', path: projects_path, class: 'navbar-item'#, controller: :projects, action: :index
@@ -15,8 +48,3 @@
       = nav_link_to 'Customers', path: love_pages_path, class: 'navbar-item'
       = nav_link_to 'Features', path: features_pages_path, class: 'navbar-item'
       = nav_link_to 'Newsletter', path: newsletter_pages_path, class: 'navbar-item'
-  %template{ slot: 'end' }
-    .is-hidden-touch
-      - unless current_controller?(:notifications)
-        = render 'shared/notification_dropdown'
-      = render 'shared/user_dropdown'
