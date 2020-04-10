@@ -1,0 +1,12 @@
+%div{ class: "notification_#{notification.id}" }
+  - if notification.unopened?
+    .unopened_wrapper
+      .unopened_circle
+    = link_to open_notification_path(notification) do
+      = yield :notification_content
+
+  - elsif notification.notifier.present?
+    = link_to notification.notifier do
+      = yield :notification_content
+  - else
+    = yield :notification_content

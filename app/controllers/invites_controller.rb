@@ -75,19 +75,19 @@ class InvitesController < ApplicationController
       (@invite.types == 'Application' && @invite.user != current_user)
   end
 
-  def destroy_notification
-    if decline?
-      @invite.notify :user, key: "decline.#{@invite.types.downcase}",
-                            parameters: { default: @invite.project },
-                            notifier: @invite.project
-    else
-      ActivityNotification::Notification
-        .find_by(notifiable_type: 'Invite', notifiable_id: @invite.id)&.destroy
-    end
-  end
+  # def destroy_notification
+  #   if decline?
+  #     @invite.notify :user, key: "decline.#{@invite.types.downcase}",
+  #                           parameters: { default: @invite.project },
+  #                           notifier: @invite.project
+  #   else
+  #     ActivityNotification::Notification
+  #       .find_by(notifiable_type: 'Invite', notifiable_id: @invite.id)&.destroy
+  #   end
+  # end
 
   def destroy_success
-    destroy_notification
+    # destroy_notification
     if @invite.managed?(current_user)
       render json: {}, status: :ok
     else

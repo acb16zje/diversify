@@ -1,14 +1,17 @@
 - if user_signed_in?
-  %b-dropdown#notification.is-right{ animation: '' }
-    %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
+  - @notifications = current_user.notifications.order(:created_at).limit(5)
+  %b-dropdown.is-right{ animation: '' }
+    %button.button.is-rounded{ slot: 'trigger' }
       %span
         %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }
-        %b-tag{ 'rounded': '' }= @not_num
-    .dropdown-item
+        -# %b-tag{ 'rounded': '' }= @not_num
+    .dropdown-item#notification
       - if @notifications.blank?
-        No Notifications
+        #no-notification
+          No Notifications
       - else
-        = render_notifications(@notifications, fallback: :default)
+        - @notifications.each do |notification|
+          = render partial: "notifications/#{notification.key}", locals: { notification: notification }
       %hr.dropdown-divider
-        = link_to 'View All', user_notifications_path(current_user)
+        = link_to 'View All', notifications_path
 

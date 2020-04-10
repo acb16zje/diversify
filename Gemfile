@@ -59,9 +59,6 @@ gem 'chartkick'
 gem 'geocoder'
 gem 'groupdate'
 
-# Notification
-gem 'activity_notification'
-
 # CSS styles in action mailer
 gem 'premailer-rails'
 

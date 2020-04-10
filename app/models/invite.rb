@@ -35,24 +35,24 @@ class Invite < ApplicationRecord
 
   after_commit :send_notification, on: :create
 
-  acts_as_notifiable :users,
-                     targets: lambda { |invite, key|
-                       if %w[accept.application invite.invite decline.application].include? key
-                         [invite.user]
-                       elsif %w[accept.invite invite.application decline.invite].include? key
-                         [invite.project.user]
-                       end
-                     },
-                     notifiable_path: :project_notifiable_path
+  # acts_as_notifiable :users,
+  #                    targets: lambda { |invite, key|
+  #                      if %w[accept.application invite.invite decline.application].include? key
+  #                        [invite.user]
+  #                      elsif %w[accept.invite invite.application decline.invite].include? key
+  #                        [invite.project.user]
+  #                      end
+  #                    },
+  #                    notifiable_path: :project_notifiable_path
 
   def managed?(manager)
     (manager&.admin? && user != manager) || manager == project.user
   end
 
-  def send_accept_notification
-    notify :user, key: "accept.#{types.downcase}",
-                  parameters: { default: project }, notifier: project
-  end
+  # def send_accept_notification
+  #   notify :user, key: "accept.#{types.downcase}",
+  #                 parameters: { default: project }, notifier: project
+  # end
 
   private
 
@@ -61,8 +61,11 @@ class Invite < ApplicationRecord
   end
 
   def send_notification
-    notify :user, key: "invite.#{types.downcase}",
-                  parameters: { default: project }, notifier: project
+    target = types == 'Invite' ? user : project.user
+    Notification.create(
+      user: target, notifier: project, notifiable: self,
+      key: "invite/#{types.downcase}"
+    )
   end
 
   def not_owner

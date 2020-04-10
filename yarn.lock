@@ -791,6 +791,11 @@
   resolved "https://registry.yarnpkg.com/@iconify/iconify/-/iconify-1.0.5.tgz#41a2d93780bb38d678ba12cd1f46f82323c848bb"
   integrity sha512-4rSj2wHJ7612OtXuR+gdH/73FFqXuMumK9bsvCVKxnRe0xHZqaDFVGz4Ng0RTq2lHetCz1854cMv52pQtyWwpQ==
 
+"@rails/actioncable@^6.0.2-2":
+  version "6.0.2-2"
+  resolved "https://registry.yarnpkg.com/@rails/actioncable/-/actioncable-6.0.2-2.tgz#237907f8111707950381387c273b19ac25958408"
+  integrity sha512-0sKStf8hnberH1TKup10PJ92JT2dVqf3gf+OT4lJ7DiYSBEuDcvICHxWsyML2oWTpjUhC4kLvUJ3pXL2JJrJuQ==
+
 "@rails/actiontext@^6.0.2-2":
   version "6.0.2-2"
   resolved "https://registry.yarnpkg.com/@rails/actiontext/-/actiontext-6.0.2-2.tgz#57482adbbfaab65520b5433e7e44d63b7784c739"

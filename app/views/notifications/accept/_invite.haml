@@ -1,15 +1,13 @@
 - content_for :notification_content, flush: true do
-  %div{ class: "notification_list #{ notification.opened? ? 'opened' : 'unopened' }" }
+  %div{ class: "notification_list #{ notification.unopened? ? 'unopened' : 'opened' }" }
     .notification_list_cover
     .list_image
       - if notification.notifier.present?
-        .project-avatar
-          = project_icon(notification.notifier)
+        = image_tag(user_avatar(notification.target))
     .list_text_wrapper
       %p.list_text
-        You
-        = notification.notifiable.present? ? 'are' : 'were'
-        invited to join
+        = notification.target.name
+        accepted invitation to join
         %strong= notification.notifier.present? ? notification.notifier.name : 'PROJECT NAME'
         %br/
         %span= notification.created_at.strftime('%b %d %H:%M')

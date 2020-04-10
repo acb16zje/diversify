@@ -14,7 +14,7 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
-  notify_to :users, controller: 'users/notifications'
+  # notify_to :users, controller: 'users/notifications'
 
   # /:path
   resources :pages, path: '', only: [] do
@@ -127,6 +127,13 @@ Rails.application.routes.draw do
   end
 
   resources :teams
+
+  resources :notifications, only: :index do
+    member do
+      get 'open'
+    end
+  end
+  mount ActionCable.server => '/cable'
 
   authenticated :user do
     root to: 'projects#index', as: :authenticated_root

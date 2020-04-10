@@ -36,12 +36,11 @@ class User < ApplicationRecord
 
   belongs_to :personality, optional: true
 
-  acts_as_target
-
   has_one_attached :avatar
   has_one :license, dependent: :destroy
   has_and_belongs_to_many :teams
 
+  has_many :notifications, dependent: :destroy
   has_many :identities, dependent: :destroy
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy

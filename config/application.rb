@@ -14,6 +14,7 @@ require 'action_mailer/railtie'
 require 'active_job/railtie'
 require 'action_text/engine'
 require 'rails/test_unit/railtie'
+require 'action_cable/engine'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -50,6 +51,8 @@ module Diversify
       ca_file: '/etc/ssl/certs/ca-certificates.crt',
       domain: 'team07.demo1.genesys.shefcompsci.org.uk'
     }
+
+    config.action_cable.mount_path = 'ws://localhost:3035/cable'
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0

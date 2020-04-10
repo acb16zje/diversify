@@ -132,63 +132,62 @@ describe InvitesController, type: :request do
     end
   end
 
-  describe 'POST #accept' do
-    subject(:request) { post accept_invites_path, params: params }
+  # describe 'POST #accept' do
+  #   subject(:request) { post accept_invites_path, params: params }
 
-    let(:invite) { create(:invite, user: user) }
-    let(:application) { create(:application) }
+  #   let(:invite) { create(:invite, user: user) }
+  #   let(:application) { create(:application) }
 
-    context 'when application with valid input' do
-      let(:params) do
-        { id: application.id, types: 'Application' }
-      end
+  #   context 'when application with valid input' do
+  #     let(:params) do
+  #       { id: application.id, types: 'Application' }
+  #     end
 
-      before { user.admin = true }
+  #     before { user.admin = true }
 
-      it_behaves_like 'accessible to authenticated users'
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
+  #     it_behaves_like 'accessible to authenticated users'
+  #     it_behaves_like 'not accessible to unauthenticated users'
+  #   end
 
-    context 'when invite with valid input' do
-      let(:params) do
-        { id: invite.id, types: 'Invite' }
-      end
+  #   context 'when invite with valid input' do
+  #     let(:params) do
+  #       { id: invite.id, types: 'Invite' }
+  #     end
 
-      it_behaves_like 'accessible to authenticated users'
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
+  #     it_behaves_like 'accessible to authenticated users'
+  #     it_behaves_like 'not accessible to unauthenticated users'
+  #   end
 
-    context 'with invalid input' do
-      let(:params) do
-        { id: 'a', types: '' }
-      end
+  #   context 'with invalid input' do
+  #     let(:params) do
+  #       { id: 'a', types: '' }
+  #     end
 
-      before { sign_in user }
+  #     before { sign_in user }
 
-      it_behaves_like 'returns 422 Unprocessable Entity'
-    end
+  #     it_behaves_like 'returns 422 Unprocessable Entity'
+  #   end
 
-    context 'when not application owner' do
-      let(:user2) { create(:user, email: 'notsame@email.com') }
-      let(:params) do
-        { id: application.id, types: 'Application' }
-      end
+  #   context 'when not application owner' do
+  #     let(:user2) { create(:user, email: 'notsame@email.com') }
+  #     let(:params) do
+  #       { id: application.id, types: 'Application' }
+  #     end
 
-      before { sign_in user2 }
+  #     before { sign_in user2 }
 
-      it_behaves_like 'returns 400 Bad Request'
-    end
+  #     it_behaves_like 'returns 400 Bad Request'
+  #   end
 
-    context 'when not project owner' do
-      let(:user2) { create(:user, email: 'notsame@email.com') }
-      let(:params) do
-        { id: invite.id, types: 'Invite' }
-      end
+  #   context 'when not project owner' do
+  #     let(:user2) { create(:user, email: 'notsame@email.com') }
+  #     let(:params) do
+  #       { id: invite.id, types: 'Invite' }
+  #     end
 
-      before { sign_in user2 }
+  #     before { sign_in user2 }
 
-      it_behaves_like 'returns 400 Bad Request'
-    end
-
-  end
+  #     it_behaves_like 'returns 400 Bad Request'
+  #   end
+  # end
 end
