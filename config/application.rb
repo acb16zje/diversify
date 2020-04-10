@@ -52,8 +52,6 @@ module Diversify
       domain: 'team07.demo1.genesys.shefcompsci.org.uk'
     }
 
-    config.action_cable.mount_path = 'ws://localhost:3035/cable'
-
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 

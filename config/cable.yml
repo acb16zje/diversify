@@ -6,3 +6,6 @@ test:
 
 production:
   adapter: postgresql
+
+demo:
+  adapter: postgresql
