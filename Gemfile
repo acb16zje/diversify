@@ -34,24 +34,27 @@ gem 'image_processing'
 
 # Authentication libraries
 gem 'devise'
+gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-twitter'
-gem 'omniauth-facebook'
 
 # Authorization, see https://github.com/palkan/action_policy
 gem 'action_policy'
-
-gem 'daemons'
-gem 'delayed-plugins-airbrake'
-gem 'delayed_job'
-gem 'delayed_job_active_record'
-gem 'whenever'
 
 # HAML
 gem 'hamlit'
 
 # Pagination
 gem 'pagy'
+
+# Generate fake data
+gem 'faker'
+
+gem 'daemons'
+gem 'delayed-plugins-airbrake'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+gem 'whenever'
 
 # Metrics Charts
 gem 'ahoy_matey'
@@ -65,9 +68,6 @@ gem 'premailer-rails'
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
-
-  # Generate fake data
-  gem 'faker'
 end
 
 group :development do
