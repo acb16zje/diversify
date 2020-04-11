@@ -9,11 +9,12 @@
 #  team_size  :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  project_id :bigint
+#  project_id :bigint           not null
 #
 # Indexes
 #
-#  index_teams_on_project_id  (project_id)
+#  index_teams_on_name_and_project_id  (name,project_id) UNIQUE
+#  index_teams_on_project_id           (project_id)
 #
 # Foreign Keys
 #
@@ -22,15 +23,15 @@
 
 class Team < ApplicationRecord
   belongs_to :project
-  has_and_belongs_to_many :users
 
-  validates :name, presence: true
+  # Join table
+  has_many :collaborations, dependent: :destroy
+  has_many :users, through: :collaborations
+
+  validates :name,
+            presence: true,
+            uniqueness: { scope: :project_id, message: 'already exist' }
   validates :team_size,
             presence: true,
             numericality: { greater_than_or_equal_to: 0 }
-  validates :name, uniqueness: {
-    scope: :project_id,
-    message: 'already Exist'
-  }
-
 end

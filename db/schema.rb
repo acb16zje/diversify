@@ -104,6 +104,16 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
     t.index ["name"], name: "index_categories_on_name", unique: true
   end
 
+  create_table "collaborations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["team_id"], name: "index_collaborations_on_team_id"
+    t.index ["user_id", "team_id"], name: "index_collaborations_on_user_id_and_team_id", unique: true
+    t.index ["user_id"], name: "index_collaborations_on_user_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -137,6 +147,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["project_id"], name: "index_invites_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_invites_on_user_id_and_project_id", unique: true
     t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
@@ -287,17 +298,11 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
   create_table "teams", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.integer "team_size", null: false
-    t.bigint "project_id"
+    t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name", "project_id"], name: "index_teams_on_name_and_project_id", unique: true
     t.index ["project_id"], name: "index_teams_on_project_id"
-  end
-
-  create_table "teams_users", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "team_id", null: false
-    t.index ["team_id"], name: "index_teams_users_on_team_id"
-    t.index ["user_id"], name: "index_teams_users_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -319,6 +324,8 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "collaborations", "teams"
+  add_foreign_key "collaborations", "users"
   add_foreign_key "identities", "users"
   add_foreign_key "invites", "projects"
   add_foreign_key "invites", "users"

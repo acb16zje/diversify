@@ -13,8 +13,9 @@
 #
 # Indexes
 #
-#  index_invites_on_project_id  (project_id)
-#  index_invites_on_user_id     (user_id)
+#  index_invites_on_project_id              (project_id)
+#  index_invites_on_user_id                 (user_id)
+#  index_invites_on_user_id_and_project_id  (user_id,project_id) UNIQUE
 #
 # Foreign Keys
 #
@@ -31,10 +32,10 @@ class Invite < ApplicationRecord
   validate :not_owner
   validate :in_project
 
-  validates :user_id, uniqueness: {
-    scope: :project_id,
-    message: 'has already been invited/applied'
-  }
+  validates :user_id,
+            presence: true,
+            uniqueness: { scope: :project_id,
+                          message: 'has already been invited/applied' }
 
   after_commit :send_notification, on: :create
 
@@ -51,10 +52,6 @@ class Invite < ApplicationRecord
   end
 
   private
-
-  def project_notifiable_path
-    project_path(project)
-  end
 
   def send_notification
     target = invite? ? user : project.user

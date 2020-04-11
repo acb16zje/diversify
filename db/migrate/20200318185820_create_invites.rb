@@ -9,5 +9,7 @@ class CreateInvites < ActiveRecord::Migration[6.0]
       t.references :project, foreign_key: true, null: false
       t.timestamps
     end
+
+    add_index :invites, %i[user_id project_id], unique: true
   end
 end

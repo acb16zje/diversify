@@ -2,7 +2,7 @@
   <div>
     <div class="component-holder" :class="{ 'justify-end': !hasTabs }">
       <b-tabs v-if="hasTabs" v-model="tabIndex" :animated="false" class="m-0">
-        <b-tab-item label="Owned" />
+        <b-tab-item label="Personal" />
         <b-tab-item label="Joined" />
       </b-tabs>
 

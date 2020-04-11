@@ -5,11 +5,11 @@
 # Table name: users
 #
 #  id                         :bigint           not null, primary key
-#  admin                      :boolean          default(FALSE)
+#  admin                      :boolean          default(FALSE), not null
 #  birthdate                  :date
-#  email                      :string           default(""), not null
+#  email                      :string(254)      default(""), not null
 #  encrypted_password         :string           default(""), not null
-#  name                       :string           default(""), not null
+#  name                       :string(255)      default(""), not null
 #  password_automatically_set :boolean          default(FALSE), not null
 #  remember_created_at        :datetime
 #  reset_password_sent_at     :datetime
@@ -38,13 +38,12 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_one :license, dependent: :destroy
-  has_and_belongs_to_many :teams
 
-  has_many :notifications, dependent: :destroy
   has_many :identities, dependent: :destroy
+  has_many :notifications, dependent: :destroy
+  has_many :projects, dependent: :destroy
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
-  has_many :projects, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :invites, dependent: :destroy
   has_many :reviews,
@@ -52,6 +51,10 @@ class User < ApplicationRecord
            class_name: 'Review',
            dependent: :nullify,
            inverse_of: :reviewer
+
+  # Join table
+  has_many :collaborations, dependent: :destroy
+  has_many :teams, through: :collaborations
 
   validates :email,
             presence: true,
@@ -88,7 +91,7 @@ class User < ApplicationRecord
   end
 
   def oauth_provider_connected?(provider = nil)
-    identities.where(provider: provider).present?
+    identities.exists?(provider: provider)
   end
 
   def newsletter_subscribed?
@@ -100,7 +103,7 @@ class User < ApplicationRecord
   end
 
   def in_project?(project)
-    teams&.where(project: project).any? || project&.user == self
+    teams&.exists?(project: project) || project&.user == self
   end
 
   def can_change_visibility?

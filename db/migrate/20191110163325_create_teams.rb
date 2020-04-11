@@ -6,9 +6,11 @@ class CreateTeams < ActiveRecord::Migration[6.0]
       t.string :name,       null: false, default: ''
       t.integer :team_size, null: false
 
-      t.references :project, foreign_key: true
+      t.references :project, foreign_key: true, null: false
 
       t.timestamps
     end
+
+    add_index :teams, %i[name project_id], unique: true
   end
 end
