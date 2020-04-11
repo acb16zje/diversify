@@ -10,7 +10,6 @@ import '../../stylesheets/application.scss';
 import Vue from 'vue/dist/vue.esm';
 import Vuex from 'vuex';
 import Buefy from 'buefy';
-import { createConsumer } from '@rails/actioncable';
 import Icon from '../components/buefy/Icon.vue';
 import Toast from '../components/buefy/Toast.vue';
 import { dangerToast, successToast } from '../components/buefy/toast';

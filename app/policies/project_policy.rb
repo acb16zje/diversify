@@ -9,8 +9,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   relation_scope(:joined) do |scope|
-    # TODO: joined
-    scope.where(user: user)
+    scope.where(id: user.teams.pluck(:project_id))
   end
 
   relation_scope(:explore) do |scope|

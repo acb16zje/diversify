@@ -10,7 +10,7 @@ describe ProjectsController, type: :request do
     before { sign_in user }
 
     describe 'authorized_scope :own' do
-      subject(:request) { get projects_path, params: { personal: true } }
+      subject(:request) { get projects_path }
 
       it {
         expect { request }
@@ -21,7 +21,7 @@ describe ProjectsController, type: :request do
     end
 
     describe 'authorized_scope :joined' do
-      subject(:request) { get projects_path }
+      subject(:request) { get projects_path, params: { joined: true } }
 
       it {
         expect { request }

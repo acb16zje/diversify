@@ -11,7 +11,7 @@ describe ProjectPolicy, type: :policy do
   describe 'relation_scope(:own)' do
     subject do
       policy.apply_scope(target, type: :active_record_relation, name: :own)
-        .pluck(:name)
+            .pluck(:name)
     end
 
     let(:user) { create(:user) }
@@ -25,10 +25,28 @@ describe ProjectPolicy, type: :policy do
     it { is_expected.to eq(%w[Test]) }
   end
 
+  describe 'relation_scope(:joined)' do
+    subject do
+      policy.apply_scope(target, type: :active_record_relation, name: :joined)
+            .pluck(:name)
+    end
+
+    let(:user) { create(:user) }
+    let(:target) { Project.where(name: %w[Test Test2]) }
+
+    before do
+      project = create(:project, name: 'Test', visibility: false)
+      project.teams.first.users << user
+      create(:project, name: 'Test2', visibility: false)
+    end
+
+    it { is_expected.to eq(%w[Test]) }
+  end
+
   describe 'relation_scope(:explore)' do
     subject do
       policy.apply_scope(target, type: :active_record_relation, name: :explore)
-        .pluck(:name)
+            .pluck(:name)
     end
 
     let(:target) { Project.where(name: %w[Test Test2]) }

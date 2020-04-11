@@ -215,6 +215,10 @@ $identicon-purple;
         &.completed {
           background-color: #178600;
         }
+
+        &.open {
+          background-color: #59bfff;
+        }
       }
     }
   }

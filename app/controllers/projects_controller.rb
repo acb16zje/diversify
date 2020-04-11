@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
 
   # GET /projects
   def index
-    render_projects(params[:personal].present? ? :own : :joined)
+    render_projects(params[:joined].present? ? :joined : :own)
   end
 
   def explore

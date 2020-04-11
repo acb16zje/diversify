@@ -73,7 +73,7 @@ class Project < ApplicationRecord
   end
 
   def no_member?
-    teams.size == 1 && teams.first.users.empty?
+    teams.size >= 1 && teams.first.users.empty?
   end
 
   private

@@ -12,7 +12,7 @@ export default {
   state: {
     ...defaultRequestState(),
     page: 1,
-    personal: false,
+    joined: false,
     isSearching: false,
     showSummary: false,
     projectsHTML: '',
@@ -36,7 +36,7 @@ export default {
       state.showSummary = false;
 
       Rails.ajax({
-        url: `${window.location.pathname}${state.personal ? '?personal=true' : ''}`,
+        url: `${window.location.pathname}${state.joined ? '?joined=true' : ''}`,
         type: 'GET',
         data: new URLSearchParams({
           page: state.page,
