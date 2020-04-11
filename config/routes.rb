@@ -133,7 +133,6 @@ Rails.application.routes.draw do
       get 'open'
     end
   end
-  mount ActionCable.server => '/cable'
 
   authenticated :user do
     root to: 'projects#index', as: :authenticated_root

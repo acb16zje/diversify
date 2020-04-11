@@ -15,11 +15,6 @@ import Icon from '../components/buefy/Icon.vue';
 import Toast from '../components/buefy/Toast.vue';
 import { dangerToast, successToast } from '../components/buefy/toast';
 
-export default createConsumer();
-
-const channels = require.context('.', true, /_channel\.js$/);
-channels.keys().forEach(channels);
-
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
 

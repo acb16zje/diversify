@@ -3,7 +3,6 @@
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.2",
     "@iconify/iconify": "^1.0.5",
-    "@rails/actioncable": "^6.0.2-2",
     "@rails/actiontext": "^6.0.2-2",
     "@rails/ujs": "^6.0.2-2",
     "@rails/webpacker": "^5.0.1",
