@@ -83,6 +83,7 @@ describe ProjectPolicy, type: :policy do
       end
 
       succeed 'when user is in team' do
+        let(:user) { create(:user) }
         let(:record) { create(:project) }
 
         before { record.teams.find_by(name: 'Unassigned').users << user }
@@ -106,6 +107,7 @@ describe ProjectPolicy, type: :policy do
     failed 'when not user is not member'
 
     succeed 'when user is member' do
+      let(:user) { create(:user) }
       let(:record) { create(:project) }
 
       before { record.teams.first.users << user }

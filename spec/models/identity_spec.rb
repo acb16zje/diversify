@@ -22,7 +22,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-
 require 'rails_helper'
 
 describe Identity, type: :model do

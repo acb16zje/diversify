@@ -5,11 +5,11 @@
 # Table name: users
 #
 #  id                         :bigint           not null, primary key
-#  admin                      :boolean          default(FALSE)
+#  admin                      :boolean          default(FALSE), not null
 #  birthdate                  :date
-#  email                      :string           default(""), not null
+#  email                      :string(254)      default(""), not null
 #  encrypted_password         :string           default(""), not null
-#  name                       :string           default(""), not null
+#  name                       :string(255)      default(""), not null
 #  password_automatically_set :boolean          default(FALSE), not null
 #  remember_created_at        :datetime
 #  reset_password_sent_at     :datetime
