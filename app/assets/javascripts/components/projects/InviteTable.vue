@@ -65,7 +65,7 @@ export default {
         url: `/projects/${this.projectId}/data`,
         type: 'POST',
         data: new URLSearchParams({
-          types: 'Invite',
+          types: 'invite',
         }),
         success: (data) => {
           this.isLoading = false;
@@ -80,7 +80,7 @@ export default {
         data: new URLSearchParams({
           user_id: row.id,
           project_id: this.projectId,
-          types: 'Invite',
+          types: 'invite',
         }),
         success: () => {
           successToast('Invite Canceled');
@@ -102,7 +102,7 @@ export default {
         data: new URLSearchParams({
           user_id: this.email,
           project_id: this.projectId,
-          types: 'Invite',
+          types: 'invite',
         }),
         success: (data) => {
           successToast(data.message);

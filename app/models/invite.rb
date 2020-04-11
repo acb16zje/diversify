@@ -5,7 +5,7 @@
 # Table name: invites
 #
 #  id         :bigint           not null, primary key
-#  types      :enum             default("Invite"), not null
+#  types      :enum             default("invite"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  project_id :bigint           not null
@@ -22,6 +22,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Invite < ApplicationRecord
+
+  enum types: { invite: 'invite', application: 'application' }
+
   belongs_to :project
   belongs_to :user
 
@@ -35,25 +38,15 @@ class Invite < ApplicationRecord
 
   after_commit :send_notification, on: :create
 
-  # acts_as_notifiable :users,
-  #                    targets: lambda { |invite, key|
-  #                      if %w[accept.application invite.invite decline.application].include? key
-  #                        [invite.user]
-  #                      elsif %w[accept.invite invite.application decline.invite].include? key
-  #                        [invite.project.user]
-  #                      end
-  #                    },
-  #                    notifiable_path: :project_notifiable_path
-
   def managed?(manager)
     (manager&.admin? && user != manager) || manager == project.user
   end
 
   def send_resolve_notification(resolution)
     Notification.create(
-      user: types == 'Invite' ? project.user : user,
-      notifier: project, key: "#{resolution}/#{types.downcase}",
-      notifiable: types == 'Invite' ? user : project
+      user: invite? ? project.user : user,
+      notifier: project, key: "#{resolution}/#{types}",
+      notifiable: invite? ? user : project
     )
   end
 
@@ -64,10 +57,10 @@ class Invite < ApplicationRecord
   end
 
   def send_notification
-    target = types == 'Invite' ? user : project.user
+    target = invite? ? user : project.user
     Notification.create(
       user: target, notifier: project, notifiable: self,
-      key: "invite/#{types.downcase}"
+      key: "invite/#{types}"
     )
   end
 

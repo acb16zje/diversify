@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
-  create_enum "application_type", ["Invite", "Application"]
+  create_enum "application_type", ["invite", "application"]
   create_enum "energies", ["S", "N"]
   create_enum "minds", ["I", "E"]
   create_enum "natures", ["T", "F"]
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(version: 2020_04_09_095954) do
   end
 
   create_table "invites", force: :cascade do |t|
-    t.enum "types", default: "Invite", null: false, as: "application_type"
+    t.enum "types", default: "invite", null: false, as: "application_type"
     t.bigint "user_id", null: false
     t.bigint "project_id", null: false
     t.datetime "created_at", precision: 6, null: false

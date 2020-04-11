@@ -61,7 +61,7 @@ export default {
         url: `/projects/${this.projectId}/data`,
         type: 'POST',
         data: new URLSearchParams({
-          types: 'Application',
+          types: 'application',
         }),
         success: (data) => {
           this.data = data.data;
@@ -76,7 +76,7 @@ export default {
         data: new URLSearchParams({
           user_id: row.id,
           project_id: this.projectId,
-          types: 'Application',
+          types: 'application',
         }),
         success: () => {
           successToast('Application Declined');

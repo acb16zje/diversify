@@ -319,7 +319,7 @@ describe ProjectsController, type: :request do
 
     let(:project) { create(:project, user: user) }
 
-    %w[Invite Application].each do |type|
+    %w[invite application].each do |type|
       context "with valid query for #{type}" do
         let(:params) { { types: type } }
 

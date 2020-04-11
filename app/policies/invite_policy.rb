@@ -8,7 +8,7 @@ class InvitePolicy < ApplicationPolicy
   end
 
   def accept?
-    record.managed?(user) || (record.user == user && record.types == 'Invite')
+    record.managed?(user) || (record.user == user && record.invite?)
   end
 
   def destroy?
@@ -19,13 +19,13 @@ class InvitePolicy < ApplicationPolicy
   private
 
   def valid_invite?
-    record.types == 'Invite' &&
+    record.invite? &&
       (user == record.project&.user || user.admin?) &&
       user != record.user
   end
 
   def valid_application?
-    record.types == 'Application' && record.project&.applicable? &&
+    record.application? && record.project&.applicable? &&
       user == record.user
   end
 end

@@ -7,8 +7,8 @@ class CreateNotifications < ActiveRecord::Migration[6.0]
       t.string :key, default: ''
 
       t.references :user, foreign_key: true, null: false
-      t.references :notifier, polymorphic: true
-      t.references :notifiable, polymorphic: true
+      t.references :notifier, polymorphic: true, index: true
+      t.references :notifiable, polymorphic: true, index: true
       t.timestamps
     end
   end

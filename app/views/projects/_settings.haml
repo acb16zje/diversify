@@ -3,10 +3,10 @@
     .content
       %h1.title.is-2
         Project Details
-      - if @project.status == 'Completed'
+      - if @project.completed?
         %p.has-text-grey Project is Completed and cannot be edited.
       = form_with model: @project, html: { '@ajax:error': 'ajaxError' } do |f|
-        %fieldset{ 'disabled': @project.status == 'Completed' ? 'disabled' : false }
+        %fieldset{ 'disabled': @project.completed? ? 'disabled' : false }
           .columns.is-vcentered
             .column.is-3
               .project-avatar
@@ -44,11 +44,11 @@
                 %label.checkbox
                   = f.check_box :visibility, class: 'checkbox', value: 'yes'
                   Public Project
-          - unless @project.status == 'Completed'
+          - unless @project.completed?
             .field
               .control
                 = f.submit 'Save Settings', class: 'button is-success'
-      - if @project.status == 'Completed'
+      - if @project.completed?
         %h1.title.is-2
           Unarchive Project
         %p.has-text-grey Reopens Project

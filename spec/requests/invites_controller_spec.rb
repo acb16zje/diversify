@@ -11,7 +11,7 @@ describe InvitesController, type: :request do
 
     context 'when application with valid input' do
       let(:params) do
-        { user_id: user.email, project_id: project.id, types: 'Application' }
+        { user_id: user.email, project_id: project.id, types: 'application' }
       end
 
       before do
@@ -28,7 +28,7 @@ describe InvitesController, type: :request do
       let(:owned_project) { create(:project, user: user) }
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { user_id: user2.email, project_id: owned_project.id, types: 'Invite' }
+        { user_id: user2.email, project_id: owned_project.id, types: 'invite' }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -48,7 +48,7 @@ describe InvitesController, type: :request do
     context 'when not application owner' do
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { user_id: user2.email, project_id: project.id, types: 'Application' }
+        { user_id: user2.email, project_id: project.id, types: 'application' }
       end
 
       before { sign_in user }
@@ -59,7 +59,7 @@ describe InvitesController, type: :request do
     context 'when not project owner' do
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { user_id: user2.email, project_id: project.id, types: 'Invite' }
+        { user_id: user2.email, project_id: project.id, types: 'invite' }
       end
 
       before { sign_in user }
@@ -77,7 +77,7 @@ describe InvitesController, type: :request do
     context 'when application with valid input' do
       let(:object) { application }
       let(:params) do
-        { types: 'Application' }
+        { types: 'application' }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -87,7 +87,7 @@ describe InvitesController, type: :request do
     context 'when invite with valid input' do
       let(:object) { invite }
       let(:params) do
-        { types: 'Invite' }
+        { types: 'invite' }
       end
 
       before { user.admin = true }
@@ -111,7 +111,7 @@ describe InvitesController, type: :request do
       let(:object) { application }
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { types: 'Application' }
+        { types: 'application' }
       end
 
       before { sign_in user2 }
@@ -123,7 +123,7 @@ describe InvitesController, type: :request do
       let(:object) { invite }
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { types: 'Invite' }
+        { types: 'invite' }
       end
 
       before { sign_in user2 }
@@ -140,7 +140,7 @@ describe InvitesController, type: :request do
 
     context 'when application with valid input' do
       let(:params) do
-        { id: application.id, types: 'Application' }
+        { id: application.id, types: 'application' }
       end
 
       before { user.admin = true }
@@ -151,7 +151,7 @@ describe InvitesController, type: :request do
 
     context 'when invite with valid input' do
       let(:params) do
-        { id: invite.id, types: 'Invite' }
+        { id: invite.id, types: 'invite' }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -171,7 +171,7 @@ describe InvitesController, type: :request do
     context 'when not application owner' do
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { id: application.id, types: 'Application' }
+        { id: application.id, types: 'application' }
       end
 
       before { sign_in user2 }
@@ -182,7 +182,7 @@ describe InvitesController, type: :request do
     context 'when not project owner' do
       let(:user2) { create(:user, email: 'notsame@email.com') }
       let(:params) do
-        { id: invite.id, types: 'Invite' }
+        { id: invite.id, types: 'invite' }
       end
 
       before { sign_in user2 }

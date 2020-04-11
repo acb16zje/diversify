@@ -67,7 +67,7 @@ class ProjectsController < ApplicationController
 
   def data
     return head :bad_request unless
-    params.key?(:types) && %w[Invite Application].include?(params[:types])
+    params.key?(:types) && %w[invite application].include?(params[:types])
 
     render json: { data: User.relevant_invite(params[:types], @project) },
            status: :ok
@@ -117,8 +117,8 @@ class ProjectsController < ApplicationController
     case params[:status]
     when 'completed' then 'Project Archived'
     when 'active'
-      @project.invites.where(types: 'Application').destroy_all
-      @project.status == 'completed' ? 'Project Activated' : 'Project Closed'
+      @project.invites.where(types: 'application').destroy_all
+      @project.completed? ? 'Project Activated' : 'Project Closed'
     when 'open' then 'Project Opened'
     end
   end

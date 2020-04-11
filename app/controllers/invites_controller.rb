@@ -50,7 +50,7 @@ class InvitesController < ApplicationController
   end
 
   def invite_success
-    if params[:types] == 'Invite'
+    if params[:types] == 'invite'
       render json: {
         message: 'Invite Sent', invite_id: @invite.id,
         email: @invite.user.email, id: @invite.user_id
@@ -71,8 +71,8 @@ class InvitesController < ApplicationController
   end
 
   def decline?
-    (@invite.user == current_user && @invite.types == 'Invite') ||
-      (@invite.types == 'Application' && @invite.user != current_user)
+    (@invite.user == current_user && @invite.invite?) ||
+      (@invite.application? && @invite.user != current_user)
   end
 
   def destroy_notification

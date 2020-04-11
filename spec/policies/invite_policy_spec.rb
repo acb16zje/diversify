@@ -15,7 +15,7 @@ describe InvitePolicy, type: :policy do
 
     succeed 'when record is valid aplication' do
       before do
-        record.types = 'Application'
+        record.types = 'application'
         record.project.status = 'open'
         record.user = user
       end
@@ -35,7 +35,7 @@ describe InvitePolicy, type: :policy do
       before do
         record.user = build_stubbed :user
         record.project.user = user
-        record.types = 'Application'
+        record.types = 'application'
       end
     end
 
