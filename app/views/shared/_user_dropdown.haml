@@ -5,8 +5,8 @@
         = image_tag user_avatar(current_user), class: 'is-rounded'
       %span.icon.is-small
         %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
-    -# - unless current_controller?(:notifications)
-    -#   = link_to user_notifications_path(current_user), class: 'is-hidden-desktop dropdown-item' do
+    - unless current_controller?(:notifications)
+      = link_to notifications_path, class: 'is-hidden-desktop dropdown-item' do
         Notifications
         .is-pulled-right
           %b-tag{ 'rounded': '', class: ('is-primary' if @not_num.positive?) }= @not_num

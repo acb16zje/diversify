@@ -9,8 +9,16 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :retrieve_notification
 
   protect_from_forgery with: :exception, prepend: true
+
+  def retrieve_notification
+    return if request.xhr? || !user_signed_in?
+
+    @notifications = current_user.notifications.limit(5)
+    @not_num = current_user.notifications.where(opened_at: nil).size
+  end
 
   rescue_from ActionController::ParameterMissing do
     head :bad_request

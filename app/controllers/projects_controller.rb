@@ -57,13 +57,10 @@ class ProjectsController < ApplicationController
     params.key?(:type) && %w[task team application].include?(params[:type])
 
     count = case params[:type]
-    when 'task'
-      @project.tasks.size
-    when 'team'
-      0
-    when 'application'
-      @project.invites.size
-    end
+            when 'task' then @project.tasks.size
+            when 'team' then 0
+            when 'application' then @project.invites.size
+            end
 
     render json: { count: count }, status: :ok
   end

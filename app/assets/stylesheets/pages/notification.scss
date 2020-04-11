@@ -76,7 +76,7 @@
 		z-index: 1;
 	}
 	.list_image {
-		float: left;
+	  float: left;
 		width: 40px;
 		height: 40px;
 		background-position: center;
@@ -132,5 +132,35 @@
 #notification {
 	.dropdown-item {
 		min-width: 20rem;
+	}
+}
+
+.project-avatar {
+	flex-shrink: 0;
+	width: 48px;
+	height: 48px;
+	margin-right: 1.25rem;
+
+	a {
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+
+	.identicon {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+		border-radius: 8px;
+		font-size: 20px;
+		color: #4f4f4f;
+
+		@for $i from 1 through length($identicon-backgrounds) {
+			&.bg#{$i} {
+				background-color: nth($identicon-backgrounds, $i);
+			}
+		}
 	}
 }

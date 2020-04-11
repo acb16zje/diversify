@@ -5,6 +5,6 @@ class NotificationPolicy < ApplicationPolicy
   default_rule :manage?
 
   def manage?
-    record.target_id == user&.id
+    record.user_id == user&.id
   end
 end

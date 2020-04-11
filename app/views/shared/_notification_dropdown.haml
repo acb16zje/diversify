@@ -1,10 +1,9 @@
 - if user_signed_in?
-  - @notifications = current_user.notifications.order(:created_at).limit(5)
   %b-dropdown.is-right{ animation: '' }
-    %button.button.is-rounded{ slot: 'trigger' }
+    %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
       %span
         %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }
-        -# %b-tag{ 'rounded': '' }= @not_num
+        %b-tag{ 'rounded': '' }= @not_num
     .dropdown-item#notification
       - if @notifications.blank?
         #no-notification

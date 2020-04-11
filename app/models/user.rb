@@ -113,6 +113,10 @@ class User < ApplicationRecord
         .where(invites: { types: type, project: project })
   end
 
+  def notifications
+    super.order(created_at: :desc)
+  end
+
   private
 
   def create_license

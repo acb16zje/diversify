@@ -5,6 +5,8 @@
       :paginated="true"
       :hoverable="true"
       :per-page="10"
+      :mobile-cards="true"
+      :loading="isLoading"
     >
       <template v-slot="props">
         <b-table-column field="email" label="Email" sortable searchable>
@@ -25,7 +27,7 @@
       </template>
     </b-table>
     <b-field>
-      <b-input v-model="email" placeholder="Email" />
+      <b-input v-model="email" placeholder="Email" @keyup.native.enter="invite"/>
       <p class="control">
         <b-button class="button is-primary" @click="invite">
           Invite

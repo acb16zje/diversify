@@ -1,5 +1,5 @@
 - content_for :notification_content, flush: true do
-  %div{:class => "notification_list #{notification.opened? ? "opened" : "unopened"}"}
+  %div{:class => "notification_list #{notification.unopened? ? "unopened" : "opened"}"}
     .notification_list_cover
     .list_image
     .list_text_wrapper

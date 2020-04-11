@@ -2,6 +2,9 @@
 
 # Base helper module
 module ApplicationHelper
+  
+  include Pagy::Frontend
+
   def current_path?(path)
     request.path == path
   end

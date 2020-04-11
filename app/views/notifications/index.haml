@@ -6,13 +6,13 @@
       .notification_header
         %h1.title.is-1
           Notifications
-      -#   %p.has-text-grey
-      -#     You have
-      -#     = @target.unopened_notification_count(@index_options)
-      -#     New Notifications
-      -#   - if @target.has_unopened_notifications?(@index_options)
-      -#     = link_to open_all_notifications_path_for(@target, @index_options.slice(:routing_scope, :devise_default_routes)), method: :post, remote: true, class: 'button is-primary' do
-      -#       Open All Notifications
+        %p.has-text-grey
+          You have
+          = @not_num
+          New Notifications
+        - if @not_num.positive?
+          = link_to open_all_notifications_path, method: :post, remote: true, class: 'button is-primary' do
+            Open All Notifications
       .container
         #notification
           - if @records.blank?

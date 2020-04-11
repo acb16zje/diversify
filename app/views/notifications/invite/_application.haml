@@ -1,5 +1,5 @@
 - content_for :notification_content, flush: true do
-  %div{ class: "notification_list #{ notification.opened? ? 'opened' : 'unopened' }" }
+  %div{ class: "notification_list #{ notification.unopened? ? 'unopened' : 'opened' }" }
     .notification_list_cover
     .list_image
       - if notification.notifier.present?
@@ -12,4 +12,4 @@
         %br/
         %span= notification.created_at.strftime('%b %d %H:%M')
 
--# = render partial: 'shared/notification', locals: { notification: notification, parameters: parameters }
+= render partial: 'notifications/notification', locals: { notification: notification }

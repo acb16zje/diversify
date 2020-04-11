@@ -6,6 +6,7 @@
       :hoverable="true"
       :per-page="10"
       :mobile-cards="true"
+      :loading="isLoading"
     >
       <template v-slot="props">
         <b-table-column field="email" label="Email" sortable searchable>

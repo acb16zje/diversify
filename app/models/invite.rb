@@ -49,10 +49,13 @@ class Invite < ApplicationRecord
     (manager&.admin? && user != manager) || manager == project.user
   end
 
-  # def send_accept_notification
-  #   notify :user, key: "accept.#{types.downcase}",
-  #                 parameters: { default: project }, notifier: project
-  # end
+  def send_resolve_notification(resolution)
+    Notification.create(
+      user: types == 'Invite' ? project.user : user,
+      notifier: project, key: "#{resolution}/#{types.downcase}",
+      notifiable: types == 'Invite' ? user : project
+    )
+  end
 
   private
 

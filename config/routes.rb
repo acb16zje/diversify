@@ -132,6 +132,9 @@ Rails.application.routes.draw do
     member do
       get 'open'
     end
+    collection do
+      post 'open_all'
+    end
   end
 
   authenticated :user do
