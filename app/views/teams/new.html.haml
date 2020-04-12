@@ -1,5 +1,19 @@
-%h1 New team
+- content_for :title, 'Create Team'
 
-= render 'form'
-
-= link_to 'Back', teams_path
+%section.section#teams
+  .container.box
+    %h1.title Create Team
+    = form_with model: Team.new, html: { '@ajax:error': 'ajaxError' } do |f|
+      = f.hidden_field :project_id, value: @project.id
+      .field
+        %label.label Team Name
+        .control
+          = f.text_field :name, class: 'input', required: ''
+      .field
+        %label.label Max Team Size
+        .control
+          = f.number_field :team_size, class: 'input'
+      .field
+        .control
+          = f.submit 'Create Team', class: 'button is-success'
+          = link_to 'Back', project_path(@project), class: 'button is-danger'

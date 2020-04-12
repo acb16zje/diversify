@@ -102,6 +102,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_success(message)
+    @project.invites.each(&:destroy) if @project.completed?
     flash[:toast_success] = message
     render js: "window.location = '#{project_path(@project)}'"
   end

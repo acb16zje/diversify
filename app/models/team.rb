@@ -33,5 +33,5 @@ class Team < ApplicationRecord
             uniqueness: { scope: :project_id, message: 'already exist' }
   validates :team_size,
             presence: true,
-            numericality: { greater_than_or_equal_to: 0 }
+            numericality: { greater_than_or_equal_to: 1 }
 end

@@ -3,6 +3,8 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[show edit update destroy]
 
+  layout 'user'
+
   # GET /teams
   def index
     @teams = Team.all
@@ -13,7 +15,8 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
-    @team = Team.new
+    @project = Project.find(params[:project_id])
+    authorize! @project, to: :manage?
   end
 
   # GET /teams/1/edit
@@ -21,12 +24,16 @@ class TeamsController < ApplicationController
 
   # POST /teams
   def create
+    project = Project.find(params[:team][:project_id])
+    authorize! project, to: :manage?
+
     @team = Team.new(team_params)
 
     if @team.save
-      redirect_to @team, notice: 'Team was successfully created.'
+      flash[:toast_success] = 'Team was successfully created'
+      render js: "window.location = '#{project_path(project)}'"
     else
-      render :new
+      team_fail(nil)
     end
   end
 
@@ -54,6 +61,11 @@ class TeamsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def team_params
-    params.fetch(:team, {})
+    params.require(:team).permit(:team_size, :project_id, :name)
+  end
+
+  def team_fail(message)
+    message ||= @team.errors.full_messages
+    render json: { message: message }, status: :unprocessable_entity
   end
 end

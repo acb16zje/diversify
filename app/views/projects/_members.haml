@@ -13,21 +13,24 @@
                   %p Manage Teams
                   %span.icon
                     %span.iconify{ 'data-icon': 'ant-design:tool-filled' }
-                = link_to new_team_path, class: 'button is-primary' do
+                = link_to new_team_path(project_id: @project.id), class: 'button is-primary' do
                   %p New Team
                   %span.icon
                     %span.iconify{ 'data-icon': 'el:plus' }
       - if @project.no_member?
         .content
-          No Members
-      - else
-        - @project.teams.each do |team|
+          %p.has-text-grey
+            No members. Invite some to Get Started!
+      - @project.teams.each do |team|
+        .content
           .card
             %header.card-header
               %p.card-header-title
                 = team.name
             .card-content
               .content
+                - if team.users.empty?
+                  No Members
                 - team.users.each do |user|
                   %article.media
                     %figure.media-left
