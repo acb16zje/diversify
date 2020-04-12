@@ -2,7 +2,6 @@
 
 # Policy for Invites controller
 class InvitePolicy < ApplicationPolicy
-
   def create?
     record&.user.present? && (valid_invite? || valid_application?)
   end

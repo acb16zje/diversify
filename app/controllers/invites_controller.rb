@@ -25,13 +25,13 @@ class InvitesController < ApplicationController
   def accept
     return invite_fail('Invalid Request') unless allowed_to?(:accept?, @invite)
 
-    @team.users << @invite.user
-    if @team.save
+    if @team.users.include?(@invite.user)
+      invite_fail('User already in team')
+    else
+      @team.users << @invite.user
       @invite.send_resolve_notification('accept')
       @invite.destroy
       accept_success
-    else
-      invite_fail('There is a problem joining project')
     end
   end
 

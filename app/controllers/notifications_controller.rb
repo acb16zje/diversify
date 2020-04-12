@@ -14,7 +14,7 @@ class NotificationsController < ApplicationController
 
     notifications.each do |notification|
       notification.opened_at = DateTime.now
-      notification.save(validate: false)
+      notification.save
     end
 
     flash[:toast_success] = 'Opened all Notifications'
@@ -26,7 +26,7 @@ class NotificationsController < ApplicationController
 
     authorize! notification
     notification.opened_at = DateTime.now
-    notification.save(validate: false)
+    notification.save
     redirect_to notification.notifier
   end
 end

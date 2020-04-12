@@ -8,6 +8,8 @@ describe NotificationsController, type: :request do
   describe '#GET index' do
     subject(:request) { get notifications_path }
 
+    before { create(:notification, user: user, key: 'invite/invite') }
+
     it_behaves_like 'accessible to authenticated users'
     it_behaves_like 'not accessible to unauthenticated users'
   end

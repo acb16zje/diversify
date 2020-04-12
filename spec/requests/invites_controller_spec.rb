@@ -36,7 +36,7 @@ describe InvitesController, type: :request do
     end
 
     context 'with invalid input' do
-      let (:params) do
+      let(:params) do
         { user_id: user.email, project_id: project.id, types: '' }
       end
 
@@ -71,13 +71,16 @@ describe InvitesController, type: :request do
   describe 'DELETE #destroy' do
     subject(:request) { delete invite_path(object), params: params }
 
-    let(:invite) { create(:invite, user: user) }
-    let(:application) { create(:application, user: user) }
+    let(:invite) { create(:invite) }
+    let(:application) { create(:application) }
 
     context 'when application with valid input' do
       let(:object) { application }
-      let(:params) do
-        { types: 'application' }
+      let(:params) { { types: 'application' } }
+
+      before do
+        application.user = user
+        application.save
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -86,11 +89,25 @@ describe InvitesController, type: :request do
 
     context 'when invite with valid input' do
       let(:object) { invite }
-      let(:params) do
-        { types: 'invite' }
+      let(:params) { { types: 'invite' } }
+
+      before do
+        invite.user = user
+        invite.save
       end
 
-      before { user.admin = true }
+      it_behaves_like 'accessible to authenticated users'
+      it_behaves_like 'not accessible to unauthenticated users'
+    end
+
+    context 'when user is admin' do
+      let(:object) { invite }
+      let(:params) { { types: 'invite' } }
+
+      before do
+        user.admin = true
+        user.save
+      end
 
       it_behaves_like 'accessible to authenticated users'
       it_behaves_like 'not accessible to unauthenticated users'
@@ -98,9 +115,7 @@ describe InvitesController, type: :request do
 
     context 'with invalid input' do
       let(:object) { application }
-      let(:params) do
-        { id: 'a', types: '' }
-      end
+      let(:params) { { id: 'a', types: '' } }
 
       before { sign_in user }
 
@@ -110,9 +125,7 @@ describe InvitesController, type: :request do
     context 'when not application owner' do
       let(:object) { application }
       let(:user2) { create(:user, email: 'notsame@email.com') }
-      let(:params) do
-        { types: 'application' }
-      end
+      let(:params) { { types: 'application' } }
 
       before { sign_in user2 }
 
@@ -186,6 +199,19 @@ describe InvitesController, type: :request do
       end
 
       before { sign_in user2 }
+
+      it_behaves_like 'returns 400 Bad Request'
+    end
+
+    context 'when target is already in team' do
+      let(:params) { { id: invite.id, types: 'invite' } }
+
+      before do
+        team = invite.project.teams.first
+        team.users << invite.user
+        team.save
+        sign_in user
+      end
 
       it_behaves_like 'returns 400 Bad Request'
     end
