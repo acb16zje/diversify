@@ -42,6 +42,7 @@ class Project < ApplicationRecord
   has_many :teams, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :invites, dependent: :destroy
+  has_many :users, through: :teams
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :status, presence: true
@@ -72,8 +73,8 @@ class Project < ApplicationRecord
     status == 'Open' && visibility
   end
 
-  def no_member?
-    teams.size >= 1 && teams.first.users.empty?
+  def full?
+    users.size >= user.license.member_limit
   end
 
   private

@@ -21,9 +21,14 @@
 
 class License < ApplicationRecord
   enum plan: { free: 'free', pro: 'pro', ultimate: 'ultimate' }
+  MEMBER_LIMIT = { free: 10, pro: 30, ultimate: 1 / 0.0 }.freeze
 
   belongs_to :user
 
   validates :plan, presence: true
   validates :user_id, presence: true, uniqueness: true
+
+  def member_limit
+    MEMBER_LIMIT[plan.to_sym]
+  end
 end

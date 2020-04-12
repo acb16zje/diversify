@@ -44,12 +44,14 @@ class ProjectsController < ApplicationController
   end
 
   def change_status
+    new_status = params[:status]
     return project_fail('Invalid Status Change') if
-      @project.status != 'Active' && params[:status] != 'active'
+      @project.status != 'Active' && new_status != 'active'
+    return project_fail('Project is already full') if
+      @project.full? && new_status == 'open'
 
-    message = prepare_message
-    @project.status = params[:status]
-    @project.save ? project_success(message) : project_fail(nil)
+    @project.status = new_status
+    @project.save ? project_success(prepare_message) : project_fail(nil)
   end
 
   def count
@@ -74,6 +76,10 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def valid_change?
+
+  end
 
   def set_project
     @project = Project.find(params[:id])

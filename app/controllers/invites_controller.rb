@@ -9,6 +9,7 @@ class InvitesController < ApplicationController
     @invite = Invite.new(invite_params)
 
     return invite_fail('Invalid Request') unless allowed_to?(:create?, @invite)
+    return invite_fail('Project is already full') if @invite.project.full?
 
     @invite.save ? invite_success : invite_fail(nil)
   end
@@ -24,6 +25,7 @@ class InvitesController < ApplicationController
 
   def accept
     return invite_fail('Invalid Request') unless allowed_to?(:accept?, @invite)
+    return invite_fail('Project is already full') if @project.full?
 
     if @team.users.include?(@invite.user)
       invite_fail('User already in team')

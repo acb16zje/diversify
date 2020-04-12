@@ -17,10 +17,15 @@
                   %p New Team
                   %span.icon
                     %span.iconify{ 'data-icon': 'el:plus' }
-      - if @project.no_member?
-        .content
-          %p.has-text-grey
+      .content
+        %p.has-text-grey
+          - if @project.users.empty?
             No members. Invite some to Get Started!
+          - else
+            Total Members
+            = @project.users.size
+            \/
+            = @project.user.license.member_limit
       - @project.teams.each do |team|
         .content
           .card
