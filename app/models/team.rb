@@ -34,4 +34,14 @@ class Team < ApplicationRecord
   validates :team_size,
             presence: true,
             numericality: { greater_than_or_equal_to: 1 }
+
+  validate :user_limit
+
+  private
+
+  def user_limit
+    return unless team_size < users.size
+
+    errors[:base] << 'Team Size is smaller than total members'
+  end
 end

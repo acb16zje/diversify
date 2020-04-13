@@ -126,7 +126,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :teams
+  resources :teams, except: %i[index show] do
+    collection do
+      get 'manage'
+    end
+  end
 
   resources :notifications, only: :index do
     member do

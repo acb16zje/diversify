@@ -3,11 +3,16 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[show edit update destroy]
 
-  layout 'user'
+  layout 'project'
 
   # GET /teams
-  def index
-    @teams = Team.all
+  def manage
+    @project = Project.find(params[:project_id])
+    authorize! @project, to: :manage?
+    @data = User.joins(:teams).where(teams: { project: @project })
+                .select('users.*, teams.id as team_id, teams.team_size as size')
+    @data = @data.group_by(&:team_id)
+    @teams = Team.where(teams: { project: @project })
   end
 
   # GET /teams/1
