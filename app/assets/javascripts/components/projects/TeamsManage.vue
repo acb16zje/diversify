@@ -1,5 +1,19 @@
 <template>
   <div v-if="teamCount > 0">
+    <div class="buttons">
+      <b-button class="button is-success" @click="send">
+        Save
+        <span class="icon">
+          <span class="iconify" data-icon="cil:save" />
+        </span>
+      </b-button>
+      <b-button class="button is-info" @click="reset">
+        Reset
+        <span class="icon">
+          <span class="iconify" data-icon="bx:bx-reset" />
+        </span>
+      </b-button>
+    </div>
     <div v-for="team in teams" :id="team.id" :key="team.id" class="container">
       <p class="is-size-3">
         {{ team.name }}
@@ -7,7 +21,7 @@
       <div v-if="data[team.id].length===0" class="content has-text-grey has-text-centered">
         <p>No Members</p>
       </div>
-      <draggable class="columns is-multiline" :list="data[team.id]" group="people">
+      <draggable class="columns is-multiline" :list="data[team.id]" group="people" @change="log">
         <div
           v-for="element in data[team.id]"
           :key="element.id"
@@ -54,10 +68,11 @@
       No Teams
     </div>
   </div>
-
 </template>
 <script>
 import draggable from 'vuedraggable';
+import Rails from '@rails/ujs';
+import { successToast } from '../buefy/toast';
 
 export default {
   components: {
@@ -89,8 +104,28 @@ export default {
     this.teamCount = Object.keys(this.teams).length;
   },
   methods: {
-
-
+    reset() {
+      this.data = JSON.parse(this.originalData);
+    },
+    log(evt) {
+      if (Object.prototype.hasOwnProperty.call(evt, 'added')) {
+        successToast(`${evt.added.element.name} Moved`);
+      }
+    },
+    send() {
+      console.log('send');
+      Rails.ajax({
+        url: '/teams/save_manage',
+        type: 'POST',
+        data: new URLSearchParams({
+          data: JSON.stringify(this.data),
+          project_id: this.projectId,
+        }),
+        success: () => {
+          successToast('Saved!');
+        },
+      });
+    },
   },
 };
 </script>

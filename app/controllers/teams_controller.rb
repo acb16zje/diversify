@@ -15,8 +15,18 @@ class TeamsController < ApplicationController
     @teams = Team.where(teams: { project: @project })
   end
 
-  # GET /teams/1
-  def show; end
+  def save_manage
+    JSON.parse(params[:data]).each do |team|
+      selected_team_id, members = team
+      new_team = Team.find(selected_team_id.to_i)
+      members.each do |member|
+        next unless member['team_id'] != selected_team_id.to_i
+
+        change_team(member, new_team)
+      end
+    end
+    head :ok
+  end
 
   # GET /teams/new
   def new
@@ -72,5 +82,12 @@ class TeamsController < ApplicationController
   def team_fail(message)
     message ||= @team.errors.full_messages
     render json: { message: message }, status: :unprocessable_entity
+  end
+
+  def change_team(member, new_team)
+    user = User.find(member['id'])
+    old_team = Team.find(member['team_id'])
+    old_team.users.delete(user)
+    new_team.users << user
   end
 end

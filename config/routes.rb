@@ -129,6 +129,7 @@ Rails.application.routes.draw do
   resources :teams, except: %i[index show] do
     collection do
       get 'manage'
+      post 'save_manage'
     end
   end
 

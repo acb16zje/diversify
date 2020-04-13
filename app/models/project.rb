@@ -80,6 +80,7 @@ class Project < ApplicationRecord
   private
 
   def create_unassigned_team
-    teams.create(name: 'Unassigned', team_size: 999)
+    team = teams.create(name: 'Unassigned', team_size: 999)
+    team.users << user
   end
 end
