@@ -2,9 +2,9 @@
 
 ## Application configuration
 set :application,             'project'
-set :repo_url,                'git@git.shefcompsci.org.uk:com4525-2019-20/team07/project.git'
-set :linked_files,            fetch(:linked_files,  fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
-set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'uploads')
+set :repo_url,                'git@git.shefcompsci.org.uk:acb16zje/testdeploy.git'
+set :linked_files,            fetch(:linked_files, fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
+set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'storage')
 # set the locations to look for changed assets to determine whether to precompile
 set :assets_dependencies,     %w[app/assets]
 
