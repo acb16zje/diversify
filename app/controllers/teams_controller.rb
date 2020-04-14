@@ -1,18 +1,21 @@
 # frozen_string_literal: true
 
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[show edit update destroy]
+  before_action :set_team, only: %i[edit update destroy]
+  before_action :set_project
 
   layout 'project'
 
   # GET /teams
-  def manage
-    @project = Project.find(params[:project_id])
-    authorize! @project, to: :manage?
+  def manage; end
+
+  def manage_data
     @data = User.joins(:teams).where(teams: { project: @project })
-                .select('users.*, teams.id as team_id, teams.team_size as size')
-    @data = @data.group_by(&:team_id)
-    @teams = Team.where(teams: { project: @project })
+                .select('users.* , teams.id as team_id, teams.team_size as size')
+    render json: {
+      data: @data.group_by(&:team_id),
+      teams: Team.where(project: @project).select(:id, :name, :team_size)
+    }, status: :ok
   end
 
   def save_manage
@@ -30,23 +33,22 @@ class TeamsController < ApplicationController
 
   # GET /teams/new
   def new
-    @project = Project.find(params[:project_id])
-    authorize! @project, to: :manage?
+    @team = Team.new
   end
 
   # GET /teams/1/edit
-  def edit; end
+  def edit
+    authorize! @team
+  end
 
   # POST /teams
   def create
-    project = Project.find(params[:team][:project_id])
-    authorize! project, to: :manage?
-
     @team = Team.new(team_params)
+    return invite_fail('Not Found') unless allowed_to?(:manage?, @team)
 
     if @team.save
       flash[:toast_success] = 'Team was successfully created'
-      render js: "window.location = '#{project_path(project)}'"
+      render js: "window.location = '#{project_path(@team.project)}'"
     else
       team_fail(nil)
     end
@@ -54,10 +56,14 @@ class TeamsController < ApplicationController
 
   # PATCH/PUT /teams/1
   def update
+    return team_fail('Not Found') unless allowed_to?(:manage?, @team)
+
     if @team.update(team_params)
-      redirect_to @team, notice: 'Team was successfully updated.'
+      flash[:toast_success] = 'Team was successfully saved'
+      render js:
+        "window.location = '#{manage_project_teams_path(@team.project.id)}'"
     else
-      render :edit
+      team_fail(nil)
     end
   end
 
@@ -72,6 +78,12 @@ class TeamsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_team
     @team = Team.find(params[:id])
+    authorize! @team
+  end
+
+  def set_project
+    @project = Project.find(params[:project_id])
+    authorize! @project, to: :manage?
   end
 
   # Only allow a trusted parameter "white list" through.

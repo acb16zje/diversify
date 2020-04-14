@@ -118,18 +118,19 @@ Rails.application.routes.draw do
       post 'count'
       post 'data'
     end
+
+    resources :teams, except: %i[index show] do
+      collection do
+        get 'manage'
+        post 'save_manage'
+        post 'manage_data'
+      end
+    end
   end
 
   resources :invites do
     collection do
       post 'accept'
-    end
-  end
-
-  resources :teams, except: %i[index show] do
-    collection do
-      get 'manage'
-      post 'save_manage'
     end
   end
 

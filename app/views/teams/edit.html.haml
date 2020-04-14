@@ -1,7 +1,18 @@
-%h1 Editing team
+- content_for :title, 'Edit Team'
 
-= render 'form'
-
-= link_to 'Show', @team
-\|
-= link_to 'Back', teams_path
+%section.section#teams
+  .container.box
+    %h1.title Edit Team
+    = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
+      .field
+        %label.label Team Name
+        .control
+          = f.text_field :name, class: 'input', required: ''
+      .field
+        %label.label Max Team Size
+        .control
+          = f.number_field :team_size, class: 'input'
+      .field
+        .control
+          = f.submit 'Save Team', class: 'button is-success'
+          = link_to 'Back', manage_project_teams_path(@team.project.id), class: 'button is-danger'

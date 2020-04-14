@@ -9,11 +9,11 @@
           - if user_signed_in? && (current_user == @project.user || current_user.admin?) && !@project.completed?
             .is-pulled-right
               .buttons.has-addons
-                = link_to manage_teams_path(project_id: @project.id), class: 'button is-info' do
+                = link_to manage_project_teams_path(@project.id), class: 'button is-info' do
                   %p Manage Teams
                   %span.icon
                     %span.iconify{ 'data-icon': 'ant-design:tool-filled' }
-                = link_to new_team_path(project_id: @project.id), class: 'button is-primary' do
+                = link_to new_project_team_path(@project.id), class: 'button is-primary' do
                   %p New Team
                   %span.icon
                     %span.iconify{ 'data-icon': 'el:plus' }

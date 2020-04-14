@@ -77,10 +77,6 @@ class ProjectsController < ApplicationController
 
   private
 
-  def valid_change?
-
-  end
-
   def set_project
     @project = Project.find(params[:id])
     authorize! @project, with: ProjectPolicy

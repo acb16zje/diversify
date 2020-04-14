@@ -1,5 +1,6 @@
 <template>
-  <div v-if="teamCount > 0">
+  <div>
+    <b-loading :is-full-page="false" :active.sync="isLoading" />
     <div class="buttons">
       <b-button class="button is-success" @click="send">
         Save
@@ -14,17 +15,36 @@
         </span>
       </b-button>
     </div>
-    <div v-for="team in teams" :id="team.id" :key="team.id" class="container">
-      <p class="is-size-3">
-        {{ team.name }}
-      </p>
+    <div v-for="team in teams" :key="team.id" class="container">
+      <div class="columns">
+        <div class="column">
+          <p class="is-size-3">
+            {{ team.name }}
+          </p>
+        </div>
+        <div v-if="team.name != 'Unassigned'" class="column is-narrow">
+          <p class="has-text-grey">
+            Members: {{ data[team.id].length }} / {{ team.team_size }}
+          </p>
+        </div>
+        <div v-if="team.name != 'Unassigned'" class="column is-narrow">
+          <div class="buttons has-addons">
+            <a :href="'/projects/'+projectId+'/teams/'+team.id+'/edit'" class="button is-warning">
+              Edit Team
+            </a>
+            <b-button class="button is-danger">
+              Delete Team
+            </b-button>
+          </div>
+        </div>
+      </div>
       <div v-if="data[team.id].length===0" class="content has-text-grey has-text-centered">
         <p>No Members</p>
       </div>
-      <draggable class="columns is-multiline" :list="data[team.id]" group="people" @change="log">
+      <draggable :id="team.id" :list="data[team.id]" group="people" class="columns is-multiline" :move="checkMove" @change="log">
         <div
           v-for="element in data[team.id]"
-          :key="element.id"
+          :key="element.email"
           class="column is-one-third"
         >
           <div class="card user-card">
@@ -64,7 +84,7 @@
         </div>
       </draggable>
     </div>
-    <div v-if="teamCount === 0">
+    <div v-if="teamCount === 1">
       No Teams
     </div>
   </div>
@@ -83,29 +103,30 @@ export default {
       type: String,
       required: true,
     },
-    originalData: {
-      type: String,
-      required: true,
-    },
-    originalTeams: {
-      type: String,
-      required: true,
-    },
   },
   data() {
     return {
-      data: JSON.parse(this.originalData),
-      teams: JSON.parse(this.originalTeams),
+      data: {},
+      teams: {},
       isLoading: false,
-      teamCount: 0,
+      teamCount: 1,
     };
   },
   created() {
+    this.query();
     this.teamCount = Object.keys(this.teams).length;
   },
   methods: {
     reset() {
-      this.data = JSON.parse(this.originalData);
+      this.query();
+    },
+    checkMove(evt) {
+      const targetId = parseInt(evt.to.id, 10);
+      const selectedTeam = this.teams.find((o) => o.id === targetId);
+      if (this.data[targetId].length === selectedTeam.team_size) {
+        return false;
+      }
+      return true;
     },
     log(evt) {
       if (Object.prototype.hasOwnProperty.call(evt, 'added')) {
@@ -113,16 +134,32 @@ export default {
       }
     },
     send() {
-      console.log('send');
       Rails.ajax({
-        url: '/teams/save_manage',
+        url: `/projects/${this.projectId}/teams/save_manage`,
         type: 'POST',
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
-          project_id: this.projectId,
         }),
         success: () => {
           successToast('Saved!');
+        },
+      });
+    },
+    query() {
+      this.isLoading = true;
+      Rails.ajax({
+        url: `/projects/${this.projectId}/teams/manage_data`,
+        type: 'POST',
+        success: (data) => {
+          this.isLoading = false;
+          const newData = data.data;
+          this.teams = data.teams;
+          this.teams.forEach((team) => {
+            if (!(team.id in data.data)) {
+              newData[team.id] = [];
+            }
+          });
+          this.data = newData;
         },
       });
     },
