@@ -4,7 +4,7 @@ import Rails from '@rails/ujs';
 import ProjectList from '../components/projects/ProjectList.vue';
 import ApplicationTable from '../components/projects/ApplicationTable.vue';
 import InviteTable from '../components/projects/InviteTable.vue';
-import { successToast, dangerToast } from '../components/buefy/toast';
+import { dangerToast } from '../components/buefy/toast';
 
 import projectStore from '../components/projects/store';
 

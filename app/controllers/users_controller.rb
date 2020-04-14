@@ -4,16 +4,9 @@
 class UsersController < ApplicationController
   skip_before_action :authenticate_user!, only: :show
 
-  before_action :set_user, only: :show
-
   layout 'user'
 
-  def show; end
-
-  private
-
-  def set_user
+  def show
     @user = User.find(params[:id])
-    authorize! @user
   end
 end
