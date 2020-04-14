@@ -35,6 +35,10 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  rescue_from ActiveRecord::RecordInvalid do
+    render json: { message: 'Invalid Record' }, status: :unprocessable_entity
+  end
+
   rescue_from ActiveRecord::StatementInvalid do
     render json: { message: 'Invalid Statement' }, status: :unprocessable_entity
   end

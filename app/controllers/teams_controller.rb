@@ -69,8 +69,12 @@ class TeamsController < ApplicationController
 
   # DELETE /teams/1
   def destroy
+    unassigned = Team.find_by(
+      project_id: params[:project_id], name: 'Unassigned'
+    )
+    unassigned.users << @team.users
     @team.destroy
-    redirect_to teams_url, notice: 'Team was successfully destroyed.'
+    head :ok
   end
 
   private

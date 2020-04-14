@@ -213,7 +213,7 @@ describe InvitesController, type: :request do
         sign_in user
       end
 
-      it_behaves_like 'returns 400 Bad Request'
+      it_behaves_like 'returns 422 Unprocessable Entity'
     end
   end
 end

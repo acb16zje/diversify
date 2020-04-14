@@ -1,19 +1,44 @@
 <template>
   <div>
     <b-loading :is-full-page="false" :active.sync="isLoading" />
-    <div class="buttons">
-      <b-button class="button is-success" @click="send">
-        Save
-        <span class="icon">
-          <span class="iconify" data-icon="cil:save" />
-        </span>
-      </b-button>
-      <b-button class="button is-info" @click="reset">
-        Reset
-        <span class="icon">
-          <span class="iconify" data-icon="bx:bx-reset" />
-        </span>
-      </b-button>
+    <div class="field has-addons">
+      <div class="control">
+        <b-button class="button is-success" @click="send">
+          Save
+          <span class="icon">
+            <span class="iconify" data-icon="cil:save" />
+          </span>
+        </b-button>
+      </div>
+      <div class="control">
+        <b-button class="button is-info" @click="reset">
+          Reset
+          <span class="icon">
+            <span class="iconify" data-icon="bx:bx-reset" />
+          </span>
+        </b-button>
+      </div>
+      <div class="control">
+        <b-button class="button is-primary">
+          Recommend Team
+          <span class="icon">
+            <span class="iconify" data-icon="ic:outline-autorenew" />
+          </span>
+        </b-button>
+      </div>
+      <div class="control">
+        <b-select placeholder="Team Preset">
+          <option value="efficient">
+            Efficient
+          </option>
+          <option value="cohesion">
+            Cohesion
+          </option>
+          <option value="balance">
+            Balance
+          </option>
+        </b-select>
+      </div>
     </div>
     <div v-for="team in teams" :key="team.id" class="container">
       <div class="columns">
@@ -23,16 +48,18 @@
           </p>
         </div>
         <div v-if="team.name != 'Unassigned'" class="column is-narrow">
-          <p class="has-text-grey">
-            Members: {{ data[team.id].length }} / {{ team.team_size }}
-          </p>
+          <span :class="[data[team.id].length > 0 ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
+            <p>
+              Members: {{ data[team.id].length }} / {{ team.team_size }}
+            </p>
+          </span>
         </div>
         <div v-if="team.name != 'Unassigned'" class="column is-narrow">
           <div class="buttons has-addons">
             <a :href="'/projects/'+projectId+'/teams/'+team.id+'/edit'" class="button is-warning">
               Edit Team
             </a>
-            <b-button class="button is-danger">
+            <b-button class="button is-danger" @click="deleteTeam(team.id)">
               Delete Team
             </b-button>
           </div>
@@ -45,7 +72,7 @@
         <div
           v-for="element in data[team.id]"
           :key="element.email"
-          class="column is-one-third"
+          class="column is-one-quarter"
         >
           <div class="card user-card">
             <header class="card-header">
@@ -160,6 +187,19 @@ export default {
             }
           });
           this.data = newData;
+        },
+      });
+    },
+    deleteTeam(id) {
+      Rails.ajax({
+        url: `/projects/${this.projectId}/teams/${id}`,
+        type: 'DELETE',
+        success: () => {
+          successToast('Team Deleted');
+          const unassignedTeam = this.teams.find((o) => o.name === 'Unassigned');
+          this.data[unassignedTeam.id] = this.data[unassignedTeam.id].concat(this.data[id]);
+          this.teams = this.teams.filter((x) => x.id !== id);
+          delete this.data[id];
         },
       });
     },

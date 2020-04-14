@@ -5,10 +5,10 @@ class TeamPolicy < ApplicationPolicy
   default_rule :manage?
 
   def edit?
-    record.name != 'Unassigned' && (user&.admin? || record.project.owner?)
+    record.name != 'Unassigned' && (user&.admin? || record.project.user == user)
   end
 
   def manage?
-    user&.admin? || record.project.owner?
+    user&.admin? || record.project.user == user
   end
 end
