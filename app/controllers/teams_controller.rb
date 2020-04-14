@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[edit update destroy]
+  before_action :set_team, only: %i[edit update destroy remove_user]
   before_action :set_project
 
   layout 'project'
@@ -74,6 +74,12 @@ class TeamsController < ApplicationController
     )
     unassigned.users << @team.users
     @team.destroy
+    head :ok
+  end
+
+  def remove_user
+    user = User.find(params[:user_id])
+    @team.users.delete(user)
     head :ok
   end
 

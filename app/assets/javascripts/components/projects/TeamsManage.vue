@@ -78,6 +78,9 @@
             <header class="card-header">
               <p class="card-header-title">
                 {{ element.name }} ({{ element.email }})
+                <span v-if="element.id === parseInt(projectOwner, 10)" class="tag is-info has-text-weight-normal">
+                  Owner
+                </span>
               </p>
             </header>
             <div class="card-content">
@@ -104,8 +107,8 @@
                 </div>
               </nav>
             </div>
-            <footer class="card-footer">
-              <a href="#" class="card-footer-item">Remove from Project</a>
+            <footer v-if="element.id != parseInt(projectOwner, 10)" class="card-footer">
+              <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
             </footer>
           </div>
         </div>
@@ -127,6 +130,10 @@ export default {
   },
   props: {
     projectId: {
+      type: String,
+      required: true,
+    },
+    projectOwner: {
       type: String,
       required: true,
     },
@@ -162,7 +169,7 @@ export default {
     },
     send() {
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/save_manage`,
+        url: `/projects/${this.projectId}/teams/manage`,
         type: 'POST',
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
@@ -200,6 +207,19 @@ export default {
           this.data[unassignedTeam.id] = this.data[unassignedTeam.id].concat(this.data[id]);
           this.teams = this.teams.filter((x) => x.id !== id);
           delete this.data[id];
+        },
+      });
+    },
+    removeUser(id, userId) {
+      Rails.ajax({
+        url: `/projects/${this.projectId}/teams/${id}/remove_user`,
+        type: 'POST',
+        data: new URLSearchParams({
+          user_id: userId,
+        }),
+        success: () => {
+          successToast('User Removed');
+          this.data[id] = this.data[id].filter((x) => x.id !== userId);
         },
       });
     },
