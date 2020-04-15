@@ -87,10 +87,8 @@ class ProjectsController < ApplicationController
   end
 
   def render_projects(policy_scope)
-    @pagy, projects = pagy(
-      authorized_scope(Project.search(params), as: policy_scope),
-      page: params[:page]
-    )
+    @pagy, projects = pagy(authorized_scope(Project.search(params),
+                                            as: policy_scope))
     @html = view_to_html_string('projects/_projects', projects: projects)
 
     respond_to do |format|
