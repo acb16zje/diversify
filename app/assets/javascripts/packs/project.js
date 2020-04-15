@@ -5,7 +5,8 @@ import ProjectList from '../components/projects/ProjectList.vue';
 import ApplicationTable from '../components/projects/ApplicationTable.vue';
 import InviteTable from '../components/projects/InviteTable.vue';
 import TeamsManage from '../components/projects/TeamsManage.vue';
-import { successToast, dangerToast } from '../components/buefy/toast';
+import { dangerToast } from '../components/buefy/toast';
+import TeamModal from '../components/projects/components/TeamModal.vue';
 
 import projectStore from '../components/projects/store';
 
@@ -26,6 +27,7 @@ new Vue({
     taskCount: -1,
     applicationCount: -1,
     teamCount: -1,
+    isModalActive: -1,
   },
   watch: {
     selected(value) {
@@ -78,6 +80,18 @@ new Vue({
         this.avatarFilename = event.target.files[0].name;
         reader.readAsDataURL(file);
       }
+    },
+    teamModal(id, projectId) {
+      this.$buefy.modal.open({
+        component: TeamModal,
+        hasModalCard: true,
+        trapFocus: true,
+        scroll: 'keep',
+        props: {
+          id,
+          projectId,
+        },
+      });
     },
   },
 });

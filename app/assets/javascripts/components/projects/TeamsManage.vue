@@ -68,7 +68,7 @@
       <div v-if="data[team.id].length===0" class="content has-text-grey has-text-centered">
         <p>No Members</p>
       </div>
-      <draggable :id="team.id" :list="data[team.id]" group="people" class="columns is-multiline" :move="checkMove" @change="log">
+      <draggable :id="team.id" :list="data[team.id]" group="people" class="columns is-multiline" :move="checkMove" :scroll-sensitivity="250" :force-fallback="true" @change="log">
         <div
           v-for="element in data[team.id]"
           :key="element.email"

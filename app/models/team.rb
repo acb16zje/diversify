@@ -27,6 +27,8 @@ class Team < ApplicationRecord
   # Join table
   has_many :collaborations, dependent: :destroy
   has_many :users, through: :collaborations
+  has_many :team_skills, dependent: :destroy
+  has_many :skills, through: :team_skills
 
   validates :name,
             presence: true,

@@ -3,7 +3,7 @@
 class CreateSkills < ActiveRecord::Migration[6.0]
   def change
     create_table :skills do |t|
-      t.string :name,        null: false, default: ''
+      t.string :name,        null: false, default: '', unique: true
       t.text :description,   null: false, default: ''
 
       t.references :category, foreign_key: true

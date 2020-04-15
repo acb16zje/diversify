@@ -32,6 +32,9 @@
             %header.card-header
               %p.card-header-title
                 = team.name
+                - if team.name != 'Unassigned'
+                  %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
+                    %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
             .card-content
               .content
                 - if team.users.empty?

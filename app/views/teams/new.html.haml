@@ -14,6 +14,10 @@
         .control
           = f.number_field :team_size, class: 'input'
       .field
+        %label.label Skills
+        .control.select.is-multiple
+          = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+      .field
         .control
           = f.submit 'Create Team', class: 'button is-success'
           = link_to 'Back', project_path(@project), class: 'button is-danger'

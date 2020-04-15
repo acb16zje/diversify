@@ -22,8 +22,10 @@
 
 class Skill < ApplicationRecord
   belongs_to :category
-  has_and_belongs_to_many :tasks
-  has_many :skill_levels
+  has_many :tasks, dependent: :nullify
+  has_many :skill_levels, dependent: :destroy
+  has_many :team_skills, dependent: :destroy
+  has_many :teams, through: :team_skills
 
   validates :description, presence: true
   validates :name, presence: true, uniqueness: true

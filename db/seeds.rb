@@ -49,3 +49,11 @@ Category.create(name: 'Computer and IT')
     category_id: (i - 1) % 3 + 1
   )
 end
+
+(0..5).each do |i|
+  Skill.create(
+    name: "Skill #{Faker::Food.dish}",
+    description: Faker::Food.description,
+    category_id: i % 3
+  )
+end

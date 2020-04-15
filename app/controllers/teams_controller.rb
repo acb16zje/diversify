@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[edit update destroy remove_user]
+  before_action :set_team, only: %i[edit show update destroy remove_user]
   before_action :set_project
+  before_action :set_skills, only: %i[new edit]
 
   layout 'project'
 
@@ -11,7 +12,7 @@ class TeamsController < ApplicationController
 
   def manage_data
     @data = User.joins(:teams).where(teams: { project: @project })
-                .select('users.* , teams.id as team_id, teams.team_size as size')
+                .select('users.*, teams.id as team_id, teams.team_size as size')
     render json: {
       data: @data.group_by(&:team_id),
       teams: Team.where(project: @project).select(:id, :name, :team_size)
@@ -37,18 +38,27 @@ class TeamsController < ApplicationController
   end
 
   # GET /teams/1/edit
-  def edit
-    authorize! @team
+  def edit; end
+
+  def show
+    return unless request.xhr?
+
+    render json: {
+      name: @team.name, skills: @team.skills&.select(:id, :name),
+      team_size: @team.team_size, member_count: @team.users.size
+    }, status: :ok
   end
 
   # POST /teams
   def create
+    skill_ids = params[:team][:skill_ids]
     @team = Team.new(team_params)
-    return invite_fail('Not Found') unless allowed_to?(:manage?, @team)
+    return team_fail('Not Found') unless allowed_to?(:manage?, @team)
 
     if @team.save
-      flash[:toast_success] = 'Team was successfully created'
-      render js: "window.location = '#{project_path(@team.project)}'"
+      skill_ids.shift
+      @team.skills << Skill.find(skill_ids)
+      team_success('Team was successfully created')
     else
       team_fail(nil)
     end
@@ -58,13 +68,7 @@ class TeamsController < ApplicationController
   def update
     return team_fail('Not Found') unless allowed_to?(:manage?, @team)
 
-    if @team.update(team_params)
-      flash[:toast_success] = 'Team was successfully saved'
-      render js:
-        "window.location = '#{manage_project_teams_path(@team.project.id)}'"
-    else
-      team_fail(nil)
-    end
+    @team.update(team_params) ? team_success('Team Saved') : team_fail(nil)
   end
 
   # DELETE /teams/1
@@ -91,6 +95,11 @@ class TeamsController < ApplicationController
     authorize! @team
   end
 
+  def set_skills
+    @skills = Skill.where(category: @project.category)
+                   .collect { |s| [s.name, s.id] }
+  end
+
   def set_project
     @project = Project.find(params[:project_id])
     authorize! @project, to: :manage?
@@ -98,7 +107,14 @@ class TeamsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def team_params
-    params.require(:team).permit(:team_size, :project_id, :name)
+    params.require(:team).except(:skill_ids)
+          .permit(:team_size, :project_id, :name)
+  end
+
+  def team_success(message)
+    flash[:toast_success] = message
+    render js:
+      "window.location = '#{manage_project_teams_path(@team.project.id)}'"
   end
 
   def team_fail(message)
