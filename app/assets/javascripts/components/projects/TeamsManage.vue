@@ -183,7 +183,7 @@ export default {
       this.isLoading = true;
       Rails.ajax({
         url: `/projects/${this.projectId}/teams/manage_data`,
-        type: 'POST',
+        type: 'GET',
         success: (data) => {
           this.isLoading = false;
           const newData = data.data;
@@ -213,7 +213,7 @@ export default {
     removeUser(id, userId) {
       Rails.ajax({
         url: `/projects/${this.projectId}/teams/${id}/remove_user`,
-        type: 'POST',
+        type: 'DELETE',
         data: new URLSearchParams({
           user_id: userId,
         }),

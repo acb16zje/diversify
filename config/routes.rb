@@ -114,19 +114,19 @@ Rails.application.routes.draw do
     end
 
     member do
-      post 'change_status'
-      post 'count'
-      post 'data'
+      patch 'change_status'
+      get 'count'
+      get 'data'
     end
 
     resources :teams, except: %i[index show] do
       collection do
         get 'manage'
         post 'manage', to: 'teams#save_manage'
-        post 'manage_data'
+        get 'manage_data'
       end
       member do
-        post 'remove_user'
+        delete 'remove_user'
       end
     end
   end

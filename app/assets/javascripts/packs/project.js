@@ -45,7 +45,7 @@ new Vue({
     getCount(countType) {
       Rails.ajax({
         url: `/projects/${this.id}/count`,
-        type: 'POST',
+        type: 'GET',
         data: new URLSearchParams({
           type: countType,
         }),

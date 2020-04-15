@@ -59,7 +59,7 @@ export default {
       this.isLoading = true;
       Rails.ajax({
         url: `/projects/${this.projectId}/data`,
-        type: 'POST',
+        type: 'GET',
         data: new URLSearchParams({
           types: 'application',
         }),

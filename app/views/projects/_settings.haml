@@ -52,9 +52,9 @@
         %h1.title.is-2
           Unarchive Project
         %p.has-text-grey Reopens Project
-        = button_to 'Reactivate Project', change_status_project_path(@project), remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
+        = button_to 'Reactivate Project', change_status_project_path(@project), method: 'patch', remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
       - else
         %h1.title.is-2
           Mark Project as Complete
         %p.has-text-grey Marking the project as complete will not allow anyone to change the project
-        = button_to 'Archive Project', change_status_project_path(@project), remote: true, params: { status: 'completed' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
+        = button_to 'Archive Project', change_status_project_path(@project), method: 'patch', remote: true, params: { status: 'completed' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }

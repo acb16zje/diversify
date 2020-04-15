@@ -55,7 +55,7 @@ describe ProjectsController, type: :request do
     end
 
     describe '#change_status' do
-      subject(:request) { post change_status_project_path(project) }
+      subject(:request) { patch change_status_project_path(project) }
 
       it { expect { request }.to be_authorized_to(:manage?, project) }
     end
@@ -256,9 +256,9 @@ describe ProjectsController, type: :request do
     end
   end
 
-  describe 'POST #change_status' do
+  describe 'PATCH #change_status' do
     subject(:request) do
-      post change_status_project_path(project), params: params
+      patch change_status_project_path(project), params: params
     end
 
     %w[open completed active].each do |status|
