@@ -47,6 +47,10 @@ gem 'hamlit'
 # Pagination
 gem 'pagy'
 
+# Optimised JSON
+gem 'jb'
+gem 'oj'
+
 # Generate fake data
 gem 'faker'
 
