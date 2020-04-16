@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Show Project > Project', :js, type: :system do
+describe 'Edit Project > Project', :js, type: :system do
   let(:user) { create(:user) }
   let(:category1) { create(:category) }
   let(:project) { create(:project, user: user, category_id: category1.id) }
@@ -62,7 +62,7 @@ describe 'Show Project > Project', :js, type: :system do
     it 'can archive project' do
       click_button 'Reactivate Project'
       page.accept_alert
-      expect(page).to have_no_content('Project Activated')
+      expect(page).to have_content('Project Activated')
     end
   end
 end
