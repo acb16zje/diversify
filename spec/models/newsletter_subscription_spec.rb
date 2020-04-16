@@ -104,7 +104,7 @@ describe NewsletterSubscription, type: :model do
 
   describe '#unsubscribe' do
     context 'when subscribed' do
-      subject(:subscription) { build(:newsletter_subscription) }
+      subject(:subscription) { create(:newsletter_subscription) }
 
       before { subscription.unsubscribe }
 

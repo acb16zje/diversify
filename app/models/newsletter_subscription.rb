@@ -30,19 +30,17 @@ class NewsletterSubscription < ApplicationRecord
   after_commit :send_welcome, on: :create
 
   def self.subscribe(email)
-    newsletter_subscription = where(email: email).first_or_initialize
+    record = where(email: email).first_or_initialize
 
-    if newsletter_subscription.persisted? && newsletter_subscription.subscribed?
-      return true
+    if record.new_record? || (record.persisted? && !record.subscribed?) # rubocop:disable Style/GuardClause
+      record.update(subscribed: true)
     end
-
-    newsletter_subscription.update(subscribed: true)
   end
 
   def unsubscribe
     return true unless subscribed?
 
-    update(subscribed: false)
+    update_columns(subscribed: false) # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
