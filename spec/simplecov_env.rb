@@ -34,7 +34,6 @@ module SimpleCovEnv
         add_filter 'app/jobs'
         add_filter 'app/controllers/reviews_controller.rb'
         add_filter 'app/controllers/tasks_controller.rb'
-        add_filter 'app/controllers/teams_controller.rb'
 
         add_filter 'app/models/issue.rb'
         add_filter 'app/models/preference.rb'
@@ -42,7 +41,6 @@ module SimpleCovEnv
         add_filter 'app/models/skill.rb'
         add_filter 'app/models/skill_level.rb'
         add_filter 'app/models/task.rb'
-        add_filter 'app/models/team.rb'
 
         add_group "Controllers", "app/controllers"
         add_group "Models", "app/models"

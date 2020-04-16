@@ -63,7 +63,6 @@ describe Invite, type: :model do
         invite.project = project
         invite.project.teams.first.users << invite.user
         invite.save
-
       end
 
       it {

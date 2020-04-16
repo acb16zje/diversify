@@ -292,7 +292,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #count' do
-    subject(:request) { post count_project_path(project), params: params }
+    subject(:request) { get count_project_path(project), params: params }
 
     let(:project) { create(:project, user: user) }
 
@@ -315,7 +315,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #data' do
-    subject(:request) { post data_project_path(project), params: params }
+    subject(:request) { get data_project_path(project), params: params }
 
     let(:project) { create(:project, user: user) }
 

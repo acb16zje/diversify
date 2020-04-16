@@ -21,10 +21,25 @@
 #  fk_rails_...  (skill_id => skills.id)
 #  fk_rails_...  (team_id => teams.id)
 #
-class TeamSkill < ApplicationRecord
-  belongs_to :team
-  belongs_to :skill
+require 'rails_helper'
 
-  validates :skill_id, presence: true, uniqueness: { scope: :team_id }
-  validates :team_id, presence: true
+describe TeamSkill, type: :model do
+  describe 'associations' do
+    it { is_expected.to belong_to(:team) }
+    it { is_expected.to belong_to(:skill) }
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:skill_id) }
+    it { is_expected.to validate_presence_of(:team_id) }
+
+    context 'when validate unique team skill' do
+      let(:team_skill) { build(:team_skill) }
+
+      it do
+        expect(team_skill).to validate_uniqueness_of(:skill_id).scoped_to(:team_id)
+      end
+    end
+  end
 end
+

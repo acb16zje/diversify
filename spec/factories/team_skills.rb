@@ -21,10 +21,9 @@
 #  fk_rails_...  (skill_id => skills.id)
 #  fk_rails_...  (team_id => teams.id)
 #
-class TeamSkill < ApplicationRecord
-  belongs_to :team
-  belongs_to :skill
-
-  validates :skill_id, presence: true, uniqueness: { scope: :team_id }
-  validates :team_id, presence: true
+FactoryBot.define do
+  factory :team_skill do
+    association :skill, factory: :skill
+    association :team, factory: :team
+  end
 end

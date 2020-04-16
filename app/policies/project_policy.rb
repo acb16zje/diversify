@@ -15,7 +15,6 @@ class ProjectPolicy < ApplicationPolicy
   relation_scope(:explore) do |scope|
     next scope if user&.admin
 
-    # TODO: joined
     scope.where(visibility: true).or(scope.where(user: user))
   end
 

@@ -22,5 +22,8 @@
 
 FactoryBot.define do
   factory :skill do
+    name { generate(:name) }
+    description { 'lorem ipsum' }
+    association :category, factory: :category
   end
 end

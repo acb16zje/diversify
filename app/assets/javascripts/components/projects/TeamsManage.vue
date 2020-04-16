@@ -1,32 +1,28 @@
 <template>
   <div>
     <b-loading :is-full-page="false" :active.sync="isLoading" />
-    <div class="field has-addons">
-      <div class="control">
-        <b-button class="button is-success" @click="send">
-          Save
-          <span class="icon">
-            <span class="iconify" data-icon="cil:save" />
-          </span>
-        </b-button>
-      </div>
-      <div class="control">
-        <b-button class="button is-info" @click="reset">
-          Reset
-          <span class="icon">
-            <span class="iconify" data-icon="bx:bx-reset" />
-          </span>
-        </b-button>
-      </div>
-      <div class="control">
-        <b-button class="button is-primary">
-          Recommend Team
-          <span class="icon">
-            <span class="iconify" data-icon="ic:outline-autorenew" />
-          </span>
-        </b-button>
-      </div>
-      <div class="control">
+    <div class="buttons">
+      <b-button class="button is-success" @click="send">
+        Save
+        <span class="icon">
+          <span class="iconify" data-icon="cil:save" />
+        </span>
+      </b-button>
+      <b-button class="button is-info" @click="reset">
+        Reset
+        <span class="icon">
+          <span class="iconify" data-icon="bx:bx-reset" />
+        </span>
+      </b-button>
+      <b-field>
+        <p class="control">
+          <b-button class="button is-primary">
+            Suggest
+            <span class="icon">
+              <span class="iconify" data-icon="ic:outline-autorenew" />
+            </span>
+          </b-button>
+        </p>
         <b-select placeholder="Team Preset">
           <option value="efficient">
             Efficient
@@ -38,7 +34,7 @@
             Balance
           </option>
         </b-select>
-      </div>
+      </b-field>
     </div>
     <div v-for="team in teams" :key="team.id" class="container">
       <div class="columns">
@@ -72,7 +68,7 @@
         <div
           v-for="element in data[team.id]"
           :key="element.email"
-          class="column is-one-quarter"
+          class="column is-one-third"
         >
           <div class="card user-card">
             <header class="card-header">

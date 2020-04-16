@@ -13,4 +13,5 @@
               %p New Team
               %span.icon
                 %span.iconify{ 'data-icon': 'el:plus' }
-    %teams-manage{ 'project-id': @project.id, 'project-owner': @project.user.id }
+    .container
+      %teams-manage{ 'project-id': @project.id, 'project-owner': @project.user.id }

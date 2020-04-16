@@ -2,8 +2,9 @@
 
 class TeamsController < ApplicationController
   before_action :set_team, only: %i[edit show update destroy remove_user]
-  before_action :set_project
+  before_action :set_project, except: %i[show update destroy remove_user]
   before_action :set_skills, only: %i[new edit]
+  before_action :check_xhr, only: %i[remove_user manage_data save_manage show]
 
   layout 'project'
 
@@ -12,7 +13,7 @@ class TeamsController < ApplicationController
 
   def manage_data
     @data = User.joins(:teams).where(teams: { project: @project })
-                .select('users.*, teams.id as team_id, teams.team_size as size')
+                .select('users.*, teams.id as team_id')
     render json: {
       data: @data.group_by(&:team_id),
       teams: Team.where(project: @project).select(:id, :name, :team_size)
@@ -38,11 +39,11 @@ class TeamsController < ApplicationController
   end
 
   # GET /teams/1/edit
-  def edit; end
+  def edit
+    @project = Project.find(params[:project_id])
+  end
 
   def show
-    return unless request.xhr?
-
     render json: {
       name: @team.name, skills: @team.skills&.select(:id, :name),
       team_size: @team.team_size, member_count: @team.users.size
@@ -53,11 +54,8 @@ class TeamsController < ApplicationController
   def create
     skill_ids = params[:team][:skill_ids]
     @team = Team.new(team_params)
-    return team_fail('Not Found') unless allowed_to?(:manage?, @team)
-
     if @team.save
-      skill_ids.shift
-      @team.skills << Skill.find(skill_ids)
+      @team.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
       team_success('Team was successfully created')
     else
       team_fail(nil)
@@ -66,23 +64,22 @@ class TeamsController < ApplicationController
 
   # PATCH/PUT /teams/1
   def update
-    return team_fail('Not Found') unless allowed_to?(:manage?, @team)
-
     @team.update(team_params) ? team_success('Team Saved') : team_fail(nil)
   end
 
   # DELETE /teams/1
   def destroy
-    unassigned = Team.find_by(
-      project_id: params[:project_id], name: 'Unassigned'
-    )
-    unassigned.users << @team.users
+    team = Team.find_by(project_id: params[:project_id], name: 'Unassigned')
+    team.users << @team.users
     @team.destroy
     head :ok
   end
 
   def remove_user
     user = User.find(params[:user_id])
+
+    return team_fail('Cannot remove owner') if user == @team.project.user
+
     @team.users.delete(user)
     head :ok
   end
@@ -105,6 +102,10 @@ class TeamsController < ApplicationController
     authorize! @project, to: :manage?
   end
 
+  def check_xhr
+    return unless request.xhr?
+  end
+
   # Only allow a trusted parameter "white list" through.
   def team_params
     params.require(:team).except(:skill_ids)
@@ -114,7 +115,7 @@ class TeamsController < ApplicationController
   def team_success(message)
     flash[:toast_success] = message
     render js:
-      "window.location = '#{manage_project_teams_path(@team.project.id)}'"
+      "window.location = '#{manage_project_teams_path(@team.project)}'"
   end
 
   def team_fail(message)
@@ -125,6 +126,8 @@ class TeamsController < ApplicationController
   def change_team(member, new_team)
     user = User.find(member['id'])
     old_team = Team.find(member['team_id'])
+    authorize! old_team
+    authorize! new_team
     old_team.users.delete(user)
     new_team.users << user
   end
