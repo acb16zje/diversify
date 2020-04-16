@@ -29,7 +29,9 @@ class Identity < ApplicationRecord
   validates :provider, presence: true
   validates :uid,
             presence: true,
-            uniqueness: { scope: :provider, message: 'Account has been taken' }
+            uniqueness: { case_sensitive: false,
+                          scope: :provider,
+                          message: 'Account has been taken' }
   validates :user_id,
             presence: true,
             uniqueness: { scope: :provider, message: 'Account has been taken' }

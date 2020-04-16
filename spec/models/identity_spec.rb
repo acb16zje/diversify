@@ -37,28 +37,24 @@ describe Identity, type: :model do
     it { is_expected.to validate_presence_of(:uid) }
     it { is_expected.to validate_presence_of(:user_id) }
 
-    describe 'UNIQUE provider, uid' do
-      subject(:identity) do
-        build_stubbed(:identity, provider: 'test', uid: 1, user: second_user)
-      end
+    describe 'UNIQUE uid, provider' do
+      subject { build(:identity, user: first_user) }
 
-      before { create(:identity, provider: 'test', uid: 1, user: first_user) }
-
-      it 'returns false for duplicate entry' do
-        expect(identity.validate).to be_falsey
-      end
+      it {
+        is_expected.to validate_uniqueness_of(:uid)
+          .scoped_to(:provider)
+          .with_message('Account has been taken').case_insensitive
+      }
     end
 
-    describe 'UNIQUE provider, user_id' do
-      subject(:identity) do
-        build_stubbed(:identity, provider: 'test', uid: 2, user: first_user)
-      end
+    describe 'UNIQUE user_id, provider' do
+      subject { build(:identity, user: first_user) }
 
-      before { create(:identity, provider: 'test', uid: 1, user: first_user) }
-
-      it 'returns false for duplicate entry' do
-        expect(identity.validate).to be_falsey
-      end
+      it {
+        is_expected.to validate_uniqueness_of(:user_id)
+          .scoped_to(:provider)
+          .with_message('Account has been taken').case_insensitive
+      }
     end
   end
 end
