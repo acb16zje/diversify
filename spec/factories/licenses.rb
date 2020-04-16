@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: licenses
@@ -19,5 +21,12 @@
 
 FactoryBot.define do
   factory :license do
+    trait :pro do
+      plan { 'pro' }
+    end
+
+    trait :ultimate do
+      plan { 'ultimate' }
+    end
   end
 end

@@ -42,4 +42,26 @@ describe License, type: :model do
       it { is_expected.to validate_uniqueness_of(:user_id) }
     end
   end
+
+  describe '#member_limit' do
+    subject { license.member_limit }
+
+    context 'when free' do
+      let(:license) { build_stubbed(:license) }
+
+      it { is_expected.to eq(10) }
+    end
+
+    context 'when pro' do
+      let(:license) { build_stubbed(:license, :pro) }
+
+      it { is_expected.to eq(30) }
+    end
+
+    context 'when ultimate' do
+      let(:license) { build_stubbed(:license, :ultimate) }
+
+      it { is_expected.to eq(1 / 0.0) }
+    end
+  end
 end

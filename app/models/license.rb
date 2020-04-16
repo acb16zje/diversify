@@ -20,8 +20,9 @@
 #
 
 class License < ApplicationRecord
-  enum plan: { free: 'free', pro: 'pro', ultimate: 'ultimate' }
   MEMBER_LIMIT = { free: 10, pro: 30, ultimate: 1 / 0.0 }.freeze
+
+  enum plan: { free: 'free', pro: 'pro', ultimate: 'ultimate' }
 
   belongs_to :user
 
