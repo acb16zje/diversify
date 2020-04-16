@@ -33,15 +33,9 @@ describe Collaboration, type: :model do
     it { is_expected.to validate_presence_of(:team_id) }
 
     describe 'UNIQUE user_id, team_id' do
-      subject(:collaboration) do
-        build_stubbed(:collaboration, user: record.user, team: record.team)
-      end
+      subject { build(:collaboration) }
 
-      let(:record) { create(:collaboration) }
-
-      it 'returns false for duplicate entry' do
-        expect(collaboration.validate).to be_falsey
-      end
+      it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:team_id) }
     end
   end
 end
