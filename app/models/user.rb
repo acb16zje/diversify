@@ -98,10 +98,7 @@ class User < ApplicationRecord
     NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
-  def new_account?
-    projects.count.zero? && created_at > 1.day.ago
-  end
-
+  # TODO: use has_many :members, through: :teams
   def in_project?(project)
     teams&.exists?(project: project) || project&.user == self
   end

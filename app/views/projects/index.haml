@@ -4,9 +4,5 @@
   .container
     .title-holder
       %h4.title.is-4.my-4 Projects
-      - if current_user.new_account?
-        %b-tooltip{ 'label': 'Create Your First Project!', 'active': 'active', 'always': '', 'multilined': '', 'position': 'is-left', 'type': 'is-info', 'size': 'is-small' }
-          = link_to 'New Project', new_project_path, class: 'button is-success ml-auto'
-      - else
-        = link_to 'New Project', new_project_path, class: 'button is-success ml-auto'
+      = link_to 'New Project', new_project_path, class: 'button is-success ml-auto'
     %project-list{ 'init-projects-html': @html, ':init-total': @pagy.count }
