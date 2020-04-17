@@ -47,6 +47,7 @@ module SimpleCovEnv
         add_group "Mailers", "app/mailers"
         add_group "Helpers", "app/helpers"
         add_group 'Policies', 'app/policies'
+        add_group 'Serializers', 'app/serializers'
         add_group 'Validators',  'app/validators'
 
         track_files '{app}/**/*.rb'

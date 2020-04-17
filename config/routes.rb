@@ -14,8 +14,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'users/omniauth_callbacks'
   }
 
-  # notify_to :users, controller: 'users/notifications'
-
   # /:path
   resources :pages, path: '', only: [] do
     collection do
@@ -75,11 +73,7 @@ Rails.application.routes.draw do
   end
 
   # /users/:path
-  resources :users, only: %i[index show] do
-    collection do
-      delete 'disconnect_omniauth'
-    end
-  end
+  resources :users, only: %i[index show]
 
   # /settings/:path
   scope module: :users do
@@ -109,43 +103,48 @@ Rails.application.routes.draw do
 
   # /projects/:path
   resources :projects do
-    collection do
-      get 'explore'
+    # TODO: change the name?
+    member do
+      get 'count'
+      patch 'change_status'
     end
 
-    member do
-      patch 'change_status'
-      get 'count'
-      get 'data'
-    end
+    get 'explore', on: :collection
 
     resources :teams, except: %i[index] do
       collection do
         get 'manage'
-        post 'manage', to: 'teams#save_manage'
         get 'manage_data'
+        post 'manage', to: 'teams#save_manage'
       end
-      member do
-        delete 'remove_user'
-      end
+
+      delete 'remove_user', on: :member
     end
 
     resources :tasks
-  end
 
-  resources :invites do
-    collection do
-      post 'accept'
+    shallow do
+      scope module: :appeals do
+        resources :invitations, only: %i[index create destroy] do
+          post 'accept', on: :member
+        end
+
+        resources :applications, only: %i[index create destroy] do
+          post 'accept', on: :member
+        end
+      end
     end
   end
 
-  resources :notifications, only: :index do
+  resources :teams
+
+  resources :notifications, only: %i[index destroy] do
     member do
-      get 'open'
+      patch 'read'
+      patch 'unread'
     end
-    collection do
-      post 'open_all'
-    end
+
+    patch 'read_all', on: :collection
   end
 
   authenticated :user do
