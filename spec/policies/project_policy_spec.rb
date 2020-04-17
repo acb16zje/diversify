@@ -86,7 +86,7 @@ describe ProjectPolicy, type: :policy do
         let(:user) { create(:user) }
         let(:record) { create(:project) }
 
-        before { record.teams.find_by(name: 'Unassigned').users << user }
+        before { record.unassigned_team.users << user }
       end
     end
   end
@@ -112,18 +112,6 @@ describe ProjectPolicy, type: :policy do
 
       before { record.teams.first.users << user }
     end
-
-    succeed 'when user is owner' do
-      before { record.user = user }
-    end
-
-    succeed 'when user is admin' do
-      before { user.admin = true }
-    end
-  end
-
-  describe_rule :data? do
-    failed 'when user is not management'
 
     succeed 'when user is owner' do
       before { record.user = user }
