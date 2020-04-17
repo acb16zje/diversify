@@ -16,6 +16,7 @@ $primary: #3e3cd3;
 @import "~buefy/src/scss/components/tabs";
 @import "~buefy/src/scss/components/tooltip";
 
+@import "framework/badge";
 @import "framework/base";
 @import "framework/button";
 @import "framework/footer";
@@ -29,7 +30,7 @@ $primary: #3e3cd3;
 @import "pages/devise";
 @import "pages/landing_page";
 @import "pages/metrics_page";
+@import "pages/notification";
 @import "pages/project";
 @import "pages/user";
-@import "pages/notification";
 /*! purgecss end ignore */

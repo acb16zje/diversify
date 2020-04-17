@@ -1,166 +1,88 @@
-/* unopened circle */
-.unopened_wrapper {
-	position: absolute;
-	margin-top: 20px;
-	margin-left: 56px;
-	.unopened_circle {
-		display: block;
-		width: 10px;
-		height: 10px;
-		position: absolute;
-		border-radius: 50%;
-		background-color: #27a5eb;
-		z-index: 2;
-	}
-	&:hover {
-		>.unopened_description_wrapper {
-			display: block;
-		}
-	}
-	.unopened_description_wrapper {
-		display: none;
-		position: absolute;
-		margin-top: 26px;
-		margin-left: -24px;
-		.unopened_description {
-			position: absolute;
-			color: #fff;
-			font-size: 12px;
-			text-align: center;
-			border-radius: 4px;
-			background: rgba(0, 0, 0, 0.8);
-			padding: 4px 12px;
-			z-index: 999;
-			&:before {
-				border: solid transparent;
-				border-top-width: 0;
-				content: "";
-				display: block;
-				position: absolute;
-				width: 0;
-				left: 50%;
-				top: -5px;
-				margin-left: -5px;
-				height: 0;
-				border-width: 0 5px 5px 5px;
-				border-color: transparent transparent rgba(0, 0, 0, 0.8) transparent;
-				z-index: 0;
-			}
-		}
-	}
-}
+#notifications-dropdown {
+  @media screen and (max-width: 1023px) {
+    .title.is-4 {
+      font-size: 1.2rem;
+    }
+  }
 
-/* list */
-.notification_list {
-	padding: 15px 10px;
-	position: relative;
-	border-bottom: 1px solid #e5e5e5;
-	&:hover {
-		background-color: #f8f9fb;
-	}
-	&:last-child {
-		border-bottom: none;
-	}
-	&:after {
-		content: "";
-		clear: both;
-		display: block;
-	}
-	.notification_list_cover {
-		position: absolute;
-		opacity: 0;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 1;
-	}
-	.list_image {
-	  float: left;
-		width: 40px;
-		height: 40px;
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-color: #979797;
-	}
-	.list_text_wrapper {
-		float: left;
-		width: calc(100% - 60px);
-		margin-left: 20px;
-		.list_text {
-			color: #4f4f4f;
-			font-size: 14px;
-			line-height: 1.4;
-			margin-top: 0;
-			height: auto;
-			font-weight: normal;
-			strong {
-				font-weight: bold;
-			}
-			span {
-				color: #979797;
-				font-size: 13px;
-			}
-		}
-	}
-}
-.notification_list.unopened {
-	background-color: #eeeff4;
-}
+  @media screen and (min-width: 1024px) {
+    .dropdown-menu {
+      width: 23rem;
+      right: -6rem;
 
-/* notification */
-.notification_wrapper {
-	.notification_header {
-		h1 {
-			span {
-				span {
-					color: #fff;
-					background-color: #e5e5e5;
-					border-radius: 4px;
-					font-size: 12px;
-					padding: 4px 8px;
-				}
-				span.unopened {
-					background-color: #f87880;
-				}
-			}
-		}
-	}
-}
+      .dropdown-content {
+        max-height: 25rem;
+        overflow-y: auto;
+      }
+    }
+  }
 
-#notification {
-	.dropdown-item {
-		min-width: 20rem;
-	}
-}
+  a.dropdown-item {
+    display: flex;
+    padding-right: 0;
+    white-space: normal;
 
-.project-avatar {
-	flex-shrink: 0;
-	width: 48px;
-	height: 48px;
-	margin-right: 1.25rem;
+    strong {
+      font-weight: 600;
+    }
 
-	a {
-		display: flex;
-		width: 100%;
-		height: 100%;
-	}
+    &.read {
+      color: #65676b;
+    }
 
-	.identicon {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 100%;
-		height: 100%;
-		border-radius: 8px;
-		font-size: 20px;
-		color: #4f4f4f;
+    &.unread {
+      color: black;
 
-		@for $i from 1 through length($identicon-backgrounds) {
-			&.bg#{$i} {
-				background-color: nth($identicon-backgrounds, $i);
-			}
-		}
-	}
+      .time-ago {
+        color: #1876f2;
+        font-weight: 600;
+      }
+
+      .notification-options button:after {
+        content: '';
+        width: 12px;
+        height: 12px;
+        background-color: #1876f2;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -1.25rem;
+      }
+    }
+
+    .project-avatar, .user-avatar-container {
+      margin-right: 1rem;
+    }
+
+    .notification-details {
+      display: flex;
+      padding-right: 2rem;
+      flex-direction: column;
+    }
+
+    .notification-options {
+      button {
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        position: absolute;
+        right: 1rem;
+      }
+
+      .dropdown-menu {
+        width: auto;
+        top: 2rem;
+        right: 1rem;
+
+        .dropdown-content {
+          min-height: auto;
+        }
+      }
+    }
+  }
+
+  .more {
+    display: block;
+    padding: 0.5rem 0 0 1rem;
+    user-select: none;
+  }
 }
