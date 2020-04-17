@@ -29,8 +29,4 @@ class ProjectPolicy < ApplicationPolicy
   def count?
     user.in_project?(record) || user.admin?
   end
-
-  def data?
-    owner? || user.admin?
-  end
 end
