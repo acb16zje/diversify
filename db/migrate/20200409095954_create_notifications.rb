@@ -3,12 +3,12 @@
 class CreateNotifications < ActiveRecord::Migration[6.0]
   def change
     create_table :notifications do |t|
-      t.datetime :opened_at
       t.string :key, default: ''
+      t.boolean :read, default: false, null: false
 
       t.references :user, foreign_key: true, null: false
-      t.references :notifier, polymorphic: true, index: true
-      t.references :notifiable, polymorphic: true, index: true
+      t.references :notifier, polymorphic: true, null: false
+      t.references :notifiable, polymorphic: true, null: false
       t.timestamps
     end
   end

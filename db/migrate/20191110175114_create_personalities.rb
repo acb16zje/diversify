@@ -2,7 +2,6 @@
 
 class CreatePersonalities < ActiveRecord::Migration[6.0]
   def change
-
     create_enum 'minds', %w[I E]
     create_enum 'energies', %w[S N]
     create_enum 'natures', %w[T F]

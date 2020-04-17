@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddUniqueToLicenses < ActiveRecord::Migration[6.0]
   def change
     remove_index :licenses, :user_id

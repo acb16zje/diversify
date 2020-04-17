@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
   enable_extension "plpgsql"
 
   # These are custom enum types that must be created before they can be used in the schema definition
-  create_enum "application_type", ["invite", "application"]
+  create_enum "appeal_type", ["invitation", "application"]
   create_enum "energies", ["S", "N"]
   create_enum "minds", ["I", "E"]
   create_enum "natures", ["T", "F"]
@@ -97,6 +97,17 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
   end
 
+  create_table "appeals", force: :cascade do |t|
+    t.enum "type", default: "invitation", null: false, as: "appeal_type"
+    t.bigint "user_id", null: false
+    t.bigint "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_appeals_on_project_id"
+    t.index ["user_id", "project_id"], name: "index_appeals_on_user_id_and_project_id", unique: true
+    t.index ["user_id"], name: "index_appeals_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -138,17 +149,6 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
     t.index ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
     t.index ["provider", "user_id"], name: "index_identities_on_provider_and_user_id", unique: true
     t.index ["user_id"], name: "index_identities_on_user_id"
-  end
-
-  create_table "invites", force: :cascade do |t|
-    t.enum "types", default: "invite", null: false, as: "application_type"
-    t.bigint "user_id", null: false
-    t.bigint "project_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_invites_on_project_id"
-    t.index ["user_id", "project_id"], name: "index_invites_on_user_id_and_project_id", unique: true
-    t.index ["user_id"], name: "index_invites_on_user_id"
   end
 
   create_table "issues", force: :cascade do |t|
@@ -203,13 +203,13 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.datetime "opened_at"
     t.string "key", default: ""
+    t.boolean "read", default: false, null: false
     t.bigint "user_id", null: false
-    t.string "notifier_type"
-    t.bigint "notifier_id"
-    t.string "notifiable_type"
-    t.bigint "notifiable_id"
+    t.string "notifier_type", null: false
+    t.bigint "notifier_id", null: false
+    t.string "notifiable_type", null: false
+    t.bigint "notifiable_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["notifiable_type", "notifiable_id"], name: "index_notifications_on_notifiable_type_and_notifiable_id"
@@ -344,11 +344,11 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "appeals", "projects"
+  add_foreign_key "appeals", "users"
   add_foreign_key "collaborations", "teams"
   add_foreign_key "collaborations", "users"
   add_foreign_key "identities", "users"
-  add_foreign_key "invites", "projects"
-  add_foreign_key "invites", "users"
   add_foreign_key "issues", "projects"
   add_foreign_key "issues", "users"
   add_foreign_key "licenses", "users"
