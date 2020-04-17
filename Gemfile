@@ -48,7 +48,7 @@ gem 'hamlit'
 gem 'pagy'
 
 # Optimised JSON
-gem 'jb'
+gem 'blueprinter'
 gem 'oj'
 
 # Generate fake data
