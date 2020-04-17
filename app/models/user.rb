@@ -69,11 +69,10 @@ class User < ApplicationRecord
 
   validate :provided_birthdate, on: :update
 
-  before_commit :create_license, on: :create
+  after_create_commit -> { create_license }
 
-  after_commit :disable_password_automatically_set,
-               on: :update,
-               if: :saved_change_to_encrypted_password?
+  after_update_commit :disable_password_automatically_set,
+                      if: :saved_change_to_encrypted_password?
 
   def self.sign_in_omniauth(auth)
     Identity.where(provider: auth.provider, uid: auth.uid).first_or_create(
@@ -119,10 +118,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def create_license
-    super
-  end
 
   def disable_password_automatically_set
     return unless password_automatically_set
