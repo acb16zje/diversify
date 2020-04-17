@@ -11,7 +11,7 @@
           .project-details
             .flex.flex-wrap.items-center
               = link_to project, class: 'fullname' do
-                %span= "#{project.user_name} / "
+                %span #{project.user_name} /
                 %span.font-semibold= project.name
 
               %p.visibility

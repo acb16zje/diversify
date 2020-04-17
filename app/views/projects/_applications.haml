@@ -11,22 +11,20 @@
             %h1.title.is-2
               Close Application
             %p.has-text-grey All application will be turned downed if you close application
-            = button_to 'Close Application', change_status_project_path(@project), method: 'patch', remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
+            = button_to 'Close Application', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
             %h1.title.is-5
               Applications
           - elsif @project.active?
             %h1.title.is-2
               Open Application
             %p.has-text-grey Open Project to Applications
-            = button_to 'Open Applications', change_status_project_path(@project), method: 'patch', remote: true, params: { status: 'open' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
-      - if @project.visibility && @project.open?
-        .box
-          %application-table{ 'project-id': @project.id }
+            = button_to 'Open Applications', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'open' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
+      - if @project.applicable?
+        %application-table
       .content
         %h1.title.is-2
           Invite User
         %p.has-text-grey Invite User to Project
       %h1.title.is-5
         Invites
-      .box
-        %invite-table{ 'project-id': @project.id }
+      %invitation-table

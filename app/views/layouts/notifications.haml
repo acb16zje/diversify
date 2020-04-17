@@ -1,9 +1,0 @@
-- content_for :id, 'user'
-
-- content_for :javascript do
-  = javascript_packs_with_chunks_tag 'user', defer: '', nonce: true
-
-- content_for :footer do
-  = render 'layouts/footer'
-
-= render template: 'layouts/application'

@@ -16,35 +16,45 @@
             - elsif @project.open?
               %b-tooltip{ 'label': 'Project is Receiving Applications', 'position': 'is-top', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-icon': 'ic:baseline-person-add', 'data-inline': 'false' }
+
             - if @project.visibility
               %b-tooltip{ 'label': 'Public Project', 'position': 'is-right', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
             - else
               %b-tooltip{ 'label': 'Private Project', 'position': 'is-right', 'type': 'is-info' }
                 %span.icon.iconify{ 'data-icon': 'fa:lock' }
-
           %p Owned by: #{@project.user.name}
-        .column.is-narrow
-          - unless !user_signed_in? || current_user.in_project?(@project)
-            - if current_user.invites.where(project: @project, types: 'application').size.positive?
-              - invite = current_user.invites.find_by(project: @project, types: 'application')
-              = button_to 'Cancel Application', invite_path(invite), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger is-pulled-right', form: { '@ajax:error': 'ajaxError' }
-            - elsif current_user.invites.where(project: @project, types: 'invite').size.positive?
+
+        - unless current_user&.in_project?(@project)
+          .column.is-narrow
+            - appeal = @project.appeals.find_by(user: current_user)
+            - if appeal&.application?
+              = link_to 'Cancel Application', application_path(appeal), method: :delete, remote: true,
+                data: { confirm: 'Are you sure?', disable_: true }, class: 'button is-danger is-pulled-right',
+                form: { '@ajax:error': 'ajaxError' }
+
+            - elsif appeal&.invitation?
               .box
                 %h1.subtitle.is-4.has-text-primary You are Invited
-                - invite = current_user.invites.find_by(project: @project, types: 'invite')
-                = link_to 'Accept Invite', accept_invites_path(user_id: current_user.id, project_id: @project.id), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success', '@ajax:error': 'ajaxError'
-                = link_to 'Decline Invite', invite_path(invite), method: 'delete', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-danger', '@ajax:error': 'ajaxError'
+                = button_to 'Accept', accept_invitation_path(user_id: current_user.id, project_id: @project.id),
+                  remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-success',
+                  form: { '@ajax:error': 'ajaxError' }
+
+                = button_to 'Decline', invitation_path(appeal), method: :delete,
+                  remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-danger',
+                  form: { '@ajax:error': 'ajaxError' }
+
             - elsif current_user != @project.user && @project.applicable?
-              = button_to 'Join', invites_path(user_id: current_user.email, project_id: @project.id, types: 'application'), method: 'post', remote: true, data: { confirm: 'Are you sure?' }, class: 'button is-success is-pulled-right', form: { '@ajax:error': 'ajaxError' }
+              = button_to 'Join', project_applications_path(@project), class: 'button is-success is-pulled-right',
+                remote: true, data: { confirm: 'Are you sure?', disable: true }, form: { '@ajax:error': 'ajaxError' }
 %section
-  %b-tabs{ 'destroy-on-hide': '', 'type': 'is-boxed', 'expanded': '', 'v-model': 'selected', '@change': "getId(#{@project.id})" }
+  %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'expanded': '', 'v-model': 'selected' }
     %b-tab-item
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
         Members
       = render partial: 'members'
-    - if user_signed_in? && current_user.in_project?(@project)
+    - if current_user&.in_project?(@project)
       %b-tab-item
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
@@ -60,14 +70,14 @@
           Your Team
           -# %b-tag{ 'rounded': '' }
           -#   {{ teamCount }}
-    - if user_signed_in? && (@project.user == current_user || current_user.admin?)
+    - if @project.user == current_user || current_user&.admin?
       %b-tab-item
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'mdi:application-import', 'data-inline': 'false' }
           Applications
-          - if @project.invites.size.positive?
+          - if @project.appeals.size.positive?
             %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
-              %p= @project.invites.size
+              %p= @project.appeals.size
           %b-tag{ 'rounded': '', 'v-if': 'applicationCount > 0' }
             %p {{ applicationCount }}
         = render partial: 'applications'
@@ -76,4 +86,3 @@
           %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }
           Settings
         = render partial: 'settings'
-

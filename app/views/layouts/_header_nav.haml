@@ -2,20 +2,7 @@
   %template{ slot: 'brand' }
     .navbar-item#dropdowns
       - if user_signed_in?
-        %b-dropdown.is-right{ animation: '' }
-          %button.button.is-rounded{ slot: 'trigger', class: ('is-primary' if @not_num.positive?) }
-            %span
-              %span.iconify{ 'data-icon': 'bx:bxs-bell', 'data-inline': 'false' }
-              %b-tag{ 'rounded': '' }= @not_num
-          .dropdown-item#notification
-            - if @notifications.blank?
-              #no-notification
-                No Notifications
-            - else
-              - @notifications.each do |notification|
-                = render partial: "notifications/#{notification.key}", locals: { notification: notification }
-            %hr.dropdown-divider
-              = link_to 'View All', notifications_path
+        %notification-dropdown{ ':init-unread-count': @unread_count }
 
         %b-dropdown.is-right{ animation: '' }
           %button.button.user-dropdown{ slot: 'trigger' }
@@ -23,11 +10,6 @@
               = image_tag user_avatar(current_user)
             %span.icon.is-small
               %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
-          - unless current_controller?(:notifications)
-            = link_to notifications_path, class: 'is-hidden-desktop dropdown-item' do
-              Notifications
-              .is-pulled-right
-                %b-tag{ 'rounded': '', class: ('is-primary' if @not_num.positive?) }= @not_num
           = link_to 'Profile', user_path(current_user), class: 'dropdown-item'
           = link_to 'Settings', settings_profile_path, class: 'dropdown-item'
           %hr.dropdown-divider
@@ -36,11 +18,13 @@
         = link_to 'Sign in', new_user_session_path, class: 'button is-primary'
 
     = link_to root_path, class: 'navbar-item logo' do
-      = image_tag 'logo/logo_horizontal.svg', width: 150
+      -# = image_tag 'logo/logo_horizontal.svg', width: 150
+      = image_tag 'logo/logo.svg', width: 57
+      = image_tag 'logo/text_logo.svg', width: 75, class: 'ml-3 is-hidden-mobile'
 
   %template{ slot: 'start' }
     - if user_signed_in?
-      = nav_link_to 'Your Projects', path: projects_path, class: 'navbar-item'#, controller: :projects, action: :index
+      = nav_link_to 'Your Projects', path: projects_path, class: 'navbar-item', controller: :projects, action: :index
       = nav_link_to 'Explore Projects', path: explore_projects_path, class: 'navbar-item'
     - else
       = nav_link_to 'Pricing', path: pricing_pages_path, class: 'navbar-item'
