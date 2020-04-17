@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_060412) do
+ActiveRecord::Schema.define(version: 2020_04_17_053951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -279,12 +279,22 @@ ActiveRecord::Schema.define(version: 2020_04_15_060412) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_skills_on_category_id"
+    t.index ["name"], name: "index_skills_on_name", unique: true
+  end
+
+  create_table "task_skills", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "skill_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["skill_id", "task_id"], name: "index_task_skills_on_skill_id_and_task_id", unique: true
+    t.index ["skill_id"], name: "index_task_skills_on_skill_id"
+    t.index ["task_id"], name: "index_task_skills_on_task_id"
   end
 
   create_table "tasks", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
-    t.integer "experience", default: 0, null: false
     t.bigint "skills_id"
     t.bigint "user_id"
     t.bigint "project_id"
@@ -353,6 +363,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_060412) do
   add_foreign_key "skill_levels", "skills"
   add_foreign_key "skill_levels", "users"
   add_foreign_key "skills", "categories"
+  add_foreign_key "task_skills", "skills"
+  add_foreign_key "task_skills", "tasks"
   add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "skills", column: "skills_id"
   add_foreign_key "tasks", "users"
