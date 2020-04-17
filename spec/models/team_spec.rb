@@ -31,33 +31,28 @@ describe Team, type: :model do
   end
 
   describe 'validations' do
-    let(:team) { build(:team) }
-
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:team_size) }
     it { is_expected.to validate_numericality_of(:team_size) }
 
-    context 'when validate unique team name' do
-      it do
-        expect(team).to validate_uniqueness_of(:name)
-          .scoped_to(:project_id).with_message('already exist')
-      end
+    describe 'UNIQUE name, project_id' do
+      subject { build(:team) }
+
+      it {
+        is_expected.to validate_uniqueness_of(:name)
+          .scoped_to(:project_id)
+          .with_message('already exist')
+      }
     end
 
-    context 'when validate member count within team size' do
-      let(:user) { build(:user) }
+    describe '#check_users_limit' do
+      subject { team.errors.full_messages }
 
-      before do
-        team.team_size = 0
-        team.users << user
-        team.save
-      end
+      let(:team) { build(:team, team_size: 1) }
 
-      it do
-        expect(team.errors.full_messages).to include(
-          'Team Size is smaller than total members'
-        )
-      end
+      before { team.users << [build_list(:user, 3)] }
+
+      it { is_expected.to include('Team Size is smaller than total members') }
     end
   end
 end

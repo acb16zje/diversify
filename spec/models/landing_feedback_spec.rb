@@ -24,8 +24,6 @@ describe LandingFeedback, type: :model do
         .in_array(described_class::CHANNEL)
     }
 
-    it {
-      is_expected.to validate_inclusion_of(:interest).in_array([true, false])
-    }
+    it { is_expected.not_to allow_value(nil).for(:interest) }
   end
 end

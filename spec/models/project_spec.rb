@@ -30,23 +30,91 @@ describe Project, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:category) }
-    it { is_expected.to have_many(:teams) }
+
+    it { is_expected.to have_one(:avatar_attachment) }
+
+    it { is_expected.to have_many(:appeals) }
+    it { is_expected.to have_many(:notifications) }
     it { is_expected.to have_many(:reviews) }
     it { is_expected.to have_many(:tasks) }
-    it { is_expected.to have_many(:invites) }
+    it { is_expected.to have_many(:teams) }
+    it { is_expected.to have_many(:users).through(:teams) }
   end
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
 
-    it 'verifies avatar datatype' do
-      is_expected.to validate_content_type_of(:avatar)
+    it {
+      is_expected
+        .to validate_content_type_of(:avatar)
         .allowing('image/png', 'image/jpg', 'image/jpeg')
+    }
+
+    it {
+      is_expected
+        .to validate_size_of(:avatar).less_than_or_equal_to(200.kilobytes)
+    }
+  end
+
+  describe 'scopes' do
+    describe '.search' do
+      subject { described_class.search(params) }
+
+      let(:params) { { name: 'diversify' } }
+      let!(:project) { create(:project, name: 'diversify') }
+
+      it { is_expected.to match_array([project]) }
+    end
+  end
+
+  describe 'before_validation hook' do
+    describe '#check_users_limit' do
+      let(:project) do
+        create(:project_with_members, user: create(:user), members_count: 9)
+      end
+
+      before do
+        project.reload # otherwise project.users won't be updated
+        project.status = 'open'
+      end
+
+      it { expect(project.save).to be_falsey }
+    end
+  end
+
+  describe '#applicable?' do
+    subject { project.applicable? }
+
+    context 'when private' do
+      let(:project) { build_stubbed(:project, :private) }
+
+      it { is_expected.to be_falsey}
     end
 
-    it 'verifies avatar file size' do
-      is_expected.to validate_size_of(:avatar)
-        .less_than_or_equal_to(200.kilobytes)
+    context 'when active and public' do
+      let(:project) { build_stubbed(:project) }
+
+      it { is_expected.to be_falsey }
     end
+
+    context 'when completed and public' do
+      let(:project) { build_stubbed(:project, :completed) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when open and public' do
+      let(:project) { build_stubbed(:project, :open) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#assigned_team' do
+    subject { project.unassigned_team.name }
+
+    let(:project) { create(:project) }
+
+    it { is_expected.to eq('Unassigned') }
   end
 end

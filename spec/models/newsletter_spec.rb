@@ -10,7 +10,6 @@
 #  updated_at :datetime         not null
 #
 
-
 require 'rails_helper'
 
 describe Newsletter, type: :model do

@@ -42,4 +42,3 @@ describe TeamSkill, type: :model do
     end
   end
 end
-

@@ -6,13 +6,13 @@
 #
 #  id              :bigint           not null, primary key
 #  key             :string           default("")
-#  notifiable_type :string
-#  notifier_type   :string
-#  opened_at       :datetime
+#  notifiable_type :string           not null
+#  notifier_type   :string           not null
+#  read            :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  notifiable_id   :bigint
-#  notifier_id     :bigint
+#  notifiable_id   :bigint           not null
+#  notifier_id     :bigint           not null
 #  user_id         :bigint           not null
 #
 # Indexes

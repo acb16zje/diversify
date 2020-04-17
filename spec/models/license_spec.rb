@@ -36,7 +36,7 @@ describe License, type: :model do
     it { is_expected.to validate_presence_of(:plan) }
     it { is_expected.to validate_presence_of(:user_id) }
 
-    describe 'UNIQUE user' do
+    describe 'UNIQUE user_id' do
       before { create(:user) }
 
       it { is_expected.to validate_uniqueness_of(:user_id) }
