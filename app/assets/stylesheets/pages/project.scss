@@ -242,4 +242,15 @@ $identicon-purple;
       background-color: #f10a30;
     }
   }
+
+  .is-multiple {
+    select {
+      height: auto;
+      padding: 0;
+      
+      option {
+        padding: 0.5em 1em;
+      }
+    }
+  }
 }

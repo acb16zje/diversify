@@ -15,7 +15,7 @@
           = f.number_field :team_size, class: 'input'
       .field
         %label.label Skills
-        .control.select.is-multiple
+        .select.is-multiple
           = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
       .field
         .control
