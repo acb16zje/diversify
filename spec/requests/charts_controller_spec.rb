@@ -10,7 +10,6 @@ describe ChartsController, type: :request do
     before { sign_in admin }
 
     described_class.instance_methods(false).each do |route|
-
       describe "##{route}" do
         it {
           expect { get "/charts/#{route}" }

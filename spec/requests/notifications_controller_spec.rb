@@ -5,47 +5,63 @@ require 'rails_helper'
 describe NotificationsController, type: :request do
   let(:user) { create(:user) }
 
-  describe '#GET index' do
+  before { sign_in user }
+
+  describe 'GET #index' do
     subject(:request) { get notifications_path }
 
-    before { create(:notification, user: user, key: 'invite/invite') }
-
-    it_behaves_like 'accessible to authenticated users'
-    it_behaves_like 'not accessible to unauthenticated users'
+    it_behaves_like 'returns 404 Not Found'
   end
 
-  describe '#GET open' do
-    subject(:request) { get open_notification_path(notification) }
+  describe 'GET #index XHR' do
+    subject(:request) { get notifications_path, xhr: true }
 
-    context 'when not logged in' do
-      let(:notification) { create(:notification) }
+    it_behaves_like 'returns JSON response'
+  end
 
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
+  describe 'DELETE #destroy' do
+    subject(:request) { delete notification_path(notification) }
 
-    context 'when owns notification' do
+    let(:notification) { create(:notification, user: user) }
+
+    it_behaves_like 'returns 200 OK'
+  end
+
+  describe 'PATCH #read' do
+    subject(:request) { patch read_notification_path(notification) }
+
+    context 'when user is notification owner' do
       let(:notification) { create(:notification, user: user) }
 
-      before { sign_in user }
-
-      it { expect(request).to redirect_to notification.notifier }
+      it_behaves_like 'returns 200 OK'
     end
 
-    context 'when not owner' do
+    context 'when user is not notification owner' do
       let(:notification) { create(:notification) }
-
-      before { sign_in user }
 
       it_behaves_like 'returns 404 Not Found'
     end
   end
 
-  describe '#POST open_all' do
-    subject(:request) { post open_all_notifications_path }
+  describe 'PATCH #unread' do
+    subject(:request) { patch unread_notification_path(notification) }
 
-    before { create(:notification, user: user) }
+    context 'when user is notification owner' do
+      let(:notification) { create(:notification, user: user) }
 
-    it_behaves_like 'accessible to authenticated users'
-    it_behaves_like 'not accessible to unauthenticated users'
+      it_behaves_like 'returns 200 OK'
+    end
+
+    context 'when user is not notification owner' do
+      let(:notification) { create(:notification) }
+
+      it_behaves_like 'returns 404 Not Found'
+    end
+  end
+
+  describe 'PATCH #read_all' do
+    subject(:request) { patch read_all_notifications_path }
+
+    it_behaves_like 'returns 200 OK'
   end
 end

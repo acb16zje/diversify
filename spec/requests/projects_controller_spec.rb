@@ -131,7 +131,7 @@ describe ProjectsController, type: :request do
     context 'with joined private project' do
       let(:project) { create(:project, :private, user: admin) }
 
-      before { project.teams.find_by(name: 'Unassigned').users << user }
+      before { project.unassigned_team.users << user }
 
       it_behaves_like 'accessible to authorised users'
     end
@@ -164,9 +164,7 @@ describe ProjectsController, type: :request do
 
     context 'with invalid inputs' do
       let(:params) do
-        {
-          project: { name: 'Test', description: 'Test', category_id: 'a' }
-        }
+        { project: { name: 'Test', description: 'Test', category_id: 'a' } }
       end
 
       before { sign_in user }
@@ -261,8 +259,8 @@ describe ProjectsController, type: :request do
       patch change_status_project_path(project), params: params
     end
 
-    %w[open completed active].each do |status|
-      context 'with valid status change' do
+    %w[open active completed].each do |status|
+      context "with valid status change to #{status}" do
         let(:project) { create(:project, user: user) }
         let(:params) { { status: status } }
 
@@ -299,29 +297,6 @@ describe ProjectsController, type: :request do
     %w[task team application].each do |type|
       context "with valid query for #{type}" do
         let(:params) { { type: type } }
-
-        it_behaves_like 'accessible to authenticated users'
-        it_behaves_like 'not accessible to unauthenticated users'
-      end
-    end
-
-    context 'with invalid type' do
-      let(:params) { { type: 'bla' } }
-
-      before { sign_in user }
-
-      it_behaves_like 'returns 400 Bad Request'
-    end
-  end
-
-  describe 'POST #data' do
-    subject(:request) { get data_project_path(project), params: params }
-
-    let(:project) { create(:project, user: user) }
-
-    %w[invite application].each do |type|
-      context "with valid query for #{type}" do
-        let(:params) { { types: type } }
 
         it_behaves_like 'accessible to authenticated users'
         it_behaves_like 'not accessible to unauthenticated users'
