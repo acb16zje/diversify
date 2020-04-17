@@ -8,7 +8,7 @@
 
     <section class="modal-card-body content">
       <b-loading :is-full-page="false" :active.sync="isLoading" />
-      <span v-html="content" />
+      <span v-html="content" /> <!-- eslint-disable-line vue/no-v-html -->
     </section>
   </div>
 </template>

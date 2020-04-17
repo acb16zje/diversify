@@ -1,33 +1,36 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
 import Rails from '@rails/ujs';
-import ProjectList from '../components/projects/ProjectList.vue';
-import ApplicationTable from '../components/projects/ApplicationTable.vue';
-import InviteTable from '../components/projects/InviteTable.vue';
-import TeamsManage from '../components/projects/TeamsManage.vue';
-import { dangerToast } from '../components/buefy/toast';
-import TeamModal from '../components/projects/components/TeamModal.vue';
-
-import projectStore from '../components/projects/store';
+import ProjectList from '../projects/ProjectList.vue';
+import ApplicationTable from '../projects/ApplicationTable.vue';
+import InvitationTable from '../projects/InvitationTable.vue';
+import TeamsManage from '../projects/TeamsManage.vue';
+import TeamModal from '../projects/components/TeamModal.vue';
+import { dangerToast } from '../buefy/toast';
+import projectStore from '../projects/store';
 
 new Vue({
   el: '#project',
   components: {
     ProjectList,
     ApplicationTable,
-    InviteTable,
+    InvitationTable,
     TeamsManage,
   },
   store: projectStore,
   data: {
     avatarFilename: 'No file attached',
     avatarDataUrl: null,
-    id: -1,
     selected: 0,
     taskCount: -1,
     applicationCount: -1,
     teamCount: -1,
     isModalActive: -1,
+  },
+  computed: {
+    id() {
+      return window.location.pathname.split('/')[2];
+    },
   },
   watch: {
     selected(value) {
@@ -41,9 +44,6 @@ new Vue({
     },
   },
   methods: {
-    getId(id) {
-      this.id = id;
-    },
     getCount(countType) {
       Rails.ajax({
         url: `/projects/${this.id}/count`,

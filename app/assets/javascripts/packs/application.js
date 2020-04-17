@@ -10,9 +10,10 @@ import '../../stylesheets/application.scss';
 import Vue from 'vue/dist/vue.esm';
 import Vuex from 'vuex';
 import Buefy from 'buefy';
-import Icon from '../components/buefy/Icon.vue';
-import Toast from '../components/buefy/Toast.vue';
-import { dangerToast, successToast } from '../components/buefy/toast';
+import Icon from '../buefy/Icon.vue';
+import NotificationDropdown from '../notifications/NotificationDropdown.vue';
+import Toast from '../buefy/Toast.vue';
+import { dangerToast } from '../buefy/toast';
 
 require('@rails/ujs').start();
 require('@iconify/iconify/dist/iconify');
@@ -23,6 +24,7 @@ Vue.use(Buefy, { defaultIconComponent: Icon });
 Vue.mixin({
   components: {
     Toast,
+    NotificationDropdown,
   },
   methods: {
     ajaxError({ detail: [response, status] }) {
@@ -30,13 +32,6 @@ Vue.mixin({
         response.message.forEach((message) => dangerToast(message));
       } else {
         dangerToast(response.message || status);
-      }
-    },
-    ajaxSuccess({ detail: [response, status] }) {
-      if (Array.isArray(response.message)) {
-        response.message.forEach((message) => successToast(message));
-      } else {
-        successToast(response.message || status);
       }
     },
   },

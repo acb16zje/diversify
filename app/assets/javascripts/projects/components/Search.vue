@@ -87,7 +87,7 @@
 <script>
 import Rails from '@rails/ujs';
 import { debounce } from 'lodash-es';
-import { mapMutations, mapActions } from 'vuex';
+import { mapActions, mapMutations } from 'vuex';
 
 export default {
   data() {

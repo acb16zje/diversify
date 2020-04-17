@@ -1,7 +1,7 @@
 import '../application';
 import Vue from 'vue/dist/vue.esm';
-import Datepicker from '../../components/metrics/Datepicker.vue';
-import Chartkick from '../../components/metrics/Chartkick.vue';
+import Datepicker from '../../metrics/Datepicker.vue';
+import Chartkick from '../../metrics/Chartkick.vue';
 
 new Vue({
   el: '#metrics-page',

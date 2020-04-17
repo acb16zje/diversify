@@ -1,4 +1,4 @@
-<template />
+<template /> <!-- eslint-disable-line -->
 
 <script>
 import { dangerToast, successToast } from './toast';

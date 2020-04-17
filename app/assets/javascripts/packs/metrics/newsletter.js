@@ -1,7 +1,7 @@
 import '../application';
 import Vue from 'vue/dist/vue.esm';
-import SubscribersTable from '../../components/metrics/SubscribersTable.vue';
-import NewslettersTable from '../../components/metrics/NewslettersTable.vue';
+import SubscribersTable from '../../metrics/SubscribersTable.vue';
+import NewslettersTable from '../../metrics/NewslettersTable.vue';
 
 Vue.config.ignoredElements = [/^trix-|^action-text/];
 

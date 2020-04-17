@@ -13,7 +13,7 @@
 
     <template>
       <b-loading :is-full-page="false" :active.sync="isSearching" />
-      <div v-html="projectsHTML" />
+      <div v-html="projectsHTML" /> <!-- eslint-disable-line vue/no-v-html -->
     </template>
 
     <b-pagination
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex';
+import { mapActions, mapMutations, mapState } from 'vuex';
 import Search from './components/Search.vue';
 import SearchSummary from './components/SearchSummary.vue';
 

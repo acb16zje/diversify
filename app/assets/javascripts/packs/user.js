@@ -1,6 +1,6 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
-import { successToast } from '../components/buefy/toast';
+import { successToast } from '../buefy/toast';
 
 new Vue({
   el: '#user',
