@@ -29,16 +29,34 @@ FactoryBot.define do
   factory :project do
     description { 'lorem ipsum' }
     name { 'Project' }
-    status { 'active' }
+
     association :category, factory: :category
     association :user, factory: :user
 
-    trait :with_avatar do
-      avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
+    trait :open do
+      status { 'open' }
+    end
+
+    trait :completed do
+      status { 'completed' }
     end
 
     trait :private do
       visibility { false }
+    end
+
+    trait :with_avatar do
+      avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
+    end
+  end
+
+  factory :project_with_members, parent: :project do
+    transient do
+      members_count { 5 }
+    end
+
+    after(:create) do |project, evaluator|
+      project.unassigned_team.users << build_list(:user, evaluator.members_count)
     end
   end
 end

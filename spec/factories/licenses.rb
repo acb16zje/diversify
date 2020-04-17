@@ -21,6 +21,8 @@
 
 FactoryBot.define do
   factory :license do
+    association :user, factory: :user
+
     trait :pro do
       plan { 'pro' }
     end
