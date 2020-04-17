@@ -4,7 +4,6 @@ class TeamsController < ApplicationController
   before_action :set_team, only: %i[edit show update destroy remove_user]
   before_action :set_project, except: %i[show update destroy remove_user]
   before_action :set_skills, only: %i[new edit]
-  before_action :check_xhr, only: %i[remove_user manage_data save_manage show]
 
   layout 'project'
 
@@ -12,6 +11,8 @@ class TeamsController < ApplicationController
   def manage; end
 
   def manage_data
+    return unless request.xhr?
+
     @data = User.joins(:teams).where(teams: { project: @project })
                 .select('users.*, teams.id as team_id')
     render json: {
@@ -44,6 +45,8 @@ class TeamsController < ApplicationController
   end
 
   def show
+    return unless request.xhr?
+
     render json: {
       name: @team.name, skills: @team.skills&.select(:id, :name),
       team_size: @team.team_size, member_count: @team.users.size
@@ -53,7 +56,7 @@ class TeamsController < ApplicationController
   # POST /teams
   def create
     skill_ids = params[:team][:skill_ids]
-    @team = Team.new(team_params)
+    @team = Team.new(create_params)
     if @team.save
       @team.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
       team_success('Team was successfully created')
@@ -64,7 +67,7 @@ class TeamsController < ApplicationController
 
   # PATCH/PUT /teams/1
   def update
-    @team.update(team_params) ? team_success('Team Saved') : team_fail(nil)
+    @team.update(edit_params) ? team_success('Team Saved') : team_fail(nil)
   end
 
   # DELETE /teams/1
@@ -102,14 +105,13 @@ class TeamsController < ApplicationController
     authorize! @project, to: :manage?
   end
 
-  def check_xhr
-    return unless request.xhr?
-  end
-
-  # Only allow a trusted parameter "white list" through.
-  def team_params
+  def create_params
     params.require(:team).except(:skill_ids)
           .permit(:team_size, :project_id, :name)
+  end
+
+  def edit_params
+    params.require(:team).permit(:team_size, :project_id, :name, skill_ids: [])
   end
 
   def team_success(message)

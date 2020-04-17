@@ -152,5 +152,4 @@ class User < ApplicationRecord
   rescue StandardError
     errors.add(:date, 'is invalid')
   end
-
 end

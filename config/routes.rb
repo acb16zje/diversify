@@ -129,6 +129,8 @@ Rails.application.routes.draw do
         delete 'remove_user'
       end
     end
+
+    resources :tasks
   end
 
   resources :invites do

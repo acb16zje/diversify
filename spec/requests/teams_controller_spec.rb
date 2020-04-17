@@ -234,13 +234,13 @@ describe TeamsController, type: :request do
   end
 
   describe 'GET #show' do
-    subject(:request) { get project_team_path(project, team) }
+    subject(:request) { get project_team_path(project, team), xhr: true }
 
     let(:project) { create(:project) }
     let(:team) { create(:team, project: project) }
 
     context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
+      it_behaves_like 'returns 401 Unauthorized'
     end
 
     context 'when not authorized to manage project' do
@@ -251,7 +251,6 @@ describe TeamsController, type: :request do
 
     context 'when user is admin' do
       it_behaves_like 'accessible to admin users'
-      it_behaves_like 'not accessible to non-admin users'
     end
 
     context 'when user is project owner' do
