@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable Layout/LineLength
 describe NavHelper, type: :helper do
   include ApplicationHelper
 
@@ -35,5 +36,16 @@ describe NavHelper, type: :helper do
       it { expect(nav_link_to('', path: '', controller: :bar, action: :foo)).not_to match(/active/) }
       it { expect(nav_link_to('', path: '', controller: :bar, action: :bar)).not_to match(/active/) }
     end
+
+    context 'with block given' do
+      subject { nav_link_to('', path: '') { string } }
+
+      let(:string) { '<span class="iconify"></span>' }
+
+      it 'returns with the block enclosed' do
+        is_expected.to include(ERB::Util.html_escape(string))
+      end
+    end
   end
 end
+# rubocop:enable Layout/LineLength

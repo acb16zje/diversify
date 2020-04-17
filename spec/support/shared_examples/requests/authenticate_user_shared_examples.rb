@@ -15,5 +15,3 @@ end
 shared_examples 'not accessible to unauthenticated users' do
   it_behaves_like 'redirects to', :new_user_session_path
 end
-
-

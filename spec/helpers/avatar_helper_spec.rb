@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 describe AvatarHelper, type: :helper do
-
   describe '#user_avatar' do
     subject { user_avatar(user) }
 

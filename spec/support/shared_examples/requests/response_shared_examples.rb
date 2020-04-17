@@ -21,6 +21,12 @@ shared_examples 'returns 401 Unauthorized' do
   it { expect(response).to have_http_status(:unauthorized) }
 end
 
+shared_examples 'returns 403 Forbidden' do
+  before { request }
+
+  it { expect(response).to have_http_status(:forbidden) }
+end
+
 shared_examples 'returns 404 Not Found' do
   before { request }
 
