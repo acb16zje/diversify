@@ -37,11 +37,15 @@ class Project < ApplicationRecord
 
   belongs_to :user
   belongs_to :category
-  has_many :reviews, dependent: :destroy
+
   has_one_attached :avatar
-  has_many :teams, dependent: :destroy
+
+  has_many :appeals, dependent: :destroy
+  has_many :notifications, as: :notifiable, dependent: :destroy
+  has_many :notifications, as: :notifier, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many :tasks, dependent: :destroy
-  has_many :invites, dependent: :destroy
+  has_many :teams, dependent: :destroy
   has_many :users, through: :teams
 
   validates :name, presence: true, length: { maximum: 100 }
@@ -63,24 +67,39 @@ class Project < ApplicationRecord
       .order(SORT_BY[params[:sort]&.to_sym] || SORT_BY[:created_desc])
   }
 
+  before_validation :validate_status_update,
+                    on: :update,
+                    if: :will_save_change_to_status?
+
   before_commit :create_unassigned_team, on: :create
 
-  def status
-    super.capitalize
-  end
-
   def applicable?
-    status == 'Open' && visibility
+    open? && visibility
   end
 
-  def full?
-    users.size >= user.license.member_limit
+  def unassigned_team
+    teams.find_by(name: 'Unassigned')
+  end
+
+  def check_users_limit
+    return if users.size < user.license.member_limit
+
+    errors.add(:base, 'Project is already full')
+    throw :abort
   end
 
   private
 
+  def validate_status_update
+    if status_was != 'active' && status != 'active'
+      errors.add(:base, 'Invalid status change')
+      throw :abort
+    end
+
+    check_users_limit if status == 'open'
+  end
+
   def create_unassigned_team
-    team = teams.create(name: 'Unassigned', team_size: 999)
-    team.users << user
+    teams.create(name: 'Unassigned', team_size: 999).users << user
   end
 end

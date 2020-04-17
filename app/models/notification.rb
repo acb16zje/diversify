@@ -6,13 +6,13 @@
 #
 #  id              :bigint           not null, primary key
 #  key             :string           default("")
-#  notifiable_type :string
-#  notifier_type   :string
-#  opened_at       :datetime
+#  notifiable_type :string           not null
+#  notifier_type   :string           not null
+#  read            :boolean          default(FALSE), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  notifiable_id   :bigint
-#  notifier_id     :bigint
+#  notifiable_id   :bigint           not null
+#  notifier_id     :bigint           not null
 #  user_id         :bigint           not null
 #
 # Indexes
@@ -27,10 +27,13 @@
 #
 class Notification < ApplicationRecord
   belongs_to :user
-  belongs_to :notifiable, polymorphic: true, optional: true
-  belongs_to :notifier, polymorphic: true, optional: true
+  belongs_to :notifiable, polymorphic: true
+  belongs_to :notifier, polymorphic: true
 
-  def unopened?
-    opened_at.nil?
-  end
+  scope :unread, -> { where(read: false) }
+
+  # TODO: tasks may not have avatar attachment, so the eager load wont work
+  scope :load_index, lambda {
+    includes(:notifier, notifiable: [{ avatar_attachment: :blob }])
+  }
 end

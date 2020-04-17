@@ -45,7 +45,7 @@ class User < ApplicationRecord
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
   has_many :tasks, dependent: :destroy
-  has_many :invites, dependent: :destroy
+  has_many :appeals, dependent: :destroy
   has_many :reviews,
            foreign_key: :reviewer_id,
            class_name: 'Review',
@@ -72,7 +72,8 @@ class User < ApplicationRecord
   after_create_commit -> { create_license }
 
   after_update_commit :disable_password_automatically_set,
-                      if: :saved_change_to_encrypted_password?
+                      if: [:saved_change_to_encrypted_password?,
+                           proc { |user| user.password_automatically_set }]
 
   def self.sign_in_omniauth(auth)
     Identity.where(provider: auth.provider, uid: auth.uid).first_or_create(
@@ -107,22 +108,14 @@ class User < ApplicationRecord
     admin || !license.free?
   end
 
-  def self.relevant_invite(type, project)
-    self.select('users.id, users.email, invites.id AS invite_id')
-        .joins(:invites)
-        .where(invites: { types: type, project: project })
-  end
-
   def notifications
-    super.order(created_at: :desc)
+    super.order(id: :desc, created_at: :desc)
   end
 
   private
 
   def disable_password_automatically_set
-    return unless password_automatically_set
-
-    update(password_automatically_set: false)
+    update_columns(password_automatically_set: false) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def provided_birthdate

@@ -26,7 +26,7 @@ class Team < ApplicationRecord
 
   # Join table
   has_many :collaborations, dependent: :destroy
-  has_many :users, through: :collaborations
+  has_many :users, through: :collaborations, before_add: :check_users_limit
   has_many :team_skills, dependent: :destroy
   has_many :skills, through: :team_skills
 
@@ -37,12 +37,12 @@ class Team < ApplicationRecord
             presence: true,
             numericality: { greater_than_or_equal_to: 1 }
 
-  validate :user_limit
-
   private
 
-  def user_limit
-    return unless team_size.present? && users.size > team_size
+  def check_users_limit(_)
+    project.check_users_limit
+
+    return unless users.size > team_size
 
     errors[:base] << 'Team Size is smaller than total members'
   end
