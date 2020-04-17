@@ -43,5 +43,13 @@ Style/Documentation:
   Enabled: false
 
 # RSpec Settings
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/policies/**/*'
+
 RSpec/ImplicitSubject:
   EnforcedStyle: 'single_statement_only'
+
+RSpec/ScatteredSetup:
+  Exclude:
+    - 'spec/policies/**/*'
