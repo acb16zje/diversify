@@ -2,7 +2,6 @@
 
 # controller for OAuth Devise
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
   def omniauth_flow
     user_signed_in? ? connect_flow : sign_in_flow
 

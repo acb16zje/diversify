@@ -9,7 +9,7 @@ class Users::Settings::AccountsController < Users::Settings::BaseController
     identity = current_user.identities.find_by!(provider: params[:provider])
 
     if disconnect_provider_allowed?
-      identity.destroy
+      identity.delete
       flash[:toast_success] = 'Account Disconnected'
     else
       flash[:toast_error] = 'Please set up a password before disabling all Social Accounts'

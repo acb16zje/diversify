@@ -43,15 +43,12 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # TODO: cannot change to open when project is private, use callback for project_fail check
   def change_status
-    new_status = params[:status]
-    return project_fail('Invalid Status Change') if
-      @project.status != 'Active' && new_status != 'active'
-    return project_fail('Project is already full') if
-      @project.full? && new_status == 'open'
+    @project.update(status: params[:status])
+    msg = @project.errors.full_messages
 
-    @project.status = new_status
-    @project.save ? project_success(prepare_message) : project_fail(nil)
+    msg.blank? ? project_success(prepare_message) : project_fail(msg)
   end
 
   def count
@@ -61,18 +58,10 @@ class ProjectsController < ApplicationController
     count = case params[:type]
             when 'task' then @project.tasks.size
             when 'team' then 0
-            when 'application' then @project.invites.size
+            when 'application' then @project.appeals.size
             end
 
-    render json: { count: count }, status: :ok
-  end
-
-  def data
-    return head :bad_request unless
-    params.key?(:types) && %w[invite application].include?(params[:types])
-
-    render json: { data: User.relevant_invite(params[:types], @project) },
-           status: :ok
+    render json: { count: count }
   end
 
   private
@@ -83,9 +72,9 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(
-      :name, :description, :visibility, :category_id, :avatar
-    )
+    params
+      .require(:project)
+      .permit(%i[name description visibility category_id avatar])
   end
 
   def render_projects(policy_scope)
@@ -104,23 +93,24 @@ class ProjectsController < ApplicationController
   end
 
   def project_success(message)
-    @project.invites.each(&:destroy) if @project.completed?
+    @project.appeals.each(&:destroy) if @project.completed?
     flash[:toast_success] = message
     render js: "window.location = '#{project_path(@project)}'"
   end
 
-  def project_fail(message)
-    message ||= @project.errors.full_messages
+  def project_fail(message = @project.errors.full_messages)
     render json: { message: message }, status: :unprocessable_entity
   end
 
   def prepare_message
     case params[:status]
-    when 'completed' then 'Project Archived'
+    when 'completed'
+      'Project Archived'
     when 'active'
-      @project.invites.where(types: 'application').destroy_all
+      @project.appeals.where(type: 'application').destroy_all
       @project.completed? ? 'Project Activated' : 'Project Closed'
-    when 'open' then 'Project Opened'
+    when 'open'
+      'Project Opened'
     end
   end
 end

@@ -18,7 +18,7 @@ class TeamsController < ApplicationController
     render json: {
       data: @data.group_by(&:team_id),
       teams: Team.where(project: @project).select(:id, :name, :team_size)
-    }, status: :ok
+    }
   end
 
   def save_manage
@@ -50,7 +50,7 @@ class TeamsController < ApplicationController
     render json: {
       name: @team.name, skills: @team.skills&.select(:id, :name),
       team_size: @team.team_size, member_count: @team.users.size
-    }, status: :ok
+    }
   end
 
   # POST /teams
@@ -120,8 +120,7 @@ class TeamsController < ApplicationController
       "window.location = '#{manage_project_teams_path(@team.project)}'"
   end
 
-  def team_fail(message)
-    message ||= @team.errors.full_messages
+  def team_fail(message = @team.errors.full_messages)
     render json: { message: message }, status: :unprocessable_entity
   end
 

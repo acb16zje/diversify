@@ -8,17 +8,10 @@ class ApplicationController < ActionController::Base
   skip_before_action :track_ahoy_visit
 
   before_action :authenticate_user!
-  before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :retrieve_notification
+  before_action :unread_notification_count,
+                if: proc { !request.xhr? && user_signed_in? }
 
   protect_from_forgery with: :exception, prepend: true
-
-  def retrieve_notification
-    return if request.xhr? || !user_signed_in?
-
-    @notifications = current_user.notifications.limit(5)
-    @not_num = current_user.notifications.where(opened_at: nil).size
-  end
 
   rescue_from ActionController::ParameterMissing do
     head :bad_request
@@ -35,6 +28,11 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
+  rescue_from ActionController::UnpermittedParameters do
+    render json: { message: 'Unpermitted Parameters' }, status: :bad_request
+  end
+
+  # TODO: Teams destroy, it doesn't return error when push user back to unassigned?
   rescue_from ActiveRecord::RecordInvalid do
     render json: { message: 'Invalid Record' }, status: :unprocessable_entity
   end
@@ -49,16 +47,14 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def configure_permitted_parameters
-    update_attrs = %i[password password_confirmation current_password]
-    devise_parameter_sanitizer.permit :account_update, keys: update_attrs
+  def unread_notification_count
+    @unread_count = current_user.notifications.unread.size
   end
 
-  def render_404
+  def render_404(msg = 'Not found')
     respond_to do |format|
-      format.html { render 'errors/error_404', status: :not_found }
-      # Prevent the Rails CSRF protector from thinking a missing .js file is a JavaScript file
-      format.js { render json: '', status: :not_found }
+      format.html { render 'errors/error_404', layout: 'errors', status: 404 }
+      format.json { render json: { message: msg }, status: :not_found }
       format.any { head :not_found }
     end
   end

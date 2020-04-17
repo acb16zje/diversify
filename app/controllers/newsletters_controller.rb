@@ -2,7 +2,6 @@
 
 # Controller for newsletter
 class NewslettersController < ApplicationController
-
   skip_before_action :authenticate_user!, only: %i[
     subscribe
     unsubscribe

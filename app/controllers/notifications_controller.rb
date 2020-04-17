@@ -2,31 +2,39 @@
 
 # Controller for notifications
 class NotificationsController < ApplicationController
-
-  layout 'notifications'
+  before_action :set_notification, only: %i[destroy read unread]
 
   def index
-    @pagy, @records = pagy(Notification.where(user: current_user))
+    return render_404 unless request.xhr?
+
+    _, notifications = pagy(current_user.notifications.load_index, items: 5)
+
+    render json: NotificationBlueprint.render(notifications)
   end
 
-  def open_all
-    notifications = Notification.where(user: current_user, opened_at: nil)
-
-    notifications.each do |notification|
-      notification.opened_at = DateTime.now
-      notification.save
-    end
-
-    flash[:toast_success] = 'Opened all Notifications'
-    render js: "window.location = '#{notifications_path}'"
+  def destroy
+    @notification.delete ? head(:ok) : head(:bad_request)
   end
 
-  def open
-    notification = Notification.find(params[:id])
+  def read
+    @notification.update_columns(read: true) # rubocop:disable Rails/SkipsModelValidations
+    head :ok
+  end
 
-    authorize! notification
-    notification.opened_at = DateTime.now
-    notification.save
-    redirect_to notification.notifier
+  def unread
+    @notification.update_columns(read: false) # rubocop:disable Rails/SkipsModelValidations
+    head :ok
+  end
+
+  def read_all
+    current_user.notifications.unread.update_all(read: true) # rubocop:disable Rails/SkipsModelValidations
+    head :ok
+  end
+
+  private
+
+  def set_notification
+    @notification = Notification.find(params[:id])
+    authorize! @notification, with: NotificationPolicy
   end
 end
