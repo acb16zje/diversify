@@ -28,7 +28,6 @@ describe 'Search Project > Project', :js, type: :system do
     it 'sort by categories' do
       click_button 'Category'
       find(:xpath, "//a[@class='dropdown-item'][2]").click
-      # find('a.dropdown-item[2]').click
       expect(page).to have_content('Test2', wait: 15)
     end
 

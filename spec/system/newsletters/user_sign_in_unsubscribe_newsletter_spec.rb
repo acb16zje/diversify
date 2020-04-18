@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
+describe 'Logged in page Newsletter > Unsubscribe', :js, type: :system do
   let(:user) { create(:user) }
 
   before do

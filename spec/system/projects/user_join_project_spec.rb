@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe 'Edit Project > Project', :js, type: :system do
+describe 'Join Project > Project', :js, type: :system do
   let(:user) { create(:user) }
   let(:user_invite) { create(:user) }
   let(:category1) { create(:category) }
