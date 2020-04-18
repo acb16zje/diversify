@@ -19,7 +19,8 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    record.visibility || owner? || user&.admin? || user&.in_project?(record)
+    record.visibility || owner? || user&.admin? || user&.in_project?(record) ||
+      record.appeals.where(user: user, type: 'invitation').exists?
   end
 
   def manage?

@@ -88,6 +88,14 @@ describe ProjectPolicy, type: :policy do
 
         before { record.unassigned_team.users << user }
       end
+
+      succeed 'when user is invited' do
+        let(:user) { create(:user) }
+        let(:record) { create(:project) }
+        let(:invitation) {create(:invitation, user: user) }
+
+        before { record.appeals << invitation }
+      end
     end
   end
 

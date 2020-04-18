@@ -36,13 +36,14 @@
             - elsif appeal&.invitation?
               .box
                 %h1.subtitle.is-4.has-text-primary You are Invited
-                = button_to 'Accept', accept_invitation_path(user_id: current_user.id, project_id: @project.id),
-                  remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-success',
-                  form: { '@ajax:error': 'ajaxError' }
+                .buttons
+                  = button_to 'Accept', accept_invitation_path(user_id: current_user.id, project_id: @project.id),
+                    remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-success',
+                    form: { '@ajax:error': 'ajaxError' }
 
-                = button_to 'Decline', invitation_path(appeal), method: :delete,
-                  remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-danger',
-                  form: { '@ajax:error': 'ajaxError' }
+                  = button_to 'Decline', invitation_path(appeal), method: :delete,
+                    remote: true, data: { confirm: 'Are you sure?', disable: true }, class: 'button is-danger',
+                    form: { '@ajax:error': 'ajaxError' }
 
             - elsif current_user != @project.user && @project.applicable?
               = button_to 'Join', project_applications_path(@project), class: 'button is-success is-pulled-right',

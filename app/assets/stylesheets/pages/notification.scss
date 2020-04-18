@@ -1,7 +1,12 @@
 #notifications-dropdown {
+
   @media screen and (max-width: 1023px) {
     .title.is-4 {
       font-size: 1.2rem;
+    }
+
+    .dropdown-menu {
+      overflow: visible;
     }
   }
 
@@ -12,7 +17,7 @@
 
       .dropdown-content {
         max-height: 25rem;
-        overflow-y: auto;
+        overflow-y: visible;
       }
     }
   }
@@ -56,6 +61,7 @@
     .notification-details {
       display: flex;
       padding-right: 2rem;
+      width: 100%;
       flex-direction: column;
     }
 
@@ -72,6 +78,7 @@
         width: auto;
         top: 2rem;
         right: 1rem;
+        z-index: 100000;
 
         .dropdown-content {
           min-height: auto;
