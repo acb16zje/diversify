@@ -25,6 +25,6 @@ class TaskUser < ApplicationRecord
   belongs_to :task
   belongs_to :user
 
-  validates :user_id, presence: true, uniqueness: { scope: :task_id }
+  validates :user_id, presence: true, uniqueness: { scope: %i[task_id owner] }
   validates :task_id, presence: true
 end

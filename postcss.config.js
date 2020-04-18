@@ -22,6 +22,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
 
     // buefy
     /modal/, /navbar/, /dropdown/, /pagination/, /level/, /tabs/, /tooltip/,
+    /progress/,
   ],
 });
 

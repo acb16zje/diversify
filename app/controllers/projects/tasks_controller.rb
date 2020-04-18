@@ -32,7 +32,7 @@ class Projects::TasksController < ApplicationController
     if @task.save
       @task.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
       @task.users << User.find(user_ids.drop(1)) if user_ids.present?
-      @task.task_users << TaskUser.new(user: current_user, owner: true)
+      @task.task_users << TaskUser.create(user: current_user, owner: true)
       task_success('Task created')
     else
       task_fail(nil)
@@ -58,8 +58,15 @@ class Projects::TasksController < ApplicationController
   def data
     return unless request.xhr?
 
-    @data = Task.all
-    render json: { data: @data }, status: :ok
+    user_data = Task.joins(task_users: :user).where(project: @project)
+                    .select('tasks.id, task_users.owner as owner,
+                            users.id as user_id, users.name as user_name')
+                    .order(owner: :desc)
+    @data = Task.where(project: @project)
+    images = assignee_avatars(User.find(user_data.pluck(:user_id).uniq))
+
+    render json: { data: @data, user_data: user_data.group_by(&:id), images: images },
+           status: :ok
   end
 
   private
@@ -99,5 +106,16 @@ class Projects::TasksController < ApplicationController
   def edit_params
     params.require(:task)
           .permit(:description, :project_id, :name, skills_id: [])
+  end
+
+  def assignee_avatars(users)
+    extend AvatarHelper
+
+    images = {}
+    users.each do |u|
+      images[u.id] =
+        u.avatar.attached? ? url_for(user_avatar(u)) : user_avatar(u)
+    end
+    images
   end
 end

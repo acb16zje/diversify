@@ -11,10 +11,9 @@
               .buttons.has-addons
                 = link_to new_project_task_path(@project), class: 'button is-primary' do
                   %p New Task
-      .content
-        - if current_user.tasks.empty?
-          No Active Tasks Assigned
-        - else
-          %task-table{ 'project-id': @project.id }
+      - if current_user.tasks.empty?
+        No Active Tasks Assigned
+      - else
+        %task-table{ 'project-id': @project.id }
 
 

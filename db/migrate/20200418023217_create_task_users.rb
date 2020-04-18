@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTaskUsers < ActiveRecord::Migration[6.0]
   def change
     create_table :task_users do |t|
@@ -8,6 +10,6 @@ class CreateTaskUsers < ActiveRecord::Migration[6.0]
       t.timestamps
     end
 
-    add_index :task_users, %i[user_id task_id], unique: true
+    add_index :task_users, %i[user_id task_id owner], unique: true
   end
 end
