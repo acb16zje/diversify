@@ -10,12 +10,10 @@ describe 'New Project > Project', :js, type: :system do
     create(:project, name: 'Test2', user: user, status: 'open', created_at: 1.day.ago)
     create_list(:category, 3)
     sign_in user
-    visit projects_path
+    visit 'projects/new'
   end
 
   context 'when creates the project' do
-    before { click_link_or_button 'New Project' }
-
     it 'fills title only' do
       fill_in 'project_name', with: 'New Project'
       click_button 'Create Project'

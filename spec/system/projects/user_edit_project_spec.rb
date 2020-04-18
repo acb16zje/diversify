@@ -9,6 +9,7 @@ describe 'Edit Project > Project', :js, type: :system do
   let(:project_archive) { create(:project, user: user, status: 'completed') }
 
   before do
+    create_list(:category, 3)
     sign_in user
     visit "projects/#{project.id}"
   end
@@ -30,14 +31,14 @@ describe 'Edit Project > Project', :js, type: :system do
 
     it 'can choose category' do
       fill_in 'project_name', with: 'New Project'
-      select 'Accounting and Finance', from: 'project_category_id'
+      find(:xpath, "//*[@id='project_category_id']/option[2]").select_option
       click_on 'Save Settings'
       expect(page).to have_content('Project Updated')
     end
 
     it 'can write description' do
       fill_in 'project_name', with: 'New Project'
-      select 'Accounting and Finance', from: 'project_category_id'
+      find(:xpath, "//*[@id='project_category_id']/option[2]").select_option
       fill_in 'project_description', with: 'New Description'
       click_button 'Save Settings'
       expect(page).to have_content('Project Updated')

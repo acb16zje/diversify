@@ -5,14 +5,10 @@ require 'rails_helper'
 describe 'New Session > User', :js, type: :system do
   let(:user) { create(:user) }
 
-  before do
-    visit new_user_session_path
-  end
+  before { visit new_user_session_path }
 
   describe 'show sign in page' do
-    it do
-      expect(page).to have_content('Sign in to Diversify')
-    end
+    it { expect(page).to have_content('Sign in to Diversify') }
   end
 
   describe 'sign in user' do

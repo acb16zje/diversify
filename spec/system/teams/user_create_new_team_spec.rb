@@ -17,10 +17,10 @@ describe 'Project > Create team', :js, type: :system do
     before { click_link_or_button 'New Team' }
 
     it do
-      fill_in 'team_name', with: 'New Team'
+      fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '2'
       click_button 'Create Team'
-      expect(page).to have_content('New Team', wait: 15)
+      expect(page).to have_content('Test Team', wait: 15)
     end
 
     it 'team name is missing' do
@@ -30,36 +30,36 @@ describe 'Project > Create team', :js, type: :system do
     end
 
     it 'set skills' do
-      fill_in 'team_name', with: 'New Team'
+      fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '2'
       find(:xpath, "//*[@id='team_skill_ids']/option[1]").select_option
       click_button 'Create Team'
-      expect(page).to have_content('New team', wait: 15)
+      expect(page).to have_content('Test team', wait: 15)
     end
 
     it 'team size is blank' do
-      fill_in 'team_name', with: 'New Team'
+      fill_in 'team_name', with: 'Test Team'
       click_button 'Create Team'
-      expect(page).to have_no_content('New Team', wait: 15)
+      expect(page).to have_no_content('Test Team', wait: 15)
     end
 
     it 'team size is 0' do
-      fill_in 'team_name', with: 'New Team'
+      fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '0'
       click_button 'Create Team'
       expect(page).to have_no_content('Team Successfully Created', wait: 15)
     end
 
     it 'team size is negative number' do
-      fill_in 'team_name', with: 'New Team'
+      fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '-1'
       click_button 'Create Team'
       expect(page).to have_no_content('Team Successfully Created', wait: 15)
     end
 
     it 'team name already exists' do
-      create(:team, project: project, name: 'New team')
-      fill_in 'team_name', with: 'New Team'
+      create(:team, project: project, name: 'Test team')
+      fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '2'
       click_button 'Create Team'
       expect(page).to have_no_content('Team Successfully Created', wait: 15)

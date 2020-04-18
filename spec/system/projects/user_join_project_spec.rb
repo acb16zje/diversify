@@ -4,9 +4,7 @@ require 'rails_helper'
 
 describe 'Join Project > Project', :js, type: :system do
   let(:user) { create(:user) }
-  let(:user_invite) { create(:user) }
-  let(:category1) { create(:category) }
-  let(:project) { create(:project, user: user, category_id: category1.id) }
+  let(:project) { create(:project, user: user, category: create(:category)) }
   let(:project_open) { create(:project, user: user, status: 'open') }
   let(:project_other) { create(:project, status: 'open') }
   let(:project_other_closed) { create(:project) }
@@ -63,25 +61,6 @@ describe 'Join Project > Project', :js, type: :system do
       click_on 'Join'
       page.accept_alert
       click_on 'Cancel Application'
-    end
-  end
-
-  context 'when inviting user on application tab' do
-    before do
-      visit "projects/#{project.id}"
-      find('a', text: 'Applications').click
-    end
-
-    it 'with invalid email' do
-      find("input[placeholder='Email']").set 'random'
-      click_on 'Invite'
-      expect(page).to have_content('No Invites')
-    end
-
-    it 'can invite user' do
-      find("input[placeholder='Email']").set user_invite.email
-      click_on 'Invite'
-      expect(page).to have_content('Invite Sent')
     end
   end
 end

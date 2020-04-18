@@ -9,12 +9,10 @@ describe 'New Project > Project', :js, type: :system do
   before do
     create_list(:category, 3)
     sign_in admin
-    visit projects_path
+    visit 'projects/new'
   end
 
   context 'when creates the private project' do
-    before { click_link_or_button 'New Project' }
-
     it do
       fill_in 'project_name', with: 'New Project'
       find('#project_visibility_false').click

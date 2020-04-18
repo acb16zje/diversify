@@ -8,10 +8,10 @@ describe 'Team > Manage Team', :js, type: :system do
 
   before do
     sign_in user
-    create(:team, name: 'Test', project: project)
+    @team = create(:team, name: 'Test', project: project)
     visit "projects/#{project.id}/teams/manage"
   end
-
+  
   context 'when edit existing team' do
     before { click_link_or_button 'Edit Team' }
 
@@ -33,31 +33,34 @@ describe 'Team > Manage Team', :js, type: :system do
     expect(page).to have_no_content('Test', wait: 15)
   end
 
-  # describe 'manage members' do
-  #   context 'when assign member to team' do
-  #     it 'can assign unassigned member to team' do
-  #
-  #     end
-  #
-  #     it 'can change assigned member to other team' do
-  #
-  #     end
-  #
-  #     it 'can unassign assigned member' do
-  #
-  #     end
-  #   end
-  #
-  #   context 'when reset the assignment' do
-  #     it do
-  #
-  #     end
-  #   end
-  #
-  #   context 'when remove member from the project' do
-  #     it do
-  #
-  #     end
-  #   end
-  # end
+  describe 'manage members' do
+    context 'when assign member to team' do
+      it 'can assign unassigned member to team' do
+        element = find('p', text: user.name, visible: true)
+        target = find(:id, @team.id, visible: :all)
+        element.drag_to target
+        expect(page).to have_content('Members: 1 / 5', wait: 15)
+      end
+
+      # it 'can change assigned member to other team' do
+      #
+      # end
+      #
+      # it 'can unassign assigned member' do
+      #
+      # end
+    end
+
+    # context 'when reset the assignment' do
+    #   it do
+    #
+    #   end
+    # end
+    #
+    # context 'when remove member from the project' do
+    #   it do
+    #
+    #   end
+    # end
+  end
 end

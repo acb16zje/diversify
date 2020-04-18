@@ -4,8 +4,12 @@ require 'rails_helper'
 
 describe 'Edit User Profile > Settings', :js, type: :system do
   let(:omniauth_user) { create(:omniauth_user) }
-
   let(:manual_user) { create(:user) }
+
+  def fill_password_form(password, password_confirmation)
+    fill_in 'user_password', with: password
+    fill_in 'user_password_confirmation', with: password_confirmation
+  end
 
   describe 'show account settings' do
     before do
