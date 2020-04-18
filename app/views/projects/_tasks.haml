@@ -1,0 +1,20 @@
+.container
+  %section.settings-section
+    .container
+      .columns.is-vcentered
+        .column
+          %h1.title.is-2
+            Tasks
+        .column
+          - if user_signed_in? && !@project.completed? && current_user.in_project?(@project)
+            .is-pulled-right
+              .buttons.has-addons
+                = link_to new_project_task_path(@project), class: 'button is-primary' do
+                  %p New Task
+      .content
+        - if current_user.tasks.empty?
+          No Active Tasks Assigned
+        - else
+          %task-table{ 'project-id': @project.id }
+
+

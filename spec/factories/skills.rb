@@ -14,6 +14,7 @@
 # Indexes
 #
 #  index_skills_on_category_id  (category_id)
+#  index_skills_on_name         (name) UNIQUE
 #
 # Foreign Keys
 #

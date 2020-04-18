@@ -129,8 +129,6 @@ Rails.application.routes.draw do
         delete 'remove_user', on: :member
       end
 
-      resources :tasks
-
       shallow do
         scope module: :appeals do
           resources :invitations, only: %i[index create destroy] do
@@ -140,6 +138,12 @@ Rails.application.routes.draw do
           resources :applications, only: %i[index create destroy] do
             post 'accept', on: :member
           end
+        end
+      end
+
+      resources :tasks do
+        collection do
+          get 'data'
         end
       end
     end

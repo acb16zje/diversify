@@ -44,8 +44,11 @@ class User < ApplicationRecord
   has_many :projects, dependent: :destroy
   has_many :preferences, dependent: :destroy
   has_many :skill_levels, dependent: :destroy
-  has_many :tasks, dependent: :destroy
   has_many :appeals, dependent: :destroy
+
+  has_many :task_users, dependent: :destroy
+  has_many :tasks, through: :task_users
+
   has_many :reviews,
            foreign_key: :reviewer_id,
            class_name: 'Review',

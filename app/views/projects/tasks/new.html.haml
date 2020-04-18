@@ -1,5 +1,32 @@
-%h1 New task
+- content_for :title, 'Create Task'
 
-= render 'form'
+%section.section#tasks
+  .container.box
+    %h1.title Create Task
+    = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
+      = f.hidden_field :project_id, value: @project.id
+      .field
+        %label.label Task Name
+        .control
+          = f.text_field :name, class: 'input', required: ''
+      .field
+        %label.label Description
+        .control
+          = f.text_area :description, class: 'textarea'
+      .field
+        %label.label Skills
+        .select.is-multiple
+          = f.select :skills_id, @skills, {}, multiple: true, include_blank: false
+      .field
+        %label.label Assignee
+        .select.is-multiple
+          = f.select :users_id, @assignees, {}, multiple: true, include_blank: true
+      .field
+        .control
+          = f.submit 'Create Task', class: 'button is-success'
+          = link_to 'Back', project_path(@project), class: 'button is-danger'
 
-= link_to 'Back', tasks_path
+
+
+
+

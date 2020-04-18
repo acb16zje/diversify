@@ -6,6 +6,7 @@ import ApplicationTable from '../projects/ApplicationTable.vue';
 import InvitationTable from '../projects/InvitationTable.vue';
 import TeamsManage from '../projects/TeamsManage.vue';
 import TeamModal from '../projects/components/TeamModal.vue';
+import TaskTable from '../projects/TaskTable.vue';
 import { dangerToast } from '../buefy/toast';
 import projectStore from '../projects/store';
 
@@ -16,6 +17,7 @@ new Vue({
     ApplicationTable,
     InvitationTable,
     TeamsManage,
+    TaskTable,
   },
   store: projectStore,
   data: {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_17_053951) do
+ActiveRecord::Schema.define(version: 2020_04_18_023217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,17 +292,29 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
     t.index ["task_id"], name: "index_task_skills_on_task_id"
   end
 
+  create_table "task_users", force: :cascade do |t|
+    t.bigint "task_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "owner", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_task_users_on_task_id"
+    t.index ["user_id", "task_id"], name: "index_task_users_on_user_id_and_task_id", unique: true
+    t.index ["user_id"], name: "index_task_users_on_user_id"
+  end
+
   create_table "tasks", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
     t.bigint "skills_id"
-    t.bigint "user_id"
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id"
+    t.integer "percentage", default: 0, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
     t.index ["skills_id"], name: "index_tasks_on_skills_id"
-    t.index ["user_id"], name: "index_tasks_on_user_id"
+    t.index ["users_id"], name: "index_tasks_on_users_id"
   end
 
   create_table "team_skills", force: :cascade do |t|
@@ -365,9 +377,9 @@ ActiveRecord::Schema.define(version: 2020_04_17_053951) do
   add_foreign_key "skills", "categories"
   add_foreign_key "task_skills", "skills"
   add_foreign_key "task_skills", "tasks"
+  add_foreign_key "task_users", "tasks"
   add_foreign_key "tasks", "projects"
   add_foreign_key "tasks", "skills", column: "skills_id"
-  add_foreign_key "tasks", "users"
   add_foreign_key "team_skills", "skills"
   add_foreign_key "team_skills", "teams"
   add_foreign_key "teams", "projects"

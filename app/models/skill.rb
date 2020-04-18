@@ -14,6 +14,7 @@
 # Indexes
 #
 #  index_skills_on_category_id  (category_id)
+#  index_skills_on_name         (name) UNIQUE
 #
 # Foreign Keys
 #
@@ -22,7 +23,8 @@
 
 class Skill < ApplicationRecord
   belongs_to :category
-  has_many :tasks, dependent: :nullify
+  has_many :task_skills, dependent: :destroy
+  has_many :tasks, through: :team_skills
   has_many :skill_levels, dependent: :destroy
   has_many :team_skills, dependent: :destroy
   has_many :teams, through: :team_skills

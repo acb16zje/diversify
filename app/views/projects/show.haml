@@ -61,10 +61,11 @@
           %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
           Tasks
           - if @project.tasks.size.positive?
-            %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
+            %b-tag{ 'rounded': '', 'v-if': 'taskCount == -1' }
               %p= @project.tasks.size
           %b-tag{ 'v-if': 'taskCount > 0', 'rounded': '' }
             {{ taskCount }}
+        = render partial: 'tasks'
       %b-tab-item
         %template{ 'slot': 'header' }
           %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
