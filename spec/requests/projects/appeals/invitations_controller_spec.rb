@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Appeals::InvitationsController, type: :request do
+describe Projects::Appeals::InvitationsController, type: :request do
   let(:user) { create(:user) }
 
   before do |test|

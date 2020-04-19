@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Appeals::InvitationsController < Appeals::BaseController
+class Projects::Appeals::InvitationsController < Projects::Appeals::BaseController
   before_action :set_invitation, only: %i[accept destroy]
 
   def index

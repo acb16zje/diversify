@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Appeals::ApplicationsController < Appeals::BaseController
+class Projects::Appeals::ApplicationsController < Projects::Appeals::BaseController
   before_action :set_application, only: %i[accept destroy]
 
   def index

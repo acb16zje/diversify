@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class TeamsController < ApplicationController
+class Projects::TeamsController < ApplicationController
   before_action :set_team, only: %i[edit show update destroy remove_user]
   before_action :set_project, except: %i[show update destroy remove_user]
   before_action :set_skills, only: %i[new edit]

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe TeamsController, type: :request do
+describe Projects::TeamsController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 

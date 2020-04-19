@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Appeals::ApplicationsController, type: :request do
+describe Projects::Appeals::ApplicationsController, type: :request do
   let(:user) { create(:user) }
 
   before do |test|

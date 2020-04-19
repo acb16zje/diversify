@@ -108,29 +108,7 @@ Rails.application.routes.draw do
 
   # /projects/:path
   resources :projects do
-    resources :teams, except: %i[index] do
-      collection do
-        get 'manage'
-        get 'manage_data'
-        post 'manage', to: 'teams#save_manage'
-      end
-
-      delete 'remove_user', on: :member
-    end
-
-    resources :tasks
-
-    shallow do
-      scope module: :appeals do
-        resources :invitations, only: %i[index create destroy] do
-          post 'accept', on: :member
-        end
-
-        resources :applications, only: %i[index create destroy] do
-          post 'accept', on: :member
-        end
-      end
-    end
+    get 'explore', on: :collection
 
     # TODO: change the name?
     member do
@@ -138,7 +116,31 @@ Rails.application.routes.draw do
       patch 'change_status'
     end
 
-    get 'explore', on: :collection
+    scope module: :projects do
+      resources :teams, except: %i[index] do
+        collection do
+          get 'manage'
+          get 'manage_data'
+          post 'manage', to: 'teams#save_manage'
+        end
+
+        delete 'remove_user', on: :member
+      end
+
+      resources :tasks
+
+      shallow do
+        scope module: :appeals do
+          resources :invitations, only: %i[index create destroy] do
+            post 'accept', on: :member
+          end
+
+          resources :applications, only: %i[index create destroy] do
+            post 'accept', on: :member
+          end
+        end
+      end
+    end
   end
 
   # /notifications/:path
