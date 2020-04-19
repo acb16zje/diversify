@@ -28,17 +28,32 @@
 
 class Task < ApplicationRecord
   belongs_to :project
+  belongs_to :user
 
   has_many :task_users, dependent: :destroy
-  has_many :users, through: :task_users
+  has_many :users, through: :task_users, before_add: :check_in_project
+
   has_many :task_skills, dependent: :destroy
   has_many :skills, through: :task_skills
 
   validates :name, presence: true
   validates :percentage, presence: true, numericality: { only_integer: true },
-    inclusion: { in: 0..100, message: 'Percentage should be between 0 and 100'}
+                         inclusion: {
+                           in: 0..100,
+                           message: 'Percentage should be between 0 and 100'
+                         }
 
   def completed?
-    percentage
+    percentage == 100
+  end
+
+  def user_ids
+    task_users.pluck(:user_id)
+  end
+
+  private
+
+  def check_in_project(record)
+    record.in_project?(project)
   end
 end

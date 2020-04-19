@@ -1,7 +1,31 @@
-%h1 Editing task
+- content_for :title, 'Edit Task'
 
-= render 'form'
+%section.section#tasks
+  .container.box
+    %h1.title Edit Task
+    = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
+      .field
+        %label.label Task Name
+        .control
+          = f.text_field :name, class: 'input', required: ''
+      .field
+        %label.label Description
+        .control
+          = f.text_area :description, class: 'textarea'
+      .field
+        %label.label Skills
+        .select.is-multiple
+          = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+      .field
+        %label.label Assignee
+        .select.is-multiple
+          = f.select :user_ids, @assignees, {}, multiple: true, include_blank: true
+      .field
+        .control
+          = f.submit 'Edit Task', class: 'button is-success'
+          = link_to 'Back', project_path(@project), class: 'button is-danger'
 
-= link_to 'Show', @task
-\|
-= link_to 'Back', tasks_path
+
+
+
+

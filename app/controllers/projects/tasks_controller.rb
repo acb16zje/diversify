@@ -25,14 +25,12 @@ class Projects::TasksController < ApplicationController
 
   # POST /tasks
   def create
-    skill_ids = params[:task][:skills_id]
-    user_ids = params[:task][:users_id]
     @task = Task.new(create_params)
+    @task.user = current_user
 
     if @task.save
-      @task.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
-      @task.users << User.find(user_ids.drop(1)) if user_ids.present?
-      @task.task_users << TaskUser.create(user: current_user, owner: true)
+      @task.skill_ids = params[:task][:skills_id].drop(1)
+      @task.user_ids =  params[:task][:users_id].drop(1)
       task_success('Task created')
     else
       task_fail(nil)
@@ -42,10 +40,9 @@ class Projects::TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     if @task.update(edit_params)
-      @task.task_users << TaskUser.new(user: current_user, owner: true)
       task_success('Task updated')
     else
-      render :edit
+      task_fail(nil)
     end
   end
 
@@ -58,15 +55,16 @@ class Projects::TasksController < ApplicationController
   def data
     return unless request.xhr?
 
-    user_data = Task.joins(task_users: :user).where(project: @project)
-                    .select('tasks.id, task_users.owner as owner,
+    user_data = Task.joins(:users).where(project: @project)
+                    .select('tasks.id,
                             users.id as user_id, users.name as user_name')
-                    .order(owner: :desc)
-    @data = Task.where(project: @project)
+    @data = Task.joins(:user).where(project: @project)
+                .select('tasks.*, users.name as owner_name, users.id as owner_id')
     images = assignee_avatars(User.find(user_data.pluck(:user_id).uniq))
+    user_data = user_data.group_by(&:id)
 
-    render json: { data: @data, user_data: user_data.group_by(&:id), images: images },
-           status: :ok
+    render json: { data: @data, user_data: user_data,
+                   images: images }, status: :ok
   end
 
   private
@@ -105,7 +103,7 @@ class Projects::TasksController < ApplicationController
 
   def edit_params
     params.require(:task)
-          .permit(:description, :project_id, :name, skills_id: [])
+          .permit(:description, :project_id, :name, skill_ids: [], user_ids: [])
   end
 
   def assignee_avatars(users)

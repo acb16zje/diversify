@@ -20,7 +20,7 @@
       .field
         %label.label Assignee
         .select.is-multiple
-          = f.select :users_id, @assignees, {}, multiple: true, include_blank: true
+          = f.select :users_id, @assignees, {}, multiple: true, include_blank: false
       .field
         .control
           = f.submit 'Create Task', class: 'button is-success'

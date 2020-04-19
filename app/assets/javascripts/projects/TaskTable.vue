@@ -24,22 +24,13 @@
       detailed
       detail-key="id"
     >
-      <template v-slot="{ row: { id, name, percentage } }">
+      <template v-slot="{ row: { id, name, percentage, owner_name, owner_id } }">
         <b-table-column field="name" label="Name" sortable searchable>
           {{ name }}
         </b-table-column>
         <b-table-column field="owner" label="Owner" sortable searchable>
-          <a :href="`/users/${userData[id][0].user_id}`">
-            <div class="columns is-vcentered is-1 is-variable">
-              <div class="column is-narrow">
-                <p class="image is-32x32 user-avatar-container">
-                  <img :src="images[userData[id][0].user_id]">
-                </p>
-              </div>
-              <div class="column">
-                {{ userData[id][0].user_name }}
-              </div>
-            </div>
+          <a :href="`/users/${owner_id}`">
+            {{ owner_name }}
           </a>
         </b-table-column>
         <b-table-column field="percentange" label="Percentage">
@@ -51,7 +42,7 @@
         </b-table-column>
         <b-table-column field="assignees" label="Assignees">
           <div class="columns is-0 is-variable is-multiline">
-            <div v-for=" user in userData[id].slice(1,userData[id].length)" :key="user.user_id" class="column is-narrow">
+            <div v-for=" user in userData[id]" :key="user.user_id" class="column is-narrow">
               <b-tooltip :label="user.user_name" position="is-top" type="is-info">
                 <a :href="`/users/${user.user_id}`">
                   <p class="image is-32x32 user-avatar-container">
