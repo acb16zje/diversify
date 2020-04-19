@@ -13,31 +13,46 @@ describe Admin::NewslettersController, type: :request do
     describe '#index' do
       subject(:request) { get newsletters_path }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
+      it {
+        expect { request }
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+      }
     end
 
     describe '#new' do
       subject(:request) { get new_newsletter_path }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
+      it {
+        expect { request }
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+      }
     end
 
     describe '#show' do
       subject(:request) { get newsletter_path(newsletter) }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
+      it {
+        expect { request }
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+      }
     end
 
     describe '#create' do
       subject(:request) { post newsletters_path(newsletter) }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
+      it {
+        expect { request }
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+      }
     end
 
     describe '#subscribers' do
       subject(:request) { get subscribers_newsletters_path }
 
-      it { expect { request }.to be_authorized_to(:manage?, Newsletter) }
+      it {
+        expect { request }
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+      }
     end
   end
 

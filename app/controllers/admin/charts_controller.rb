@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-class Admin::ChartsController < ApplicationController
+class Admin::ChartsController < Admin::BaseController
   include Admin::Concerns::ChartsFilterDate
-
-  before_action :chart_authorize
 
   before_action :load_plan_subscriptions,
                 only: %i[subscription_ratio subscription_by_date]
@@ -119,10 +117,6 @@ class Admin::ChartsController < ApplicationController
 
   def chart_params
     params.require(:chart).permit(:date)
-  end
-
-  def chart_authorize
-    authorize! current_user, with: AdminPolicy
   end
 
   def load_plan_subscriptions

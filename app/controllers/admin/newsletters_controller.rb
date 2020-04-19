@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 # Controller for newsletter
-class Admin::NewslettersController < ApplicationController
+class Admin::NewslettersController < Admin::BaseController
   skip_before_action :authenticate_user!, only: %i[
     subscribe
     unsubscribe
     post_unsubscribe
   ]
 
-  before_action :newsletter_authorize, except: %i[
+  skip_before_action :admin_authorize, only: %i[
     subscribe
     unsubscribe
     post_unsubscribe
@@ -68,10 +68,6 @@ class Admin::NewslettersController < ApplicationController
   end
 
   private
-
-  def newsletter_authorize
-    authorize! with: NewsletterPolicy
-  end
 
   def newsletter_params
     params.require(:newsletter).permit(:title, :content)

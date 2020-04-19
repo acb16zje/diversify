@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Controller for metrics
-class Admin::MetricsController < ApplicationController
-  before_action :metric_authorize
+class Admin::MetricsController < Admin::BaseController
+  before_action :admin_authorize
 
   layout 'metrics_page'
 
@@ -20,11 +20,5 @@ class Admin::MetricsController < ApplicationController
       browser: Ahoy::Visit.group(:browser).size.chart_json,
       country: Ahoy::Visit.group(:country).size.chart_json
     }.freeze
-  end
-
-  private
-
-  def metric_authorize
-    authorize! current_user, with: AdminPolicy
   end
 end
