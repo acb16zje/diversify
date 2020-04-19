@@ -34,4 +34,9 @@ class ProjectPolicy < ApplicationPolicy
   def change_visibility?
     user&.admin? || !user.license.free?
   end
+
+  def create_task?
+    manage? || (!record.unassigned_team.users.include?(user) &&
+      record.users.include?(user))
+  end
 end

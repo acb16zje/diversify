@@ -9,7 +9,8 @@ class Projects::TasksController < ApplicationController
 
   # GET /tasks/new
   def new
-    @task = Task.new
+    @task = Task.new(project: @project)
+    authorize! @task
   end
 
   # GET /tasks/1/edit
@@ -18,11 +19,12 @@ class Projects::TasksController < ApplicationController
   # POST /tasks
   def create
     @task = Task.new(create_params)
+    authorize! @task
     @task.user = current_user
 
     if @task.save
-      @task.skill_ids = params[:task][:skills_id].drop(1)
-      @task.user_ids =  params[:task][:users_id].drop(1)
+      @task.skill_ids = params.dig(:task, :skills_id).drop(1)
+      @task.user_ids =  params.dig(:task, :users_id).drop(1)
       task_success('Task created')
     else
       task_fail(nil)
@@ -73,8 +75,11 @@ class Projects::TasksController < ApplicationController
   def set_skills
     @skills = Skill.where(category: @project.category)
                    .collect { |s| [s.name, s.id] }
-    # TODO: Scoping for users
-    @assignees = @project.users.collect { |s| [s.name, s.id] }
+
+    team = current_user.teams.where(project: @project).first
+    @assignees = authorized_scope(
+      @project.users, scope_options: { team_id: team.id, project: @project}
+    )
   end
 
   # Use callbacks to share common setup or constraints between actions.

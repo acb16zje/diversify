@@ -6,7 +6,7 @@
           %h1.title.is-2
             Tasks
         .column
-          - if user_signed_in? && !@project.completed? && current_user.in_project?(@project)
+          - if !@project.completed? && (allowed_to? :create_task?, @project)
             .is-pulled-right
               .buttons.has-addons
                 = link_to new_project_task_path(@project), class: 'button is-primary' do

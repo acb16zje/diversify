@@ -44,7 +44,7 @@
           </p>
         </div>
         <div v-if="team.name != 'Unassigned'" class="column is-narrow">
-          <span :class="[data[team.id].length > 0 ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
+          <span :class="[data[team.id].length === team.team_size ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
             <p>
               Members: {{ data[team.id].length }} / {{ team.team_size }}
             </p>
