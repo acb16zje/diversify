@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ChartsFilterDate
+module Admin::Concerns::ChartsFilterDate
   extend ActiveSupport::Concern
 
   def filter_date_by_time_column

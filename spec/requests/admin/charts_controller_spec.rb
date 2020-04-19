@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe ChartsController, type: :request do
+describe Admin::ChartsController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 
@@ -13,7 +13,7 @@ describe ChartsController, type: :request do
       describe "##{route}" do
         it {
           expect { get "/charts/#{route}" }
-            .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+            .to be_authorized_to(:manage?, admin).with(AdminPolicy)
         }
       end
     end

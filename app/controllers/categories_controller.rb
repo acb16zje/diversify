@@ -1,14 +1,11 @@
 # frozen_string_literal: true
 
 class CategoriesController < ApplicationController
-  skip_before_action :authenticate_user!, only: :index
+  skip_before_action :authenticate_user!
 
   def index
-    @categories = Category.order(:name).distinct
+    return render_404 unless request.xhr?
 
-    respond_to do |format|
-      format.html
-      format.json { render json: { categories: @categories.pluck(:name) } }
-    end
+    render json: { categories: Category.order(:name).distinct.pluck(:name) }
   end
 end

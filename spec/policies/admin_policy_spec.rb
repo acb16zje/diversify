@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe MetricPolicy, type: :policy do
+describe AdminPolicy, type: :policy do
   let(:user) { build_stubbed :user }
 
   let(:context) { { user: user } }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller for metrics
-class MetricsController < ApplicationController
+class Admin::MetricsController < ApplicationController
   before_action :metric_authorize
 
   layout 'metrics_page'
@@ -25,6 +25,6 @@ class MetricsController < ApplicationController
   private
 
   def metric_authorize
-    authorize! current_user, with: MetricPolicy
+    authorize! current_user, with: AdminPolicy
   end
 end

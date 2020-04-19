@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe MetricsController, type: :request do
+describe Admin::MetricsController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 
@@ -12,14 +12,14 @@ describe MetricsController, type: :request do
     describe '#index' do
       it {
         expect { get metrics_path }
-          .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
     describe '#traffic' do
       it {
         expect { get traffic_metrics_path }
-          .to be_authorized_to(:manage?, admin).with(MetricPolicy)
+          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
   end

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# Controller for charts
-class ChartsController < ApplicationController
-  include ChartsFilterDate
+class Admin::ChartsController < ApplicationController
+  include Admin::Concerns::ChartsFilterDate
 
   before_action :chart_authorize
 
@@ -123,7 +122,7 @@ class ChartsController < ApplicationController
   end
 
   def chart_authorize
-    authorize! current_user, with: MetricPolicy
+    authorize! current_user, with: AdminPolicy
   end
 
   def load_plan_subscriptions

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe NewslettersController, type: :request do
+describe Admin::NewslettersController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
   let(:newsletter) { create(:newsletter) }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller for newsletter
-class NewslettersController < ApplicationController
+class Admin::NewslettersController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[
     subscribe
     unsubscribe
@@ -36,7 +36,7 @@ class NewslettersController < ApplicationController
 
     return unless request.xhr?
 
-    render json: { html: view_to_html_string('newsletters/_modal') }
+    render json: { html: view_to_html_string('admin/newsletters/_modal') }
   end
 
   def subscribers

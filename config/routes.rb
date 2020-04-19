@@ -7,13 +7,6 @@ Rails.application.routes.draw do
   match '/422', to: 'errors#error_422', via: :all
   match '/500', to: 'errors#error_500', via: :all
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    sessions: 'users/sessions',
-    passwords: 'users/passwords',
-    omniauth_callbacks: 'users/omniauth_callbacks'
-  }
-
   # /:path
   resources :pages, path: '', only: [] do
     collection do
@@ -31,46 +24,61 @@ Rails.application.routes.draw do
     end
   end
 
-  # /metrics/:path
-  resources :metrics, only: :index do
-    collection do
-      get 'newsletter'
-      get 'traffic'
-      get 'social'
+  scope module: :admin do
+    # /metrics/:path
+    resources :metrics, only: :index do
+      collection do
+        get 'newsletter'
+        get 'traffic'
+        get 'social'
+      end
+    end
+
+    # /charts/:path
+    resources :charts, only: [] do
+      collection do
+        get 'subscription_ratio'
+        get 'subscription_by_date'
+        get 'landing_page_feedback'
+
+        get 'social_share_ratio'
+        get 'social_share_by_date'
+
+        get 'referrers_ratio'
+        get 'referrers_by_date'
+        get 'average_time_spent_per_page'
+        get 'number_of_visits_per_page'
+
+        get 'newsletter_subscription_by_date'
+        get 'unsubscription_by_newsletter'
+        get 'unsubscription_reason'
+      end
+    end
+
+    # /newsletters/:path
+    resources :newsletters, only: %i[index create new show] do
+      collection do
+        get 'subscribers'
+        get 'unsubscribe'
+
+        post 'subscribe'
+        post 'unsubscribe', to: 'newsletters#post_unsubscribe'
+      end
     end
   end
 
-  # /charts/:path
-  resources :charts, only: [] do
-    collection do
-      get 'subscription_ratio'
-      get 'subscription_by_date'
-      get 'landing_page_feedback'
-
-      get 'social_share_ratio'
-      get 'social_share_by_date'
-
-      get 'referrers_ratio'
-      get 'referrers_by_date'
-      get 'average_time_spent_per_page'
-      get 'number_of_visits_per_page'
-
-      get 'newsletter_subscription_by_date'
-      get 'unsubscription_by_newsletter'
-      get 'unsubscription_reason'
-    end
+  namespace :admin do
+    resources :categories
   end
 
-  # /newsletters/:path
-  resources :newsletters, only: %i[index create new show] do
-    collection do
-      get 'subscribers'
-      get 'unsubscribe'
+  resources :categories, only: :index
 
-      post 'subscribe'
-      post 'unsubscribe', to: 'newsletters#post_unsubscribe'
-    end
-  end
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+    sessions: 'users/sessions',
+    passwords: 'users/passwords',
+    omniauth_callbacks: 'users/omniauth_callbacks'
+  }
 
   # /users/:path
   resources :users, only: %i[index show]
@@ -98,19 +106,8 @@ Rails.application.routes.draw do
     end
   end
 
-  # /categories/:path
-  resources :categories, only: :index
-
   # /projects/:path
   resources :projects do
-    # TODO: change the name?
-    member do
-      get 'count'
-      patch 'change_status'
-    end
-
-    get 'explore', on: :collection
-
     resources :teams, except: %i[index] do
       collection do
         get 'manage'
@@ -134,10 +131,17 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    # TODO: change the name?
+    member do
+      get 'count'
+      patch 'change_status'
+    end
+
+    get 'explore', on: :collection
   end
 
-  resources :teams
-
+  # /notifications/:path
   resources :notifications, only: %i[index destroy] do
     member do
       patch 'read'
