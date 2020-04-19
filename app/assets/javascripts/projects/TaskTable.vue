@@ -24,16 +24,22 @@
       detailed
       detail-key="id"
     >
-      <template v-slot="{ row: { id, name, percentage, owner_name, owner_id } }">
+      <template v-slot="{ row: { id, name, percentage, priority, owner_name, owner_id } }">
         <b-table-column field="name" label="Name" sortable searchable>
           {{ name }}
         </b-table-column>
-        <b-table-column field="owner" label="Owner" sortable searchable>
+        <b-table-column field="owner" label="Owner" sortable>
           <a :href="`/users/${owner_id}`" class="has-text-weight-bold">
             {{ owner_name }}
           </a>
         </b-table-column>
-        <b-table-column field="percentange" label="Progress">
+        <b-table-column field="priority" label="Priority" :custom-sort="sortPriority" sortable>
+          <span class="priority">
+            <span :class="[priority.toLowerCase(), 'priority-colour']" />
+            {{ priority }}
+          </span>
+        </b-table-column>
+        <b-table-column field="percentange" label="Progress" sortable>
           <b-progress
             :type="percentage === 100 ? 'is-success' : 'is-info'"
             :value="percentage"
@@ -59,14 +65,20 @@
           <p>No Tasks</p>
         </div>
       </template>
-      <template slot="detail" slot-scope="{ row : { id, description, percentage} }">
+      <template slot="detail" slot-scope="{ row : { id, description, percentage, skill_names, owner_id } }">
         <div class="columns">
           <div class="column is-8">
+            <div v-if="skill_names != null" class="tags are-medium">
+              <label class="label">Skills:  </label>
+              <span v-for=" skill in skill_names.split(',')" :key="skill" class="tag is-primary">
+                {{ skill }}
+              </span>
+            </div>
             {{ description }}
           </div>
           <div class="column is-4">
-            <div class="box">
-              <a :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
+            <div v-if="canEdit(owner_id) || inTask(id)" class="box">
+              <a v-if="canEdit(owner_id)" :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
                 Edit Task
               </a>
               <b-field label="Set Progress">
@@ -82,11 +94,18 @@
 
 <script>
 import Rails from '@rails/ujs';
-import { dangerToast, successToast } from '../buefy/toast';
 
 export default {
   props: {
     projectId: {
+      type: String,
+      required: true,
+    },
+    admin: {
+      type: String,
+      required: true,
+    },
+    userId: {
       type: String,
       required: true,
     },
@@ -104,6 +123,13 @@ export default {
     this.getData();
   },
   methods: {
+    canEdit(ownerId) {
+      return (parseInt(this.userId, 10) === ownerId || this.admin === 'true');
+    },
+    inTask(id) {
+      return (id in this.userData
+        && (this.userData[id].findIndex((u) => u.user_id === parseInt(this.userId, 10)) !== -1));
+    },
     getData() {
       this.isLoading = true;
       Rails.ajax({
@@ -128,9 +154,19 @@ export default {
           'task[percentage]': e,
         }),
         success: () => {
-          this.data[id - 1].percentage = e;
+          const dataPos = this.data.findIndex((u) => u.id === id);
+          this.data[dataPos].percentage = e;
         },
       });
+    },
+    sortPriority(a, b, isAsc) {
+      if (a.priority === b.priority) {
+        return 0;
+      }
+      if (a.priority === 'High' || (a.priority === 'Medium' && b.priority === 'Low')) {
+        return isAsc ? 1 : -1;
+      }
+      return isAsc ? -1 : 1;
     },
   },
 };

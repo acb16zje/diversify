@@ -25,6 +25,8 @@ class ProjectsController < ApplicationController
 
   # POST /projects
   def create
+    @project = Project.new(project_params)
+
     return project_fail('Bad Request') if valid_project?
 
     @project = current_user.projects.build(project_params)
@@ -88,7 +90,8 @@ class ProjectsController < ApplicationController
   end
 
   def valid_project?
-    params[:project].key?(:visibility) && !current_user.can_change_visibility?
+    params[:project].key?(:visibility) &&
+      !(allowed_to? :change_visibility?, @project)
   end
 
   def project_success(message)

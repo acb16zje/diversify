@@ -38,7 +38,7 @@
             %label.label Project Description
             .control
               = f.text_area :description, class: 'textarea'
-          - if current_user.can_change_visibility?
+          - if allowed_to? :change_visibility?, @project
             .field
               .control
                 %label.checkbox

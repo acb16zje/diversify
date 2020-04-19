@@ -1,22 +1,23 @@
 - content_for :title, 'Edit Team'
 
 %section.section#teams
-  .container.box
+  .container.max-w-2xl
     %h1.title Edit Team
-    = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
-      .field
-        %label.label Team Name
-        .control
-          = f.text_field :name, class: 'input', required: ''
-      .field
-        %label.label Max Team Size
-        .control
-          = f.number_field :team_size, class: 'input'
-      .field
-        %label.label Skills
-        .select.is-multiple
-          = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
-      .field
-        .control
-          = f.submit 'Save Team', class: 'button is-success'
-          = link_to 'Back', manage_project_teams_path(@team.project.id), class: 'button is-danger'
+    .box
+      = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
+        .field
+          %label.label Team Name
+          .control
+            = f.text_field :name, class: 'input', required: ''
+        .field
+          %label.label Max Team Size
+          .control
+            = f.number_field :team_size, class: 'input'
+        .field
+          %label.label Skills
+          .select.is-multiple
+            = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+        .field
+          .control
+            = f.submit 'Save Team', class: 'button is-success'
+            = link_to 'Back', manage_project_teams_path(@team.project.id), class: 'button is-danger'

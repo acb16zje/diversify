@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_023217) do
   create_enum "minds", ["I", "E"]
   create_enum "natures", ["T", "F"]
   create_enum "plan_name", ["free", "pro", "ultimate"]
+  create_enum "priority", ["high", "medium", "low"]
   create_enum "status_name", ["open", "active", "completed"]
   create_enum "tactics", ["J", "P"]
 
@@ -310,6 +311,7 @@ ActiveRecord::Schema.define(version: 2020_04_18_023217) do
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.enum "priority", default: "medium", null: false, as: "priority"
     t.bigint "users_id"
     t.integer "percentage", default: 0, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"

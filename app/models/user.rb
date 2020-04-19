@@ -106,11 +106,6 @@ class User < ApplicationRecord
     teams&.exists?(project: project) || project&.user == self
   end
 
-  # TODO: this should be in project policy
-  def can_change_visibility?
-    admin || !license.free?
-  end
-
   def notifications
     super.order(id: :desc, created_at: :desc)
   end

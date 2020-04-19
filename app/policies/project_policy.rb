@@ -30,4 +30,8 @@ class ProjectPolicy < ApplicationPolicy
   def count?
     user.in_project?(record) || user.admin?
   end
+
+  def change_visibility?
+    user&.admin? || !user.license.free?
+  end
 end

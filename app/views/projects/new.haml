@@ -45,7 +45,7 @@
             %p.text-sm.mt-2
               Be concise and informative, only the first 117 characters will be shown in the project list.
 
-        - if current_user.can_change_visibility?
+        - if allowed_to? :change_visibility?, Project.new
           .field.mb-4
             .control
               %label.label.required Visibility Level

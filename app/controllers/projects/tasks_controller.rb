@@ -7,14 +7,6 @@ class Projects::TasksController < ApplicationController
 
   layout 'project'
 
-  # GET /tasks
-  def index
-    @tasks = Task.all
-  end
-
-  # GET /tasks/1
-  def show; end
-
   # GET /tasks/new
   def new
     @task = Task.new
@@ -54,9 +46,10 @@ class Projects::TasksController < ApplicationController
     user_data = Task.joins(:users).where(project: @project)
                     .select('tasks.id,
                             users.id as user_id, users.name as user_name')
-    @data = Task.joins(:user).where(project: @project)
-                .select('tasks.*, users.name as owner_name, users.id as owner_id')
-    images = assignee_avatars(User.find(user_data.pluck(:user_id).uniq))
+    @data = Task.joins(:user).left_joins(:skills).where(project: @project)
+                .select("tasks.*, users.name as owner_name, users.id as owner_id, string_agg(skills.name, ',') as skill_names")
+                .group('tasks.id, users.id')
+    images = assignee_avatars(User.find(user_data.pluck('users.id').uniq))
     user_data = user_data.group_by(&:id)
 
     render json: { data: @data, user_data: user_data,
@@ -87,6 +80,7 @@ class Projects::TasksController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id])
+    authorize! @task
   end
 
   def task_fail(message)
@@ -102,12 +96,12 @@ class Projects::TasksController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def create_params
     params.require(:task).except(:skills_id, :users_id)
-          .permit(:project_id, :name, :description)
+          .permit(:project_id, :name, :description, :priority)
   end
 
   def edit_params
     params.require(:task)
-          .permit(:description, :project_id, :name, :percentage,
+          .permit(:description, :project_id, :name, :percentage, :priority,
                   skill_ids: [], user_ids: [])
   end
 
