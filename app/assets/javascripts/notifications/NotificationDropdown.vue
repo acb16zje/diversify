@@ -31,7 +31,6 @@
     <template v-else>
       <a v-for="({ id, key, read, time_ago, notifiable, notifier}) in notifications"
          :key="id"
-         :value="id"
          class="dropdown-item"
          :class="[read ? 'read' : 'unread']"
          @click="readBeforeRedirect(id, read, notifier.link)"

@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown dropdown-menu-animation is-right notification-options">
+  <div class="dropdown dropdown-menu-animation notification-options" :class="{ 'is-up': shouldDropup }">
     <div ref="trigger" class="dropdown-trigger">
       <button class="button shadow-lg" @click.stop="toggle">
         <b-icon icon="dots-horizontal" class="text-sm" />
@@ -38,6 +38,11 @@ export default {
       type: Boolean,
       required: true,
     },
+  },
+  data() {
+    return {
+      shouldDropup: false,
+    };
   },
   computed: {
     isActive() {
@@ -81,9 +86,17 @@ export default {
         },
       });
     },
-    toggle() {
+    async toggle() {
       const value = this.isActive ? 0 : this.id;
       notificationStore.commit('updateActiveDropdownOption', value);
+
+      if (this.isActive) {
+        await this.$nextTick();
+        this.shouldDropup = this.$refs.dropdownMenu.getBoundingClientRect().bottom
+          > document.querySelector('#notifications-dropdown > .dropdown-menu').getBoundingClientRect().bottom;
+      } else {
+        this.shouldDropup = false;
+      }
     },
     clickedOutside(event) {
       if (!this.isInWhiteList(event.target)) {
