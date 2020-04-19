@@ -145,6 +145,10 @@ Rails.application.routes.draw do
         collection do
           get 'data'
         end
+
+        member do
+          patch 'set_percentage'
+        end
       end
     end
   end

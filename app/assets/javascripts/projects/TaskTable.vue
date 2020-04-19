@@ -29,13 +29,13 @@
           {{ name }}
         </b-table-column>
         <b-table-column field="owner" label="Owner" sortable searchable>
-          <a :href="`/users/${owner_id}`">
+          <a :href="`/users/${owner_id}`" class="has-text-weight-bold">
             {{ owner_name }}
           </a>
         </b-table-column>
-        <b-table-column field="percentange" label="Percentage">
+        <b-table-column field="percentange" label="Progress">
           <b-progress
-            :type="percentage === 100 ? 'is-success' : 'is-primary'"
+            :type="percentage === 100 ? 'is-success' : 'is-info'"
             :value="percentage"
             show-value format="percent"
           />
@@ -59,18 +59,20 @@
           <p>No Tasks</p>
         </div>
       </template>
-      <template slot="detail" slot-scope="{ row : { id, description } }">
-        <div class ="columns">
-          <div class="column">
+      <template slot="detail" slot-scope="{ row : { id, description, percentage} }">
+        <div class="columns">
+          <div class="column is-8">
             {{ description }}
           </div>
-          <div class="column is-narrow">
-            <a :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
-              Edit Task
-            </a>
-            <b-button type="is-success">
-              Complete
-            </b-button>
+          <div class="column is-4">
+            <div class="box">
+              <a :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
+                Edit Task
+              </a>
+              <b-field label="Set Progress">
+                <b-slider :value="percentage" :min="0" :max="100" :step="10" ticks @change="updateProgress($event, id)" />
+              </b-field>
+            </div>
           </div>
         </div>
       </template>
@@ -118,46 +120,15 @@ export default {
         },
       });
     },
-    decline(row) {
+    updateProgress(e, id) {
       Rails.ajax({
-        url: `/invites/${row.invite_id}`,
-        type: 'DELETE',
+        url: `/projects/${this.projectId}/tasks/${id}/set_percentage`,
+        type: 'PATCH',
         data: new URLSearchParams({
-          user_id: row.id,
-          project_id: this.projectId,
-          types: 'application',
+          'task[percentage]': e,
         }),
         success: () => {
-          successToast('Application Declined');
-          this.data = this.data.filter((x) => x !== row);
-        },
-        error: (data) => {
-          if (Array.isArray(data.message)) {
-            data.message.forEach((message) => dangerToast(message));
-          } else {
-            dangerToast(data.message || data.status);
-          }
-        },
-      });
-    },
-    accept(row) {
-      Rails.ajax({
-        url: `/invites/accept`,
-        type: 'POST',
-        data: new URLSearchParams({
-          user_id: row.id,
-          project_id: this.projectId,
-        }),
-        success: () => {
-          successToast('Application Accepted');
-          this.data = this.data.filter((x) => x !== row);
-        },
-        error: (data) => {
-          if (Array.isArray(data.message)) {
-            data.message.forEach((message) => dangerToast(message));
-          } else {
-            dangerToast(data.message || data.status);
-          }
+          this.data[id - 1].percentage = e;
         },
       });
     },

@@ -22,7 +22,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
 
     // buefy
     /modal/, /navbar/, /dropdown/, /pagination/, /level/, /tabs/, /tooltip/,
-    /progress/,
+    /progress/, /slider/,
   ],
 });
 
@@ -30,7 +30,7 @@ module.exports = {
   plugins: [
     tailwindcss,
     postCssImport,
-    purgeCss,
+    // purgeCss,
     cssNano,
   ],
 };

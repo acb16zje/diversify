@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Projects::TasksController < ApplicationController
-  before_action :set_task, only: %i[show edit update destroy]
-  before_action :set_project
+  before_action :set_task, only: %i[show edit update set_percentage destroy]
+  before_action :set_project, except: :set_percentage
   before_action :set_skills, only: %i[new edit]
 
   layout 'project'
@@ -39,11 +39,7 @@ class Projects::TasksController < ApplicationController
 
   # PATCH/PUT /tasks/1
   def update
-    if @task.update(edit_params)
-      task_success('Task updated')
-    else
-      task_fail(nil)
-    end
+    @task.update(edit_params) ? task_success('Task updated') : task_fail(nil)
   end
 
   # DELETE /tasks/1
@@ -65,6 +61,14 @@ class Projects::TasksController < ApplicationController
 
     render json: { data: @data, user_data: user_data,
                    images: images }, status: :ok
+  end
+
+  def set_percentage
+    if @task.update(edit_params)
+      head :ok
+    else
+      task_fail(nil)
+    end
   end
 
   private
@@ -103,7 +107,8 @@ class Projects::TasksController < ApplicationController
 
   def edit_params
     params.require(:task)
-          .permit(:description, :project_id, :name, skill_ids: [], user_ids: [])
+          .permit(:description, :project_id, :name, :percentage,
+                  skill_ids: [], user_ids: [])
   end
 
   def assignee_avatars(users)
