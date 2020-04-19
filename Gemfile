@@ -66,9 +66,6 @@ gem 'chartkick'
 gem 'geocoder'
 gem 'groupdate'
 
-# CSS styles in action mailer
-gem 'premailer-rails'
-
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails'
@@ -90,6 +87,7 @@ group :development do
 
   gem 'annotate'
   gem 'letter_opener'
+  gem 'premailer-rails'
 end
 
 group :test do

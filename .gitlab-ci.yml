@@ -7,7 +7,7 @@ default:
   before_script:
     - yarn install --production --pure-lockfile --cache-folder .yarn-cache
     - 'bundle config gems.shefcompsci.org.uk gitlab:${GEM_SERVER_KEY}'
-    - bundle check --path vendor || bundle install --path vendor -j $(nproc)
+    - bundle check --path vendor/bundle || bundle --deployment --without development -j $(nproc)
 
 .db-setup: &db-setup |
   cat > config/database.yml << EOF
@@ -25,7 +25,7 @@ default:
       - Gemfile.lock
       - package.json
   paths:
-    - vendor/ruby
+    - vendor/bundle
     - node_modules
     - .yarn-cache/
 
