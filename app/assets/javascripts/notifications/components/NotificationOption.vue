@@ -52,6 +52,9 @@ export default {
   created() {
     document.addEventListener('click', this.clickedOutside);
   },
+  beforeDestroy() {
+    document.removeEventListener('click', this.clickedOutside);
+  },
   methods: {
     markAsRead() {
       Rails.ajax({
