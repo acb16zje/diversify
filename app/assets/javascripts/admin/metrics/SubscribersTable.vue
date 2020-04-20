@@ -5,14 +5,14 @@
     :hoverable="true"
     :per-page="10"
   >
-    <template v-slot="props">
+    <template v-slot="{ row }">
       <b-table-column field="email" label="Email" sortable searchable>
-        {{ props.row.email }}
+        {{ row.email }}
       </b-table-column>
 
       <b-table-column field="created_at" label="Date Subscribed" sortable searchable>
         {{
-          new Date(props.row.created_at).toLocaleString('en-GB', {
+          new Date(row.created_at).toLocaleString('en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -21,7 +21,7 @@
       </b-table-column>
 
       <b-table-column label="Action" centered>
-        <a data-confirm="Are you sure?" @click="unsubscribeUser(props.row)">
+        <a data-confirm="Are you sure?" @click="unsubscribeUser(row)">
           Unsubscribe
         </a>
       </b-table-column>
@@ -37,7 +37,7 @@
 
 <script>
 import Rails from '@rails/ujs';
-import { successToast } from '../buefy/toast';
+import { successToast } from '../../buefy/toast';
 
 export default {
   props: {

@@ -1,9 +1,9 @@
 import '../application';
 import Vue from 'vue/dist/vue.esm';
-import Datepicker from '../../metrics/Datepicker.vue';
-import Chartkick from '../../metrics/Chartkick.vue';
-import SubscribersTable from '../../metrics/SubscribersTable.vue';
-import NewslettersTable from '../../metrics/NewslettersTable.vue';
+import Datepicker from '../../admin/metrics/Datepicker.vue';
+import Chartkick from '../../admin/metrics/Chartkick.vue';
+import SubscribersTable from '../../admin/metrics/SubscribersTable.vue';
+import NewslettersTable from '../../admin/metrics/NewslettersTable.vue';
 
 Vue.config.ignoredElements = [/^trix-|^action-text/];
 

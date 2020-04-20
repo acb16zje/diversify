@@ -8,14 +8,14 @@
     :default-sort="['created_at', 'desc']"
     @click="rowClicked"
   >
-    <template v-slot="props">
+    <template v-slot="{ row }">
       <b-table-column field="title" label="Title" sortable searchable>
-        {{ props.row.title }}
+        {{ row.title }}
       </b-table-column>
 
       <b-table-column field="created_at" label="Date" sortable searchable>
         {{
-          new Date(props.row.created_at).toLocaleString('en-GB', {
+          new Date(row.created_at).toLocaleString('en-GB', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import Modal from './Modal.vue';
+import NewsletterModal from './NewsletterModal.vue';
 
 export default {
   props: {
@@ -59,7 +59,7 @@ export default {
     rowClicked(row) {
       this.$buefy.modal.open({
         parent: this,
-        component: Modal,
+        component: NewsletterModal,
         hasModalCard: true,
         trapFocus: true,
         scroll: 'keep',
