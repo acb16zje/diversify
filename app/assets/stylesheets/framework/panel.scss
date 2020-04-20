@@ -1,5 +1,16 @@
-.panel {
+nav.panel {
+  .panel-heading {
+    font-weight: 400;
+  }
 
+  .panel-block {
+    &.is-active {
+      border-left-width: 3px;
+      font-weight: 600;
+    }
+  }
+
+  // For nested block
   ul li {
     .panel-block {
       &:first-child {

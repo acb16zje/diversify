@@ -1,5 +1,5 @@
 %b-navbar#navbar{ transparent: '', 'fixed-top': '', 'spaced': '', 'wrapper-class': 'container' }
-  %template{ slot: 'brand' }
+  %template{ 'v-slot:brand': '' }
     .navbar-item#dropdowns
       - if user_signed_in?
         %notification-dropdown{ ':init-unread-count': @unread_count }
@@ -10,6 +10,9 @@
               = image_tag user_avatar(current_user)
             %span.icon.is-small
               %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
+          - if current_user.admin?
+            = link_to 'Admin dashboard', admin_dashboard_index_path, class: 'dropdown-item'
+            %hr.dropdown-divider
           = link_to 'Profile', user_path(current_user), class: 'dropdown-item'
           = link_to 'Settings', settings_profile_path, class: 'dropdown-item'
           %hr.dropdown-divider
@@ -18,11 +21,10 @@
         = link_to 'Sign in', new_user_session_path, class: 'button is-primary'
 
     = link_to root_path, class: 'navbar-item logo' do
-      -# = image_tag 'logo/logo_horizontal.svg', width: 150
       = image_tag 'logo/logo.svg', width: 57
       = image_tag 'logo/text_logo.svg', width: 75, class: 'ml-3 is-hidden-mobile'
 
-  %template{ slot: 'start' }
+  %template{ 'v-slot:start': '' }
     - if user_signed_in?
       = nav_link_to 'Your Projects', path: projects_path, class: 'navbar-item', controller: :projects, action: :index
       = nav_link_to 'Explore Projects', path: explore_projects_path, class: 'navbar-item'

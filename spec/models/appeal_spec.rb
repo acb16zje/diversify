@@ -80,13 +80,13 @@ describe Appeal, type: :model do
   describe 'after_commit hook' do
     describe '#send_notification, on: :create' do
       it {
-        expect { create(:appeal) }.to change { Notification.all.size }.by(1)
+        expect { create(:appeal) }.to change { Notification.count }.by(1)
       }
     end
   end
 
   describe '#send_resolve_notification' do
-    subject { Notification.all.size }
+    subject { Notification.count }
 
     let(:appeal) { build(:appeal) }
 

@@ -1,0 +1,39 @@
+- content_for :title, 'Admin Dashboard'
+
+.columns.is-multiline.text-center
+  .column.is-half
+    .box
+      %h4.title.is-4 Total users
+      %p.subtitle.is-4.-mt-3= @users
+
+      .columns.flex
+        .column.is-4
+          %p.font-semibold free
+          %p= @free_users
+        .column.is-4
+          %p.font-semibold pro
+          %p= @pro_users
+        .column.is-4
+          %p.font-semibold ultimate
+          %p= @ultimate_users
+  .column.is-half
+    .box
+      %h4.title.is-4 Total projects
+      %p.subtitle.is-4.-mt-3= @projects
+
+      .columns.flex
+        .column.is-half
+          %p.font-semibold public
+          %p= @public_projects
+
+        .column.is-half
+          %p.font-semibold private
+          %p= @private_projects
+  .column.is-half
+    .box
+      %h4.title.is-4 Total categories
+      %p.subtitle.is-4.-mt-3= @categories
+  .column.is-half
+    .box
+      %h4.title.is-4 Total skills
+      %p.subtitle.is-4.-mt-3= @skills

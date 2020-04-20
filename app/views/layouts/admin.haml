@@ -1,0 +1,16 @@
+- content_for :id, 'admin'
+
+- content_for :javascript do
+  = javascript_packs_with_chunks_tag 'admin/admin', defer: '', nonce: true
+
+- content_for :sidebar do
+  %nav.panel
+    %p.panel-heading Admin Control Panel
+
+    = nav_link_to 'Dashboard', path: admin_dashboard_index_path, class: 'panel-block'
+    = nav_link_to 'Website Metrics', path: metrics_path, class: 'panel-block'
+
+- content_for :footer do
+  = render 'layouts/footer'
+
+= render template: 'layouts/application'

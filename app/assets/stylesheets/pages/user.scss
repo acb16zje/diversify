@@ -1,20 +1,6 @@
 #user {
   @import "animations/personality_types";
 
-  nav.panel {
-    .panel-heading {
-      font-weight: 400;
-    }
-
-    .panel-block {
-
-      &.is-active {
-        border-left-width: 3px;
-        font-weight: 600;
-      }
-    }
-  }
-
   .settings {
     .columns {
       margin: 0;
