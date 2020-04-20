@@ -92,7 +92,7 @@ describe ProjectPolicy, type: :policy do
       succeed 'when user is invited' do
         let(:user) { create(:user) }
         let(:record) { create(:project) }
-        let(:invitation) {create(:invitation, user: user) }
+        let(:invitation) { create(:invitation, user: user) }
 
         before { record.appeals << invitation }
       end

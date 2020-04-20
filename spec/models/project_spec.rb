@@ -88,7 +88,7 @@ describe Project, type: :model do
     context 'when private' do
       let(:project) { build_stubbed(:project, :private) }
 
-      it { is_expected.to be_falsey}
+      it { is_expected.to be_falsey }
     end
 
     context 'when active and public' do
