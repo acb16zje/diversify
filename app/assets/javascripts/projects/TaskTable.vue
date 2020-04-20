@@ -1,7 +1,7 @@
 <template>
   <section>
-    <b-select v-model="type">
-      <option value="self">
+    <b-select v-model="type" @input="getData">
+      <option value="assigned">
         Tasks Assigned
       </option>
       <option value="unassigned">
@@ -24,12 +24,12 @@
       detailed
       detail-key="id"
     >
-      <template v-slot="{ row: { id, name, percentage, priority, owner_name, owner_id } }">
+      <template v-slot="{ row: { id, name, percentage, priority, owner_name, user_id } }">
         <b-table-column field="name" label="Name" sortable searchable>
           {{ name }}
         </b-table-column>
         <b-table-column field="owner" label="Owner" sortable>
-          <a :href="`/users/${owner_id}`" class="has-text-weight-bold">
+          <a :href="`/users/${user_id}`" class="has-text-weight-bold">
             {{ owner_name }}
           </a>
         </b-table-column>
@@ -39,7 +39,7 @@
             {{ priority }}
           </span>
         </b-table-column>
-        <b-table-column field="percentange" label="Progress" sortable>
+        <b-table-column field="percentange" label="Progress">
           <b-progress
             :type="percentage === 100 ? 'is-success' : 'is-info'"
             :value="percentage"
@@ -65,7 +65,7 @@
           <p>No Tasks</p>
         </div>
       </template>
-      <template slot="detail" slot-scope="{ row : { id, description, percentage, skill_names, owner_id } }">
+      <template slot="detail" slot-scope="{ row : { id, description, percentage, skill_names, user_id } }">
         <div class="columns">
           <div class="column is-8">
             <div v-if="skill_names != null" class="tags are-medium">
@@ -77,8 +77,8 @@
             {{ description }}
           </div>
           <div class="column is-4">
-            <div v-if="canEdit(owner_id) || inTask(id)" class="box">
-              <a v-if="canEdit(owner_id)" :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
+            <div v-if="canEdit(user_id) || inTask(id)" class="box">
+              <a v-if="canEdit(user_id)" :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
                 Edit Task
               </a>
               <b-field label="Set Progress">
@@ -116,7 +116,7 @@ export default {
       userData: [],
       images: [],
       isLoading: false,
-      type: 'self',
+      type: 'assigned',
     };
   },
   created() {
@@ -136,13 +136,16 @@ export default {
         url: `/projects/${this.projectId}/tasks/data`,
         type: 'GET',
         data: new URLSearchParams({
-          types: this.type,
+          type: this.type,
         }),
         success: (data) => {
           this.data = data.data;
           this.userData = data.user_data;
           this.images = data.images;
           this.isLoading = false;
+          console.log(this.data);
+          console.log(this.userData);
+          console.log(this.images);
         },
       });
     },

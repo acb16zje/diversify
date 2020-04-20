@@ -14,6 +14,22 @@ class TaskPolicy < ApplicationPolicy
          .collect { |s| [s.name, s.id] }
   end
 
+  relation_scope(:assigned) do |scope|
+    scope.left_outer_joins(:task_users).where(task_users: { user_id: user.id })
+  end
+
+  relation_scope(:unassigned) do |scope|
+    scope.left_outer_joins(:task_users).having("count(task_users) = 0")
+  end
+
+  relation_scope(:active) do |scope|
+    scope.having("percentage != 100")
+  end
+
+  relation_scope(:completed) do |scope|
+    scope.having("percentage = 100")
+  end
+
   def new?
     allowed_to? :create_task?, record.project
   end

@@ -54,6 +54,20 @@ class Task < ApplicationRecord
     task_users.pluck(:user_id)
   end
 
+  scope :user_data, lambda {
+    joins(:users)
+    .select('tasks.id, users.id as user_id, users.name as user_name')
+    .group('tasks.id, users.id')
+  }
+
+  scope :data, lambda {
+    joins(:user).left_joins(:skills)
+    .select('tasks.*')
+    .select('users.name as owner_name')
+    .select("string_agg(skills.name, ',') as skill_names")
+    .group('tasks.id, users.name')
+  }
+
   private
 
   def check_in_project(record)

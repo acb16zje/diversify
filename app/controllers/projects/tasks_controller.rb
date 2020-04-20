@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Projects::TasksController < ApplicationController
-  before_action :set_task, only: %i[show edit update set_percentage destroy]
+  before_action :set_task, only: %i[edit update set_percentage destroy]
   before_action :set_project, except: :set_percentage
   before_action :set_skills, only: %i[new edit]
 
@@ -43,18 +43,15 @@ class Projects::TasksController < ApplicationController
   end
 
   def data
-    return unless request.xhr?
+    return unless request.xhr? && valid_data_type?
 
-    user_data = Task.joins(:users).where(project: @project)
-                    .select('tasks.id,
-                            users.id as user_id, users.name as user_name')
-    @data = Task.joins(:user).left_joins(:skills).where(project: @project)
-                .select("tasks.*, users.name as owner_name, users.id as owner_id, string_agg(skills.name, ',') as skill_names")
-                .group('tasks.id, users.id')
-    images = assignee_avatars(User.find(user_data.pluck('users.id').uniq))
+    scope_data = authorized_scope(Task.where(project: @project), as: @type)
+
+    user_data = scope_data.user_data
+    images = assignee_avatars(user_data.pluck('users.id').uniq)
     user_data = user_data.group_by(&:id)
 
-    render json: { data: @data, user_data: user_data,
+    render json: { data: scope_data.data, user_data: user_data,
                    images: images }, status: :ok
   end
 
@@ -78,7 +75,7 @@ class Projects::TasksController < ApplicationController
 
     team = current_user.teams.where(project: @project).first
     @assignees = authorized_scope(
-      @project.users, scope_options: { team_id: team.id, project: @project}
+      @project.users, scope_options: { team_id: team.id, project: @project }
     )
   end
 
@@ -110,14 +107,18 @@ class Projects::TasksController < ApplicationController
                   skill_ids: [], user_ids: [])
   end
 
-  def assignee_avatars(users)
+  def assignee_avatars(ids)
     extend AvatarHelper
 
-    images = {}
-    users.each do |u|
-      images[u.id] =
-        u.avatar.attached? ? url_for(user_avatar(u)) : user_avatar(u)
+    arr = {}
+    User.find(ids).each do |u|
+      arr[u.id] = u.avatar.attached? ? url_for(user_avatar(u)) : user_avatar(u)
     end
-    images
+    arr
+  end
+
+  def valid_data_type?
+    @type = params[:type]&.to_sym
+    %i[assigned unassigned active completed].include?(@type)
   end
 end
