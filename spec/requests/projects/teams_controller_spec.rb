@@ -37,15 +37,19 @@ describe Projects::TeamsController, type: :request do
     end
 
     describe '#edit' do
-      subject(:request) { get edit_project_team_path(team, project_id: project.id) }
+      subject(:request) do
+        get edit_project_team_path(team, project_id: project.id)
+      end
 
       it { expect { request }.to be_authorized_to(:access_team?, team) }
     end
 
     describe '#show' do
-      subject(:request) { get project_team_path(team, project_id: project.id) }
+      subject(:request) do
+        get project_team_path(team, project_id: project.id), xhr: true
+      end
 
-      it { expect { request }.to be_authorized_to(:access_team?, team) }
+      it { expect { request }.to be_authorized_to(:show?, team) }
     end
 
     describe '#create' do
@@ -55,13 +59,17 @@ describe Projects::TeamsController, type: :request do
     end
 
     describe '#update' do
-      subject(:request) { patch project_team_path(team, project_id: project.id) }
+      subject(:request) do
+        patch project_team_path(team, project_id: project.id)
+      end
 
       it { expect { request }.to be_authorized_to(:access_team?, team) }
     end
 
     describe '#destroy' do
-      subject(:request) { delete project_team_path(team, project_id: project.id) }
+      subject(:request) do
+        delete project_team_path(team, project_id: project.id)
+      end
 
       it { expect { request }.to be_authorized_to(:manage?, team) }
     end
@@ -244,9 +252,7 @@ describe Projects::TeamsController, type: :request do
     end
 
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'accessible to authenticated users'
     end
 
     context 'when user is admin' do

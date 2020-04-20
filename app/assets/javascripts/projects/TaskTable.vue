@@ -81,6 +81,9 @@
               <a v-if="canEdit(user_id)" :href="'/projects/'+projectId+'/tasks/'+id+'/edit'" class="button is-warning">
                 Edit Task
               </a>
+              <a v-if="canEdit(user_id)" class="button is-danger" data-confirm="Are you sure?" @click="deleteTask(id)">
+                Delete Task
+              </a>
               <b-field label="Set Progress">
                 <b-slider :value="percentage" :min="0" :max="100" :step="10" ticks @change="updateProgress($event, id)" />
               </b-field>
@@ -94,6 +97,7 @@
 
 <script>
 import Rails from '@rails/ujs';
+import { dangerToast, successToast } from '../buefy/toast';
 
 export default {
   props: {
@@ -143,9 +147,6 @@ export default {
           this.userData = data.user_data;
           this.images = data.images;
           this.isLoading = false;
-          console.log(this.data);
-          console.log(this.userData);
-          console.log(this.images);
         },
       });
     },
@@ -157,6 +158,7 @@ export default {
           'task[percentage]': e,
         }),
         success: () => {
+          successToast('Progress Updated');
           const dataPos = this.data.findIndex((u) => u.id === id);
           this.data[dataPos].percentage = e;
         },
@@ -170,6 +172,19 @@ export default {
         return isAsc ? 1 : -1;
       }
       return isAsc ? -1 : 1;
+    },
+    deleteTask(id) {
+      Rails.ajax({
+        url: `/projects/${this.projectId}/tasks/${id}`,
+        type: 'DELETE',
+        success: () => {
+          successToast('Task Deleted');
+          this.data = this.data.filter((x) => x.id !== id);
+        },
+        error: ({ message }) => {
+          dangerToast(message);
+        },
+      });
     },
   },
 };

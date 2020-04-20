@@ -8,22 +8,27 @@
 #  description :text             default(""), not null
 #  name        :string           default(""), not null
 #  percentage  :integer          default(0), not null
+#  priority    :enum             default("Medium"), not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  project_id  :bigint
 #  skills_id   :bigint
+#  user_id     :bigint
 #  users_id    :bigint
 #
 # Indexes
 #
 #  index_tasks_on_project_id  (project_id)
 #  index_tasks_on_skills_id   (skills_id)
+#  index_tasks_on_user_id     (user_id)
 #  index_tasks_on_users_id    (users_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (project_id => projects.id)
 #  fk_rails_...  (skills_id => skills.id)
+#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (users_id => users.id)
 #
 
 class Task < ApplicationRecord
@@ -40,6 +45,7 @@ class Task < ApplicationRecord
   has_many :skills, through: :task_skills
 
   validates :name, presence: true
+  validates :priority, presence: true
   validates :percentage, presence: true, numericality: { only_integer: true },
                          inclusion: {
                            in: 0..100,
@@ -56,16 +62,17 @@ class Task < ApplicationRecord
 
   scope :user_data, lambda {
     joins(:users)
-    .select('tasks.id, users.id as user_id, users.name as user_name')
-    .group('tasks.id, users.id')
+      .select('tasks.id, users.id as user_id, users.name as user_name')
+      .group('tasks.id, users.id')
   }
 
   scope :data, lambda {
     joins(:user).left_joins(:skills)
-    .select('tasks.*')
-    .select('users.name as owner_name')
-    .select("string_agg(skills.name, ',') as skill_names")
-    .group('tasks.id, users.name')
+                .select('tasks.id, tasks.description, tasks.name, tasks.user_id')
+                .select('tasks.priority, tasks.percentage')
+                .select('users.name as owner_name')
+                .select("string_agg(skills.name, ',') as skill_names")
+                .group('tasks.id, users.name')
   }
 
   private

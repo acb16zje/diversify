@@ -129,4 +129,40 @@ describe ProjectPolicy, type: :policy do
       before { user.admin = true }
     end
   end
+
+  describe_rule :change_visibility? do
+    let(:user) { create(:user) }
+
+    failed 'when not user has free license'
+
+    succeed 'when user has premium license' do
+      before { user.license.plan = 'pro' }
+    end
+
+    succeed 'when user is admin' do
+      before { user.admin = true }
+    end
+  end
+
+  describe_rule :create_task? do
+    let(:record) { create(:project) }
+    let(:user) { create(:user) }
+
+    succeed 'when user in team' do
+      before do
+        team = create(:team, project: record)
+        team.users << user
+      end
+    end
+
+    succeed 'when user is owner' do
+      before { record.user = user }
+    end
+
+    succeed 'when user is admin' do
+      before { user.admin = true }
+    end
+
+    failed 'when user cannot manage or not in team'
+  end
 end

@@ -37,6 +37,6 @@ class ProjectPolicy < ApplicationPolicy
 
   def create_task?
     manage? || (!record.unassigned_team.users.include?(user) &&
-      record.users.include?(user))
+      record.teams.any? { |team| team.users.include?(user) })
   end
 end

@@ -21,10 +21,9 @@
 #  fk_rails_...  (task_id => tasks.id)
 #  fk_rails_...  (user_id => users.id)
 #
-class TaskUser < ApplicationRecord
-  belongs_to :task
-  belongs_to :user
-
-  validates :user_id, presence: true, uniqueness: { scope: :task_id }
-  validates :task_id, presence: true
+FactoryBot.define do
+  factory :task_user do
+    association :user, factory: :user
+    association :task, factory: :task
+  end
 end

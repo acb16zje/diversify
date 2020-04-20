@@ -21,10 +21,22 @@
 #  fk_rails_...  (task_id => tasks.id)
 #  fk_rails_...  (user_id => users.id)
 #
-class TaskUser < ApplicationRecord
-  belongs_to :task
-  belongs_to :user
+require 'rails_helper'
 
-  validates :user_id, presence: true, uniqueness: { scope: :task_id }
-  validates :task_id, presence: true
+describe TaskUser, type: :model do
+  describe 'associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:task) }
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:user_id) }
+    it { is_expected.to validate_presence_of(:task_id) }
+
+    describe 'UNIQUE user_id, task_id' do
+      subject { build(:task_user) }
+
+      it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:task_id) }
+    end
+  end
 end

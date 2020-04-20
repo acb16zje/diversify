@@ -38,8 +38,11 @@ class Projects::TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    @task.destroy
-    redirect_to tasks_url, notice: 'Task was successfully destroyed.'
+    if @task.destroy
+      head :ok
+    else
+      task_fail(nil)
+    end
   end
 
   def data
@@ -75,7 +78,8 @@ class Projects::TasksController < ApplicationController
 
     team = current_user.teams.where(project: @project).first
     @assignees = authorized_scope(
-      @project.users, scope_options: { team_id: team.id, project: @project }
+      @project.users,
+      as: :assignee, scope_options: { team_id: team.id, project: @project }
     )
   end
 
