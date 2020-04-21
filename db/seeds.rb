@@ -8,6 +8,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# rubocop:disable Layout/LineLength
 # 16 personalities
 %w[I E].each do |mind|
   %w[S N].each do |energy|
@@ -19,37 +20,34 @@
   end
 end
 
-admin = User.create_with(
-  email: 'admin@email.com',
-  password: 'password',
-  admin: true
-).find_or_create_by(name: 'Admin')
+admin = User.find_or_create_by(name: 'Admin', email: 'admin@email.com', admin: true) do |u|
+  u.password = 'password'
+end
 
-user = User.create_with(
-  email: 'user@email.com',
-  password: 'password',
-  admin: false
-).find_or_create_by(name: 'User')
+user = User.find_or_create_by(name: 'User', email: 'user@email.com', admin: false) do |u|
+  u.password = 'password'
+end
 
 Category.find_or_create_by(name: 'Accounting and Finance')
 Category.find_or_create_by(name: 'Construction')
 Category.find_or_create_by(name: 'Computer and IT')
 
 (1..6).each do |i|
-  Project.create_with(
+  Project.find_or_create_by(
     name: "Project #{i}: #{Faker::Food.dish}",
     description: Faker::Food.description,
     status: %w[open active completed][i % 3 - 1],
     visibility: i.odd?,
     user: i.even? ? admin : user,
     category_id: (i - 1) % 3 + 1
-  ).find_or_create_by(id: i)
+  )
 end
 
 (0..5).each do |i|
-  Skill.create_with(
+  Skill.find_or_create_by(
     name: "Skill #{Faker::Food.dish}",
     description: Faker::Food.description,
     category_id: i % 3
-  ).find_or_create_by(id: i)
+  )
 end
+# rubocop:enable Layout/LineLength
