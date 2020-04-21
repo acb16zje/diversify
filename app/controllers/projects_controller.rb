@@ -27,9 +27,8 @@ class ProjectsController < ApplicationController
   def create
     return project_fail('Bad Request') if valid_project?
 
-    @project = Project.new(project_params)
-    @project.user = current_user
-    @project.save ? project_success('Project Created') : project_fail(nil)
+    @project = current_user.projects.build(project_params)
+    @project.save ? project_success('Project Created') : project_fail
   end
 
   # PATCH/PUT /projects/1
@@ -39,7 +38,7 @@ class ProjectsController < ApplicationController
     if @project.update(project_params)
       project_success('Project Updated')
     else
-      project_fail(nil)
+      project_fail
     end
   end
 
@@ -93,7 +92,7 @@ class ProjectsController < ApplicationController
   end
 
   def project_success(message)
-    @project.appeals.each(&:destroy) if @project.completed?
+    @project.appeals.delete_all if @project.completed?
     flash[:toast_success] = message
     render js: "window.location = '#{project_path(@project)}'"
   end
