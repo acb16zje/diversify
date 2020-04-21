@@ -61,13 +61,13 @@ class Projects::TeamsController < ApplicationController
       @team.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
       team_success('Team was successfully created')
     else
-      team_fail(nil)
+      team_fail
     end
   end
 
   # PATCH/PUT /teams/1
   def update
-    @team.update(edit_params) ? team_success('Team Saved') : team_fail(nil)
+    @team.update(edit_params) ? team_success('Team Saved') : team_fail
   end
 
   # DELETE /teams/1

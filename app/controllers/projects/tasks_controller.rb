@@ -28,13 +28,13 @@ class Projects::TasksController < ApplicationController
       @task.user_ids =  params.dig(:task, :users_id)&.drop(1)
       task_success('Task created')
     else
-      task_fail(nil)
+      task_fail
     end
   end
 
   # PATCH/PUT /tasks/1
   def update
-    @task.update(edit_params) ? task_success('Task updated') : task_fail(nil)
+    @task.update(edit_params) ? task_success('Task updated') : task_fail
   end
 
   # DELETE /tasks/1
@@ -61,7 +61,7 @@ class Projects::TasksController < ApplicationController
     if @task.update(edit_params)
       head :ok
     else
-      task_fail(nil)
+      task_fail
     end
   end
 
@@ -75,7 +75,7 @@ class Projects::TasksController < ApplicationController
     @skills = Skill.where(category: @project.category)
                    .collect { |s| [s.name, s.id] }
 
-    team = current_user.teams.where(project: @project).first
+    team = current_user.teams.find_by(project: @project)
     @assignees = authorized_scope(
       @project.users,
       as: :assignee, scope_options: { team_id: team&.id, project: @project }
@@ -88,8 +88,7 @@ class Projects::TasksController < ApplicationController
     authorize! @task
   end
 
-  def task_fail(message)
-    message ||= @task.errors.full_messages
+  def task_fail(message = @task.errors.full_messages)
     render json: { message: message }, status: :unprocessable_entity
   end
 
