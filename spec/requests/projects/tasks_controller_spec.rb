@@ -66,6 +66,8 @@ describe Projects::TasksController, type: :request do
     let(:team) { create(:team, project: project) }
     let(:task) { create(:task, project: project) }
 
+    before { create(:skill, category: project.category) }
+
     context 'when not logged in' do
       it_behaves_like 'not accessible to unauthenticated users'
     end
@@ -109,6 +111,8 @@ describe Projects::TasksController, type: :request do
     let(:team) { create(:team, project: project) }
     let(:task) { create(:task, project: project) }
 
+    before { create(:skill, category: project.category) }
+
     context 'when not logged in' do
       it_behaves_like 'not accessible to unauthenticated users'
     end
@@ -151,7 +155,6 @@ describe Projects::TasksController, type: :request do
     let(:project) { create(:project) }
     let(:team) { create(:team, project: project) }
     let(:task) { create(:task, project: project) }
-
     let(:params) do
       { task: {
         name: 'Test', project_id: project.id, user_id: user.id
@@ -321,7 +324,11 @@ describe Projects::TasksController, type: :request do
 
     let(:project) { create(:project) }
     let(:task) { create(:task, project: project) }
-    let(:params) { { type: 'assigned' } }
+    let(:params) { { type: 'active' } }
+
+    before do
+      task.users << admin
+    end
 
     context 'when not logged in' do
       it_behaves_like 'returns 401 Unauthorized'

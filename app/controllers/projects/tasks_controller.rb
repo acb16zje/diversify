@@ -39,11 +39,8 @@ class Projects::TasksController < ApplicationController
 
   # DELETE /tasks/1
   def destroy
-    if @task.destroy
-      head :ok
-    else
-      task_fail(nil)
-    end
+    @task.destroy
+    head :ok
   end
 
   def data
