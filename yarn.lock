@@ -787,9 +787,9 @@
     purgecss "^2.1.2"
 
 "@iconify/iconify@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@iconify/iconify/-/iconify-1.0.5.tgz#41a2d93780bb38d678ba12cd1f46f82323c848bb"
-  integrity sha512-4rSj2wHJ7612OtXuR+gdH/73FFqXuMumK9bsvCVKxnRe0xHZqaDFVGz4Ng0RTq2lHetCz1854cMv52pQtyWwpQ==
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@iconify/iconify/-/iconify-1.0.6.tgz#021d7071764f4b117a7ae3a9a43122fad46c8ef9"
+  integrity sha512-0ulXc8LYipLl5mXJqsrOCdBeY+LWIjxrP7+3iWy++H00BzTjgvefbE4m9JCRxkRV/LWxKOgP40VoQueM4y8JIw==
 
 "@rails/actiontext@^6.0.2-2":
   version "6.0.2-2"
