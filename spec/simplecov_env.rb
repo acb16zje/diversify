@@ -34,7 +34,6 @@ module SimpleCovEnv
         add_filter 'app/jobs'
         add_filter 'app/controllers/reviews_controller.rb'
         add_filter 'app/controllers/projects/tasks_controller.rb'
-        add_filter 'app/controllers/admin/categories_controller.rb'
 
         add_filter 'app/models/issue.rb'
         add_filter 'app/models/preference.rb'
