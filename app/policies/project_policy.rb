@@ -28,7 +28,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def count?
-    user.in_project?(record) || user.admin?
+    user&.in_project?(record) || user&.admin?
   end
 
   def change_visibility?

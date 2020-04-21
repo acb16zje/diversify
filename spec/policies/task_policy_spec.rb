@@ -64,36 +64,6 @@ describe TaskPolicy, type: :policy do
     end
   end
 
-  describe_rule :new? do
-    failed 'when not in project'
-
-    failed 'when not assigned team' do
-      let(:user) { create(:user) }
-
-      before do
-        project.unassigned_team.users << user
-      end
-    end
-
-    succeed 'when in team' do
-      let(:user) { create(:user) }
-      let(:record) { create(:task, project: project) }
-
-      before do
-        team = create(:team, project: project)
-        team.users << user
-      end
-    end
-
-    succeed 'when user is project owner' do
-      before { project.user = user }
-    end
-
-    succeed 'when user is admin' do
-      before { user.admin = true }
-    end
-  end
-
   describe_rule :manage? do
     failed 'when not in project'
 

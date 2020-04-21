@@ -22,10 +22,6 @@ class TaskPolicy < ApplicationPolicy
     scope.having('percentage = 100')
   end
 
-  def new?
-    allowed_to? :create_task?, record.project
-  end
-
   def manage?
     owner? || user&.admin? || record.project.user == user
   end

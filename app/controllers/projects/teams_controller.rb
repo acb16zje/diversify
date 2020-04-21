@@ -11,7 +11,7 @@ class Projects::TeamsController < ApplicationController
   def manage; end
 
   def manage_data
-    return unless request.xhr?
+    return render_404 unless request.xhr?
 
     @data = User.joins(:teams).where(teams: { project: @project })
                 .select('users.*, teams.id as team_id')
@@ -45,7 +45,7 @@ class Projects::TeamsController < ApplicationController
   end
 
   def show
-    return unless request.xhr?
+    return render_404 unless request.xhr?
 
     render json: {
       name: @team.name, skills: @team.skills&.select(:id, :name),
