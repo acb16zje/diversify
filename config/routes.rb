@@ -69,7 +69,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :dashboard, only: :index
-    resources :categories
+
+    resources :categories, only: %i[index show create update destroy]
   end
 
   resources :categories, only: :index

@@ -54,18 +54,21 @@ class Project < ApplicationRecord
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
 
+  # rubocop:disable Layout/LineLength
   scope :search, lambda { |params|
     with_attached_avatar
-      .joins(:category, :user)
+      .left_outer_joins(:category)
+      .joins(:user)
       .select('projects.*')
       .select('categories.name AS category_name')
       .select('users.name AS user_name, users.email')
       .where('projects.status::text ~ ?', params[:status] || '')
-      .where('categories.name ~* ?', params[:category] || '')
+      .where(params[:category].blank? ? '' : 'categories.name ~* ?', params[:category])
       .where('projects.name ~* :query OR projects.description ~* :query',
              query: params[:query] || '')
       .order(SORT_BY[params[:sort]&.to_sym] || SORT_BY[:created_desc])
   }
+  # rubocop:enable Layout/LineLength
 
   before_validation :validate_status_update,
                     on: :update,

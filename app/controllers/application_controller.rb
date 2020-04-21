@@ -28,10 +28,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  rescue_from ActionController::UnpermittedParameters do
-    render json: { message: 'Unpermitted Parameters' }, status: :bad_request
-  end
-
   # TODO: Teams destroy, it doesn't return error when push user back to unassigned?
   rescue_from ActiveRecord::RecordInvalid do
     render json: { message: 'Invalid Record' }, status: :unprocessable_entity
