@@ -52,14 +52,6 @@ class Task < ApplicationRecord
                            message: 'Percentage should be between 0 and 100'
                          }
 
-  def completed?
-    percentage == 100
-  end
-
-  def user_ids
-    task_users.pluck(:user_id)
-  end
-
   scope :user_data, lambda {
     joins(:users)
       .select('tasks.id, users.id as user_id, users.name as user_name')
@@ -74,6 +66,10 @@ class Task < ApplicationRecord
                 .select("string_agg(skills.name, ',') as skill_names")
                 .group('tasks.id, users.name')
   }
+
+  def user_ids
+    task_users.pluck(:user_id)
+  end
 
   private
 
