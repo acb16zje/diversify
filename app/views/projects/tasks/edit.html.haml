@@ -2,29 +2,35 @@
 
 %section.section#tasks
   .container.max-w-2xl
-    %h1.title Edit Task
+    %h1.title.is-4 Edit Task
     .box
       = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
-        .field
-          %label.label Task Name
+        .field.my-4
+          %label.label.required Task Name
           .control
             = f.text_field :name, class: 'input', required: ''
-        .field
-          %label.label Description
+        .field.my-4
+          %label.label
+            Description
+            %span.text-xs.text-gray-600 (optional)
           .control
             = f.text_area :description, class: 'textarea'
-        .field
+        .field.my-4
+          %label.label.required Priority
+          .select
+            = f.select :priority, Task.priorities, {}, include_blank: false
+        .field.my-4
           %label.label Skills
           .select.is-multiple
             = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
-        .field
+        .field.my-4
           %label.label Assignee
           .select.is-multiple
             = f.select :user_ids, @assignees, {}, multiple: true, include_blank: true
-        .field
-          .control
+        .field.mt-8
+          .control.flex.justify-between
             = f.submit 'Edit Task', class: 'button is-success'
-            = link_to 'Back', project_path(@project), class: 'button is-danger'
+            = link_to 'Cancel', project_path(@project), class: 'button'
 
 
 

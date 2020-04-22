@@ -2,23 +2,24 @@
 
 %section.section#teams
   .container.max-w-2xl
-    %h1.title Create Team
+    %h1.title.is-4 Create Team
+    %p.subtitle.is-6 Create Teams to organise your members and diversify your skills.
     .box
       = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
         = f.hidden_field :project_id, value: @project.id
         .field
-          %label.label Team Name
+          %label.label.required Team Name
           .control
             = f.text_field :name, class: 'input', required: ''
         .field
-          %label.label Max Team Size
+          %label.label.required Max Team Size
           .control
             = f.number_field :team_size, class: 'input'
         .field
           %label.label Skills
           .select.is-multiple
             = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
-        .field
-          .control
+        .field.mt-8
+          .control.flex.justify-between
             = f.submit 'Create Team', class: 'button is-success'
-            = link_to 'Back', project_path(@project), class: 'button is-danger'
+            = link_to 'Cancel', project_path(@project), class: 'button'

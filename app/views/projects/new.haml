@@ -4,7 +4,6 @@
   .container.max-w-2xl
     %h4.title.is-4 Create a new project
     %p.subtitle.is-6 A project is where you form your teams, organise your tasks, and collaborate with others.
-
     .box
       = form_with model: Project.new, html: { '@ajax:error': 'ajaxError' } do |f|
         .columns.is-vcentered
