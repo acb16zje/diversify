@@ -8,7 +8,19 @@
 
     <section class="modal-card-body">
       <b-field label="Name" class="required">
-        <b-input v-model="name" required @keyup.native.enter="editCategory" />
+        <b-input v-model="name" required @keyup.native.enter="editSkill" />
+      </b-field>
+
+      <b-field label="Category" class="required">
+        <b-select v-model="category_id" required>
+          <option
+            v-for="category in categories"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </b-select>
       </b-field>
     </section>
 
@@ -17,7 +29,7 @@
         type="is-success"
         :loading="isLoading"
         :disabled="isLoading"
-        @click="editCategory"
+        @click="editSkill"
       >
         Save changes
       </b-button>
@@ -34,8 +46,8 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Rails from '@rails/ujs';
+import { mapActions, mapState } from 'vuex';
 import { dangerToast, successToast } from '../../../buefy/toast';
 
 export default {
@@ -48,24 +60,39 @@ export default {
       type: String,
       required: true,
     },
+    initCategoryId: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
       name: this.initName,
+      category_id: this.initCategoryId,
       isLoading: false,
     };
   },
+  computed: {
+    ...mapState('category', ['categories']),
+  },
   methods: {
-    editCategory() {
+    editSkill() {
       this.isLoading = true;
 
       Rails.ajax({
-        url: `/admin/categories/${this.id}`,
+        url: `/admin/skills/${this.id}`,
         type: 'PATCH',
-        data: new URLSearchParams({ 'category[name]': this.name }),
+        data: new URLSearchParams({
+          'skill[name]': this.name,
+          'skill[category_id]': this.category_id,
+        }),
         success: () => {
-          successToast('Category updated');
-          this.updateCategory({ id: this.id, name: this.name });
+          successToast('Skill updated');
+          this.updateSkill({
+            id: this.id,
+            name: this.name,
+            categoryName: this.categories.find((e) => e.id === this.category_id).name,
+          });
           this.$parent.close();
         },
         error: ({ message }) => {
@@ -76,7 +103,7 @@ export default {
         },
       });
     },
-    ...mapActions('category', ['updateCategory']),
+    ...mapActions('skill', ['updateSkill']),
   },
 };
 </script>

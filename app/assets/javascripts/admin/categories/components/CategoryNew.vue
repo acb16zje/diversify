@@ -7,7 +7,7 @@
     </header>
 
     <section class="modal-card-body">
-      <b-field label="Name">
+      <b-field label="Name" class="required">
         <b-input v-model="name" required @keyup.native.enter="createCategory" />
       </b-field>
     </section>

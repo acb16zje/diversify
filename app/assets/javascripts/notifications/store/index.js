@@ -41,12 +41,12 @@ const notificationStore = new Vuex.Store({
         commit('updateUnreadCount', state.unreadCount -= 1);
       }
     },
-    async readAllNotifications({ state, commit }) {
+    readAllNotifications({ state, commit }) {
       for (let i = 0, n = state.notifications.length; i < n; i += 1) {
         commit('readNotification', i);
       }
 
-      await commit('updateUnreadCount', 0);
+      commit('updateUnreadCount', 0);
     },
     unreadNotification({ state, commit }, id) {
       const index = state.notifications.findIndex((e) => e.id === id);

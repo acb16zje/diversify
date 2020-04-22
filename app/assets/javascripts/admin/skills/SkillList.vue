@@ -3,23 +3,24 @@
     <div class="container">
       <div class="flex items-center pb-4">
         <h4 class="title is-4 m-0">
-          Categories
+          Skills
         </h4>
 
-        <button class="button is-success ml-auto" @click="newCategory">
-          New category
+        <button class="button is-success ml-auto" @click="newSkill">
+          New skill
         </button>
       </div>
 
+
       <b-table
-        :data="categories"
+        :data="skills"
         :paginated="true"
         :pagination-simple="true"
         :per-page="10"
         :hoverable="true"
-        default-sort="name"
+        default-sort="id"
       >
-        <template v-slot="{ row: { id, name } }">
+        <template v-slot="{ row: { id, name, category_name } }">
           <b-table-column field="id" label="ID" sortable>
             {{ id }}
           </b-table-column>
@@ -28,12 +29,16 @@
             {{ name }}
           </b-table-column>
 
+          <b-table-column field="category_name" label="Category" sortable searchable>
+            {{ category_name }}
+          </b-table-column>
+
           <b-table-column label="Action">
             <div class="buttons">
-              <b-button type="is-link" outlined @click="editCategory(id, name)">
+              <b-button type="is-link" outlined @click="editSkill(id, name, category_name)">
                 Edit
               </b-button>
-              <b-button type="is-danger" @click="deleteCategory(id, name)">
+              <b-button type="is-danger" @click="deleteSkill(id, name)">
                 Delete
               </b-button>
             </div>
@@ -42,7 +47,7 @@
 
         <template v-slot:empty>
           <div class="content has-text-grey text-center">
-            <p>No categories</p>
+            <p>No skills</p>
           </div>
         </template>
       </b-table>
@@ -52,13 +57,17 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex';
-import CategoryNew from './components/CategoryNew.vue';
-import CategoryEdit from './components/CategoryEdit.vue';
-import CategoryDelete from './components/CategoryDelete.vue';
+import SkillNew from './components/SkillNew.vue';
+import SkillEdit from './components/SkillEdit.vue';
+import SkillDelete from './components/SkillDelete.vue';
 
 export default {
   props: {
-    initCategories: {
+    initSkills: {
+      type: Array,
+      required: true,
+    },
+    categories: {
       type: Array,
       required: true,
     },
@@ -73,33 +82,37 @@ export default {
     };
   },
   computed: {
-    ...mapState('category', ['categories']),
+    ...mapState('skill', ['skills']),
   },
   created() {
-    this.updateCategories(this.initCategories);
+    this.updateCategories(this.categories);
+    this.updateSkills(this.initSkills);
   },
   methods: {
-    newCategory() {
+    newSkill() {
       this.$buefy.modal.open({
         ...this.modalOptions,
-        component: CategoryNew,
+        component: SkillNew,
       });
     },
-    editCategory(id, initName) {
+    editSkill(id, initName, initCategoryName) {
+      const initCategoryId = this.categories.find((e) => e.name === initCategoryName).id;
+
       this.$buefy.modal.open({
         ...this.modalOptions,
-        component: CategoryEdit,
-        props: { id, initName },
+        component: SkillEdit,
+        props: { id, initName, initCategoryId },
       });
     },
-    deleteCategory(id, name) {
+    deleteSkill(id, name) {
       this.$buefy.modal.open({
         ...this.modalOptions,
-        component: CategoryDelete,
+        component: SkillDelete,
         props: { id, name },
       });
     },
     ...mapMutations('category', ['updateCategories']),
+    ...mapMutations('skill', ['updateSkills']),
   },
 };
 </script>

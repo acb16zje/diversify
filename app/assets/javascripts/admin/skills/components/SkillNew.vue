@@ -2,13 +2,25 @@
   <div class="modal-card">
     <header class="modal-card-head">
       <p class="modal-card-title">
-        Edit {{ initName }}
+        New skill
       </p>
     </header>
 
     <section class="modal-card-body">
       <b-field label="Name" class="required">
-        <b-input v-model="name" required @keyup.native.enter="editCategory" />
+        <b-input v-model="name" required @keyup.native.enter="createSkill" />
+      </b-field>
+
+      <b-field label="Category" class="required">
+        <b-select v-model="category_id" required>
+          <option
+            v-for="category in categories"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </b-select>
       </b-field>
     </section>
 
@@ -17,9 +29,9 @@
         type="is-success"
         :loading="isLoading"
         :disabled="isLoading"
-        @click="editCategory"
+        @click="createSkill"
       >
-        Save changes
+        Create skill
       </b-button>
 
       <b-button
@@ -34,38 +46,36 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import Rails from '@rails/ujs';
+import { mapActions, mapState } from 'vuex';
 import { dangerToast, successToast } from '../../../buefy/toast';
 
 export default {
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-    initName: {
-      type: String,
-      required: true,
-    },
-  },
   data() {
     return {
-      name: this.initName,
+      name: '',
+      category_id: '',
       isLoading: false,
     };
   },
+  computed: {
+    ...mapState('category', ['categories']),
+  },
   methods: {
-    editCategory() {
+    createSkill() {
       this.isLoading = true;
 
       Rails.ajax({
-        url: `/admin/categories/${this.id}`,
-        type: 'PATCH',
-        data: new URLSearchParams({ 'category[name]': this.name }),
-        success: () => {
-          successToast('Category updated');
-          this.updateCategory({ id: this.id, name: this.name });
+        url: '/admin/skills',
+        type: 'POST',
+        dataType: 'json',
+        data: new URLSearchParams({
+          'skill[name]': this.name,
+          'skill[category_id]': this.category_id,
+        }),
+        success: ({ skill }) => {
+          successToast('Skill added');
+          this.addSkill(skill);
           this.$parent.close();
         },
         error: ({ message }) => {
@@ -76,7 +86,7 @@ export default {
         },
       });
     },
-    ...mapActions('category', ['updateCategory']),
+    ...mapActions('skill', ['addSkill']),
   },
 };
 </script>

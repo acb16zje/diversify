@@ -28,9 +28,9 @@ user = User.find_or_create_by(name: 'User', email: 'user@email.com', admin: fals
   u.password = 'password'
 end
 
-Category.find_or_create_by(name: 'Accounting and Finance')
-Category.find_or_create_by(name: 'Construction')
-Category.find_or_create_by(name: 'Computer and IT')
+accounting = Category.find_or_create_by(name: 'Accounting and Finance')
+construction = Category.find_or_create_by(name: 'Construction')
+computing = Category.find_or_create_by(name: 'Computer and IT')
 
 (1..6).each do |i|
   Project.find_or_create_by(
@@ -43,11 +43,18 @@ Category.find_or_create_by(name: 'Computer and IT')
   )
 end
 
-(0..5).each do |i|
-  Skill.find_or_create_by(
-    name: "Skill #{Faker::Food.dish}",
-    description: Faker::Food.description,
-    category_id: i % 3
-  )
-end
+Skill.find_or_create_by(name: 'Budgeting', category: accounting)
+Skill.find_or_create_by(name: 'Cash Flow Management', category: accounting)
+Skill.find_or_create_by(name: 'Cost Reduction', category: accounting)
+Skill.find_or_create_by(name: 'Tax Planning', category: accounting)
+
+Skill.find_or_create_by(name: 'Bricklaying', category: construction)
+Skill.find_or_create_by(name: 'Metal lathing', category: construction)
+Skill.find_or_create_by(name: 'Plastering', category: construction)
+Skill.find_or_create_by(name: 'Plumbing', category: construction)
+
+Skill.find_or_create_by(name: 'Algorithms and Data Structures', category: computing)
+Skill.find_or_create_by(name: 'Database Architecture', category: computing)
+Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
+Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
 # rubocop:enable Layout/LineLength
