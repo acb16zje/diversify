@@ -43,7 +43,6 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy
   has_many :projects, dependent: :destroy
   has_many :preferences, dependent: :destroy
-  has_many :skill_levels, dependent: :destroy
   has_many :appeals, dependent: :destroy
 
   has_many :task_users, dependent: :destroy

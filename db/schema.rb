@@ -262,17 +262,6 @@ ActiveRecord::Schema.define(version: 2020_04_18_023217) do
     t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
-  create_table "skill_levels", force: :cascade do |t|
-    t.integer "experience", default: 0, null: false
-    t.integer "level", default: 0, null: false
-    t.bigint "user_id"
-    t.bigint "skill_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["skill_id"], name: "index_skill_levels_on_skill_id"
-    t.index ["user_id"], name: "index_skill_levels_on_user_id"
-  end
-
   create_table "skills", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
@@ -375,8 +364,6 @@ ActiveRecord::Schema.define(version: 2020_04_18_023217) do
   add_foreign_key "reviews", "projects"
   add_foreign_key "reviews", "users", column: "reviewee_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
-  add_foreign_key "skill_levels", "skills"
-  add_foreign_key "skill_levels", "users"
   add_foreign_key "skills", "categories"
   add_foreign_key "task_skills", "skills"
   add_foreign_key "task_skills", "tasks"

@@ -25,7 +25,6 @@ class Skill < ApplicationRecord
   belongs_to :category
   has_many :task_skills, dependent: :destroy
   has_many :tasks, through: :team_skills
-  has_many :skill_levels, dependent: :destroy
   has_many :team_skills, dependent: :destroy
   has_many :teams, through: :team_skills
 
