@@ -3,7 +3,7 @@
 # Authentication before authorisation,
 # hence it is required to check whether user is authenticated or not
 
-shared_examples 'accessible to authorised users' do
+shared_examples 'accessible to authorised users for public object' do
   it_behaves_like 'accessible to authenticated users'
 
   context 'with unauthenticated user' do
@@ -11,7 +11,7 @@ shared_examples 'accessible to authorised users' do
   end
 end
 
-shared_examples 'not accessible to unauthorised users' do
+shared_examples 'not accessible to unauthorised users for public object' do
   context 'with authenticated user' do
     before { sign_in user }
 
@@ -20,6 +20,26 @@ shared_examples 'not accessible to unauthorised users' do
 
   context 'with unauthenticated user' do
     it_behaves_like 'returns 404 Not Found'
+  end
+end
+
+shared_examples 'accessible to authorised users for private object' do
+  it_behaves_like 'accessible to authenticated users'
+
+  context 'with unauthenticated user' do
+    it_behaves_like 'not accessible to unauthenticated users'
+  end
+end
+
+shared_examples 'not accessible to unauthorised users for private object' do
+  context 'with authenticated user' do
+    before { sign_in user }
+
+    it_behaves_like 'returns 404 Not Found'
+  end
+
+  context 'with unauthenticated user' do
+    it_behaves_like 'not accessible to unauthenticated users'
   end
 end
 

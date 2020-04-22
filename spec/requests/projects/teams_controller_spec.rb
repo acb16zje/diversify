@@ -6,9 +6,10 @@ describe Projects::TeamsController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
 
+  let(:project) { create(:project) }
+  let(:team) { create(:team, project: project) }
+
   describe 'authorisations' do
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
 
     before { sign_in user }
 
@@ -86,16 +87,8 @@ describe Projects::TeamsController, type: :request do
   describe 'GET #manage' do
     subject(:request) { get manage_project_teams_path(project) }
 
-    let(:project) { create(:project) }
-
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -112,8 +105,6 @@ describe Projects::TeamsController, type: :request do
 
   describe 'GET #manage_data' do
     subject(:request) { get manage_data_project_teams_path(project), xhr: true }
-
-    let(:project) { create(:project) }
 
     context 'when not logged in' do
       it_behaves_like 'returns 401 Unauthorized'
@@ -148,9 +139,7 @@ describe Projects::TeamsController, type: :request do
     end
 
     let(:user2) { create(:user) }
-    let(:team) { create(:team, project: project) }
     let(:team2) { create(:team, project: project) }
-    let(:project) { create(:project) }
 
     context 'when not logged in' do
       it_behaves_like 'returns 401 Unauthorized'
@@ -185,18 +174,10 @@ describe Projects::TeamsController, type: :request do
   describe 'GET #new' do
     subject(:request) { get new_project_team_path(project) }
 
-    let(:project) { create(:project) }
-
     before { create(:skill, category: project.category) }
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -214,19 +195,10 @@ describe Projects::TeamsController, type: :request do
   describe 'GET #edit' do
     subject(:request) { get edit_project_team_path(project, team) }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-
     before { create(:skill, category: project.category) }
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -243,9 +215,6 @@ describe Projects::TeamsController, type: :request do
 
   describe 'GET #show' do
     subject(:request) { get project_team_path(project, team), xhr: true }
-
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
 
     context 'when not logged in' do
       it_behaves_like 'returns 401 Unauthorized'
@@ -269,21 +238,14 @@ describe Projects::TeamsController, type: :request do
   describe 'POST #create' do
     subject(:request) { post project_teams_path(project), params: params }
 
-    let(:project) { create(:project) }
     let(:params) do
       { team: {
         name: 'Test', team_size: 1, project_id: project.id, skills_ids: []
       } }
     end
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -325,23 +287,14 @@ describe Projects::TeamsController, type: :request do
   describe 'PATCH #update' do
     subject(:request) { patch project_team_path(project, team), params: params }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-
     let(:params) do
       { team: {
         name: 'Test', team_size: 1, project_id: project.id, skills_ids: []
       } }
     end
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -382,17 +335,8 @@ describe Projects::TeamsController, type: :request do
   describe 'DELETE #destroy' do
     subject(:request) { delete project_team_path(project, team) }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do
@@ -413,22 +357,14 @@ describe Projects::TeamsController, type: :request do
     end
 
     let(:target) { create(:user) }
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
     let(:params) { { user_id: target.id } }
 
     before do
       team.users << target
     end
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not authorized to manage project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when user is admin' do

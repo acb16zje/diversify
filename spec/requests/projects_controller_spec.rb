@@ -119,13 +119,13 @@ describe ProjectsController, type: :request do
     context 'with owned private project' do
       let(:project) { create(:project, :private, user: user) }
 
-      it_behaves_like 'accessible to authorised users'
+      it_behaves_like 'accessible to authorised users for public object'
     end
 
     context 'with not owned private project' do
       let(:project) { create(:project, :private, user: admin) }
 
-      it_behaves_like 'not accessible to unauthorised users'
+      it_behaves_like 'not accessible to unauthorised users for public object'
     end
 
     context 'with joined private project' do
@@ -133,7 +133,7 @@ describe ProjectsController, type: :request do
 
       before { project.unassigned_team.users << user }
 
-      it_behaves_like 'accessible to authorised users'
+      it_behaves_like 'accessible to authorised users for public object'
     end
   end
 

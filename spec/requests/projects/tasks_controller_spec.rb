@@ -5,10 +5,12 @@ require 'rails_helper'
 describe Projects::TasksController, type: :request do
   let(:user) { create(:user) }
   let(:admin) { create(:admin) }
+  let(:project) { create(:project) }
+  let(:team) { create(:team, project: project) }
+  let(:task) { create(:task, project: project) }
 
   describe 'authorisations' do
     let(:project) { create(:project, user: user) }
-    let(:task) { create(:task, project: project) }
 
     before { sign_in user }
 
@@ -62,20 +64,11 @@ describe Projects::TasksController, type: :request do
   describe 'GET #new' do
     subject(:request) { get new_project_task_path(project) }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-    let(:task) { create(:task, project: project) }
-
     before { create(:skill, category: project.category) }
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
 
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when not assigned team' do
@@ -107,20 +100,11 @@ describe Projects::TasksController, type: :request do
   describe 'GET #edit' do
     subject(:request) { get edit_project_task_path(task, project_id: project.id) }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-    let(:task) { create(:task, project: project) }
-
     before { create(:skill, category: project.category) }
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
 
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when not task owner' do
@@ -152,23 +136,14 @@ describe Projects::TasksController, type: :request do
   describe 'POST #create' do
     subject(:request) { post project_tasks_path(project), params: params }
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-    let(:task) { create(:task, project: project) }
     let(:params) do
       { task: {
         name: 'Test', project_id: project.id, user_id: user.id
       } }
     end
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when invalid input' do
@@ -214,24 +189,14 @@ describe Projects::TasksController, type: :request do
       patch project_task_path(task, project_id: project), params: params
     end
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-    let(:task) { create(:task, project: project) }
-
     let(:params) do
       { task: {
         name: 'Test', project_id: project.id, user_id: user.id
       } }
     end
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when invalid input' do
@@ -277,18 +242,8 @@ describe Projects::TasksController, type: :request do
       delete project_task_path(task, project_id: project)
     end
 
-    let(:project) { create(:project) }
-    let(:team) { create(:team, project: project) }
-    let(:task) { create(:task, project: project) }
-
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when not task owner' do
@@ -322,8 +277,6 @@ describe Projects::TasksController, type: :request do
       get data_project_tasks_path(project), params: params, xhr: true
     end
 
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project: project) }
     let(:params) { { type: 'active' } }
 
     before do
@@ -374,18 +327,10 @@ describe Projects::TasksController, type: :request do
             params: params
     end
 
-    let(:project) { create(:project) }
-    let(:task) { create(:task, project: project) }
     let(:params) { { task: { percentage: 50 } } }
 
-    context 'when not logged in' do
-      it_behaves_like 'not accessible to unauthenticated users'
-    end
-
     context 'when not in project' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
 
     context 'when invalid input' do

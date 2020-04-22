@@ -45,6 +45,16 @@ describe Task, type: :model do
     it { is_expected.to validate_presence_of(:priority) }
     it { is_expected.to validate_presence_of(:percentage) }
     it { is_expected.to validate_numericality_of(:percentage) }
+
+    describe '#check_in_project' do
+      subject { task.errors.full_messages }
+
+      let(:task) { build(:task) }
+
+      before { task.users << build(:user) }
+
+      it { is_expected.to include('User is not in project') }
+    end
   end
 
   describe 'scopes' do

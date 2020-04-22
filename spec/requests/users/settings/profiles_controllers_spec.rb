@@ -100,9 +100,7 @@ describe Users::Settings::ProfilesController, type: :request do
     end
 
     context 'when signed in without avatar' do
-      before { sign_in user }
-
-      it_behaves_like 'returns 404 Not Found'
+      it_behaves_like 'not accessible to unauthorised users for private object'
     end
   end
 end

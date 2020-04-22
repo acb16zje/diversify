@@ -74,6 +74,8 @@ class Task < ApplicationRecord
   private
 
   def check_in_project(record)
-    record.in_project?(project)
+    return if record.in_project?(project)
+
+    errors[:base] << 'User is not in project'
   end
 end
