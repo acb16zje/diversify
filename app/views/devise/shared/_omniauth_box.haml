@@ -2,7 +2,7 @@
   %label.label Sign in with
   .buttons
     - resource_class.omniauth_providers.each do |provider|
-      = link_to omniauth_authorize_path(resource_name, provider), class: "button #{provider} is-fullwidth" do
+      = button_to omniauth_authorize_path(resource_name, provider), form_class: 'w-full', class: "button #{provider} is-fullwidth" do
         .is-flex
           %span.icon
             %span.iconify.is-20{ 'data-icon': provider_icon(provider) }

@@ -8,7 +8,10 @@
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src     :none
-  policy.form_action     :self, 'https://accounts.google.com'
+  policy.form_action     :self,
+                         'https://accounts.google.com/o/oauth2/auth',
+                         'https://www.facebook.com/v3.0/dialog/oauth',
+                         'https://api.twitter.com/oauth/authenticate'
   policy.frame_ancestors :none
   policy.frame_src       'https://www.google.com',
                          'https://www.facebook.com',

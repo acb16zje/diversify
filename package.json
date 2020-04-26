@@ -6,7 +6,7 @@
     "@rails/actiontext": "^6.0.2-2",
     "@rails/ujs": "^6.0.2-2",
     "@rails/webpacker": "^5.1.1",
-    "buefy": "^0.8.15",
+    "buefy": "^0.8.17",
     "chart.js": "^2.9.3",
     "css-loader": "^3.5.2",
     "cssnano": "^4.1.10",
@@ -20,7 +20,7 @@
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.11",
     "vuedraggable": "^2.23.2",
-    "vuex": "^3.2.0",
+    "vuex": "^3.3.0",
     "webpack": "^4.43.0"
   },
   "devDependencies": {
