@@ -11,7 +11,7 @@ describe 'Team > Manage Team', :js, type: :system do
     @team = create(:team, name: 'Test', project: project)
     visit "projects/#{project.id}/teams/manage"
   end
-  
+
   context 'when edit existing team' do
     before { click_link_or_button 'Edit Team' }
 
@@ -39,6 +39,7 @@ describe 'Team > Manage Team', :js, type: :system do
         element = find('p', text: user.name, visible: true)
         target = find(:id, @team.id, visible: :all)
         element.drag_to target
+        click_button 'Save'
         expect(page).to have_content('Members: 1 / 5', wait: 15)
       end
 
@@ -57,10 +58,18 @@ describe 'Team > Manage Team', :js, type: :system do
     #   end
     # end
     #
-    # context 'when remove member from the project' do
-    #   it do
-    #
-    #   end
-    # end
+    context 'when goes back to previous page' do
+      it do
+        click_link_or_button 'Back'
+        expect(page).to have_content(project.name, wait: 15)
+      end
+    end
+
+    context 'when creates new team while manage team' do
+      it do
+        click_link_or_button 'New Team'
+        expect(page).to have_content('Create Team', wait: 15)
+      end
+    end
   end
 end
