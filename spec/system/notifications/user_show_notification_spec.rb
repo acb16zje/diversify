@@ -14,9 +14,10 @@ describe 'Show Notification > Notification', :js, type: :system do
 
   context 'when there is notification' do
     it 'notify user' do
-      within('.dropdown-trigger') do
-        find('.button.is-rounded').click
-      end
+      # within('#notifications-dropdown') do
+      #   find('button.button.rounded-full bg-gray-200 w-10 h-10').click
+      # end
+      find(:xpath, "//button[@class='button rounded-full bg-gray-200 w-10 h-10']").click
       expect(page).to have_no_content('No Notifications')
     end
 
@@ -25,11 +26,13 @@ describe 'Show Notification > Notification', :js, type: :system do
     end
 
     it 'can open all notifications' do
+      find(:xpath, "//button[@class='button rounded-full bg-gray-200 w-10 h-10']").click
       click_on 'Open All Notifications'
       expect(page).to have_content('You have 0 New Notifications')
     end
 
     it 'can open notification' do
+      find(:xpath, "//button[@class='button rounded-full bg-gray-200 w-10 h-10']").click
       within '#notification' do
         first('a').click
       end

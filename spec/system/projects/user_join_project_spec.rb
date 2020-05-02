@@ -48,7 +48,7 @@ describe 'Join Project > Project', :js, type: :system do
       visit "projects/#{project_other.id}"
       click_on 'Join'
       page.accept_alert
-      expect(page).to have_content('Application Sent')
+      expect(page).to have_content('Application sent')
     end
 
     it 'can not join users project' do

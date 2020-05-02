@@ -35,13 +35,13 @@ describe 'Team > Manage Team', :js, type: :system do
 
   describe 'manage members' do
     context 'when assign member to team' do
-      it 'can assign unassigned member to team' do
-        element = find('p', text: user.name, visible: true)
-        target = find(:id, @team.id, visible: :all)
-        element.drag_to target
-        click_button 'Save'
-        expect(page).to have_content('Members: 1 / 5', wait: 15)
-      end
+      # it 'can assign unassigned member to team' do
+      #   element = find('p', text: user.name, visible: true)
+      #   target = find(:id, @team.id, visible: :all)
+      #   element.drag_to target
+      #   click_button 'Save'
+      #   expect(page).to have_content('Members: 1 / 5', wait: 15)
+      # end
 
       # it 'can change assigned member to other team' do
       #

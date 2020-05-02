@@ -20,7 +20,7 @@ describe 'New Registration > User', :js, type: :system do
     it 'can register user' do
       fill_form(new_user_email, '12345678')
       click_button 'Sign up'
-      expect(page).to have_content('Introduction')
+      expect(page).to have_content('Your Projects')
     end
   end
 

@@ -15,7 +15,7 @@ describe 'New Session > User', :js, type: :system do
     it 'can request session' do
       fill_form(user.email, user.password)
       click_button 'Sign in'
-      expect(page).to have_content('Introduction')
+      expect(page).to have_content('Your Projects')
     end
   end
 

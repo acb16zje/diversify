@@ -13,21 +13,21 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
       visit newsletter_metrics_path
     end
 
-    context 'with Newsletter Subscription by Date' do
+    context 'when views Newsletter Subscription by Date' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'with Unsubscription by Newsletter' do
+    context 'when views Unsubscription by Newsletter' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'with Unsubscription Reason' do
+    context 'when views Unsubscription Reason' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_no_content('No data')
@@ -41,21 +41,21 @@ describe 'Metrics > Newsletter : Overview', :js, type: :system do
       visit newsletter_metrics_path
     end
 
-    context 'with Newsletter Subscription by Date' do
+    context 'when views Newsletter Subscription by Date' do
       it 'shows no Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'with Unsubscription by Newsletter' do
+    context 'when views Unsubscription by Newsletter' do
       it 'shows bo Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'with Unsubscription Reason' do
+    context 'when views Unsubscription Reason' do
       it 'shows bo Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_content('No data')

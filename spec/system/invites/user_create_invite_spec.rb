@@ -17,19 +17,19 @@ describe 'Invite User > Invites', :js, type: :system do
     it 'with invalid email' do
       find("input[placeholder='Email']").set 'random'
       click_on 'Invite'
-      expect(page).to have_content('No Invitation')
+      expect(page).to have_content('No invitations')
     end
 
     it 'can invite user' do
       find("input[placeholder='Email']").set user_invite.email
       click_on 'Invite'
-      expect(page).to have_content('Invitation Sent')
+      expect(page).to have_content('Invitation sent')
     end
   end
 
   context 'when invited other user' do
     before do
-      create(:invite, user: user_invite, project: project)
+      create(:invitation, user: user_invite, project: project)
       sign_in user
       visit "projects/#{project.id}"
       find('a', text: 'Applications').click
@@ -44,7 +44,7 @@ describe 'Invite User > Invites', :js, type: :system do
 
   context 'when invited by other user' do
     before do
-      create(:invite, user: user_invite, project: project)
+      create(:invitation, user: user_invite, project: project)
       sign_in user_invite
       visit "projects/#{project.id}"
     end

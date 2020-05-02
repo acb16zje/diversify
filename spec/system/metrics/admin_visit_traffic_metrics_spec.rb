@@ -14,28 +14,28 @@ describe 'Metrics > Traffic : Overview', :js, type: :system do
 
     it { expect(page).to have_no_content('No data') }
 
-    context 'with Referrers Ratio' do
+    context 'when views Referrers Ratio' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'with Referrers by Date' do
+    context 'when views Referrers by Date' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'with Average Time Spent per Page' do
+    context 'when views Average Time Spent per Page' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_no_content('No data')
       end
     end
 
-    context 'with Number of Visits per Page' do
+    context 'when views Number of Visits per Page' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[4]").select_option
         expect(page).to have_no_content('No data')
@@ -51,28 +51,28 @@ describe 'Metrics > Traffic : Overview', :js, type: :system do
 
     it { expect(page).to have_content('No data') }
 
-    context 'with Referrers Ratio' do
+    context 'when views Referrers Ratio' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[1]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'with Referrers by Date' do
+    context 'when views Referrers by Date' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[2]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'with Average Time Spent per Page' do
+    context 'when views Average Time Spent per Page' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option
         expect(page).to have_content('No data')
       end
     end
 
-    context 'with Number of Visits per Page' do
+    context 'when views Number of Visits per Page' do
       it 'shows Data' do
         find(:xpath, "//*[@id='graph-select']/option[4]").select_option
         expect(page).to have_content('No data')

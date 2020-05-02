@@ -20,7 +20,7 @@ describe 'Project > Create team', :js, type: :system do
       fill_in 'team_name', with: 'Test Team'
       fill_in 'team_team_size', with: '2'
       click_button 'Create Team'
-      expect(page).to have_content('Test Team', wait: 15)
+      expect(page).to have_content('Members: 0 / 2', wait: 15)
     end
 
     it 'team name is missing' do

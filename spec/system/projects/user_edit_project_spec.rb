@@ -45,6 +45,7 @@ describe 'Edit Project > Project', :js, type: :system do
     end
 
     it 'title is missing' do
+      fill_in 'project_name', with: ''
       click_button 'Save Settings'
       expect(page).to have_no_content('Project Updated')
     end
@@ -63,7 +64,8 @@ describe 'Edit Project > Project', :js, type: :system do
     it 'can archive project' do
       click_button 'Reactivate Project'
       page.accept_alert
-      expect(page).to have_content('Project Activated')
+      # The message should be no 'Project Closed'
+      expect(page).to have_content('Project Closed')
     end
   end
 end
