@@ -1,19 +1,21 @@
 <template>
-  <section>
-    <b-select v-model="type" @input="getData">
-      <option value="assigned">
-        Tasks Assigned
-      </option>
-      <option value="unassigned">
-        Unassigned Tasks
-      </option>
-      <option value="active">
-        Active Tasks
-      </option>
-      <option value="completed">
-        Completed Tasks
-      </option>
-    </b-select>
+  <section class="section">
+    <div>
+      <b-select v-model="type" @input="getData">
+        <option value="assigned">
+          Tasks Assigned
+        </option>
+        <option value="unassigned">
+          Unassigned Tasks
+        </option>
+        <option value="active">
+          Active Tasks
+        </option>
+        <option value="completed">
+          Completed Tasks
+        </option>
+      </b-select>
+    </div>
     <b-table
       :data="data"
       :paginated="true"

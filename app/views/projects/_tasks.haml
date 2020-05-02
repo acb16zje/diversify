@@ -1,11 +1,11 @@
 .container
   %section.settings-section
     .container
-      .columns.is-vcentered
+      .columns.is-vcentered.is-mobile
         .column
           %h1.title.is-2
             Tasks
-        .column
+        .column.is-narrow
           - if !@project.completed? && (allowed_to? :create_task?, @project)
             .is-pulled-right
               .buttons.has-addons
