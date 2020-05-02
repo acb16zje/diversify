@@ -78,10 +78,11 @@ spec:models:
 spec:requests:
   extends: .rspec
 
-#spec/system:
-#  extends: .rspec
-#  before_script:
-#    - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
+spec:system:
+ extends: .rspec
+ script:
+   - bundle exec rails runner -e test 'Webdrivers.install_dir = Rails.root.join("vendor", "webdrivers"); Webdrivers::Chromedriver.update'
+   - bundle exec rspec spec/system
 
 coverage:
   stage: post-test
