@@ -16,7 +16,7 @@ describe 'Team > View team detail', :js, type: :system do
   context 'when view team member detail' do
     it do
       find(:xpath, "//p[@class='card-header-title']/span").click
-      expect(page).to have_content('Members: 0 / 5', wait: 15)
+      expect(page).to have_content('Members: 0 / 5')
     end
   end
 end

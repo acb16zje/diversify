@@ -38,7 +38,7 @@ describe 'Invite User > Invites', :js, type: :system do
     it 'can cancel users invite' do
       find('a', text: 'Cancel Invite').click
       page.accept_alert
-      expect(page).to have_content('Invite Canceled')
+      expect(page).to have_content('Invitation deleted')
     end
   end
 
@@ -50,15 +50,15 @@ describe 'Invite User > Invites', :js, type: :system do
     end
 
     it 'can accept invite' do
-      click_on 'Accept Invite'
+      click_on 'Accept'
       page.accept_alert
-      expect(page).to have_content('Joined Project')
+      expect(page).to have_content(user.name)
     end
 
     it 'can decline invite' do
-      click_on 'Decline Invite'
+      click_on 'Decline'
       page.accept_alert
-      expect(page).to have_content('Invitation canceled')
+      expect(page).to have_content('Invitation deleted')
     end
   end
 end

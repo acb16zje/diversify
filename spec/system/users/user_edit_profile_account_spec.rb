@@ -107,27 +107,6 @@ describe 'Edit User Profile > Settings', :js, type: :system do
     end
   end
 
-  # describe 'sign in with omniauth' do
-  #   OmniAuth.config.test_mode = true
-  #
-  #   Devise.omniauth_providers.each do |provider|
-  #     before do
-  #       Rails.application.env_config['devise.mapping'] = Devise.mappings[:user]
-  #       Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[provider]
-  #     end
-  #
-  #     context "when user signs in with #{provider}" do
-  #       before { hash(provider) }
-  #
-  #       it 'logs in user' do
-  #         page.find(:css, ".button.#{provider}").click
-  #         post "/users/auth/#{provider}/callback"
-  #         expect(response).to redirect_to(root_path)
-  #       end
-  #     end
-  #   end
-  # end
-
   describe 'delete account' do
     before do
       sign_in manual_user

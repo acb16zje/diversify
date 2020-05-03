@@ -14,7 +14,7 @@ describe 'Team > View team member detail', :js, type: :system do
   context 'when view team member detail' do
     it do
       click_link user.name
-      expect(page).to have_content('Profile', wait: 15)
+      expect(page).to have_content('Profile')
     end
   end
 end

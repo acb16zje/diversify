@@ -17,7 +17,7 @@ describe 'New Project > Project', :js, type: :system do
       fill_in 'project_name', with: 'New Project'
       find('#project_visibility_false').click
       click_button 'Create Project'
-      expect(page).to have_content('Project Created', wait: 15)
+      expect(page).to have_content('Project Created')
     end
   end
 

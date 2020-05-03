@@ -4,7 +4,9 @@ require 'rails_helper'
 
 describe 'Edit Project > Project', :js, type: :system do
   let(:admin) { create(:admin) }
-  let(:project) { create(:project, :private, user: admin, category: create(:category)) }
+  let(:project) do
+    create(:project, :private, user: admin, category: create(:category))
+  end
 
   before do
     sign_in admin

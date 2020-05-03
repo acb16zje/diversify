@@ -45,16 +45,12 @@ describe 'Metrics > Subscriber Management', :js, type: :system do
 
     it 'can sort list by Email' do
       find('th', text: 'Email').click
-      within(:xpath, '//tr[1]/td') do
-        expect(page).to have_content(subscribed_1.email)
-      end
+      expect(page).to have_content(subscribed_1.email)
     end
 
     it 'can sort list by Date Subscribed' do
       find('th', text: 'Date Subscribed').click
-      within(:xpath, '//tr[1]/td') do
-        expect(page).to have_content(subscribed_2.email)
-      end
+      expect(page).to have_content(subscribed_2.email)
     end
 
     it 'can view next page' do
