@@ -11,7 +11,6 @@ describe 'Metrics > Dashboard', :js, type: :system do
       visit metrics_path
     end
 
-    # Contains one subscription without any data given atm
     context 'when views Landing Page Feedback' do
       it 'shows no Data' do
         find(:xpath, "//*[@id='graph-select']/option[3]").select_option

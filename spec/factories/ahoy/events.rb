@@ -25,14 +25,12 @@ FactoryBot.define do
 
     trait :ran_action do
       name { 'Ran action' }
+      properties { { action: 'home', controller: 'pages' } }
     end
 
     trait :time_spent do
       name { 'Time Spent' }
-    end
-
-    trait :about_link do
-      name { 'Clicked about link' }
+      properties { { pathname: '/', time_spent: '4' } }
     end
 
     # Social share traits
