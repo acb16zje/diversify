@@ -8,7 +8,7 @@ describe 'Team > Manage Team', :js, type: :system do
 
   before do
     sign_in user
-    @team = create(:team, name: 'Test', project: project)
+    create(:team, name: 'Test', project: project)
     visit "projects/#{project.id}/teams/manage"
   end
 

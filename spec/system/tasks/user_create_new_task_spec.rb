@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-describe 'Project > Create task', :js, type: :system do
+describe 'Project > Create Task', :js, type: :system do
   let(:user) { create(:user) }
   let(:category) { create(:category) }
+  let!(:skill_1) { create(:skill, category_id: category.id) }
+  let!(:skill_2) { create(:skill, category_id: category.id) }
   let(:project) { create(:project, user: user, category_id: category.id) }
 
   before do
-    @skill_1 = create(:skill, category_id: category.id)
-    @skill_2 = create(:skill, category_id: category.id)
     sign_in user
     visit "projects/#{project.id}/tasks/new"
   end
@@ -55,7 +55,7 @@ describe 'Project > Create task', :js, type: :system do
       find(".select option[value='unassigned']").select_option
       expect(page).to have_content('Test Task', wait: 15)
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
-      expect(page).to have_content(@skill_2.name, wait: 15)
+      expect(page).to have_content(skill_2.name, wait: 15)
     end
 
     it 'with assignee' do
