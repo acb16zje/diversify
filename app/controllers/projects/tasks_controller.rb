@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Projects::TasksController < ApplicationController
-  before_action :set_task, only: %i[edit update set_percentage destroy]
+  before_action :set_task,
+                only: %i[edit update set_percentage assign_self destroy]
   before_action :set_project, except: :set_percentage
   before_action :set_skills, only: %i[new edit]
 
@@ -35,6 +36,13 @@ class Projects::TasksController < ApplicationController
   # PATCH/PUT /tasks/1
   def update
     @task.update(edit_params) ? task_success('Task updated') : task_fail
+  end
+
+  def assign_self
+    return task_fail('Task is already Assigned') if @task.users.present?
+
+    @task.users << current_user
+    head :ok
   end
 
   # DELETE /tasks/1

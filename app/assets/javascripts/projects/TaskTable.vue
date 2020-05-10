@@ -60,6 +60,9 @@
               </b-tooltip>
             </div>
           </div>
+          <a v-if="!userData[id]" class="button is-small is-success" data-confirm="Are you sure?" @click="assignSelf(id)">
+            Assign Self
+          </a>
         </b-table-column>
       </template>
       <template v-slot:empty>
@@ -152,6 +155,19 @@ export default {
         },
       });
     },
+    assignSelf(id) {
+      Rails.ajax({
+        url: `/projects/${this.projectId}/tasks/${id}/assign_self`,
+        type: 'PATCH',
+        success: () => {
+          successToast('Assigned to Self');
+          this.data = this.data.filter((x) => x.id !== id);
+        },
+        error: ({ message }) => {
+          dangerToast(message);
+        },
+      });
+    },
     updateProgress(e, id) {
       Rails.ajax({
         url: `/projects/${this.projectId}/tasks/${id}/set_percentage`,
@@ -163,6 +179,9 @@ export default {
           successToast('Progress Updated');
           const dataPos = this.data.findIndex((u) => u.id === id);
           this.data[dataPos].percentage = e;
+        },
+        error: ({ message }) => {
+          dangerToast(message);
         },
       });
     },

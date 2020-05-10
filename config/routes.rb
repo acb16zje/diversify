@@ -149,6 +149,7 @@ Rails.application.routes.draw do
 
         member do
           patch 'set_percentage'
+          patch 'assign_self'
         end
       end
     end

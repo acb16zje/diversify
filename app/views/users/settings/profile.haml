@@ -31,7 +31,10 @@
         %p.subtitle.is-6 This information will be shown on your profile
       .column
         .field
-          %label.label Name
+          %label.label
+            Name
+            - if current_user.name.blank?
+              %p.has-text-primary Add a name so people can easily identity you
           .control
             = f.text_field :name, class: 'input', maxlength: 255
 

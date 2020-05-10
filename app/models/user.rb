@@ -64,7 +64,8 @@ class User < ApplicationRecord
             length: { maximum: 254 },
             format: { with: URI::MailTo::EMAIL_REGEXP }
 
-  validates :name, presence: true, length: { maximum: 255 }
+  validates :name, length: { maximum: 255 }
+  validates :name, presence: true, on: :update
 
   validates :avatar, content_type: %w[image/png image/jpg image/jpeg],
                      size: { less_than: 200.kilobytes }
