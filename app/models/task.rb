@@ -71,7 +71,13 @@ class Task < ApplicationRecord
     task_users.pluck(:user_id)
   end
 
+  after_create_commit :send_notification
+
   private
+
+  def send_notification
+    # Notification.create(se)
+  end
 
   def check_in_project(record)
     return if record.in_project?(project)

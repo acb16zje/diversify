@@ -46,10 +46,8 @@ class ProjectsController < ApplicationController
 
   # TODO: cannot change to open when project is private, use callback for project_fail check
   def change_status
-    @project.update(status: params[:status])
-    msg = @project.errors.full_messages
-
-    msg.blank? ? project_success(prepare_message) : project_fail(msg)
+    msg = prepare_message
+    @project.update(status: params[:status]) ? project_success(msg) : project_fail()
   end
 
   def count
@@ -110,6 +108,7 @@ class ProjectsController < ApplicationController
       'Project Archived'
     when 'active'
       @project.appeals.where(type: 'application').destroy_all
+      puts("IS THE PROJECT CLOSED: #{@project.completed?}")
       @project.completed? ? 'Project Activated' : 'Project Closed'
     when 'open'
       'Project Opened'
