@@ -22,6 +22,8 @@ class NotificationBlueprint < Blueprinter::Base
     case notifier.class.name
     when 'Project'
       ProjectBlueprint
+    when 'Team'
+      TeamBlueprint
     end
   }, view: :notifier
 end

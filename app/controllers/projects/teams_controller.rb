@@ -129,7 +129,7 @@ class Projects::TeamsController < ApplicationController
     old_team = Team.find(member['team_id'])
     authorize! old_team
     authorize! new_team
-    old_team.users.delete(user)
     new_team.users << user
+    old_team.users.delete(user)
   end
 end

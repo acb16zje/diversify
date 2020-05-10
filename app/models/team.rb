@@ -26,7 +26,8 @@ class Team < ApplicationRecord
 
   # Join table
   has_many :collaborations, dependent: :destroy
-  has_many :users, through: :collaborations, before_add: :check_users_limit
+  has_many :users, through: :collaborations, before_add: :check_users_limit,
+                   after_add: :send_notification
   has_many :team_skills, dependent: :destroy
   has_many :skills, through: :team_skills
 
@@ -45,5 +46,11 @@ class Team < ApplicationRecord
     return unless users.size > team_size
 
     errors[:base] << 'Team Size is smaller than total members'
+  end
+
+  def send_notification(user)
+    Notification.create(
+      { user: user, key: 'team', notifiable: project, notifier: self }
+    )
   end
 end
