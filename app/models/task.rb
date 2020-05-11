@@ -39,7 +39,9 @@ class Task < ApplicationRecord
   belongs_to :user
 
   has_many :task_users, dependent: :destroy
-  has_many :users, through: :task_users, before_add: :check_in_project
+  has_many :users, through: :task_users, before_add: :check_in_project,
+                   after_add: :send_assigned_notification,
+                   after_remove: :send_removed_notification
 
   has_many :task_skills, dependent: :destroy
   has_many :skills, through: :task_skills
@@ -71,12 +73,42 @@ class Task < ApplicationRecord
     task_users.pluck(:user_id)
   end
 
-  after_create_commit :send_notification
+  def completed?
+    percentage == 100
+  end
+
+  after_destroy_commit :destroy_notifications
+
+  def send_picked_up_notification
+    Notification.create(notification_params(user, 'task/picked'))
+  end
 
   private
 
-  def send_notification
-    # Notification.create(se)
+  def send_update_notification
+    if completed?
+      Notification.create(notification_params(user, 'task/completed'))
+    else
+      users.each do |user|
+        Notification.create(notification_params(user, 'task/update'))
+      end
+    end
+  end
+
+  def send_assigned_notification(user)
+    Notification.create(notification_params(user, 'task/assigned'))
+  end
+
+  def send_removed_notification(user)
+    Notification.create(notification_params(user, 'task/removed'))
+  end
+
+  def destroy_notifications
+    Notification.delete_by(notifier: self)
+  end
+
+  def notification_params(target, key)
+    { user: target, key: key, notifiable: project, notifier: self }
   end
 
   def check_in_project(record)

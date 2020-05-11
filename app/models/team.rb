@@ -38,6 +38,8 @@ class Team < ApplicationRecord
             presence: true,
             numericality: { greater_than_or_equal_to: 1 }
 
+  after_destroy_commit :destroy_notifications
+
   private
 
   def check_users_limit(_)
@@ -49,8 +51,14 @@ class Team < ApplicationRecord
   end
 
   def send_notification(user)
+    return if name == 'Unassigned'
+
     Notification.create(
       { user: user, key: 'team', notifiable: project, notifier: self }
     )
+  end
+
+  def destroy_notifications
+    Notification.delete_by(notifier: self)
   end
 end

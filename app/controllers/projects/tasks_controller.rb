@@ -42,6 +42,7 @@ class Projects::TasksController < ApplicationController
     return task_fail('Task is already Assigned') if @task.users.present?
 
     @task.users << current_user
+    @task.send_picked_up_notification
     head :ok
   end
 

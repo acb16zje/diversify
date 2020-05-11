@@ -44,6 +44,9 @@
           <template v-if="/^(team)/.test(key)">
             <TeamDescription :notifiable="notifiable" :notifier="notifier" />
           </template>
+          <template v-if="/^(task)/.test(key)">
+            <TaskDescription :k="key" :notifiable="notifiable" :notifier="notifier" />
+          </template>
           <span class="time-ago">{{ time_ago }}</span>
         </div>
 
@@ -64,6 +67,7 @@
 import Rails from '@rails/ujs';
 import AppealDescription from './components/AppealDescription.vue';
 import TeamDescription from './components/TeamDescription.vue';
+import TaskDescription from './components/TaskDescription.vue';
 import NotificationOption from './components/NotificationOption.vue';
 import notificationStore from './store';
 
@@ -72,6 +76,7 @@ export default {
     AppealDescription,
     NotificationOption,
     TeamDescription,
+    TaskDescription,
   },
   props: {
     initUnreadCount: {
