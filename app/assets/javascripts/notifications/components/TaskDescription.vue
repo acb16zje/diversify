@@ -1,6 +1,6 @@
 <template>
   <span v-if="k === 'task/assigned'">
-    You have been assigned <strong>{{ notifier.name }}</strong>
+    You have been assigned Task <strong>{{ notifier.name }}</strong>
     on <strong>{{ notifiable.name }}</strong>
   </span>
   <span v-else-if="k === 'task/removed'">
@@ -11,9 +11,9 @@
     Task <strong>{{ notifier.name }}</strong> on
     <strong>{{ notifiable.name }}</strong> has been updated
   </span>
-   <span v-else-if="k === 'task/picked'">
+  <span v-else-if="k === 'task/picked'">
     Task <strong>{{ notifier.name }}</strong> on
-    <strong>{{ notifiable.name }}</strong> has picked up
+    <strong>{{ notifiable.name }}</strong> has been picked up
   </span>
   <span v-else-if="k === 'task/completed'">
     Task <strong>{{ notifier.name }}</strong> on

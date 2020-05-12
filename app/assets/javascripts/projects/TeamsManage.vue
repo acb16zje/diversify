@@ -118,7 +118,7 @@
 <script>
 import draggable from 'vuedraggable';
 import Rails from '@rails/ujs';
-import { successToast } from '../buefy/toast';
+import { successToast, dangerToast } from '../buefy/toast';
 
 export default {
   components: {
@@ -164,6 +164,7 @@ export default {
       }
     },
     send() {
+      this.isLoading = true;
       Rails.ajax({
         url: `/projects/${this.projectId}/teams/manage`,
         type: 'POST',
@@ -171,7 +172,12 @@ export default {
           data: JSON.stringify(this.data),
         }),
         success: () => {
+          this.isLoading = false;
           successToast('Saved!');
+        },
+        error: ({ message }) => {
+          this.isLoading = false;
+          dangerToast(message);
         },
       });
     },

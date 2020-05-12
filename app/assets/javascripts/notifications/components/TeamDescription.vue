@@ -1,6 +1,6 @@
 <template>
   <p>
-    You have been assigned to <strong>{{ notifier.name }}</strong> in <strong>{{ notifiable.name }}</strong>
+    You have been assigned to Team <strong>{{ notifier.name }}</strong> in <strong>{{ notifiable.name }}</strong>
   </p>
 </template>
 
