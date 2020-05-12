@@ -22,7 +22,7 @@ describe Projects::TasksController, type: :request do
 
     describe '#edit' do
       subject(:request) do
-        get edit_project_task_path(task, project_id: project.id)#
+        get edit_project_task_path(task, project_id: project.id)
       end
 
       it { expect { request }.to be_authorized_to(:manage?, task) }
@@ -202,7 +202,7 @@ describe Projects::TasksController, type: :request do
 
     let(:params) do
       { task: {
-        name: 'Test', project_id: project.id, user_id: user.id
+        name: 'Test', project_id: project.id, user_id: user.id, user_ids: []
       } }
     end
 

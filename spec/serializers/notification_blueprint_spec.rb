@@ -39,5 +39,23 @@ describe NotificationBlueprint, type: :serializer do
     context 'when notifier is Project' do
       it { is_expected.to match(%r{/projects/\d+}) }
     end
+
+    context 'when notifier is Team' do
+      let(:team) { build_stubbed(:team) }
+      let(:notification) do
+        build_stubbed(:notification, notifiable: user, notifier: team)
+      end
+
+      it { is_expected.to match(%r{/projects/\d+}) }
+    end
+
+    context 'when notifier is Task' do
+      let(:task) { build_stubbed(:task) }
+      let(:notification) do
+        build_stubbed(:notification, notifiable: user, notifier: task)
+      end
+
+      it { is_expected.to match(%r{/projects/\d+}) }
+    end
   end
 end
