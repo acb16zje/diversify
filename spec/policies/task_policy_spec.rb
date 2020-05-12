@@ -14,7 +14,8 @@ describe TaskPolicy, type: :policy do
     let(:target) { Task.where(name: %w[Test Test2]) }
 
     before do
-      task = create(:task, name: 'Test', percentage: 100)
+      task = create(:task, name: 'Test', percentage: 100, project: project)
+      project.unassigned_team.users << user
       task.users << user
       create(:task, name: 'Test2')
     end
@@ -103,7 +104,10 @@ describe TaskPolicy, type: :policy do
       let(:record) { create(:task, project: project) }
       let(:user) { create(:user) }
 
-      before { record.users << user }
+      before do
+        project.unassigned_team.users << user
+        record.users << user
+      end
     end
 
     succeed 'when user is project owner' do
@@ -112,6 +116,16 @@ describe TaskPolicy, type: :policy do
 
     succeed 'when user is admin' do
       before { user.admin = true }
+    end
+  end
+
+  describe_rule :assign_self? do
+    failed 'when not in project'
+
+    succeed 'when in project' do
+      let(:user) { create(:user) }
+
+      before { project.user = user }
     end
   end
 end

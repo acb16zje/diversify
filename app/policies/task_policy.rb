@@ -32,6 +32,6 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def assign_self?
-    user&.admin? || record.project.users.include?(user)
+    record.project.user == user || record.project.users.include?(user)
   end
 end

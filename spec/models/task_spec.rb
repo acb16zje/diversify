@@ -62,7 +62,10 @@ describe Task, type: :model do
       let(:task) { create(:task) }
       let(:user) { create(:user) }
 
-      before { task.users << user }
+      before do
+        task.project.unassigned_team.users << user
+        task.users << user
+      end
 
       it do
         expect(described_class.user_data.map(&:attributes)).to eql(

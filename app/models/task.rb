@@ -39,9 +39,10 @@ class Task < ApplicationRecord
   belongs_to :user
 
   has_many :task_users, dependent: :destroy
-  has_many :users, through: :task_users, before_add: :check_in_project,
+  has_many :users, through: :task_users,
                    after_add: :send_assigned_notification,
-                   after_remove: :send_removed_notification
+                   after_remove: :send_removed_notification,
+                   before_add: :check_in_project
 
   has_many :task_skills, dependent: :destroy
   has_many :skills, through: :task_skills
@@ -77,6 +78,7 @@ class Task < ApplicationRecord
     percentage == 100
   end
 
+  after_update_commit :send_update_notification
   after_destroy_commit :destroy_notifications
 
   def send_picked_up_notification
@@ -115,5 +117,6 @@ class Task < ApplicationRecord
     return if record.in_project?(project)
 
     errors[:base] << 'User is not in project'
+    throw(:abort)
   end
 end

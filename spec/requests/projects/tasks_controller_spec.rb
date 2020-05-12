@@ -21,7 +21,9 @@ describe Projects::TasksController, type: :request do
     end
 
     describe '#edit' do
-      subject(:request) { get edit_project_task_path(task, project_id: project.id) }
+      subject(:request) do
+        get edit_project_task_path(task, project_id: project.id)#
+      end
 
       it { expect { request }.to be_authorized_to(:manage?, task) }
     end
@@ -36,6 +38,14 @@ describe Projects::TasksController, type: :request do
       subject(:request) { put project_task_path(task, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:manage?, task) }
+    end
+
+    describe '#assign_self' do
+      subject(:request) do
+        patch assign_self_project_task_path(task, project_id: project.id)
+      end
+
+      it { expect { request }.to be_authorized_to(:assign_self?, task) }
     end
 
     describe '#destroy' do
@@ -138,7 +148,8 @@ describe Projects::TasksController, type: :request do
 
     let(:params) do
       { task: {
-        name: 'Test', project_id: project.id, user_id: user.id
+        name: 'Test', project_id: project.id, user_id: user.id,
+        users_id: [admin.id]
       } }
     end
 
@@ -149,7 +160,7 @@ describe Projects::TasksController, type: :request do
     context 'when invalid input' do
       let(:params) do
         { task: {
-          name: '', project_id: project.id, user_id: user.id
+          name: '', project_id: project.id, user_id: user.id,
         } }
       end
 
@@ -223,6 +234,11 @@ describe Projects::TasksController, type: :request do
     context 'when task owner' do
       let(:task) { create(:task, project: project, user: user) }
 
+      before do
+        project.unassigned_team.users << admin
+        task.users << admin
+      end
+
       it_behaves_like 'accessible to authenticated users'
     end
 
@@ -234,6 +250,34 @@ describe Projects::TasksController, type: :request do
 
     context 'when admin' do
       it_behaves_like 'accessible to admin users'
+    end
+  end
+
+  describe 'PATCH #assign_self' do
+    subject(:request) do
+      patch assign_self_project_task_path(task, project_id: project)
+    end
+
+    context 'when not in project' do
+      it_behaves_like 'not accessible to unauthorised users for private object'
+    end
+
+    context 'when there is already and assignee' do
+      before do
+        project.unassigned_team.users << admin
+        project.user = user
+        task.user = user
+        task.users << user
+        sign_in admin
+      end
+
+      it_behaves_like 'returns 422 Unprocessable Entity'
+    end
+
+    context 'when in project' do
+      let(:project) { create(:project, user: user) }
+
+      it_behaves_like 'accessible to authenticated users'
     end
   end
 
@@ -258,6 +302,11 @@ describe Projects::TasksController, type: :request do
     context 'when task owner' do
       let(:task) { create(:task, project: project, user: user) }
 
+      before do
+        project.unassigned_team.users << admin
+        task.users << admin
+      end
+
       it_behaves_like 'accessible to authenticated users'
     end
 
@@ -278,8 +327,10 @@ describe Projects::TasksController, type: :request do
     end
 
     let(:params) { { type: 'active' } }
+    let(:admin) { create(:admin, :with_avatar) }
 
     before do
+      project.unassigned_team.users << admin
       task.users << admin
     end
 
@@ -294,7 +345,9 @@ describe Projects::TasksController, type: :request do
     end
 
     context 'when in project' do
-      before { project.unassigned_team.users << user }
+      before do
+        project.unassigned_team.users << user
+      end
 
       it_behaves_like 'accessible to authenticated users'
     end
@@ -327,7 +380,7 @@ describe Projects::TasksController, type: :request do
             params: params
     end
 
-    let(:params) { { task: { percentage: 50 } } }
+    let(:params) { { task: { percentage: 100 } } }
 
     context 'when not in project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
@@ -337,6 +390,7 @@ describe Projects::TasksController, type: :request do
       let(:params) {  { task: { percentage: 200 } } }
 
       before do
+        project.unassigned_team.users << user
         task.users << user
         sign_in user
       end
@@ -345,7 +399,10 @@ describe Projects::TasksController, type: :request do
     end
 
     context 'when assigned to task' do
-      before { task.users << user }
+      before do
+        project.unassigned_team.users << user
+        task.users << user
+      end
 
       it_behaves_like 'accessible to authenticated users'
     end
