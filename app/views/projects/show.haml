@@ -62,17 +62,11 @@
           Tasks
           - if @project.tasks.size.positive?
             %b-tag{ 'rounded': '', 'v-if': 'taskCount == -1' }
-              %p= @project.tasks.size
-          %b-tag{ 'v-if': 'taskCount > 0', 'rounded': '' }
+              %p= @project.tasks.where('percentage < ?', 100).size
+          %b-tag{ 'v-if': 'taskCount >= 0', 'rounded': '' }
             {{ taskCount }}
         .container.is-fullscreen
           = render partial: 'tasks'
-      %b-tab-item
-        %template{ 'slot': 'header' }
-          %span.icon.iconify{ 'data-icon': 'ant-design:team-outlined', 'data-inline': 'false' }
-          Your Team
-          -# %b-tag{ 'rounded': '' }
-          -#   {{ teamCount }}
     - if @project.user == current_user || current_user&.admin?
       %b-tab-item
         %template{ 'slot': 'header' }

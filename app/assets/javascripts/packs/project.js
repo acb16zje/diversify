@@ -26,7 +26,6 @@ new Vue({
     selected: 0,
     taskCount: -1,
     applicationCount: -1,
-    teamCount: -1,
     isModalActive: -1,
   },
   computed: {
@@ -38,8 +37,6 @@ new Vue({
     selected(value) {
       if (value === 1) {
         this.getCount('task');
-      } else if (value === 2) {
-        this.getCount('team');
       } else if (value === 3) {
         this.getCount('application');
       }
@@ -57,9 +54,6 @@ new Vue({
           switch (countType) {
             case 'task':
               this.taskCount = data.count;
-              break;
-            case 'team':
-              this.teamCount = data.count;
               break;
             case 'application':
               this.applicationCount = data.count;

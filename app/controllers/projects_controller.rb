@@ -44,23 +44,21 @@ class ProjectsController < ApplicationController
     end
   end
 
-  # TODO: cannot change to open when project is private, use callback for project_fail check
   def change_status
     msg = prepare_message
     if @project.update(status: params[:status])
       project_success(msg)
     else
-      project_fail()
+      project_fail
     end
   end
 
   def count
     return head :bad_request unless
-    params.key?(:type) && %w[task team application].include?(params[:type])
+    params.key?(:type) && %w[task application].include?(params[:type])
 
     count = case params[:type]
-            when 'task' then @project.tasks.size
-            when 'team' then 0
+            when 'task' then @project.tasks.where('percentage < ?', 100).size
             when 'application' then @project.appeals.size
             end
 
