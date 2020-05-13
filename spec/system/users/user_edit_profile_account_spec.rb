@@ -118,8 +118,4 @@ describe 'Edit User Profile > Settings', :js, type: :system do
       expect(page.accept_alert).to have_content('Are you sure?')
     end
   end
-
-  # describe 'forgot password' do
-  #
-  # end
 end

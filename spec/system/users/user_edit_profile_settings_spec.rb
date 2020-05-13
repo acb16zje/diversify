@@ -22,11 +22,5 @@ describe 'Edit Profile > User', :js, type: :system do
         expect(page).to have_selector("input[value='#{user.name}']")
       end
     end
-
-    context 'when displaying birthday' do
-      it 'displays correct birthdate' do
-        # expect(page).to have_selector("input[value='#{user.birthdate}']")
-      end
-    end
   end
 end

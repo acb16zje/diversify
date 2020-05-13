@@ -8,11 +8,17 @@ describe 'Task > Manage Task', :js, type: :system do
   let!(:skill) { create(:skill, category_id: category.id) }
   let(:project) { create(:project, user: owner, category_id: category.id) }
   let(:team) { create(:team, name: 'Test', project: project) }
-  let(:task) { create(:task, user_id: owner.id, project_id: project.id) }
-  let!(:task_2) { create(:task, percentage: 100, user_id: owner.id, project_id: project.id) }
-  let(:task_skill) { create(:task_skill, taks_id: task_id, skill_id: skill_1.id) }
+  let!(:task) { create(:task, user_id: owner.id, project_id: project.id) }
+  let!(:task_2) do
+    create(:task, percentage: 100, user_id: owner.id, project_id: project.id)
+  end
+  let(:task_skill) do
+    create(:task_skill, taks_id: task_id, skill_id: skill_1.id)
+  end
   let(:task_user) { create(:task_user, taks_id: task_id, user_id: owner.id) }
-  let(:task_user_2) { create(:task_user, taks_id: task_2_id, user_id: owner.id) }
+  let(:task_user_2) do
+    create(:task_user, taks_id: task_2_id, user_id: owner.id)
+  end
 
   before do
     sign_in owner
@@ -45,21 +51,12 @@ describe 'Task > Manage Task', :js, type: :system do
     expect(page).to have_content(task_2.name, wait: 40)
     find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
     find(:xpath, "//div/div[@style='left: 40%;']").click
-    expect(page).to have_no_content(task_2.name, wait: 30)
     find(".select option[value='active']").select_option
-    expect(page).to have_content(task.name, wait: 30)
+    expect(page).to have_content(task_2.name, wait: 30)
   end
 
   it 'check owner of task' do
-    expect(page).to have_content(task.name, wait: 40)
     find('td', text: owner.name).click
     expect(page).to have_content(owner.name, wait: 30)
   end
-
-  #  Avatar not shown
-  # it 'check assignee of task' do
-  #   expect(page).to have_content(task.name, wait: 40)
-  #   find(:xpath, "//tbody/tr/td[6]/div/div/span").click
-  #   expect(page).to have_content(owner.name, wait: 30)
-  # end
 end

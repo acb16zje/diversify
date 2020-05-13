@@ -11,9 +11,13 @@ describe 'Task > Edit Task', :js, type: :system do
   let(:project) { create(:project, user: owner, category_id: category.id) }
   let(:team) { create(:team, name: 'Test', project: project) }
   let(:task) { create(:task, user_id: owner.id, project_id: project.id) }
-  let(:task_skill) { create(:task_skill, taks_id: task_id, skill_id: skill_1.id) }
+  let(:task_skill) do
+    create(:task_skill, taks_id: task_id, skill_id: skill_1.id)
+  end
   let(:task_user) { create(:task_user, taks_id: task_id, user_id: owner.id) }
-  let(:collaboration) { create(:collaboration, user_id: member.id, team_id: team.id) }
+  let(:collaboration) do
+    create(:collaboration, user_id: member.id, team_id: team.id)
+  end
 
   before do
     sign_in owner
@@ -60,7 +64,7 @@ describe 'Task > Edit Task', :js, type: :system do
       click_button 'Edit Task'
       expect(page).to have_content('Tasks', wait: 30)
       find('a', text: 'Tasks').click
-      expect(page).to have_xpath("//tbody/tr/td[6]/div/div/span", wait: 30)
+      expect(page).to have_xpath('//tbody/tr/td[6]/div/div/span', wait: 30)
     end
 
     it 'title is missing' do

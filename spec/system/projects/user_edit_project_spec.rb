@@ -64,8 +64,7 @@ describe 'Edit Project > Project', :js, type: :system do
     it 'can archive project' do
       click_button 'Reactivate Project'
       page.accept_alert
-      # The message should be no 'Project Closed'
-      expect(page).to have_content('Project Closed')
+      expect(page).to have_content('Project Activated')
     end
   end
 end

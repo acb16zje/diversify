@@ -25,7 +25,6 @@ describe 'New Personalities > User', :js, type: :system do
       click_button 'Save changes'
       expect(page).to have_no_content('Current personality')
     end
-
   end
 
   describe 'set personalities' do
@@ -47,7 +46,6 @@ describe 'New Personalities > User', :js, type: :system do
       choose('personality_tactic_j', allow_label_click: true)
       click_button 'Save changes'
       expect(page).to have_content('Logistician')
-
     end
 
     it 'personality is INFJ' do

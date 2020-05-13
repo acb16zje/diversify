@@ -15,7 +15,9 @@ describe 'Metrics > Subscriber Management', :js, type: :system do
 
   context 'with subscribers' do
     let!(:subscribed_1) { create(:newsletter_subscription) }
-    let!(:subscribed_2) { create(:newsletter_subscription, created_at: 1.day.ago) }
+    let!(:subscribed_2) do
+      create(:newsletter_subscription, created_at: 1.day.ago)
+    end
     let!(:subscribed_3) { create(:newsletter_subscription) }
     let!(:subscribers) { create_list(:newsletter_subscription, 15) }
 
@@ -29,7 +31,9 @@ describe 'Metrics > Subscriber Management', :js, type: :system do
     end
 
     it 'can unsubscribe user' do
-      accept_confirm { find('tr', text: subscribed_1.email).find('td.has-text-centered').click }
+      accept_confirm {
+        find('tr', text: subscribed_1.email).find('td.has-text-centered').click
+      }
       expect(page).to have_no_content(subscribed_1.email)
     end
 

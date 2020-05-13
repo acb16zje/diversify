@@ -64,7 +64,7 @@ describe 'Project > Create Task', :js, type: :system do
       click_button 'Create Task'
       expect(page).to have_content('Tasks', wait: 30)
       find('a', text: 'Tasks').click
-      expect(page).to have_xpath("//tbody/tr/td[6]/div/div/span", wait: 30)
+      expect(page).to have_xpath('//tbody/tr/td[6]/div/div/span', wait: 30)
     end
 
     it 'title is missing' do
