@@ -45,8 +45,7 @@ class User < ApplicationRecord
   has_many :preferences, dependent: :destroy
   has_many :appeals, dependent: :destroy
 
-  has_many :task_users, dependent: :destroy
-  has_many :tasks, through: :task_users
+
 
   has_many :reviews,
            foreign_key: :reviewer_id,
@@ -57,6 +56,10 @@ class User < ApplicationRecord
   # Join table
   has_many :collaborations, dependent: :destroy
   has_many :teams, through: :collaborations
+  has_many :task_users, dependent: :destroy
+  has_many :tasks, through: :task_users
+  has_many :user_skills, dependent: :destroy
+  has_many :skills, through: :user_skills
 
   validates :email,
             presence: true,

@@ -2,12 +2,14 @@ import './application';
 import Vue from 'vue/dist/vue.esm';
 import ProjectList from '../projects/ProjectList.vue';
 import { successToast } from '../buefy/toast';
+import SkillTable from '../projects/SkillTable.vue';
 import projectStore from '../projects/store';
 
 new Vue({
   el: '#user',
   components: {
     ProjectList,
+    SkillTable,
   },
   store: projectStore,
   data: {

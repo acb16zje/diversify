@@ -14,7 +14,7 @@
         = @user.created_at.strftime('Joined on %d/%m/%Y')
     -# .column.is-narrow
 
-%section
+%section#project
   %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'v-model': 'selected', 'position': 'is-centered' }
     %b-tab-item
       %template{ 'slot': 'header' }
@@ -25,6 +25,11 @@
       %template{ 'slot': 'header' }
         Skills
       .container.is-fullscreen
+        - if @user.skills.blank?
+          %h4.font-semibold.text-center.py-8
+            No Skills
+        - else
+          %skill-table{ 'initial-data': @skills.to_json }
     %b-tab-item
       %template{ 'slot': 'header' }
         Statistics
@@ -35,9 +40,8 @@
     %b-tab-item
       %template{ 'slot': 'header' }
         Joined Projects
-      #project
-        .container.is-fullscreen
-          %project-list{ 'init-projects-html': @html, ':init-total': @pagy.count, ':has-tabs': false, ':profile-type': true }
+      .container.is-fullscreen
+        %project-list{ 'init-projects-html': @html, ':init-total': @pagy.count, ':has-tabs': false, ':profile-type': true }
     %b-tab-item
       %template{ 'slot': 'header' }
         Owned Projects

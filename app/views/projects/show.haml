@@ -24,7 +24,7 @@
               %span.icon.iconify{ 'data-icon': 'fa:lock' }
         %p.subtitle.is-5-desktop.is-size-6-touch Owned by: #{@project.user.name}
 
-      - unless current_user&.in_project?(@project)
+      - unless current_user&.in_project?(@project) || !user_signed_in?
         .column.is-narrow
           - appeal = @project.appeals.find_by(user: current_user)
           - if appeal&.application?

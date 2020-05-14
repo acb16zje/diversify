@@ -37,7 +37,7 @@ new Vue({
     selected(value) {
       if (value === 1) {
         this.getCount('task');
-      } else if (value === 3) {
+      } else if (value === 2) {
         this.getCount('application');
       }
     },
