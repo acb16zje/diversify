@@ -1,9 +1,15 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
+import ProjectList from '../projects/ProjectList.vue';
 import { successToast } from '../buefy/toast';
+import projectStore from '../projects/store';
 
 new Vue({
   el: '#user',
+  components: {
+    ProjectList,
+  },
+  store: projectStore,
   data: {
     avatarFilename: 'No file attached',
   },

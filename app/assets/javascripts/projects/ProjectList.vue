@@ -51,6 +51,11 @@ export default {
       default: true,
       required: false,
     },
+    profileType: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
   },
   data() {
     return {
@@ -76,6 +81,11 @@ export default {
   created() {
     this.updateProjectsHTML(this.initProjectsHtml);
     this.updateTotal(this.initTotal);
+    if (this.profileType) {
+      this.updateState({ param: 'joined', value: 1 });
+    } else {
+      this.updateState({ param: 'joined', value: 0 });
+    }
   },
   methods: {
     ...mapMutations('search', ['updateProjectsHTML', 'updateTotal']),

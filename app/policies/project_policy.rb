@@ -9,13 +9,34 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   relation_scope(:joined) do |scope|
-    scope.where(id: user.teams.pluck(:project_id))
+    scope.where(id: user.teams.pluck(:project_id)).where.not(user: user)
   end
 
   relation_scope(:explore) do |scope|
     next scope if user&.admin
 
-    scope.where(visibility: true).or(scope.where(user: user))
+    scope.where(visibility: true).or(scope.where(user: user)).distinct
+  end
+
+  relation_scope(:profile_owned) do |scope, target: nil|
+    data = scope.joins(teams: :collaborations).where(user: target).distinct
+    next data if user&.admin || user == target
+
+    data.where(visibility: true).or(
+      data.where(collaborations: { user_id: user&.id })
+    )
+  end
+
+  relation_scope(:profile_joined) do |scope, target: nil|
+    data = scope.joins(teams: :collaborations)
+                .where(id: target.teams.pluck(:project_id))
+                .where.not(user: target).distinct
+
+    next data if user&.admin || user == target
+
+    data.where(visibility: true).or(
+      data.where(collaborations: { user_id: user&.id })
+    )
   end
 
   def show?
