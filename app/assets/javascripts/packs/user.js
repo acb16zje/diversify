@@ -1,15 +1,28 @@
 import './application';
 import Vue from 'vue/dist/vue.esm';
+import Chartkick from 'vue-chartkick';
+import Chart from 'chart.js';
 import ProjectList from '../projects/ProjectList.vue';
 import { successToast } from '../buefy/toast';
 import SkillTable from '../projects/SkillTable.vue';
 import projectStore from '../projects/store';
+import PieChart from '../admin/metrics/PieChart.vue';
+
+
+Chartkick.options = {
+  messages: {
+    empty: 'No data',
+  },
+};
+
+Vue.use(Chartkick.use(Chart));
 
 new Vue({
   el: '#user',
   components: {
     ProjectList,
     SkillTable,
+    PieChart,
   },
   store: projectStore,
   data: {

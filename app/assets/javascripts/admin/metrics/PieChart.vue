@@ -1,5 +1,6 @@
 <template>
-  <pie-chart :data="data" :title="title" />
+  <pie-chart v-if="size === ''" :data="data" :title="title" :donut="isDonut" />
+  <pie-chart v-else :data="data" :title="title" :donut="isDonut" :height="size" :width="size" />
 </template>
 
 <script>
@@ -12,6 +13,16 @@ export default {
     title: {
       type: String,
       required: true,
+    },
+    isDonut: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+    size: {
+      type: String,
+      default: '',
+      required: false,
     },
   },
 };

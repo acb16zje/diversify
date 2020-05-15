@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_14_055428) do
+ActiveRecord::Schema.define(version: 2020_05_15_065415) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,17 @@ ActiveRecord::Schema.define(version: 2020_05_14_055428) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "activities", force: :cascade do |t|
+    t.string "key", default: ""
+    t.bigint "user_id", null: false
+    t.string "target_type", null: false
+    t.bigint "target_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["target_type", "target_id"], name: "index_activities_on_target_type_and_target_id"
+    t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
   create_table "ahoy_events", force: :cascade do |t|
@@ -357,6 +368,7 @@ ActiveRecord::Schema.define(version: 2020_05_14_055428) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "users"
   add_foreign_key "appeals", "projects"
   add_foreign_key "appeals", "users"
   add_foreign_key "collaborations", "teams"

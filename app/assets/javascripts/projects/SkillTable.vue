@@ -3,6 +3,7 @@
     <b-table
       :data="skills"
       :paginated="true"
+      :pagination-simple="true"
       :hoverable="true"
       :per-page="10"
       :mobile-cards="true"

@@ -12,19 +12,62 @@
         = @user.email
         &#183;
         = @user.created_at.strftime('Joined on %d/%m/%Y')
-    -# .column.is-narrow
 
 %section#project
   %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'v-model': 'selected', 'position': 'is-centered' }
     %b-tab-item
       %template{ 'slot': 'header' }
         Profile
-      .container.is-fullscreen
-        -# Simple overview of skills, project count etc
+      .content
+        .tile.is-ancestor
+          .tile.is-vertical
+            .tile
+              .tile.is-parent.is-vertical
+                .tile.is-parent
+                  %article.tile.is-child.notification
+                    %nav.level
+                      .level-item.has-text-centered
+                        %div
+                          %p.title.is-3 Projects
+                      .level-item.has-text-centered
+                        %div
+                          %p.heading Project Joined
+                          %p.subtitle.is-5= Project.where(id: @user.teams.pluck(:project_id)).where.not(user: @user).count
+                      .level-item.has-text-centered
+                        %div
+                          %p.heading Project Owned
+                          %p.subtitle.is-5= @user.projects.count
+                      .level-item.has-text-centered
+                        %div
+                          %p.heading Project Completed
+                          %p.subtitle.is-5= Project.where(id: @user.teams.pluck(:project_id), status: 'completed').count
+                .tile
+                  .tile.is-parent
+                    %article.tile.is-child.notification
+                      %p.title.is-3 Personality
+
+                      - if @user.personality
+                        %figure.image
+                          .type
+                            = File.read("#{Rails.root}/public/images/personalities/#{@user.personality.to_type.downcase}.svg").html_safe
+                        %h4.text-center.mt-3= @user.personality.to_type
+                      - else
+                        No Personality Set
+                  .tile.is-parent
+                    %article.tile.is-child.notification.is-warning
+                      %p.title.is-3 Skills
+                      %pie-chart.mx-auto{ ':data': @chart.to_json, 'title': '', 'size': '200px' }
+              -# .tile.is-parent.is-4
+              -#   %article.tile.is-child.notification.is-info
+              -#     %p.title Task List
+              -#     - @task_activities.each do |a|
+              -#       = a.name
     %b-tab-item
       %template{ 'slot': 'header' }
         Skills
       .container.is-fullscreen
+        - if current_user == @user
+          = link_to 'Add Skills', '', class: 'button is-pulled-right'
         - if @user.skills.blank?
           %h4.font-semibold.text-center.py-8
             No Skills
@@ -32,8 +75,32 @@
           %skill-table{ 'initial-data': @skills.to_json }
     %b-tab-item
       %template{ 'slot': 'header' }
-        Statistics
+        Timeline
       .container.is-fullscreen
+        .timeline.is-centered
+          %header.timeline-header
+            %span.tag.is-medium.is-primary Start
+          .timeline-item
+            .timeline-marker
+            .timeline-content
+              %p.heading January 2016
+              %p Timeline content - Can include any HTML element
+          .timeline-item
+            .timeline-marker.is-image.is-32x32
+              %img{:src => "https://bulma.io/images/placeholders/32x32.png"}/
+            .timeline-content
+              %p.heading February 2016
+              %p Timeline content - Can include any HTML element
+          %header.timeline-header
+            %span.tag.is-primary 2017
+          .timeline-item
+            .timeline-marker.is-icon
+              %i.fa.fa-flag
+            .timeline-content
+              %p.heading March 2017
+              %p Timeline content - Can include any HTML element
+          .timeline-header
+            %span.tag.is-medium.is-primary End
         -# Possible graphs with contribution of each tasks/category
         -# Will remove if not enough time
         -# good subsitute to the feedback system
@@ -41,12 +108,12 @@
       %template{ 'slot': 'header' }
         Joined Projects
       .container.is-fullscreen
-        %project-list{ 'init-projects-html': @html, ':init-total': @pagy.count, ':has-tabs': false, ':profile-type': true }
+        %project-list{ 'init-projects-html': '', ':init-total': 0, ':has-tabs': false, ':profile-type': true }
     %b-tab-item
       %template{ 'slot': 'header' }
         Owned Projects
       .container.is-fullscreen
-        %project-list{ 'init-projects-html': @html, ':init-total': @pagy.count, ':has-tabs': false }
+        %project-list{ 'init-projects-html': '', ':init-total': 0, ':has-tabs': false }
 
 
 
