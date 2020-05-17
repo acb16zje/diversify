@@ -29,8 +29,8 @@ class UsersController < ApplicationController
   end
 
   def find_next_activity(mth)
-    time = DateTime.current << mth
-    data = Activity.where('user_id = ? AND created_at < ?', @user.id, time)
+    time = DateTime.current.beginning_of_month << mth
+    data = Activity.where('user_id = ? AND created_at <= ?', @user.id, time)
     return unless data.exists?
 
     data.order('created_at DESC').first.created_at.to_datetime
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     tasks, events = authorized_scope(Activity.where(user: @user).from_month(mth))
     html = view_to_html_string('users/_timeline', events: events, tasks: tasks,
                                                   header: mth.strftime('%B %Y'))
-    render json: { html: html, m: Time.current.month - mth.month }
+    render json: { html: html, m: ((Time.current - mth) / 1.month).floor }
   end
 
   def render_projects(policy_scope)

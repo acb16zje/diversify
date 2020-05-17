@@ -20,7 +20,7 @@ import { dangerToast } from '../buefy/toast';
 export default {
   data() {
     return {
-      month: 0,
+      month: -1,
       events: '',
       finished: false,
       isLoading: false,
@@ -42,6 +42,7 @@ export default {
           if (!('html' in data)) {
             this.finished = true;
           } else {
+            console.log(data.m);
             this.events = this.events.concat(data.html);
             this.month += data.m + 1;
           }
