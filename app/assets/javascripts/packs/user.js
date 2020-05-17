@@ -4,7 +4,8 @@ import Chartkick from 'vue-chartkick';
 import Chart from 'chart.js';
 import ProjectList from '../projects/ProjectList.vue';
 import { successToast } from '../buefy/toast';
-import SkillTable from '../projects/SkillTable.vue';
+import SkillTable from '../users/SkillTable.vue';
+import Timeline from '../users/Timeline.vue';
 import projectStore from '../projects/store';
 import PieChart from '../admin/metrics/PieChart.vue';
 
@@ -23,6 +24,7 @@ new Vue({
     ProjectList,
     SkillTable,
     PieChart,
+    Timeline,
   },
   store: projectStore,
   data: {

@@ -59,11 +59,10 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
   create_table "activities", force: :cascade do |t|
     t.string "key", default: ""
     t.bigint "user_id", null: false
-    t.string "target_type", null: false
-    t.bigint "target_id", null: false
+    t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["target_type", "target_id"], name: "index_activities_on_target_type_and_target_id"
+    t.index ["project_id"], name: "index_activities_on_project_id"
     t.index ["user_id"], name: "index_activities_on_user_id"
   end
 
@@ -368,6 +367,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "activities", "projects"
   add_foreign_key "activities", "users"
   add_foreign_key "appeals", "projects"
   add_foreign_key "appeals", "users"

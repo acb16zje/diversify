@@ -6,7 +6,7 @@ class CreateActivities < ActiveRecord::Migration[6.0]
       t.string :key, default: ''
 
       t.references :user, foreign_key: true, null: false
-      t.references :target, polymorphic: true, null: false
+      t.references :project, foreign_key: true
       t.timestamps
     end
   end

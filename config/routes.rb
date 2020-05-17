@@ -84,7 +84,11 @@ Rails.application.routes.draw do
   }
 
   # /users/:path
-  resources :users, only: %i[index show]
+  resources :users, only: %i[index show] do
+    member do
+      get 'timeline'
+    end
+  end
 
   # /settings/:path
   scope module: :users do

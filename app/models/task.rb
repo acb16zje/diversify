@@ -90,6 +90,9 @@ class Task < ApplicationRecord
   def send_update_notification
     if saved_change_to_percentage? && completed?
       Notification.create(notification_params(user, 'task/completed'))
+      users.each do |user|
+        Activity.find_or_create_by(key: "task/#{id}", user: user, project: project)
+      end
     else
       users.each do |user|
         Notification.create(notification_params(user, 'task/update'))

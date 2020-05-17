@@ -1,0 +1,58 @@
+.timeline-header
+  %span.tag.is-medium.is-primary
+    = header
+- tasks.each do |task|
+  - project = Project.find(task.project_id)
+  - right = (current_user&.in_project?(project) || current_user&.admin? || project.visibility)
+  .timeline-item
+    .timeline-marker.is-image.is-32x32.is-success.is-flex
+      %span.iconify.is-28{ 'data-icon': right ? 'ant-design:book-outlined' : 'bx:bxs-lock-alt' }
+    .timeline-content
+      - if right
+        = link_to project_path(project) do
+          Completed
+          %strong= task.count
+          Tasks in Project
+          %strong= task.name
+      - else
+        %p
+          Completed
+          %strong= task.count
+          Tasks in a Private Project
+- events.each do |event|
+  .timeline-item
+    - if event.key == 'user/create'
+      .timeline-marker.is-image.is-32x32.is-success.is-flex
+        %span.iconify.is-28{ 'data-icon': 'bi:flag' }
+    - else
+      .timeline-marker
+    .timeline-content
+      %p.heading= event.created_at.strftime('%d %B')
+      %span
+        - if event.key == 'user/create'
+          User Joined Diversify
+        - else
+          - project = Project.find(event.project_id)
+          - right = (current_user&.in_project?(project) || current_user&.admin? || project.visibility)
+          - if event.key == 'project/create'
+            - if right
+              = link_to project_path(project) do
+                Created Project
+                %strong= event.name
+            - else
+              Created Private Project
+          - elsif event.key == 'project/complete'
+            - if right
+              = link_to project_path(project) do
+                Completed Project
+                %strong= event.name
+            - else
+              Completed Private Project
+          - elsif event.key == 'project/join'
+            - if right
+              = link_to project_path(project) do
+                Joined Project
+                %strong= event.name
+            - else
+              Joined Private Project
+

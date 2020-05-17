@@ -57,9 +57,15 @@ class Appeal < ApplicationRecord
       notifiable: invitation? ? user : project,
       notifier: project
     )
+
+    join_activity if resolution == 'accept'
   end
 
   private
+
+  def join_activity
+    Activity.find_or_create_by(key: 'project/join', user: user, project: project)
+  end
 
   def send_notification
     Notification.create(send_notification_params)

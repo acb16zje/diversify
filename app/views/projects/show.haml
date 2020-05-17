@@ -48,7 +48,7 @@
             = button_to 'Join', project_applications_path(@project), class: 'button is-success is-pulled-right',
               remote: true, data: { confirm: 'Are you sure?', disable: true }, form: { '@ajax:error': 'ajaxError' }
 %section
-  %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'v-model': 'selected', 'position': 'is-centered' }
+  %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'position': 'is-centered' }
     %b-tab-item
       %template{ 'slot': 'header' }
         %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }

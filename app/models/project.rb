@@ -43,6 +43,7 @@ class Project < ApplicationRecord
   has_many :appeals, dependent: :destroy
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :notifications, as: :notifier, dependent: :destroy
+  has_many :activities, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :teams, dependent: :destroy
@@ -75,6 +76,8 @@ class Project < ApplicationRecord
                     if: :will_save_change_to_status?
 
   before_commit :create_unassigned_team, on: :create
+  after_create_commit :create_activity
+  after_update_commit :complete_activity, if: :saved_change_to_status?
 
   def applicable?
     open? && visibility
@@ -104,5 +107,15 @@ class Project < ApplicationRecord
 
   def create_unassigned_team
     teams.create(name: 'Unassigned', team_size: 999).users << user
+  end
+
+  def create_activity
+    Activity.create(key: 'project/create', user: user, project: self)
+  end
+
+  def complete_activity
+    return unless completed?
+
+    Activity.find_or_create_by(key: 'project/complete', user: user, project: self)
   end
 end

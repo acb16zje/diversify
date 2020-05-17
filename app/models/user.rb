@@ -39,6 +39,7 @@ class User < ApplicationRecord
   has_one_attached :avatar
   has_one :license, dependent: :destroy
 
+  has_many :activities, dependent: :destroy
   has_many :identities, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :projects, dependent: :destroy
@@ -75,7 +76,7 @@ class User < ApplicationRecord
 
   validate :provided_birthdate, on: :update
 
-  after_create_commit -> { create_license }
+  after_create_commit :create_license, :create_activity
 
   after_update_commit :disable_password_automatically_set,
                       if: [:saved_change_to_encrypted_password?,
@@ -114,6 +115,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def create_activity
+    Activity.create(key: 'user/create', user: self)
+  end
 
   def disable_password_automatically_set
     update_columns(password_automatically_set: false) # rubocop:disable Rails/SkipsModelValidations
