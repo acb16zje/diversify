@@ -13,6 +13,10 @@
                   %p New Task
                   %span.icon
                     %span.iconify{ 'data-icon': 'el:plus' }
-      %task-table{ 'project-id': @project.id, 'admin': (allowed_to? :manage?, @project), 'user-id': current_user.id }
+          - if @project.completed?
+            .content
+              .notification.is-warning
+                Project is Completed. Tasks are now Read Only.
+      %task-table{ 'project-id': @project.id, ':completed': @project.completed?, 'admin': (allowed_to? :manage?, @project), 'user-id': current_user.id }
 
 

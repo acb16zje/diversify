@@ -60,7 +60,7 @@
               </b-tooltip>
             </div>
           </div>
-          <a v-if="!userData[id]" class="button is-small is-success" data-confirm="Are you sure?" @click="assignSelf(id)">
+          <a v-if="!userData[id] && !completed" class="button is-small is-success" data-confirm="Are you sure?" @click="assignSelf(id)">
             Assign Self
           </a>
         </b-table-column>
@@ -118,6 +118,10 @@ export default {
       type: String,
       required: true,
     },
+    completed: {
+      type: Boolean,
+      required: true,
+    },
   },
   data() {
     return {
@@ -133,11 +137,12 @@ export default {
   },
   methods: {
     canEdit(ownerId) {
-      return (parseInt(this.userId, 10) === ownerId || this.admin === 'true');
+      return (parseInt(this.userId, 10) === ownerId || this.admin === 'true') && !this.completed;
     },
     inTask(id) {
       return (id in this.userData
-        && (this.userData[id].findIndex((u) => u.user_id === parseInt(this.userId, 10)) !== -1));
+        && (this.userData[id].findIndex((u) => u.user_id === parseInt(this.userId, 10)) !== -1))
+        && !this.completed;
     },
     getData() {
       this.isLoading = true;

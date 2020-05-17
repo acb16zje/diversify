@@ -2,8 +2,8 @@
   %section.settings-section
     - if @project.completed?
       .content
-        .box
-          Project is Completed
+        .notification.is-warning
+          Project is Completed. New users cannot be added.
     - else
       .content
         - if @project.visibility
