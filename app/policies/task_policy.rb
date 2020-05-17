@@ -7,7 +7,8 @@ class TaskPolicy < ApplicationPolicy
   default_rule :manage?
 
   relation_scope(:assigned) do |scope|
-    scope.left_outer_joins(:task_users).where(task_users: { user_id: user.id })
+    ids = scope.left_outer_joins(:task_users).where(task_users: { user_id: user.id }).pluck('task_users.task_id').uniq
+    scope.where(id: ids)
   end
 
   relation_scope(:unassigned) do |scope|
