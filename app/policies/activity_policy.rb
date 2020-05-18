@@ -9,7 +9,6 @@ class ActivityPolicy < ApplicationPolicy
                 .select('COUNT(projects.id) as count')
                 .group('projects.id')
 
-    puts(task.to_json)
     project = scope.joins(:project)
                    .where("activities.key NOT LIKE '%task%'")
                    .select('activities.id, activities.created_at, key')

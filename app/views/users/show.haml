@@ -19,12 +19,15 @@
       %template{ 'slot': 'header' }
         Profile
       .content
+        - if current_user == @user
+          %section.section
+            = link_to 'Edit', settings_profile_path, class: 'button is-pulled-right'
         .tile.is-ancestor
           .tile.is-vertical
             .tile
               .tile.is-parent.is-vertical
                 .tile.is-parent
-                  %article.tile.is-child.notification
+                  %article.tile.is-child.notification.is-primary
                     %nav.level
                       .level-item.has-text-centered
                         %div

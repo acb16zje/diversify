@@ -294,7 +294,7 @@ describe ProjectsController, type: :request do
 
     let(:project) { create(:project, user: user) }
 
-    %w[task team application].each do |type|
+    %w[task application].each do |type|
       context "with valid query for #{type}" do
         let(:params) { { type: type } }
 

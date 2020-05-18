@@ -42,7 +42,6 @@ export default {
           if (!('html' in data)) {
             this.finished = true;
           } else {
-            console.log(data.m);
             this.events = this.events.concat(data.html);
             this.month += data.m + 1;
           }

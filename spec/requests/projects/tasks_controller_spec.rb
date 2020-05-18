@@ -234,9 +234,15 @@ describe Projects::TasksController, type: :request do
     context 'when task owner' do
       let(:task) { create(:task, project: project, user: user) }
 
+      let(:params) do
+        { task: {
+          name: 'new name', project_id: project.id, user_id: user.id
+        } }
+      end
+
       before do
-        project.unassigned_team.users << admin
-        task.users << admin
+        project.unassigned_team.users << user
+        task.users << user
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -244,6 +250,8 @@ describe Projects::TasksController, type: :request do
 
     context 'when project owner' do
       let(:project) { create(:project, user: user) }
+
+      before { task.users << user }
 
       it_behaves_like 'accessible to authenticated users'
     end

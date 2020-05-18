@@ -28,11 +28,6 @@ class ApplicationController < ActionController::Base
     render_404
   end
 
-  # TODO: Teams destroy, it doesn't return error when push user back to unassigned?
-  rescue_from ActiveRecord::RecordInvalid do
-    render json: { message: 'Invalid Record' }, status: :unprocessable_entity
-  end
-
   rescue_from ActiveRecord::StatementInvalid do
     render json: { message: 'Invalid Statement' }, status: :unprocessable_entity
   end

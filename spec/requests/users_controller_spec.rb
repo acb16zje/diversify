@@ -17,4 +17,31 @@ describe UsersController, type: :request do
       it_behaves_like 'returns 404 Not Found'
     end
   end
+
+  describe 'GET #timeline' do
+    subject(:request) { get timeline_user_path(user, month: -1), xhr: true }
+
+    let(:user) { create(:user) }
+
+    before { create(:activity, user: user) }
+
+    it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'accessible to unauthenticated users'
+
+    context 'when invalid input' do
+      subject(:request) { get timeline_user_path(user, month: 'foo'), xhr: true }
+
+      before { request }
+
+      it { expect(response.body).to include('End of Timeline') }
+    end
+
+    context 'when values left' do
+      subject(:request) { get timeline_user_path(user, month: 999), xhr: true }
+
+      before { request }
+
+      it { expect(response.body).to include('End of Timeline') }
+    end
+  end
 end
