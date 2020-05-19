@@ -69,7 +69,10 @@ class UsersController < ApplicationController
   end
 
   def prepare_counts
-    joined_ids = '(' + @user.teams.pluck(:project_id).join(',') + ')'
+    joined_ids = if @user.teams.present?
+                   '(' + @user.teams.pluck(:project_id).join(',') + ')'
+                 else '(0)' end
+
     @counts = @user.projects.pluck(
       Arel.sql(
         "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND NOT user_id = #{@user.id}),"\
