@@ -9,6 +9,7 @@ class UsersController < ApplicationController
   def show
     render_projects(params[:joined].present? ? :profile_joined : :profile_owned)
     prepare_skills
+    prepare_counts
   end
 
   def timeline
@@ -65,5 +66,15 @@ class UsersController < ApplicationController
     @chart = @user.skills.joins(:category)
                   .select('categories.name')
                   .group('categories.name').count
+  end
+
+  def prepare_counts
+    joined_ids = '(' + @user.teams.pluck(:project_id).join(',') + ')'
+    @counts = @user.projects.pluck(
+      Arel.sql(
+        "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND NOT user_id = #{@user.id}),"\
+        'COUNT(1),'\
+        "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND status = 'completed')")
+    ).first
   end
 end

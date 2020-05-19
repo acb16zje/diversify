@@ -1,5 +1,7 @@
 - content_for :title, @user.name
 
+- joined, owned, completed = @counts
+
 %section.section#profile
   .columns.is-centered
     .column.is-full.has-text-centered
@@ -35,15 +37,15 @@
                       .level-item.has-text-centered
                         %div
                           %p.heading Project Joined
-                          %p.subtitle.is-5= Project.where(id: @user.teams.pluck(:project_id)).where.not(user: @user).count
+                          %p.subtitle.is-5= joined
                       .level-item.has-text-centered
                         %div
                           %p.heading Project Owned
-                          %p.subtitle.is-5= @user.projects.count
+                          %p.subtitle.is-5= owned
                       .level-item.has-text-centered
                         %div
                           %p.heading Project Completed
-                          %p.subtitle.is-5= Project.where(id: @user.teams.pluck(:project_id), status: 'completed').count
+                          %p.subtitle.is-5= completed
                 .tile
                   .tile.is-parent
                     %article.tile.is-child.notification
