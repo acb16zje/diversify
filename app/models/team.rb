@@ -26,9 +26,9 @@ class Team < ApplicationRecord
 
   # Join table
   has_many :collaborations, dependent: :destroy
-  has_many :users, through: :collaborations,
-                   before_add: :check_users_limit,
-                   after_add: :send_notification
+  has_many :users, through: :collaborations, before_add: :check_users_limit,
+                   after_add: :send_notification,
+                   after_remove: :unassign_tasks
   has_many :team_skills, dependent: :destroy
   has_many :skills, through: :team_skills
 
@@ -53,6 +53,14 @@ class Team < ApplicationRecord
     return if name == 'Unassigned'
 
     Notification.create({ user: user, key: 'team', notifiable: project, notifier: self })
+  end
+
+  def unassign_tasks(user)
+    tasks = user.tasks.where(project: project)
+
+    tasks.each do |task|
+      task.users.delete(user)
+    end
   end
 
   def destroy_notifications
