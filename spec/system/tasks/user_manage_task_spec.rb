@@ -28,35 +28,35 @@ describe 'Task > Manage Task', :js, type: :system do
   end
 
   it 'delete task' do
-    expect(page).to have_content(task.name, wait: 40)
+    expect(page).to have_content(task.name)
     find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
     accept_confirm { find('a', text: 'Delete Task', visible: true).click }
-    expect(page).to have_no_content(task.name, wait: 15)
+    expect(page).to have_no_content(task.name)
   end
 
   it 'update progress of task' do
-    expect(page).to have_content(task.name, wait: 40)
+    expect(page).to have_content(task.name)
     find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
     find(:xpath, "//div/div[@style='left: 30%;']").click
-    expect(page).to have_content('30%', wait: 30)
+    expect(page).to have_content('30%')
   end
 
   it 'make task complete' do
     find(".select option[value='completed']").select_option
-    expect(page).to have_content(task_2.name, wait: 30)
+    expect(page).to have_content(task_2.name)
   end
 
   it 'make task incomplete from complete' do
     find(".select option[value='completed']").select_option
-    expect(page).to have_content(task_2.name, wait: 40)
+    expect(page).to have_content(task_2.name)
     find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
     find(:xpath, "//div/div[@style='left: 40%;']").click
     find(".select option[value='active']").select_option
-    expect(page).to have_content(task_2.name, wait: 30)
+    expect(page).to have_content(task_2.name)
   end
 
   it 'check owner of task' do
     find('td', text: owner.name).click
-    expect(page).to have_content(owner.name, wait: 30)
+    expect(page).to have_content(owner.name)
   end
 end

@@ -36,7 +36,6 @@ set :delayed_job_workers,     -> { (fetch(:dj_workers) || '1') }
 set :delayed_job_args,        -> { "-p #{fetch(:delayed_job_identifier)} -n #{fetch(:delayed_job_workers)}" }
 
 namespace :delayed_job do
-
   def args
     fetch(:delayed_job_args, '')
   end

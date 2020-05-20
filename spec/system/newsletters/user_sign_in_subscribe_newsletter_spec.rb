@@ -5,9 +5,7 @@ require 'rails_helper'
 describe 'Logged in page Newsletter > Subscribe', :js, type: :system do
   let(:user) { create(:user) }
 
-  before do
-    sign_in user
-  end
+  before { sign_in user }
 
   describe 'subscribe newsletter' do
     it 'from settings page' do

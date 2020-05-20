@@ -9,9 +9,7 @@ describe 'Join Project > Project', :js, type: :system do
   let(:project_other) { create(:project, status: 'open') }
   let(:project_other_closed) { create(:project) }
 
-  before do
-    sign_in user
-  end
+  before { sign_in user }
 
   context 'when closed project page application tab' do
     before do

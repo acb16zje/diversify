@@ -28,49 +28,49 @@ describe 'Task > Edit Task', :js, type: :system do
     it 'changes title' do
       fill_in 'task_name', with: 'Test Task'
       click_button 'Edit Task'
-      expect(page).to have_content('Task updated', wait: 30)
+      expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
       find(".select option[value='active']").select_option
-      expect(page).to have_content('Test Task', wait: 15)
+      expect(page).to have_content('Test Task')
     end
 
     it 'changes description' do
       fill_in 'task_name', with: 'Test Task'
       fill_in 'task_description', with: 'Random description'
       click_button 'Edit Task'
-      expect(page).to have_content('Task updated', wait: 15)
+      expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
       find(".select option[value='active']").select_option
-      expect(page).to have_content('Test Task', wait: 15)
+      expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
-      expect(page).to have_content('Random description', wait: 15)
+      expect(page).to have_content('Random description')
     end
 
     it 'change skills' do
       fill_in 'task_name', with: 'Test Task'
       find('#task_skill_ids').find(:xpath, 'option[2]').select_option
       click_button 'Edit Task'
-      expect(page).to have_content('Task updated', wait: 25)
+      expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
       find(".select option[value='active']").select_option
-      expect(page).to have_content('Test Task', wait: 15)
+      expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
-      expect(page).to have_content(skill_2.name, wait: 15)
+      expect(page).to have_content(skill_2.name)
     end
 
     it 'change assignee' do
       fill_in 'task_name', with: 'Test Task'
       find('#task_user_ids').find(:xpath, 'option[1]').select_option
       click_button 'Edit Task'
-      expect(page).to have_content('Tasks', wait: 30)
+      expect(page).to have_content('Tasks')
       find('a', text: 'Tasks').click
-      expect(page).to have_xpath('//tbody/tr/td[6]/div/div/span', wait: 30)
+      expect(page).to have_xpath('//tbody/tr/td[6]/div/div/span')
     end
 
     it 'title is missing' do
       fill_in 'task_name', with: ''
       click_button 'Edit Task'
-      expect(page).to have_no_content('Task updated', wait: 15)
+      expect(page).to have_no_content('Task updated')
     end
   end
 end

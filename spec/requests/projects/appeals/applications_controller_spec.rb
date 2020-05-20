@@ -5,9 +5,7 @@ require 'rails_helper'
 describe Projects::Appeals::ApplicationsController, type: :request do
   let(:user) { create(:user) }
 
-  before do |test|
-    sign_in user unless test.metadata[:no_sign_in]
-  end
+  before { |test| sign_in user unless test.metadata[:no_sign_in] }
 
   describe 'authentications', :no_sign_in do
     describe 'GET #index' do

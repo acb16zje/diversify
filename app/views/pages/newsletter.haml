@@ -1,5 +1,7 @@
 - content_for :title, 'Newsletter'
 
+%link{ rel: 'preconnect', href: 'https://platform.twitter.com' }
+
 %section.section#newsletter
   .container
     .columns.is-vcentered
@@ -8,8 +10,8 @@
         %p.subtitle.is-5 Get the latest news and updates sent to your inbox
 
         .field.is-grouped.items-center
-          %iframe#fb.social.control{ allow: 'encrypted-media', allowtransparency: 'true', frameborder: '0', scrolling: 'no', src: 'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk&layout=button&size=large&width=77&height=28&appId', style: 'border:none;overflow:hidden;width:77px;height:28px', 'data-value': 'Facebook' }
-          %iframe.social#twitter-widget-0.control.twitter-share-button.twitter-share-button-rendered.twitter-tweet-button{ allowfullscreen: 'false', allowtransparency: 'true', frameborder: '0', scrolling: 'no', src: 'https://platform.twitter.com/widgets/tweet_button.69e02060c7c44baddf1b5629549acc0c.en.html#dnt=false&id=twitter-widget-0&lang=en&size=l&text=Diversify&type=share&url=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk', style: 'position: static; visibility: visible; width: 76px; height: 28px;', 'data-value': 'Twitter' }
+          %iframe#fb.social.control{ title: 'Facebook Share', src: 'https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk&layout=button&size=large&width=77&height=28&appId', style: 'width:77px;height:28px', 'data-value': 'Facebook' }
+          %iframe.social#twitter-widget-0.control.twitter-share-button.twitter-share-button-rendered.twitter-tweet-button{ title: 'Twitter tweet', scrolling: 'no', src: 'https://platform.twitter.com/widgets/tweet_button.69e02060c7c44baddf1b5629549acc0c.en.html#dnt=false&id=twitter-widget-0&lang=en&size=l&text=Diversify&type=share&url=https%3A%2F%2Fteam07.demo1.genesys.shefcompsci.org.uk', style: 'position: static; visibility: visible; width: 76px; height: 28px;', 'data-value': 'Twitter' }
 
           %a{ href: 'mailto:?subject=I wanted you to see this site&body=Check out this site https://team07.demo1.genesys.shefcompsci.org.uk/.', title: 'Share by Email', '@click': "trackSocial('Email')" }
             %span.icon.is-large
@@ -29,4 +31,4 @@
                 = submit_tag 'Subscribe', class: 'button is-danger is-large'
 
       .column.text-center.is-narrow
-        = image_tag 'mail_letter.png', width: 400
+        = image_tag 'mail_letter.webp', alt: 'Mailbox image', width: 400

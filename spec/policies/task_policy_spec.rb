@@ -57,9 +57,7 @@ describe TaskPolicy, type: :policy do
         ).group('tasks.id').pluck(:name)
       end
 
-      before do
-        Task.find_by(name: 'Test').percentage = 100
-      end
+      before { Task.find_by(name: 'Test').percentage = 100 }
 
       it { is_expected.to eq(%w[Test]) }
     end

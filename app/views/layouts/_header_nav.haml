@@ -7,7 +7,7 @@
         %b-dropdown.is-right{ animation: '' }
           %button.button.user-dropdown{ slot: 'trigger' }
             %figure.image.is-32x32.user-avatar-container.border-none
-              = image_tag user_avatar(current_user)
+              = image_tag user_avatar(current_user), alt: 'My avatar'
             %span.icon.is-small
               %span.iconify{ 'data-icon': 'fa-solid:angle-down' }
           - if current_user.admin?
@@ -21,8 +21,8 @@
         = link_to 'Sign in', new_user_session_path, class: 'button is-primary'
 
     = link_to root_path, class: 'navbar-item logo' do
-      = image_tag 'logo/logo.svg', width: 57
-      = image_tag 'logo/text_logo.svg', width: 75, class: 'ml-3 is-hidden-mobile'
+      = image_tag 'logo/logo.svg', alt: 'Diversify logo', width: 57
+      = image_tag 'logo/text_logo.svg', alt: 'Text logo', width: 75, class: 'ml-3 is-hidden-mobile'
 
   %template{ 'v-slot:start': '' }
     - if user_signed_in?

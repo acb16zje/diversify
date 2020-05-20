@@ -87,7 +87,6 @@ group :development do
 
   gem 'annotate'
   gem 'letter_opener'
-  gem 'premailer-rails'
 end
 
 group :test do

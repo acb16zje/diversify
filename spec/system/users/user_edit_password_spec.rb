@@ -3,9 +3,7 @@
 require 'rails_helper'
 
 describe 'New Password > Password', :js, type: :system do
-  before do
-    visit new_user_password_path
-  end
+  before { visit new_user_password_path }
 
   let(:user) { create(:user) }
 

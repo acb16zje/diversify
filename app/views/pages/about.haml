@@ -13,7 +13,7 @@
           .card.h-full
             .card-image
               %figure.image
-                = image_tag 'avatar/large/zerjun.png'
+                = image_tag 'avatar/large/zerjun.png', alt: 'Zer Jun'
             .card-content
               %h4.title.is-4 Zer Jun Eng
               %h5.subtitle.is-6 MEng Software Engineering
@@ -23,7 +23,7 @@
           .card.h-full
             .card-image
               %figure.image
-                = image_tag 'avatar/large/jiahua.jpg'
+                = image_tag 'avatar/large/jiahua.png', alt: 'Jia Hua'
             .card-content
               %h4.title.is-4 Jia Hua Ng
               %h5.subtitle.is-6 MEng Software Engineering
@@ -33,7 +33,7 @@
           .card.h-full
             .card-image
               %figure.image
-                = image_tag 'avatar/large/neville.jpg'
+                = image_tag 'avatar/large/neville.png', alt: 'Neville'
             .card-content
               %h4.title.is-4 Neville Kitala
               %h5.subtitle.is-6 MEng Software Engineering
@@ -43,7 +43,7 @@
           .card.h-full
             .card-image
               %figure.image
-                = image_tag 'avatar/large/wonwoo.jpg'
+                = image_tag 'avatar/large/wonwoo.png', alt: 'Wonwoo'
             .card-content
               %h4.title.is-4 Wonwoo Soh
               %h5.subtitle.is-6 MComp Computer Science
@@ -130,4 +130,5 @@
           = link_to '+44 (0)114 222 1888', 'tel:+441142221888'
 
         .column
-          %iframe.full{ allowfullscreen: '', frameborder: '0', width: '100%', height: '450', src: 'https://www.google.com/maps/embed/v1/place?q=53.3826314,-1.4710145&zoom=18&key=AIzaSyAPqSliBEobE2LSUoHvTSK_B5MdEfjkysY', style: 'border:0' }
+          %iframe.full{ title: 'Diversify office', width: '100%', height: '450',
+            src: 'https://www.google.com/maps/embed/v1/place?q=53.3826314,-1.4710145&zoom=18&key=AIzaSyAPqSliBEobE2LSUoHvTSK_B5MdEfjkysY' }

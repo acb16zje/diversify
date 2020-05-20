@@ -9,7 +9,6 @@ import Timeline from '../users/Timeline.vue';
 import projectStore from '../projects/store';
 import PieChart from '../admin/metrics/PieChart.vue';
 
-
 Chartkick.options = {
   messages: {
     empty: 'No data',

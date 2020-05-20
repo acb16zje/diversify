@@ -76,7 +76,6 @@ describe Projects::TasksController, type: :request do
 
     before { create(:skill, category: project.category) }
 
-
     context 'when not in project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
     end
@@ -111,7 +110,6 @@ describe Projects::TasksController, type: :request do
     subject(:request) { get edit_project_task_path(task, project_id: project.id) }
 
     before { create(:skill, category: project.category) }
-
 
     context 'when not in project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
@@ -160,7 +158,7 @@ describe Projects::TasksController, type: :request do
     context 'when invalid input' do
       let(:params) do
         { task: {
-          name: '', project_id: project.id, user_id: user.id,
+          name: '', project_id: project.id, user_id: user.id
         } }
       end
 
@@ -353,9 +351,7 @@ describe Projects::TasksController, type: :request do
     end
 
     context 'when in project' do
-      before do
-        project.unassigned_team.users << user
-      end
+      before { project.unassigned_team.users << user }
 
       it_behaves_like 'accessible to authenticated users'
     end

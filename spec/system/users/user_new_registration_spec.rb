@@ -6,9 +6,7 @@ describe 'New Registration > User', :js, type: :system do
   let(:new_user_email) { generate(:email) }
   let(:existing_user) { create(:user) }
 
-  before do
-    visit new_user_registration_path
-  end
+  before { visit new_user_registration_path }
 
   describe 'show sign up page' do
     it do

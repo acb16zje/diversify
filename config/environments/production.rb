@@ -4,7 +4,6 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   app_url = 'team07.demo1.genesys.shefcompsci.org.uk/'
   config.action_mailer.default_url_options = { host: app_url, protocol: 'https' }
-  config.action_mailer.asset_host = "https://#{app_url}"
   Rails.application.routes.default_url_options[:host] = "https://#{app_url}"
 
   # Code is not reloaded between requests.
@@ -80,7 +79,7 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
+  if ENV['RAILS_LOG_TO_STDOUT'].present?
     logger = ActiveSupport::Logger.new(STDOUT)
     logger.formatter = config.log_formatter
     config.logger = ActiveSupport::TaggedLogging.new(logger)

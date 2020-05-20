@@ -15,8 +15,6 @@ describe 'Show Notification > Notification', :js, type: :system do
   end
 
   context 'when there is notification' do
-    it 'notify user' do
-      expect(page).to have_no_content('No Notifications')
-    end
+    it { expect(page).to have_no_content('No Notifications') }
   end
 end

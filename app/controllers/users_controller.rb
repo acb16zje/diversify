@@ -77,7 +77,8 @@ class UsersController < ApplicationController
       Arel.sql(
         "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND NOT user_id = #{@user.id}),"\
         'COUNT(1),'\
-        "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND status = 'completed')")
+        "(SELECT COUNT(1) FROM projects WHERE id IN #{joined_ids} AND status = 'completed')"
+      )
     ).first
   end
 end

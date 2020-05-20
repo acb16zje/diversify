@@ -46,8 +46,6 @@ class User < ApplicationRecord
   has_many :preferences, dependent: :destroy
   has_many :appeals, dependent: :destroy
 
-
-
   has_many :reviews,
            foreign_key: :reviewer_id,
            class_name: 'Review',

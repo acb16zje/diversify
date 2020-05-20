@@ -118,7 +118,7 @@
 <script>
 import draggable from 'vuedraggable';
 import Rails from '@rails/ujs';
-import { successToast, dangerToast } from '../buefy/toast';
+import { dangerToast, successToast } from '../buefy/toast';
 
 export default {
   components: {

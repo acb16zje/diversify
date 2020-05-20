@@ -5,9 +5,7 @@ require 'rails_helper'
 describe 'Logged in page Newsletter > Unsubscribe', :js, type: :system do
   let(:user) { create(:user, :newsletter) }
 
-  before do
-    sign_in user
-  end
+  before { sign_in user }
 
   it 'can unsubscribes' do
     visit settings_profile_path

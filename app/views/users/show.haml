@@ -6,7 +6,7 @@
   .columns.is-centered
     .column.is-full.has-text-centered
       %figure.image.is-96x96.user-avatar-container.mx-auto.mb-3
-        = image_tag user_avatar(@user)
+        = image_tag user_avatar(@user), alt: 'User avatar'
       - if @user.name.present?
         %h1.title.is-size-4
           = @user.name

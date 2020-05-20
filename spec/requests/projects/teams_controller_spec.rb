@@ -10,7 +10,6 @@ describe Projects::TeamsController, type: :request do
   let(:team) { create(:team, project: project) }
 
   describe 'authorisations' do
-
     before { sign_in user }
 
     describe '#manage' do
@@ -359,9 +358,7 @@ describe Projects::TeamsController, type: :request do
     let(:target) { create(:user) }
     let(:params) { { user_id: target.id } }
 
-    before do
-      team.users << target
-    end
+    before { team.users << target }
 
     context 'when not authorized to manage project' do
       it_behaves_like 'not accessible to unauthorised users for private object'

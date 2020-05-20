@@ -5,7 +5,6 @@ require 'active_support/core_ext/numeric/time'
 
 module SimpleCovEnv
   class << self
-
     def start
       configure_profile
       configure_job
@@ -38,10 +37,10 @@ module SimpleCovEnv
         add_filter 'app/models/preference.rb'
         add_filter 'app/models/review.rb'
 
-        add_group "Controllers", "app/controllers"
-        add_group "Models", "app/models"
-        add_group "Mailers", "app/mailers"
-        add_group "Helpers", "app/helpers"
+        add_group 'Controllers', 'app/controllers'
+        add_group 'Models', 'app/models'
+        add_group 'Mailers', 'app/mailers'
+        add_group 'Helpers', 'app/helpers'
         add_group 'Policies', 'app/policies'
         add_group 'Serializers', 'app/serializers'
         add_group 'Validators',  'app/validators'
@@ -51,6 +50,5 @@ module SimpleCovEnv
         merge_timeout 365.days
       end
     end
-
   end
 end

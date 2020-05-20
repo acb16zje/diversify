@@ -6,7 +6,7 @@ class PagesController < ApplicationController
 
   before_action :track_ahoy_visit
 
-  after_action :track_action, except: :track_time
+  after_action :track_action, except: :track_time, unless: -> { request.xhr? }
 
   layout 'landing_page'
 
@@ -40,7 +40,7 @@ class PagesController < ApplicationController
 
   # Ahoy Gem function to track actions
   def track_action
-    ahoy.track('Ran action', request.path_parameters) unless request.xhr?
+    ahoy.track('Ran action', request.path_parameters)
   end
 
   def valid_request?
@@ -48,12 +48,11 @@ class PagesController < ApplicationController
   end
 
   def valid_pathname?(pathname)
-    [root_path, pricing_pages_path, about_pages_path, love_pages_path,
-     feedback_pages_path].include? pathname
+    pathname.in?(%w[/ /pricing /about /love /features /feedback /newsletter])
   end
 
   def valid_social_type?
-    %w[Facebook Twitter Email].include? params[:type]
+    params[:type].in?(%w[Facebook Twitter Email])
   end
 
   def feedback_params

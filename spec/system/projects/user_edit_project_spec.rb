@@ -21,9 +21,7 @@ describe 'Edit Project > Project', :js, type: :system do
   end
 
   context 'when edits project' do
-    before do
-      find('a', text: 'Settings').click
-    end
+    before { find('a', text: 'Settings').click }
 
     it 'can access edit form' do
       expect(page).to have_content('Project Details')

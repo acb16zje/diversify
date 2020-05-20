@@ -8,11 +8,7 @@ describe 'Metrics > Newsletter Archive', :js, type: :system do
   before { sign_in admin }
 
   context 'with newsletter' do
-    let(:newsletter) { create(:newsletter) }
-
-    before do
-      newsletter # let is lazy load, call this to ensure it is created
-    end
+    let!(:newsletter) { create(:newsletter) }
 
     it 'can show newsletter modal' do
       visit newsletters_path

@@ -31,9 +31,9 @@ describe 'Metrics > Subscriber Management', :js, type: :system do
     end
 
     it 'can unsubscribe user' do
-      accept_confirm {
+      accept_confirm do
         find('tr', text: subscribed_1.email).find('td.has-text-centered').click
-      }
+      end
       expect(page).to have_no_content(subscribed_1.email)
     end
 

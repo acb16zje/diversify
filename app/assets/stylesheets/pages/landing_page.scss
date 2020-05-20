@@ -62,7 +62,7 @@
           width: 100%;
           flex-basis: auto;
 
-          @media screen and (min-width: 450px) {
+          @media screen and (min-width: 400px) {
             width: 50%;
           }
 
@@ -156,7 +156,7 @@
 
       &::after {
         content: "";
-        background: url("../../../public/images/confetti.png");
+        background: url("../../../public/images/confetti.webp");
         background-size: contain;
         opacity: 0.3;
         top: 0;

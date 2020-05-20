@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeTasks < ActiveRecord::Migration[6.0]
   def change
     create_enum 'priority', %w[high medium low]
