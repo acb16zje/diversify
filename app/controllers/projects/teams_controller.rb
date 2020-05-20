@@ -10,6 +10,12 @@ class Projects::TeamsController < ApplicationController
   def manage_data
     return render_404 unless request.xhr?
 
+    @data = User.left_joins(:tasks).joins(:teams)
+                .where(teams: { project: @project })
+                .where.not(tasks: { percentage: 100 })
+                .select('users.*, teams.id as team_id')
+                .select('COUNT(tasks.id) as count')
+                .group('users.id, teams.id')
     render json: {
       data: @project.users.select('users.*, teams.id AS team_id').group_by(&:team_id),
       teams: @project.teams.select(:id, :name, :team_size)

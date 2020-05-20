@@ -8,15 +8,32 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+COMPABILITY_LIST = {
+  INFP: [3, 3, 3, 4, 3, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+  ENFP: [3, 3, 4, 3, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
+  INFJ: [3, 4, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0],
+  ENFJ: [4, 3, 3, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0],
+  INTJ: [3, 4, 3, 3, 3, 3, 3, 4, 2, 2, 2, 2, 1, 1, 1, 1],
+  ENTJ: [4, 3, 3, 3, 3, 3, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2],
+  INTP: [3, 3, 3, 3, 3, 4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 4],
+  ENTP: [3, 3, 4, 3, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1],
+  ISFP: [0, 0, 0, 4, 2, 2, 2, 2, 1, 1, 1, 1, 2, 4, 2, 4],
+  ESFP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 4, 2, 4, 2],
+  ISTP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 2, 4, 2, 4],
+  ESTP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 4, 2, 4, 2],
+  ISFJ: [0, 0, 0, 0, 1, 2, 1, 1, 2, 4, 2, 4, 3, 3, 3, 3],
+  ESFJ: [0, 0, 0, 0, 1, 2, 1, 1, 4, 2, 4, 2, 3, 3, 3, 3],
+  ISTJ: [0, 0, 0, 0, 1, 2, 1, 1, 2, 4, 2, 4, 3, 3, 3, 3],
+  ESTJ: [0, 0, 0, 0, 1, 2, 4, 1, 4, 2, 4, 2, 3, 3, 3, 3]
+}.freeze
+
+# rubocop:disable Layout/LineLength
 # 16 personalities
-%w[I E].each do |mind|
-  %w[S N].each do |energy|
-    %w[T F].each do |nature|
-      %w[J P].each do |tactic|
-        Personality.find_or_create_by(mind: mind, energy: energy, nature: nature, tactic: tactic)
-      end
-    end
-  end
+COMPABILITY_LIST.each do |key, value|
+  Personality.find_or_create_by(
+    mind: key[0], energy: key[1], nature: key[2], tactic: key[3],
+    compabilities: value
+  )
 end
 
 admin = User.find_or_create_by(name: 'Admin', email: 'admin@email.com', admin: true) do |u|

@@ -56,6 +56,8 @@ class Team < ApplicationRecord
   end
 
   def unassign_tasks(user)
+    return if user.in_project?(project)
+
     tasks = user.tasks.where(project: project)
 
     tasks.each do |task|

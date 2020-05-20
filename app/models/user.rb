@@ -105,6 +105,19 @@ class User < ApplicationRecord
     super.order(id: :desc, created_at: :desc)
   end
 
+  def compatible_with?(target_user)
+    personality.compabilities[target_user.personality_id - 1]
+  end
+
+  def compatible_with_team?(team)
+    skills_score = (team.skills.size - (team.skills - skills).size) / team.skills.size
+    user_score = 0
+    team.users.each do |usr|
+      user_score += compatible_with?(usr)
+    end
+    skills_score + user_score/(team.users.size*4)
+  end
+
   private
 
   def build_activities

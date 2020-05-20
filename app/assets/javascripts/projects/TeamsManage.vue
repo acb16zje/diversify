@@ -85,7 +85,7 @@
                       Tasks
                     </p>
                     <p class="title">
-                      -
+                      {{ element.count }}
                     </p>
                   </div>
                 </div>
@@ -184,6 +184,7 @@ export default {
         url: `/projects/${this.projectId}/teams/manage_data`,
         type: 'GET',
         success: ({ data, teams }) => {
+          console.log(data);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
