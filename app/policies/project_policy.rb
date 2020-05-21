@@ -2,7 +2,7 @@
 
 # Class for Project policies
 class ProjectPolicy < ApplicationPolicy
-  alias_rule :update?, :change_status?, to: :manage?
+  alias_rule :update?, to: :manage?
 
   relation_scope(:own) do |scope|
     scope.where(user: user)
@@ -41,6 +41,10 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def manage?
+    (owner? || user&.admin?) && !record.completed?
+  end
+
+  def change_status?
     owner? || user&.admin?
   end
 

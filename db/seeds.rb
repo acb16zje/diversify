@@ -9,22 +9,22 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 COMPABILITY_LIST = {
-  INFP: [3, 3, 3, 4, 3, 4, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-  ENFP: [3, 3, 4, 3, 4, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0],
-  INFJ: [3, 4, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0],
-  ENFJ: [4, 3, 3, 3, 3, 3, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0],
-  INTJ: [3, 4, 3, 3, 3, 3, 3, 4, 2, 2, 2, 2, 1, 1, 1, 1],
-  ENTJ: [4, 3, 3, 3, 3, 3, 4, 3, 2, 2, 2, 2, 2, 2, 2, 2],
-  INTP: [3, 3, 3, 3, 3, 4, 3, 3, 2, 2, 2, 2, 1, 1, 1, 4],
-  ENTP: [3, 3, 4, 3, 4, 3, 3, 3, 2, 2, 2, 2, 1, 1, 1, 1],
-  ISFP: [0, 0, 0, 4, 2, 2, 2, 2, 1, 1, 1, 1, 2, 4, 2, 4],
-  ESFP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 4, 2, 4, 2],
-  ISTP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 2, 4, 2, 4],
-  ESTP: [0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 1, 1, 4, 2, 4, 2],
-  ISFJ: [0, 0, 0, 0, 1, 2, 1, 1, 2, 4, 2, 4, 3, 3, 3, 3],
-  ESFJ: [0, 0, 0, 0, 1, 2, 1, 1, 4, 2, 4, 2, 3, 3, 3, 3],
-  ISTJ: [0, 0, 0, 0, 1, 2, 1, 1, 2, 4, 2, 4, 3, 3, 3, 3],
-  ESTJ: [0, 0, 0, 0, 1, 2, 4, 1, 4, 2, 4, 2, 3, 3, 3, 3]
+  INFP: [1, 1, 1, 2, 1, 2, 1, 1, -2, -2, -2, -2, -2, -2, -2, -2],
+  ENFP: [1, 1, 2, 1, 2, 1, 1, 1, -2, -2, -2, -2, -2, -2, -2, -2],
+  INFJ: [1, 2, 1, 1, 1, 1, 1, 2, -2, -2, -2, -2, -2, -2, -2, -2],
+  ENFJ: [2, 1, 1, 1, 1, 1, 1, 1, 2, -2, -2, -2, -2, -2, -2, -2],
+  INTJ: [1, 2, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, -1, -1, -1, 1],
+  ENTJ: [2, 1, 1, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  INTP: [1, 1, 1, 1, 1, 2, 1, 1, 0, 0, 0, 0, -1, -1, -1, 2],
+  ENTP: [1, 1, 2, 1, 2, 1, 1, 1, 0, 0, 0, 0, -1, -1, -1, 1],
+  ISFP: [-2, -2, -2, 2, 0, 0, 0, 0, -1, -1, -1, -1, 0, 2, 0, 2],
+  ESFP: [-2, -2, -2, -2, 0, 0, 0, 0, -1, -1, -1, -1, 2, 0, 2, 0],
+  ISTP: [-2, -2, -2, -2, 0, 0, 0, 0, -1, -1, -1, -1, 0, 2, 0, 2],
+  ESTP: [-2, -2, -2, -2, 0, 0, 0, 0, -1, -1, -1, -1, 2, 0, 2, 0],
+  ISFJ: [-2, -2, -2, -2, -1, 0, -1, -1, 0, 2, 0, 2, 1, 1, 1, 1],
+  ESFJ: [-2, -2, -2, -2, -1, 0, -1, -1, 2, 0, 2, 0, 1, 1, 1, 1],
+  ISTJ: [-2, -2, -2, -2, -1, 0, -1, -1, 0, 2, 0, 2, 1, 1, 1, 1],
+  ESTJ: [-2, -2, -2, -2, -1, 0, 2, -1, 2, 0, 2, 0, 1, 1, 1, 1]
 }.freeze
 
 # rubocop:disable Layout/LineLength
@@ -73,3 +73,13 @@ Skill.find_or_create_by(name: 'Algorithms and Data Structures', category: comput
 Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
+
+(1..50).each do |i|
+  dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
+    u.password = 'password'
+    u.personality_id = (i % 16) + 1
+  end
+  UserSkill.find_or_create_by(user: dummy, skill_id: (i % 4) + 1)
+  Collaboration.find_or_create_by(user: dummy, team_id: 1)
+end
+# rubocop:enable Layout/LineLength

@@ -8,17 +8,23 @@ class Projects::TeamsController < ApplicationController
   layout 'project'
 
   def manage_data
+    extend TeamHelper
+
     return render_404 unless request.xhr?
 
-    @data = User.left_joins(:tasks).joins(:teams)
+    @data = User.joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
+                .joins('LEFT OUTER JOIN tasks ON tasks.id = task_users.task_id AND tasks.percentage != 100')
+                .joins(:teams)
                 .where(teams: { project: @project })
-                .where.not(tasks: { percentage: 100 })
                 .select('users.*, teams.id as team_id')
                 .select('COUNT(tasks.id) as count')
                 .group('users.id, teams.id')
+
+    compability = @data.map { |user| [user.id, compability(user, @project.teams, @project.unassigned_team.id)] }.to_h
     render json: {
-      data: @project.users.select('users.*, teams.id AS team_id').group_by(&:team_id),
-      teams: @project.teams.select(:id, :name, :team_size)
+      compability: compability,
+      data: @data.group_by(&:team_id),
+      teams: Team.where(project: @project).select(:id, :name, :team_size)
     }
   end
 

@@ -14,6 +14,10 @@
           <span class="iconify" data-icon="bx:bx-reset" />
         </span>
       </b-button>
+      <b-button class="button is-link" @click="toggleCollapse">
+        <span v-if="currentToggleState">Collapse All</span>
+        <span v-else>Expand All</span>
+      </b-button>
       <b-field>
         <p class="control">
           <b-button class="button is-primary">
@@ -35,6 +39,14 @@
           </option>
         </b-select>
       </b-field>
+    </div>
+    <div v-if="changed" class="container">
+      <p class="has-text-grey">
+        Recompute the compability for current changes.
+      </p>
+      <b-button class="button is-danger">
+        Recompute Compability
+      </b-button>
     </div>
     <div v-for="team in teams" :key="team.id" class="container">
       <div class="columns">
@@ -68,43 +80,32 @@
           :key="element.email"
           class="column is-one-third"
         >
-          <div class="card user-card">
-            <header class="card-header">
+          <b-collapse ref="collapse" class="card user-card" animation="slide" :aria-id="element.email">
+            <div
+              slot="trigger"
+              class="card-header"
+              role="button"
+              :aria-controls="element.email"
+            >
               <p class="card-header-title">
                 {{ element.name }} ({{ element.email }})
                 <span v-if="element.id === projectOwner" class="tag is-info font-normal">
                   Owner
                 </span>
               </p>
-            </header>
+              <a class="card-header-icon">
+                <b-icon icon="menu-down" />
+              </a>
+            </div>
             <div class="card-content">
-              <nav class="level">
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">
-                      Tasks
-                    </p>
-                    <p class="title">
-                      {{ element.count }}
-                    </p>
-                  </div>
-                </div>
-                <div class="level-item has-text-centered">
-                  <div>
-                    <p class="heading">
-                      Compatibility
-                    </p>
-                    <p class="title">
-                      -
-                    </p>
-                  </div>
-                </div>
-              </nav>
+              <unassign-content v-if="team.name === 'Unassigned'" :count="element.count" :team="compability[element.id]" />
+              <assigned-content v-else-if="team.id !== element.team_id" :count="element.count" :score="''" />
+              <assigned-content v-else :count="element.count" :score="compability[element.id]" />
             </div>
             <footer v-if="element.id !== projectOwner" class="card-footer">
               <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
             </footer>
-          </div>
+          </b-collapse>
         </div>
       </draggable>
     </div>
@@ -118,10 +119,14 @@
 import draggable from 'vuedraggable';
 import Rails from '@rails/ujs';
 import { dangerToast, successToast } from '../buefy/toast';
+import AssignedContent from './components/AssignedContent.vue';
+import UnassignContent from './components/UnassignContent.vue';
 
 export default {
   components: {
     draggable,
+    AssignedContent,
+    UnassignContent,
   },
   props: {
     projectId: {
@@ -135,6 +140,9 @@ export default {
   },
   data() {
     return {
+      currentToggleState: true,
+      changed: false,
+      compability: {},
       data: {},
       teams: {},
       isLoading: false,
@@ -157,6 +165,7 @@ export default {
     },
     log(evt) {
       if (Object.prototype.hasOwnProperty.call(evt, 'added')) {
+        this.changed = true;
         successToast(`${evt.added.element.name} Moved`);
       }
     },
@@ -183,17 +192,19 @@ export default {
       Rails.ajax({
         url: `/projects/${this.projectId}/teams/manage_data`,
         type: 'GET',
-        success: ({ data, teams }) => {
+        success: ({ compability, data, teams }) => {
           console.log(data);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
+          this.compability = compability;
           this.teams.forEach((team) => {
             if (!(team.id in data)) {
               newData[team.id] = [];
             }
           });
           this.data = newData;
+          this.changed = false;
         },
       });
     },
@@ -222,6 +233,15 @@ export default {
           this.data[id] = this.data[id].filter((x) => x.id !== userId);
         },
       });
+    },
+    toggleCollapse() {
+      const list = this.$refs.collapse;
+      for (let i = 0; i < list.length; i += 1) {
+        if (list[i].isOpen === this.currentToggleState) {
+          list[i].toggle();
+        }
+      }
+      this.currentToggleState = !this.currentToggleState;
     },
   },
 };
