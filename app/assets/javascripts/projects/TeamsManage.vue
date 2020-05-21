@@ -1,53 +1,57 @@
 <template>
   <div>
     <b-loading :is-full-page="false" :active.sync="isLoading" />
-    <div class="buttons">
-      <b-button class="button is-success" @click="send">
-        Save
-        <span class="icon">
-          <span class="iconify" data-icon="cil:save" />
-        </span>
-      </b-button>
-      <b-button class="button is-info" @click="reset">
-        Reset
-        <span class="icon">
-          <span class="iconify" data-icon="bx:bx-reset" />
-        </span>
-      </b-button>
-      <b-button class="button is-link" @click="toggleCollapse">
-        <span v-if="currentToggleState">Collapse All</span>
-        <span v-else>Expand All</span>
-      </b-button>
-      <b-field>
-        <p class="control">
-          <b-button class="button is-primary">
-            Suggest
-            <span class="icon">
-              <span class="iconify" data-icon="ic:outline-autorenew" />
-            </span>
-          </b-button>
+    <div class="sticky box">
+      <div class="buttons">
+        <b-button class="button is-success" @click="send">
+          Save
+          <span class="icon">
+            <span class="iconify" data-icon="cil:save" />
+          </span>
+        </b-button>
+        <b-button class="button is-info" @click="reset">
+          Reset
+          <span class="icon">
+            <span class="iconify" data-icon="bx:bx-reset" />
+          </span>
+        </b-button>
+        <b-button class="button is-link" @click="toggleCollapse">
+          <span v-if="currentToggleState">Collapse All</span>
+          <span v-else>Expand All</span>
+        </b-button>
+        <b-field>
+          <p class="control">
+            <b-button class="button is-primary">
+              Suggest
+              <span class="icon">
+                <span class="iconify" data-icon="ic:outline-autorenew" />
+              </span>
+            </b-button>
+          </p>
+          <b-select placeholder="Team Preset">
+            <option value="efficient">
+              Efficient
+            </option>
+            <option value="cohesion">
+              Cohesion
+            </option>
+            <option value="balance">
+              Balance
+            </option>
+          </b-select>
+        </b-field>
+      </div>
+      <div v-if="changed" class="container">
+        <p class="has-text-weight-medium">
+          <span class="iconify is-24" data-icon="twemoji:warning" />
+          Recompute the compability for current changes.
         </p>
-        <b-select placeholder="Team Preset">
-          <option value="efficient">
-            Efficient
-          </option>
-          <option value="cohesion">
-            Cohesion
-          </option>
-          <option value="balance">
-            Balance
-          </option>
-        </b-select>
-      </b-field>
+        <b-button class="button is-danger">
+          Recompute Compability
+        </b-button>
+      </div>
     </div>
-    <div v-if="changed" class="container">
-      <p class="has-text-grey">
-        Recompute the compability for current changes.
-      </p>
-      <b-button class="button is-danger">
-        Recompute Compability
-      </b-button>
-    </div>
+
     <div v-for="team in teams" :key="team.id" class="container">
       <div class="columns">
         <div class="column">
