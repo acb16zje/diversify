@@ -96,6 +96,10 @@ class User < ApplicationRecord
     NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
+  def empty_compability_data?
+    personality.blank? && skills.blank?
+  end
+
   # TODO: use has_many :members, through: :teams
   def in_project?(project)
     teams&.exists?(project: project) || project&.user == self

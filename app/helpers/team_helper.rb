@@ -11,21 +11,23 @@ module TeamHelper
     end
   end
 
-  # this function currently runs with the assumptions that there are users in the project
-  # called on compute function for unassigned users
-  # does not have to consider team size, just user to team
   def best_team?(target, teams)
-    return '' if target.personality.blank? && target.skills.blank?
+    return '' if target.empty_compability_data?
 
+    results = compare_team(target, teams)
+
+    best = results.max_by{ |x| x[1] }
+    best.blank? || best[1] <= 1.0 ? '' : "Team #{best[0]}"
+  end
+
+  def compare_team(target, teams)
     results = {}
     teams.each do |team|
       next if team.name == 'Unassigned' || team.users.size == team.team_size
 
       results[team.name] = team_compability(target, team)
     end
-    puts(results)
-    best = results.max_by{ |x| x[1] }
-    best.blank? || best[1] <= 1.0 ?  '' : "Team #{best[0]}"
+    results
   end
 
   def team_compability(target, team)
@@ -39,10 +41,10 @@ module TeamHelper
 
   private
 
-  def team_skills_score(t_skills, u_skills)
-    return 1.0 unless t_skills.present? && u_skills.present?
+  def team_skills_score(t_skill, u_skill)
+    return 1.0 unless t_skill.present? && u_skill.present?
 
-    1.0 + ((t_skills.size - (t_skills - u_skills).size) / (t_skills.size * 10.0))
+    1.0 + ((t_skill.size - (t_skill - u_skill).size) / (t_skill.size * 10.0))
   end
 
   def team_personality_score(target, users)

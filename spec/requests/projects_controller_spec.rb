@@ -57,7 +57,7 @@ describe ProjectsController, type: :request do
     describe '#change_status' do
       subject(:request) { patch change_status_project_path(project) }
 
-      it { expect { request }.to be_authorized_to(:manage?, project) }
+      it { expect { request }.to be_authorized_to(:change_status?, project) }
     end
   end
 
