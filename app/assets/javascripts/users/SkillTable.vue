@@ -29,7 +29,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     initialData: {
@@ -49,5 +48,4 @@ export default {
     },
   },
 };
-
 </script>

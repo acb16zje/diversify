@@ -96,7 +96,7 @@ export default {
       if (this.isActive) {
         await this.$nextTick();
         this.shouldDropup = this.$refs.dropdownMenu.getBoundingClientRect().bottom
-          > document.querySelector('#notifications-dropdown > .dropdown-menu').getBoundingClientRect().bottom;
+          > document.querySelector('#notifications-dropdown > .dropdown-menu').getBoundingClientRect().bottom + 41;
       } else {
         this.shouldDropup = false;
       }

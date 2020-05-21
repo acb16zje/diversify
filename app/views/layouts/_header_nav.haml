@@ -5,7 +5,7 @@
         %notification-dropdown{ ':init-unread-count': @unread_count }
 
         %b-dropdown.is-right{ animation: '' }
-          %button.button.user-dropdown{ slot: 'trigger' }
+          %button.button.h-full{ slot: 'trigger' }
             %figure.image.is-32x32.user-avatar-container.border-none
               = image_tag user_avatar(current_user), alt: 'My avatar'
             %span.icon.is-small

@@ -4,8 +4,8 @@
   .content.settings#profile-settings
     .columns
       .column.is-4
-        %h4.title.is-4 Public Avatar
-        %p.subtitle.is-6 You can change your avatar here or remove the current avatar to revert to gravatar.com
+        %h4.title.is-4.mb-3 Public Avatar
+        %p You can change your avatar here or remove the current avatar to revert to gravatar.com
       .column
         %figure.image.is-128x128.user-avatar-container
           = image_tag user_avatar(current_user), alt: 'My avatar', id: 'avatar'
@@ -27,8 +27,8 @@
 
     .columns
       .column.is-4
-        %h4.title.is-4 Main settings
-        %p.subtitle.is-6 This information will be shown on your profile
+        %h4.title.is-4.mb-3 Main settings
+        %p This information will be shown on your profile
       .column
         .field
           %label.label

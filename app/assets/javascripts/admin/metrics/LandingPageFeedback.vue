@@ -45,8 +45,8 @@ export default {
           url: '/charts/landing_page_feedback',
           type: 'GET',
           data: new URLSearchParams({ 'chart[date]': this.dates }),
-          success: (response) => {
-            this.data = response.data;
+          success: ({ data }) => {
+            this.data = data;
           },
         });
       },

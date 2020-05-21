@@ -2,28 +2,22 @@
 
 - joined, owned, completed = @counts
 
-%section.section#profile
-  .columns.is-centered
-    .column.is-full.has-text-centered
-      %figure.image.is-96x96.user-avatar-container.mx-auto.mb-3
-        = image_tag user_avatar(@user), alt: 'User avatar'
-      - if @user.name.present?
-        %h1.title.is-size-4
-          = @user.name
-      %h1.subtitle.is-size-6.has-text-grey-dark
-        = @user.email
-        &#183;
-        = @user.created_at.strftime('Joined on %d/%m/%Y')
+%section.section
+  .container.text-center
+    %figure.image.is-96x96.user-avatar-container.mx-auto.mb-3
+      = image_tag user_avatar(@user), alt: 'User avatar'
+    - if @user.name.present?
+      %h1.title.is-4.mb-3= @user.name
+    %p #{@user.email} &#183; #{@user.created_at.strftime('Joined on %d/%m/%Y')}
+    - if current_user == @user
+      = link_to 'Edit', settings_profile_path, class: 'button absolute top-0 right-0'
 
-%section#project
+%section.container#project
   %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'position': 'is-centered' }
     %b-tab-item
       %template{ 'slot': 'header' }
         Profile
       .content
-        - if current_user == @user
-          %section.section
-            = link_to 'Edit', settings_profile_path, class: 'button is-pulled-right'
         .tile.is-ancestor
           .tile.is-vertical
             .tile
@@ -36,15 +30,15 @@
                           %p.title.is-3 Projects
                       .level-item.has-text-centered
                         %div
-                          %p.heading Project Joined
+                          %p.heading Projects Joined
                           %p.subtitle.is-5= joined
                       .level-item.has-text-centered
                         %div
-                          %p.heading Project Owned
+                          %p.heading Projects Owned
                           %p.subtitle.is-5= owned
                       .level-item.has-text-centered
                         %div
-                          %p.heading Project Completed
+                          %p.heading Projects Completed
                           %p.subtitle.is-5= completed
                 .tile
                   .tile.is-parent
@@ -53,11 +47,10 @@
 
                       - if @user.personality
                         %figure.image
-                          .type
-                            = File.read("#{Rails.root}/public/images/personalities/#{@user.personality.to_type.downcase}.svg").html_safe
+                          .type= File.read("#{Rails.root}/public/images/personalities/#{@user.personality.to_type.downcase}.svg").html_safe
                         %h4.text-center.mt-3= @user.personality.to_type
                       - else
-                        No Personality Set
+                        %p.text-center No personality set
                   .tile.is-parent
                     %article.tile.is-child.notification.is-warning
                       %p.title.is-3 Skills
@@ -66,11 +59,8 @@
       %template{ 'slot': 'header' }
         Skills
       .container.is-fullscreen
-        - if current_user == @user
-          = link_to 'Add Skills', '', class: 'button is-pulled-right'
         - if @user.skills.blank?
-          %h4.font-semibold.text-center.py-8
-            No Skills
+          %h4.font-semibold.text-center.py-8 No Skills
         - else
           %skill-table{ 'initial-data': @skills.to_json }
     %b-tab-item
@@ -82,9 +72,9 @@
       %template{ 'slot': 'header' }
         Joined Projects
       .container.is-fullscreen
-        %project-list{ 'init-projects-html': '', ':init-total': 0, ':has-tabs': false, ':profile-type': true }
+        %project-list{ ':has-tabs': false, ':is-joined': true }
     %b-tab-item
       %template{ 'slot': 'header' }
-        Owned Projects
+        Personal Projects
       .container.is-fullscreen
-        %project-list{ 'init-projects-html': '', ':init-total': 0, ':has-tabs': false }
+        %project-list{ ':has-tabs': false }

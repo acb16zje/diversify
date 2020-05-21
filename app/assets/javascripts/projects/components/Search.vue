@@ -7,7 +7,7 @@
 
       <div class="control">
         <b-dropdown v-model="status" animation="" class="is-right">
-          <button slot="trigger" class="button">
+          <button slot="trigger" class="button github">
             <i>Status:</i>
             <span class="capitalize">{{ status || 'All' }}</span>
             <b-icon icon="menu-down" />
@@ -39,7 +39,7 @@
           @active-change="getCategories"
         >
           <b-loading :is-full-page="false" :active.sync="isGettingCategories" />
-          <button slot="trigger" class="button">
+          <button slot="trigger" class="button github">
             <i>Category:</i>
             <span>{{ category || 'All' }}</span>
             <b-icon icon="menu-down" />
@@ -61,7 +61,7 @@
 
       <div class="control">
         <b-dropdown v-model="sort" animation="" class="is-right">
-          <button slot="trigger" class="button">
+          <button slot="trigger" class="button github">
             <i>Sort:</i>
             <span>{{ sortLabel }}</span>
             <b-icon icon="menu-down" />
@@ -71,7 +71,7 @@
             Recently created
           </b-dropdown-item>
 
-          <b-dropdown-item value="created_asc" @click="sortLabel = 'Least recently created'">
+          <b-dropdown-item value="created_asc" @click="sortLabel = 'Oldest created'">
             Oldest created
           </b-dropdown-item>
 
@@ -149,8 +149,8 @@ export default {
         url: '/categories',
         type: 'GET',
         dataType: 'json',
-        success: (response) => {
-          this.categories = response.categories;
+        success: ({ categories }) => {
+          this.categories = categories;
           this.isGettingCategories = false;
         },
         complete: () => {

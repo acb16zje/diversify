@@ -91,8 +91,8 @@ class User < ApplicationRecord
     )
   end
 
-  def self.connect_omniauth(auth, current_user)
-    Identity.create(provider: auth.provider, uid: auth.uid, user: current_user)
+  def connect_omniauth(auth)
+    identities.create(provider: auth.provider, uid: auth.uid)
   end
 
   def oauth_provider_connected?(provider = nil)
@@ -115,7 +115,7 @@ class User < ApplicationRecord
   private
 
   def create_activity
-    Activity.create(key: 'user/create', user: self)
+    activities.create(key: 'user/create')
   end
 
   def disable_password_automatically_set
@@ -125,19 +125,17 @@ class User < ApplicationRecord
   def provided_birthdate
     return if birthdate_before_type_cast.blank?
 
-    date = Date.new(
+    dob = Date.new(
       birthdate_before_type_cast[1], # year
       birthdate_before_type_cast[2], # month
       birthdate_before_type_cast[3]  # day of month
     )
 
-    if date >= created_at.to_date
-      errors.add(:birthdate, 'must be before the account creation date')
-      return
+    if dob >= created_at.to_date
+      return errors.add(:birthdate, 'must be before the account creation date')
     end
 
-    age = ((Time.current - date.to_time) / 1.year.seconds).floor
-
+    age = ((Time.current - dob.to_time) / 1.year.seconds).floor
     return if age.between?(6, 80)
 
     errors.add(:age, 'must be between 6 and 80 years old')

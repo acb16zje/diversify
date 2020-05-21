@@ -1,3 +1,13 @@
-button.user-dropdown {
-  height: 100%;
+button {
+  &.github {
+    font-weight: 600;
+    background-color: #eff3f6;
+    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+
+    i {
+      font-style: normal;
+      padding-right: 0.25rem;
+      opacity: .75;
+    }
+  }
 }

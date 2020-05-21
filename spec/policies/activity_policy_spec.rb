@@ -10,7 +10,7 @@ describe ActivityPolicy, type: :policy do
     let(:user) { create(:user) }
     let(:user2) { create(:user) }
     let(:project) { build_stubbed(:project) }
-    let(:target) { Activity.where(user: user).from_month(DateTime.current) }
+    let(:target) { user.activities.from_month(DateTime.current) }
 
     before do
       create(:activity, user: user, key: 'task/1')

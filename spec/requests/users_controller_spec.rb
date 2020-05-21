@@ -31,17 +31,13 @@ describe UsersController, type: :request do
     context 'when invalid input' do
       subject(:request) { get timeline_user_path(user, month: 'foo'), xhr: true }
 
-      before { request }
-
-      it { expect(response.body).to include('End of Timeline') }
+      it_behaves_like 'returns 204 No Content'
     end
 
     context 'when values left' do
       subject(:request) { get timeline_user_path(user, month: 999), xhr: true }
 
-      before { request }
-
-      it { expect(response.body).to include('End of Timeline') }
+      it_behaves_like 'returns 204 No Content'
     end
   end
 end

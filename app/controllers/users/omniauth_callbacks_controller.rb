@@ -50,7 +50,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def connect_flow
-    identity = User.connect_omniauth(request.env['omniauth.auth'], current_user)
+    identity = current_user.connect_omniauth(request.env['omniauth.auth'])
+
     if identity.errors.blank?
       @user = identity.user
     else

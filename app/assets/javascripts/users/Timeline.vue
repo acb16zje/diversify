@@ -1,15 +1,13 @@
 <template>
-  <section class="section">
+  <section class="section text-center">
     <b-loading :active.sync="isLoading" :is-full-page="false" />
     <div class="timeline is-centered" v-html="events" /> <!-- eslint-disable-line vue/no-v-html -->
-    <div v-if="finished" class="is-flex">
-      <span class="tag is-medium is-primary">End of Timeline</span>
+    <div v-if="finished" class="tag is-medium is-primary">
+      End of Timeline
     </div>
-    <div v-else>
-      <b-button class="block mx-auto" :loading="isLoading" :disabled="isLoading" @click="query">
-        Load More
-      </b-button>
-    </div>
+    <b-button v-else :loading="isLoading" :disabled="isLoading" @click="query">
+      Load More
+    </b-button>
   </section>
 </template>
 
@@ -35,15 +33,13 @@ export default {
       Rails.ajax({
         url: `${window.location.pathname}/timeline`,
         type: 'GET',
-        data: new URLSearchParams({
-          month: this.month,
-        }),
-        success: (data) => {
-          if (!('html' in data)) {
+        data: new URLSearchParams({ month: this.month }),
+        success: ({ html, m }) => {
+          if (html === undefined) {
             this.finished = true;
           } else {
-            this.events = this.events.concat(data.html);
-            this.month += data.m + 1;
+            this.events = this.events.concat(html);
+            this.month += m + 1;
           }
           this.isLoading = false;
         },

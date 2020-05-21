@@ -47,16 +47,14 @@ new Vue({
       Rails.ajax({
         url: `/projects/${this.id}/count`,
         type: 'GET',
-        data: new URLSearchParams({
-          type: countType,
-        }),
-        success: (data) => {
+        data: new URLSearchParams({ type: countType }),
+        success: ({ count }) => {
           switch (countType) {
             case 'task':
-              this.taskCount = data.count;
+              this.taskCount = count;
               break;
             case 'application':
-              this.applicationCount = data.count;
+              this.applicationCount = count;
               break;
             default:
               dangerToast('Invalid Type');

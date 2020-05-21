@@ -1,18 +1,17 @@
-- content_for :title, 'Personalities settings'
+- content_for :title, 'Personality settings'
 
 .content.settings
   .columns
     .column.is-4
-      %h4.title.is-4 Personality
-      %p.subtitle.is-6
+      %h4.title.is-4.mb-3 Personality
+      %p
         Learn more about your personality type by following the
-        = link_to 'personalities chart', 'https://upload.wikimedia.org/wikipedia/commons/1/1f/MyersBriggsTypes.png', target: '_blank'
+        = link_to 'personalities chart', 'https://upload.wikimedia.org/wikipedia/commons/1/1f/MyersBriggsTypes.png', target: '_blank', rel: 'noopener'
     .column
       - if current_user.personality
         %label.label Current personality
         %figure.image.mt-0
-          .type
-            = File.read("#{Rails.root}/public/images/personalities/#{current_user.personality.to_type.downcase}.svg").html_safe
+          .type= File.read("#{Rails.root}/public/images/personalities/#{current_user.personality.to_type.downcase}.svg").html_safe
 
           %h4.text-center.mt-3= current_user.personality.to_type
 

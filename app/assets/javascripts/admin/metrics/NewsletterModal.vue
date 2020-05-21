@@ -33,8 +33,8 @@ export default {
     Rails.ajax({
       url: `/newsletters/${this.row.id}`,
       type: 'GET',
-      success: (response) => {
-        this.content = response.html;
+      success: ({ html }) => {
+        this.content = html;
         this.isLoading = false;
       },
     });

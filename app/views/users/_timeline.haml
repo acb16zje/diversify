@@ -5,7 +5,7 @@
   - project = Project.find(task.project_id)
   - right = (current_user&.in_project?(project) || current_user&.admin? || project.visibility)
   .timeline-item
-    .timeline-marker.is-image.is-32x32.is-success.is-flex
+    .timeline-marker.is-image.is-32x32.is-success.flex
       %span.iconify.is-28{ 'data-icon': right ? 'ant-design:book-outlined' : 'bx:bxs-lock-alt' }
     .timeline-content
       - if right
@@ -22,7 +22,7 @@
 - events.each do |event|
   .timeline-item
     - if event.key == 'user/create'
-      .timeline-marker.is-image.is-32x32.is-success.is-flex
+      .timeline-marker.is-image.is-32x32.is-success.flex
         %span.iconify.is-28{ 'data-icon': 'bi:flag' }
     - else
       .timeline-marker
@@ -55,4 +55,3 @@
                 %strong= event.name
             - else
               Joined Private Project
-

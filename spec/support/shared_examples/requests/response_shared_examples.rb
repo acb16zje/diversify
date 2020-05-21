@@ -9,6 +9,12 @@ shared_examples 'returns 200 OK' do
   it { expect(response).to have_http_status(:ok) }
 end
 
+shared_examples 'returns 204 No Content' do
+  before { request }
+
+  it { expect(response).to have_http_status(:no_content) }
+end
+
 shared_examples 'returns 400 Bad Request' do
   before { request }
 

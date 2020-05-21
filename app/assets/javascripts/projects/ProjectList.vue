@@ -40,18 +40,20 @@ export default {
   props: {
     initProjectsHtml: {
       type: String,
-      required: true,
+      default: '',
+      required: false,
     },
     initTotal: {
       type: Number,
-      required: true,
+      default: 0,
+      required: false,
     },
     hasTabs: {
       type: Boolean,
       default: true,
       required: false,
     },
-    profileType: {
+    isJoined: {
       type: Boolean,
       default: false,
       required: false,
@@ -81,10 +83,10 @@ export default {
   created() {
     this.updateProjectsHTML(this.initProjectsHtml);
     this.updateTotal(this.initTotal);
-    if (this.profileType) {
-      this.updateState({ param: 'joined', value: 1 });
-    } else {
-      this.updateState({ param: 'joined', value: 0 });
+
+    // User profile tabs
+    if (this.initProjectsHtml === '') {
+      this.updateState({ param: 'joined', value: this.isJoined });
     }
   },
   methods: {

@@ -13,7 +13,7 @@
     }
 
     .box {
-      .field.is-flex {
+      .field.flex {
         justify-content: space-between;
       }
 
@@ -42,7 +42,7 @@
           color: white;
         }
 
-        & div.is-flex {
+        & div.flex {
           width: 100px;
 
           .icon.iconify {

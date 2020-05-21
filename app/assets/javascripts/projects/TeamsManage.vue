@@ -39,18 +39,16 @@
     <div v-for="team in teams" :key="team.id" class="container">
       <div class="columns">
         <div class="column">
-          <p class="is-size-3">
-            {{ team.name }}
-          </p>
+          <p>{{ team.name }}</p>
         </div>
-        <div v-if="team.name != 'Unassigned'" class="column is-narrow">
+        <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
           <span :class="[data[team.id].length === team.team_size ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
             <p>
               Members: {{ data[team.id].length }} / {{ team.team_size }}
             </p>
           </span>
         </div>
-        <div v-if="team.name != 'Unassigned'" class="column is-narrow">
+        <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
           <div class="buttons has-addons">
             <a :href="'/projects/'+projectId+'/teams/'+team.id+'/edit'" class="button is-warning">
               Edit Team
@@ -186,12 +184,12 @@ export default {
       Rails.ajax({
         url: `/projects/${this.projectId}/teams/manage_data`,
         type: 'GET',
-        success: (data) => {
+        success: ({ data, teams }) => {
           this.isLoading = false;
-          const newData = data.data;
-          this.teams = data.teams;
+          const newData = data;
+          this.teams = teams;
           this.teams.forEach((team) => {
-            if (!(team.id in data.data)) {
+            if (!(team.id in data)) {
               newData[team.id] = [];
             }
           });
