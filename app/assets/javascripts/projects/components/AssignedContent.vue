@@ -15,7 +15,7 @@
         <p class="heading">
           Compability
         </p>
-        <p v-if="score.includes('Team') || score === ''">
+        <p v-if="moved || score.includes('Team') || score === ''">
           -
           <b-tooltip animated multilined label="Recompute to get Compability Score" position="is-top">
             <span class="iconify is-24" data-icon="twemoji:warning" />
@@ -40,6 +40,16 @@ export default {
     score: {
       type: String,
       required: true,
+    },
+  },
+  data() {
+    return {
+      moved: false,
+    };
+  },
+  methods: {
+    toggle(bool) {
+      this.moved = bool;
     },
   },
 };

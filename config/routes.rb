@@ -130,6 +130,7 @@ Rails.application.routes.draw do
         collection do
           get 'manage'
           get 'manage_data'
+          post 'recompute'
           post 'manage', to: 'teams#save_manage'
         end
 

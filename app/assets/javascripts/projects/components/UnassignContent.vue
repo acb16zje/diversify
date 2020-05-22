@@ -3,18 +3,18 @@
     <p>
       <strong>Ongoing Tasks:</strong> {{ count }}
     </p>
-    <p v-if="team.includes('Team')" class="compability-content">
-      <strong>Recommendation:</strong> {{ team }}
-    </p>
-    <p v-else-if="team === ''">
+    <p v-if="moved">
       <strong>Recommendation:</strong> -
-      <b-tooltip animated multilined label="No Recommendation can be made. This may be due to insufficient data or no compatible teams." position="is-top">
+      <b-tooltip animated multilined label="Recompute to get Team Recommendation" position="is-top">
         <span class="iconify is-24" data-icon="twemoji:warning" />
       </b-tooltip>
     </p>
-    <p v-else>
+    <p v-else-if="recommendation.includes('Team')" class="compability-content">
+      <strong>Recommendation:</strong> {{ recommendation }}
+    </p>
+    <p v-else-if="recommendation === ''">
       <strong>Recommendation:</strong> -
-      <b-tooltip animated multilined label="Recompute to get Team Recommendation" position="is-top">
+      <b-tooltip animated multilined label="No Recommendation can be made. This may be due to insufficient data or no compatible teams." position="is-top">
         <span class="iconify is-24" data-icon="twemoji:warning" />
       </b-tooltip>
     </p>
@@ -29,9 +29,19 @@ export default {
       type: Number,
       required: true,
     },
-    team: {
+    recommendation: {
       type: String,
       required: true,
+    },
+  },
+  data() {
+    return {
+      moved: false,
+    };
+  },
+  methods: {
+    toggle(bool) {
+      this.moved = bool;
     },
   },
 };

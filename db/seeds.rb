@@ -74,7 +74,7 @@ Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
 
-(1..50).each do |i|
+(1..16).each do |i|
   dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
     u.password = 'password'
     u.personality_id = (i % 16) + 1
@@ -82,4 +82,8 @@ Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
   UserSkill.find_or_create_by(user: dummy, skill_id: (i % 4) + 1)
   Collaboration.find_or_create_by(user: dummy, team_id: 1)
 end
+
+license = License.where(user: user)
+license.update(plan: 'ultimate')
+
 # rubocop:enable Layout/LineLength

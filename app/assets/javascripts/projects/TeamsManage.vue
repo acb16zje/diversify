@@ -46,72 +46,83 @@
           <span class="iconify is-24" data-icon="twemoji:warning" />
           Recompute the compability for current changes.
         </p>
-        <b-button class="button is-danger">
+        <b-button class="button is-danger" @click="compute">
           Recompute Compability
         </b-button>
       </div>
     </div>
 
     <div v-for="team in teams" :key="team.id" class="container">
-      <div class="columns">
-        <div class="column">
-          <p>{{ team.name }}</p>
-        </div>
-        <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
-          <span :class="[data[team.id].length === team.team_size ? 'has-background-warning font-medium' : 'has-text-primary', 'tag is-medium']">
-            <p>
-              Members: {{ data[team.id].length }} / {{ team.team_size }}
-            </p>
-          </span>
-        </div>
-        <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
-          <div class="buttons has-addons">
-            <a :href="'/projects/'+projectId+'/teams/'+team.id+'/edit'" class="button is-warning">
-              Edit Team
-            </a>
-            <b-button class="button is-danger" @click="deleteTeam(team.id)">
-              Delete Team
-            </b-button>
+      <b-collapse :ref="'collapse'+team.id" animation="slide" :aria-id="team.id.toString()">
+        <div
+          slot="trigger"
+          role="button"
+          class="content"
+          :aria-controls="team.id.toString()"
+        >
+          <div class="columns">
+            <div class="column">
+              <p>
+                <b-icon icon="menu-down" />
+                {{ team.name }}
+              </p>
+            </div>
+            <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
+              <span :class="[data[team.id].length === team.team_size ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
+                <p>
+                  Members: {{ data[team.id].length }} / {{ team.team_size }}
+                </p>
+              </span>
+            </div>
+            <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
+              <div class="buttons has-addons">
+                <a :href="'/projects/'+projectId+'/teams/'+team.id+'/edit'" class="button is-warning">
+                  Edit Team
+                </a>
+                <b-button class="button is-danger" @click="deleteTeam(team.id)">
+                  Delete Team
+                </b-button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-if="data[team.id].length===0" class="content has-text-grey has-text-centered">
-        <p>No Members</p>
-      </div>
-      <draggable :id="team.id" :list="data[team.id]" group="people" class="columns is-multiline" :move="checkMove" :scroll-sensitivity="250" :force-fallback="true" @change="log">
-        <div
-          v-for="element in data[team.id]"
-          :key="element.email"
-          class="column is-one-third"
-        >
-          <b-collapse ref="collapse" class="card user-card" animation="slide" :aria-id="element.email">
-            <div
-              slot="trigger"
-              class="card-header"
-              role="button"
-              :aria-controls="element.email"
-            >
-              <p class="card-header-title">
-                {{ element.name }} ({{ element.email }})
-                <span v-if="element.id === projectOwner" class="tag is-info font-normal">
-                  Owner
-                </span>
-              </p>
-              <a class="card-header-icon">
-                <b-icon icon="menu-down" />
-              </a>
-            </div>
-            <div class="card-content">
-              <unassign-content v-if="team.name === 'Unassigned'" :count="element.count" :team="compability[element.id]" />
-              <assigned-content v-else-if="team.id !== element.team_id" :count="element.count" :score="''" />
-              <assigned-content v-else :count="element.count" :score="compability[element.id]" />
-            </div>
-            <footer v-if="element.id !== projectOwner" class="card-footer">
-              <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
-            </footer>
-          </b-collapse>
+        <div v-if="data[team.id].length===0" class="content has-text-grey has-text-centered">
+          <p>No Members</p>
         </div>
-      </draggable>
+        <draggable :id="team.id" :list="data[team.id]" group="people" class="columns is-mobile is-multiline" :move="checkMove" :scroll-sensitivity="250" :force-fallback="true" @change="log">
+          <div
+            v-for="element in data[team.id]"
+            :key="element.email"
+            class="column is-one-third-tablet is-one-quarter-desktop"
+          >
+            <b-collapse ref="collapse" class="card user-card" animation="slide" :aria-id="element.email">
+              <div
+                slot="trigger"
+                class="card-header"
+                role="button"
+                :aria-controls="element.email"
+              >
+                <p class="card-header-title">
+                  {{ element.name }} ({{ element.email }})
+                  <span v-if="element.id === parseInt(projectOwner, 10)" class="tag is-info has-text-weight-normal">
+                    Owner
+                  </span>
+                </p>
+                <a class="card-header-icon">
+                  <b-icon icon="menu-down" />
+                </a>
+              </div>
+              <div class="card-content">
+                <unassign-content v-if="team.name === 'Unassigned'" :ref="element.id" :count="element.count" :recommendation="compability[element.id]" />
+                <assigned-content v-else :ref="element.id" :count="element.count" :score="compability[element.id]" />
+              </div>
+              <footer v-if="element.id != parseInt(projectOwner, 10)" class="card-footer">
+                <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
+              </footer>
+            </b-collapse>
+          </div>
+        </draggable>
+      </b-collapse>
     </div>
     <div v-if="teamCount === 1">
       No Teams
@@ -160,6 +171,12 @@ export default {
   methods: {
     reset() {
       this.query();
+      Object.keys(this.compability).forEach((key) => {
+        const list = this.$refs[key];
+        for (let i = 0; i < list.length; i += 1) {
+          list[i].toggle(false);
+        }
+      });
     },
     checkMove(evt) {
       const targetId = +evt.to.id;
@@ -170,6 +187,10 @@ export default {
     log(evt) {
       if (Object.prototype.hasOwnProperty.call(evt, 'added')) {
         this.changed = true;
+        const list = this.$refs[evt.added.element.id];
+        for (let i = 0; i < list.length; i += 1) {
+          list[i].toggle(true);
+        }
         successToast(`${evt.added.element.name} Moved`);
       }
     },
@@ -197,7 +218,7 @@ export default {
         url: `/projects/${this.projectId}/teams/manage_data`,
         type: 'GET',
         success: ({ compability, data, teams }) => {
-          console.log(data);
+          console.log(compability);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
@@ -208,6 +229,28 @@ export default {
             }
           });
           this.data = newData;
+          this.changed = false;
+        },
+      });
+    },
+    compute() {
+      this.isLoading = true;
+      Rails.ajax({
+        url: `/projects/${this.projectId}/teams/recompute`,
+        type: 'POST',
+        data: new URLSearchParams({
+          data: JSON.stringify(this.data),
+        }),
+        success: ({ compability }) => {
+          Object.keys(compability).forEach((key) => {
+            this.compability[key] = compability[key];
+            const list = this.$refs[key];
+            for (let i = 0; i < list.length; i += 1) {
+              list[i].toggle(false);
+            }
+          });
+
+          this.isLoading = false;
           this.changed = false;
         },
       });
@@ -246,6 +289,20 @@ export default {
         }
       }
       this.currentToggleState = !this.currentToggleState;
+    },
+    open(teamId) {
+      console.log('open'+teamId);
+      const list = this.$refs[`collapse${teamId}`];
+      if (!list[0].isOpen) {
+        list[0].toggle();
+      }
+    },
+    close(teamId) {
+      console.log('close'+teamId);
+      const list = this.$refs[`collapse${teamId}`];
+      if (list[0].isOpen) {
+        list[0].toggle();
+      }
     },
   },
 };

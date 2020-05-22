@@ -29,8 +29,7 @@ class Projects::TeamsController < ApplicationController
   end
 
   def save_manage
-    Oj.load(params[:data]).each do |team|
-      selected_team_id, members = team
+    Oj.load(params[:data]).each do |selected_team_id, members|
       new_team = Team.find(selected_team_id.to_i)
       members.each do |member|
         next unless member['team_id'] != selected_team_id.to_i
@@ -39,6 +38,23 @@ class Projects::TeamsController < ApplicationController
       end
     end
     head :ok
+  end
+
+  def recompute
+    extend TeamHelper
+
+    return render_404 unless request.xhr?
+
+    data = {}
+    input = Oj.load(params[:data])
+    input.each do |selected_team_id, members|
+      team = @project.teams.where(id: selected_team_id).first
+      next if members.blank? || team.blank?
+
+      local = recompute_team(@project.teams, @project.unassigned_team, team, input).to_h
+      data = data.merge(local)
+    end
+    render json: { compability: data }
   end
 
   # GET /teams/new

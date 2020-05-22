@@ -7,14 +7,14 @@
         %h1.title.is-4 Manage Teams
       .column
         - if user_signed_in? && (current_user == @project.user || current_user.admin?) && !@project.completed?
-          .float-right.buttons.is-hidden-touch
+          .float-right.buttons.is-hidden-mobile
             = link_to new_project_team_path(project_id: @project.id), class: 'button is-primary' do
               %p New Team
               %span.icon
                 %span.iconify{ 'data-icon': 'el:plus' }
             = link_to project_path(@project), class: 'button is-danger' do
               %p Back
-          .buttons.is-hidden-desktop
+          .buttons.is-hidden-tablet
             = link_to new_project_team_path(project_id: @project.id), class: 'button is-primary' do
               %p New Team
               %span.icon
