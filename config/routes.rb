@@ -74,6 +74,7 @@ Rails.application.routes.draw do
   end
 
   resources :categories, only: :index
+  resources :skills, only: :index
 
   devise_for :users, controllers: {
     registrations: 'users/registrations',
