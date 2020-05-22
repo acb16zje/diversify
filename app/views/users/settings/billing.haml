@@ -7,10 +7,10 @@
     .column
       .card
         %header.card-header.has-background-white-ter
-          .card-header-title.is-block
+          .card-header-title.justify-between
             Free Plan
             - if current_user.license.free?
-              %p.is-pulled-right.has-text-grey Current Plan
+              %p.has-text-grey Current Plan
         .card-content
           .price-per-month
             %p.price £0
@@ -32,10 +32,10 @@
     .column
       .card
         %header.card-header.has-background-white-ter
-          .card-header-title.is-block
+          .card-header-title.justify-between
             Pro Plan
             - if current_user.license.pro?
-              %p.is-pulled-right Current Plan
+              %p.has-text-grey Current Plan
         .card-content
           .price-per-month
             %p.price £15
@@ -58,10 +58,10 @@
     .column
       .card
         %header.card-header.has-background-white-ter
-          .card-header-title.is-block
+          .card-header-title.justify-between
             Ultimate Plan
             - if current_user.license.ultimate?
-              %p.is-pulled-right Current Plan
+              %p.has-text-grey Current Plan
         .card-content
           .price-per-month
             %p.price £20

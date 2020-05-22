@@ -29,7 +29,7 @@
           - appeal = @project.appeals.find_by(user: current_user)
           - if appeal&.application?
             = link_to 'Cancel Application', application_path(appeal), method: :delete, remote: true,
-              data: { confirm: 'Are you sure?', disable_: true }, class: 'button is-danger is-pulled-right',
+              data: { confirm: 'Are you sure?', disable_: true }, class: 'button is-danger float-right',
               form: { '@ajax:error': 'ajaxError' }
 
           - elsif appeal&.invitation?
@@ -45,7 +45,7 @@
                   form: { '@ajax:error': 'ajaxError' }
 
           - elsif current_user != @project.user && @project.applicable?
-            = button_to 'Join', project_applications_path(@project), class: 'button is-success is-pulled-right',
+            = button_to 'Join', project_applications_path(@project), class: 'button is-success float-right',
               remote: true, data: { confirm: 'Are you sure?', disable: true }, form: { '@ajax:error': 'ajaxError' }
 %section
   %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'position': 'is-centered' }

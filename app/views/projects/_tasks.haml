@@ -7,7 +7,7 @@
             Tasks
         .column.is-narrow
           - if !@project.completed? && (allowed_to? :create_task?, @project)
-            .is-pulled-right
+            .float-right
               .buttons.has-addons
                 = link_to new_project_task_path(@project), class: 'button is-primary' do
                   %p New Task
@@ -18,5 +18,3 @@
               .notification.is-warning
                 Project is Completed. Tasks are now Read Only.
       %task-table{ 'project-id': @project.id, ':completed': @project.completed?, 'admin': (allowed_to? :manage?, @project), 'user-id': current_user.id }
-
-
