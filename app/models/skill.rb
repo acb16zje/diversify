@@ -31,4 +31,11 @@ class Skill < ApplicationRecord
   has_many :users, through: :user_skills
 
   validates :name, presence: true, uniqueness: { case_sensitive: false }
+
+  scope :with_category, lambda { |*order|
+    joins(:category)
+      .select(:id, :name)
+      .select('categories.name AS category_name')
+      .order(order.presence || 'skills.name ASC')
+  }
 end

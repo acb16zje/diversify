@@ -7,10 +7,8 @@ class SkillsController < ApplicationController
     return render_404 unless request.xhr?
 
     render json: {
-      skills: Skill.joins(:category)
-                   .select(:id, :name)
+      skills: Skill.with_category
                    .where('categories.name ~* ?', params[:category])
-                   .order(:name)
                    .to_json
     }
   end

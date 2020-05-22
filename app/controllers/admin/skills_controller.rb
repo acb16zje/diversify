@@ -4,10 +4,7 @@ class Admin::SkillsController < Admin::BaseController
   before_action :set_skill, only: %i[update destroy]
 
   def index
-    @skills = Skill.joins(:category)
-                   .select('skills.id, skills.name')
-                   .select('categories.name AS category_name')
-                   .order(:name)
+    @skills = Skill.with_category
     @categories = Category.select(:id, :name)
   end
 

@@ -1,83 +1,82 @@
 - content_for :title, 'Billing'
 
-%section.settings-section#billing-setting
-  .content
-    %h4.title.is-4 Billing
+.content#billing-setting
+  %h4.title.is-4 Billing
 
-    .columns.flex-wrap
-      .column
-        .card
-          %header.card-header.has-background-white-ter
-            .card-header-title.is-block
-              Free Plan
-              - if current_user.license.free?
-                %p.is-pulled-right.has-text-grey Current Plan
-          .card-content
-            .price-per-month
-              %p.price £0
-              %p.condition monthly
-            .price-per-year.is-invisible
-              billed annually at £180
-            %hr
-            %ul
-              %li Join unlimited projects
-              %li Automated team building
-              %li Skill set manager
-
-          %footer.card-footer.has-background-white-ter
+  .columns.flex-wrap
+    .column
+      .card
+        %header.card-header.has-background-white-ter
+          .card-header-title.is-block
+            Free Plan
             - if current_user.license.free?
-              %button.button{ disabled: true } Upgrade
-            - else
-              = button_to 'Downgrade', settings_billing_path(plan: 'free'), method: :put,
-                class: 'button is-success', data: { disable: true }
-      .column
-        .card
-          %header.card-header.has-background-white-ter
-            .card-header-title.is-block
-              Pro Plan
-              - if current_user.license.pro?
-                %p.is-pulled-right Current Plan
-          .card-content
-            .price-per-month
-              %p.price £15
-              %p.condition monthly
-            .price-per-year
-              billed annually at £180
-            %hr
-            %ul
-              %li.has-text-weight-bold All Free features
-              %li Unlimited private projects
-              %li Automated task allocation
+              %p.is-pulled-right.has-text-grey Current Plan
+        .card-content
+          .price-per-month
+            %p.price £0
+            %p.condition monthly
+          .price-per-year.invisible
+            billed annually at £0
+          %hr
+          %ul
+            %li Join unlimited projects
+            %li Automated team building
+            %li Skill set manager
 
-          %footer.card-footer.has-background-white-ter
+        %footer.card-footer.has-background-white-ter
+          - if current_user.license.free?
+            %button.button{ disabled: true } Upgrade
+          - else
+            = button_to 'Downgrade', settings_billing_path(plan: 'free'), method: :put,
+              class: 'button is-success', data: { disable: true }
+    .column
+      .card
+        %header.card-header.has-background-white-ter
+          .card-header-title.is-block
+            Pro Plan
             - if current_user.license.pro?
-              %button.button{ disabled: true } Upgrade
-            - else
-              = button_to current_user.license.ultimate? ? 'Downgrade' : 'Upgrade',
-                settings_billing_path(plan: 'pro'), method: :put,
-                class: 'button is-success', data: { disable: true }
-      .column
-        .card
-          %header.card-header.has-background-white-ter
-            .card-header-title.is-block
-              Ultimate Plan
-              - if current_user.license.ultimate?
-                %p.is-pulled-right Current Plan
-          .card-content
-            .price-per-month
-              %p.price £20
-              %p.condition monthly
-            .price-per-year
-              billed annually at £240
-            %hr
-            %ul
-              %li.has-text-weight-bold All Pro features
-              %li Unlimited members per projects
-              %li Unlimited active tasks
+              %p.is-pulled-right Current Plan
+        .card-content
+          .price-per-month
+            %p.price £15
+            %p.condition monthly
+          .price-per-year
+            billed annually at £180
+          %hr
+          %ul
+            %li.has-text-weight-bold All Free features
+            %li Unlimited private projects
+            %li Automated task allocation
 
-          %footer.card-footer.has-background-white-ter
+        %footer.card-footer.has-background-white-ter
+          - if current_user.license.pro?
+            %button.button{ disabled: true } Upgrade
+          - else
+            = button_to current_user.license.ultimate? ? 'Downgrade' : 'Upgrade',
+              settings_billing_path(plan: 'pro'), method: :put,
+              class: 'button is-success', data: { disable: true }
+    .column
+      .card
+        %header.card-header.has-background-white-ter
+          .card-header-title.is-block
+            Ultimate Plan
             - if current_user.license.ultimate?
-              %button.button{ disabled: true } Upgrade
-            - else
-              = button_to 'Upgrade', settings_billing_path(plan: 'ultimate'), method: :put,
-                class: 'button is-success', data: { disable: true }
+              %p.is-pulled-right Current Plan
+        .card-content
+          .price-per-month
+            %p.price £20
+            %p.condition monthly
+          .price-per-year
+            billed annually at £240
+          %hr
+          %ul
+            %li.has-text-weight-bold All Pro features
+            %li Unlimited members per projects
+            %li Unlimited active tasks
+
+        %footer.card-footer.has-background-white-ter
+          - if current_user.license.ultimate?
+            %button.button{ disabled: true } Upgrade
+          - else
+            = button_to 'Upgrade', settings_billing_path(plan: 'ultimate'), method: :put,
+              class: 'button is-success', data: { disable: true }

@@ -6,8 +6,8 @@
       </div>
 
       <div class="control">
-        <b-dropdown v-model="status" animation="" class="is-right">
-          <button slot="trigger" class="button github">
+        <b-dropdown v-model="status" animation="" class="github is-right">
+          <button slot="trigger" class="button">
             <i>Status:</i>
             <span class="capitalize">{{ status || 'All' }}</span>
             <b-icon icon="menu-down" />
@@ -32,36 +32,12 @@
       </div>
 
       <div class="control">
-        <b-dropdown
-          v-model="category"
-          animation=""
-          class="is-right"
-          @active-change="getCategories"
-        >
-          <b-loading :is-full-page="false" :active.sync="isGettingCategories" />
-          <button slot="trigger" class="button github">
-            <i>Category:</i>
-            <span>{{ category || 'All' }}</span>
-            <b-icon icon="menu-down" />
-          </button>
-
-          <b-dropdown-item value="">
-            All
-          </b-dropdown-item>
-
-          <b-dropdown-item
-            v-for="(value, index) in categories"
-            :key="index"
-            :value="value"
-          >
-            {{ value }}
-          </b-dropdown-item>
-        </b-dropdown>
+        <CategoryDropdown v-model="category" class="is-right" />
       </div>
 
       <div class="control">
-        <b-dropdown v-model="sort" animation="" class="is-right">
-          <button slot="trigger" class="button github">
+        <b-dropdown v-model="sort" animation="" class="github is-right">
+          <button slot="trigger" class="button">
             <i>Sort:</i>
             <span>{{ sortLabel }}</span>
             <b-icon icon="menu-down" />
@@ -85,17 +61,16 @@
 </template>
 
 <script>
-import Rails from '@rails/ujs';
 import { debounce } from 'lodash-es';
 import { mapActions, mapMutations } from 'vuex';
+import CategoryDropdown from '../../categories/components/CategoryDropdown.vue';
 
 export default {
+  components: { CategoryDropdown },
   data() {
     return {
-      categories: [],
       debouncedQuery: debounce(this.searchProjects, 300),
       sortLabel: 'Recently created',
-      isGettingCategories: false,
     };
   },
   computed: {
@@ -138,26 +113,6 @@ export default {
     },
   },
   methods: {
-    getCategories() {
-      if (this.categories.length) {
-        return;
-      }
-
-      this.isGettingCategories = true;
-
-      Rails.ajax({
-        url: '/categories',
-        type: 'GET',
-        dataType: 'json',
-        success: ({ categories }) => {
-          this.categories = categories;
-          this.isGettingCategories = false;
-        },
-        complete: () => {
-          this.isGettingCategories = false;
-        },
-      });
-    },
     ...mapMutations('search', ['updateQuery', 'searchProjects']),
     ...mapActions('search', ['updateState']),
   },

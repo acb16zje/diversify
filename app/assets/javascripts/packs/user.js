@@ -4,10 +4,11 @@ import Chartkick from 'vue-chartkick';
 import Chart from 'chart.js';
 import ProjectList from '../projects/ProjectList.vue';
 import { successToast } from '../buefy/toast';
+import Skill from '../users/settings/Skill.vue';
 import SkillTable from '../users/SkillTable.vue';
 import Timeline from '../users/Timeline.vue';
-import projectStore from '../projects/store';
 import PieChart from '../admin/metrics/PieChart.vue';
+import userStore from '../users/store';
 
 Chartkick.options = {
   messages: {
@@ -22,10 +23,11 @@ new Vue({
   components: {
     ProjectList,
     SkillTable,
+    Skill,
     PieChart,
     Timeline,
   },
-  store: projectStore,
+  store: userStore,
   data: {
     avatarFilename: 'No file attached',
   },

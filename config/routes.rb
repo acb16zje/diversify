@@ -106,6 +106,8 @@ Rails.application.routes.draw do
 
       resource :personality, only: %i[show update]
 
+      resource :skills, only: %i[show create destroy]
+
       resource :emails, only: :show do
         post 'subscribe'
         post 'unsubscribe'

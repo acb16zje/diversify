@@ -36,4 +36,14 @@ describe Skill, type: :model do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_uniqueness_of(:name).case_insensitive }
   end
+
+  describe 'scopes' do
+    describe '.with_category' do
+      subject { described_class.with_category }
+
+      let!(:skill) { create(:skill) }
+
+      it { is_expected.to include(skill) }
+    end
+  end
 end

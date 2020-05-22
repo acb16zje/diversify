@@ -8,20 +8,23 @@ $primary: #3e3cd3;
 
 /*! purgecss start ignore */
 @import "~buefy/src/scss/utils/all";
+@import "~buefy/src/scss/components/autocomplete";
 @import "~buefy/src/scss/components/datepicker";
 @import "~buefy/src/scss/components/dropdown";
+@import "~buefy/src/scss/components/form";
 @import "~buefy/src/scss/components/loading";
 @import "~buefy/src/scss/components/notices";
 @import "~buefy/src/scss/components/radio";
 @import "~buefy/src/scss/components/table";
 @import "~buefy/src/scss/components/tabs";
+@import "~buefy/src/scss/components/tag";
 @import "~buefy/src/scss/components/tooltip";
 @import "~buefy/src/scss/components/progress";
 @import "~buefy/src/scss/components/slider";
 
 @import "framework/badge";
 @import "framework/base";
-@import "framework/button";
+@import "framework/dropdown";
 @import "framework/footer";
 @import "framework/forms";
 @import "framework/icon";

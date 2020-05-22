@@ -1,12 +1,12 @@
 <template>
   <section class="section pt-0">
     <div class="container">
-      <div class="flex items-center pb-4">
+      <div class="flex items-center justify-between pb-4">
         <h4 class="title is-4 m-0">
           Categories
         </h4>
 
-        <button class="button is-success ml-auto" @click="newCategory">
+        <button class="button is-success" @click="newCategory">
           New category
         </button>
       </div>

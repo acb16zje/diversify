@@ -341,8 +341,8 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
   create_table "user_skills", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "skill_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", precision: 6, default: -> { "now()" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "now()" }, null: false
     t.index ["skill_id", "user_id"], name: "index_user_skills_on_skill_id_and_user_id", unique: true
     t.index ["skill_id"], name: "index_user_skills_on_skill_id"
     t.index ["user_id"], name: "index_user_skills_on_user_id"

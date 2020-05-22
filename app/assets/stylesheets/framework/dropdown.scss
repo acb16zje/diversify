@@ -1,0 +1,43 @@
+.dropdown {
+  &#category {
+    .dropdown-content {
+      max-height: 300px;
+      overflow: auto;
+    }
+  }
+
+  &.github {
+    button {
+      font-weight: 600;
+      background-color: #eff3f6;
+      background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+
+      i {
+        font-style: normal;
+        padding-right: 0.25rem;
+        opacity: .75;
+      }
+    }
+
+    .dropdown-item {
+      padding-left: 2.5rem;
+
+      &.is-active {
+        background-color: whitesmoke;
+        color: black;
+        font-weight: 600;
+
+        &:hover {
+          color: #0a0a0a;
+        }
+
+        &::before {
+          content: "\2713";
+          position: absolute;
+          left: 1rem;
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,9 @@
+- content_for :title, 'Skill settings'
+
+.content.settings#skill-settings
+  .columns
+    .column.is-4
+      %h4.title.is-4.mb-3 Skills
+      %p Add skills to your profile to showcase what you are good at.
+    .column
+      %skill{ ':init-skills': @skills.to_json }

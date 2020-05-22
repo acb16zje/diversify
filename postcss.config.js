@@ -15,6 +15,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     'image',
     'is-expanded',
     'disabled',
+    'is-loading',
   ],
   whitelistPatternsChildren: [
     // action-text
@@ -22,7 +23,7 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
 
     // buefy
     /modal/, /navbar/, /dropdown/, /pagination/, /level/, /tabs/, /tooltip/,
-    /progress/, /slider/,
+    /progress/, /slider/, /has-icons/, /tag/,
   ],
 });
 
