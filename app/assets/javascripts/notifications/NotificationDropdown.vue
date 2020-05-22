@@ -6,7 +6,7 @@
     @active-change="getInitNotifications"
   >
     <template v-slot:trigger="{ active }">
-      <button class="button rounded-full bg-gray-200 w-10 h-10">
+      <button class="button rounded-full bg-gray-200 w-10 h-10" aria-label="Notifications">
         <b-icon icon="bell" class="text-sm" :class="{ 'has-text-link': active }" />
       </button>
 
