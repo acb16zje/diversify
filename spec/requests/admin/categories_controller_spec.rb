@@ -15,7 +15,7 @@ describe Admin::CategoriesController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post admin_categories_path, params: params }
+    subject(:request) { post admin_categories_path(params) }
 
     context 'with new name' do
       let(:params) { { category: { name: 'newname' } } }
@@ -31,9 +31,7 @@ describe Admin::CategoriesController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) do
-      patch admin_category_path(category), params: params
-    end
+    subject(:request) { patch admin_category_path(category, params) }
 
     context 'with new name' do
       let(:params) { { category: { name: 'newname' } } }

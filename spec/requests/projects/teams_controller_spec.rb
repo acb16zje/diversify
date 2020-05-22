@@ -128,7 +128,7 @@ describe Projects::TeamsController, type: :request do
 
   describe 'POST #save_manage' do
     subject(:request) do
-      post manage_project_teams_path(project), params: params, xhr: true
+      post manage_project_teams_path(project, params), xhr: true
     end
 
     let(:params) do
@@ -235,7 +235,7 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post project_teams_path(project), params: params }
+    subject(:request) { post project_teams_path(project, params) }
 
     let(:params) do
       { team: {
@@ -284,7 +284,7 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) { patch project_team_path(project, team), params: params }
+    subject(:request) { patch project_team_path(project, team, params) }
 
     let(:params) do
       { team: {
@@ -352,7 +352,7 @@ describe Projects::TeamsController, type: :request do
 
   describe 'DELETE #remove_user' do
     subject(:request) do
-      delete remove_user_project_team_path(project, team), params: params
+      delete remove_user_project_team_path(project, team, params)
     end
 
     let(:target) { create(:user) }

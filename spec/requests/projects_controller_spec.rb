@@ -77,9 +77,8 @@ describe ProjectsController, type: :request do
 
   describe 'GET #index JSON' do
     subject(:request) do
-      get projects_path, xhr: true,
-                         headers: { accept: 'application/json' },
-                         params: params
+      get projects_path(params), xhr: true,
+                                 headers: { accept: 'application/json' }
     end
 
     before { sign_in user }
@@ -145,7 +144,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post projects_path, params: params }
+    subject(:request) { post projects_path(params) }
 
     let(:category) { create(:category) }
 
@@ -256,7 +255,7 @@ describe ProjectsController, type: :request do
 
   describe 'PATCH #change_status' do
     subject(:request) do
-      patch change_status_project_path(project), params: params
+      patch change_status_project_path(project, params)
     end
 
     %w[open active completed].each do |status|
@@ -290,7 +289,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'POST #count' do
-    subject(:request) { get count_project_path(project), params: params }
+    subject(:request) { get count_project_path(project, params) }
 
     let(:project) { create(:project, user: user) }
 

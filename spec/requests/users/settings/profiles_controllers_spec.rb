@@ -13,7 +13,7 @@ describe Users::Settings::ProfilesController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) { patch settings_profile_path, params: params }
+    subject(:request) { patch settings_profile_path(params) }
 
     before { sign_in user }
 

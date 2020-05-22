@@ -71,7 +71,7 @@ describe Admin::NewslettersController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post newsletters_path, params: params }
+    subject(:request) { post newsletters_path(params) }
 
     context 'with valid inputs' do
       let(:params) do
@@ -152,7 +152,7 @@ describe Admin::NewslettersController, type: :request do
   end
 
   describe 'POST #post_unsubscribe' do
-    subject(:request) { post unsubscribe_newsletters_path, params: params }
+    subject(:request) { post unsubscribe_newsletters_path(params) }
 
     let(:newsletter_user) { create(:user, :newsletter) }
 

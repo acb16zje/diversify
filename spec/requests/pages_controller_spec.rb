@@ -6,9 +6,7 @@ describe PagesController, type: :request do
   let(:user) { create(:user) }
 
   describe '#track_social' do
-    subject(:request) do
-      post track_social_pages_path, params: params, xhr: true
-    end
+    subject(:request) { post track_social_pages_path(params), xhr: true }
 
     context 'with Facebook' do
       let(:params) { { type: 'Facebook' } }
@@ -39,7 +37,7 @@ describe PagesController, type: :request do
   end
 
   describe '#track_time' do
-    subject(:request) { post track_time_pages_path, params: params, xhr: true }
+    subject(:request) { post track_time_pages_path(params), xhr: true }
 
     context 'with valid params' do
       let(:params) { { time: 1, pathname: about_pages_path } }
@@ -69,7 +67,7 @@ describe PagesController, type: :request do
 
   describe '#submit_feedback' do
     subject(:request) do
-      post submit_feedback_pages_path, params: params, xhr: true
+      post submit_feedback_pages_path(params), xhr: true
     end
 
     context 'with valid params' do

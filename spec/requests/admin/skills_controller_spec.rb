@@ -15,7 +15,7 @@ describe Admin::SkillsController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post admin_skills_path, params: params }
+    subject(:request) { post admin_skills_path(params) }
 
     let(:category_id) { skill.category.id }
 
@@ -41,9 +41,7 @@ describe Admin::SkillsController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) do
-      patch admin_skill_path(skill), params: params
-    end
+    subject(:request) { patch admin_skill_path(skill, params) }
 
     context 'with new name' do
       let(:params) { { skill: { name: 'newname' } } }

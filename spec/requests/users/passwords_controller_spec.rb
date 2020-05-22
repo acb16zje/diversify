@@ -6,7 +6,7 @@ describe Users::PasswordsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
-    subject(:request) { post user_password_path, params: params }
+    subject(:request) { post user_password_path(params) }
 
     context 'with valid email' do
       let(:params) { { 'user[email]': user.email } }
@@ -22,7 +22,7 @@ describe Users::PasswordsController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) { patch user_password_path, params: params }
+    subject(:request) { patch user_password_path(params) }
 
     let(:generate_token) do
       Devise.token_generator.generate(User, :reset_password_token)

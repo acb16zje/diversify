@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe Users::Settings::AccountsController, type: :request do
   describe 'DELETE #disconnect_omniauth' do
-    subject(:request) { delete disconnect_omniauth_settings_account_path, params: params }
+    subject(:request) { delete disconnect_omniauth_settings_account_path(params) }
 
     before do |test|
       sign_in omni_user

@@ -142,7 +142,7 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) { post project_tasks_path(project), params: params }
+    subject(:request) { post project_tasks_path(project, params) }
 
     let(:params) do
       { task: {
@@ -329,7 +329,7 @@ describe Projects::TasksController, type: :request do
 
   describe 'GET #data' do
     subject(:request) do
-      get data_project_tasks_path(project), params: params, xhr: true
+      get data_project_tasks_path(project, params), xhr: true
     end
 
     let(:params) { { type: 'active' } }

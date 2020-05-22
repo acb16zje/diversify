@@ -6,7 +6,7 @@ describe Users::RegistrationsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #create' do
-    subject(:request) { post user_registration_path, params: params }
+    subject(:request) { post user_registration_path(params) }
 
     context 'with valid sign up details' do
       let(:params) do
@@ -32,7 +32,7 @@ describe Users::RegistrationsController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) { patch user_registration_path, params: params }
+    subject(:request) { patch user_registration_path(params) }
 
     context 'when valid inputs' do
       let(:params) do

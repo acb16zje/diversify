@@ -6,7 +6,7 @@ describe Users::SessionsController, type: :request do
   let(:user) { create(:user) }
 
   describe 'POST #sign_in' do
-    subject(:request) { post user_session_path, params: params }
+    subject(:request) { post user_session_path(params) }
 
     context 'with valid sign in' do
       let(:params) { { user: { email: user.email, password: user.password } } }

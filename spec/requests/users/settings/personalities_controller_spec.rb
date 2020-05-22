@@ -13,7 +13,7 @@ describe Users::Settings::PersonalitiesController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) { patch settings_personality_path, params: params }
+    subject(:request) { patch settings_personality_path(params) }
 
     before { create(:personality) }
 
