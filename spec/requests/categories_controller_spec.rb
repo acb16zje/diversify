@@ -14,6 +14,10 @@ describe CategoriesController, type: :request do
       get categories_path, xhr: true, headers: { accept: 'application/json' }
     end
 
+    let(:user) { create(:user) }
+
+    it_behaves_like 'accessible to authenticated users'
+    it_behaves_like 'accessible to unauthenticated users'
     it_behaves_like 'returns JSON response'
   end
 end

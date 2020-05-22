@@ -6,6 +6,6 @@ class CategoriesController < ApplicationController
   def index
     return render_404 unless request.xhr?
 
-    render json: { categories: Category.order(:name).distinct.pluck(:name) }
+    render json: { categories: Category.order(:name).pluck(:name) }
   end
 end
