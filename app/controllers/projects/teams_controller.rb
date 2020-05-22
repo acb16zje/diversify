@@ -2,70 +2,51 @@
 
 class Projects::TeamsController < ApplicationController
   before_action :set_team, only: %i[edit show update destroy remove_user]
-  before_action :set_project, except: %i[show update remove_user]
+  before_action :set_project, except: %i[show remove_user]
   before_action :set_skills, only: %i[new edit]
+
+  include TeamHelper
 
   layout 'project'
 
   def manage_data
-    extend TeamHelper
-
     return render_404 unless request.xhr?
 
-    @data =
-      User.joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
-          .joins('LEFT OUTER JOIN tasks ON tasks.id = task_users.task_id AND tasks.percentage != 100')
-          .joins(:teams).where(teams: { project: @project })
-          .select('users.*, teams.id as team_id, COUNT(tasks.id) as count')
-          .group('users.id, teams.id')
+    @data = User.teams_data(@project)
 
     render json: {
       compability: @data.map { |u|
-        [u.id, compability(u, @project.teams, @project.unassigned_team.id)]
-      }.to_h,
-      data: @data.group_by(&:team_id),
+        [u.id, compability(u, @project.teams, @project.unassigned_team)]
+      }.to_h, data: @data.group_by(&:team_id),
       teams: @project.teams&.select(:id, :name, :team_size)
     }
   end
 
   def save_manage
-    Oj.load(params[:data]).each do |selected_team_id, members|
-      new_team = Team.find(selected_team_id.to_i)
-      members.each do |member|
-        next unless member['team_id'] != selected_team_id.to_i
-
-        change_team(member, new_team)
-      end
+    Oj.load(params[:data]).each do |id, members|
+      new_team = Team.find(id.to_i)
+      members.each { |m| change_team(m, new_team) if m['team_id'] != id.to_i }
     end
     head :ok
   end
 
-  def recompute
-    extend TeamHelper
-
-    return render_404 unless request.xhr?
-
-    data = {}
-    input = Oj.load(params[:data])
-    input.each do |selected_team_id, members|
-      team = @project.teams.where(id: selected_team_id).first
+  def recompute_data
+    d = {}
+    i = Oj.load(params[:data])
+    i.each do |selected_team_id, members|
+      team = @project.teams.find_by(id: selected_team_id)
       next if members.blank? || team.blank?
 
-      local = recompute_team(@project.teams, @project.unassigned_team, team, input).to_h
-      data = data.merge(local)
+      d.merge!(recompute(@project.teams, @project.unassigned_team, team, i).to_h)
     end
-    render json: { compability: data }
+    render json: { compability: d }
   end
 
   # GET /teams/new
-  def new
-    @team = Team.new
-  end
+  def new; end
 
   # GET /teams/1/edit
-  def edit
-    @project = Project.find(params[:project_id])
-  end
+  def edit; end
 
   def show
     return render_404 unless request.xhr?
@@ -104,7 +85,6 @@ class Projects::TeamsController < ApplicationController
 
   def remove_user
     user = User.find(params[:user_id])
-
     return team_fail('Cannot remove owner') if user == @team.project.user
 
     @team.users.delete(user)
@@ -123,7 +103,7 @@ class Projects::TeamsController < ApplicationController
   end
 
   def set_project
-    @project = Project.find(params[:project_id])
+    @project = Project.includes(:teams, :users).find(params[:project_id])
     authorize! @project, to: :manage?
   end
 
@@ -139,7 +119,7 @@ class Projects::TeamsController < ApplicationController
 
   def team_success(message)
     flash[:toast_success] = message
-    render js: "window.location = '#{manage_project_teams_path(@team.project)}'"
+    render js: "window.location = '#{manage_project_teams_path(@project)}'"
   end
 
   def team_fail(message = @team.errors.full_messages)
@@ -147,9 +127,8 @@ class Projects::TeamsController < ApplicationController
   end
 
   def change_team(member, new_team)
-    user = User.find(member['id'])
-    old_team = Team.find(member['team_id'])
-    authorize! old_team
+    user = @project.users.where(id: member['id']).first
+    old_team = @project.teams.where(id: member['team_id']).first
     authorize! new_team
     new_team.users << user
     old_team.users.delete(user)

@@ -139,11 +139,18 @@ describe Projects::TeamsController, type: :request do
     end
 
     context 'when user is admin' do
+      before do
+        project.unassigned_team.users << user
+        project.unassigned_team.users << user2
+      end
+
       it_behaves_like 'accessible to admin users'
     end
 
     context 'when user is project owner' do
       let(:project) { create(:project, user: user) }
+
+      before { project.unassigned_team.users << user2 }
 
       it_behaves_like 'accessible to authenticated users'
     end

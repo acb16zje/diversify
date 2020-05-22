@@ -25,9 +25,9 @@
             = @project.users.size
             \/
             = @project.user.license.member_limit
-      .columns.is-multiline
+      .columns.is-multiline.is-mobile
         - @project.teams.each do |team|
-          .column.is-half
+          .column.is-half-tablet.is-one-third-desktop
             .card
               %header.card-header
                 %p.card-header-title
@@ -36,22 +36,21 @@
                     %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
                       %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
               .card-content
-                .content
-                  - if team.users.empty?
-                    No Members
-                  - team.users.each do |user|
-                    %article.media
-                      %figure.media-left
-                        %p.image.is-32x32
-                          = image_tag user_avatar(user), alt: 'User avatar'
-                      .media-content
-                        .content
-                          .columns
-                            .column.has-text-centered
-                              %div
-                                = link_to user do
-                                  %p.has-text-weight-medium= user.name
-                            .column.has-text-centered
-                              %div
-                                %p.heading Task Contributed
-                                %p= user.tasks.where(project: @project, percentage: 100).size
+                - if team.users.empty?
+                  No Members
+                - team.users.each do |user|
+                  %article.media
+                    %figure.media-left
+                      %p.image.is-32x32
+                        = image_tag user_avatar(user), alt: 'User avatar'
+                    .media-content
+                      .content
+                        .columns
+                          .column.has-text-centered
+                            %div
+                              = link_to user do
+                                %p.has-text-weight-medium= user.name
+                          .column.has-text-centered
+                            %div
+                              %p.heading Task Contributed
+                              %p= user.tasks.where(project: @project, percentage: 100).size

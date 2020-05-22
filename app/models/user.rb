@@ -53,11 +53,8 @@ class User < ApplicationRecord
   has_many :user_skills, dependent: :destroy
   has_many :skills, through: :user_skills
 
-  validates :email,
-            presence: true,
-            uniqueness: true,
-            length: { maximum: 254 },
-            format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, uniqueness: true, length: { maximum: 254 },
+                    format: { with: URI::MailTo::EMAIL_REGEXP }
 
   validates :name, length: { maximum: 255 }
   validates :name, presence: true, on: :update
@@ -111,6 +108,14 @@ class User < ApplicationRecord
 
   def compatible_with?(target_user)
     personality.compabilities[target_user.personality_id - 1]
+  end
+
+  def self.teams_data(project)
+    joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
+      .joins('LEFT OUTER JOIN tasks ON tasks.id = task_users.task_id AND tasks.percentage != 100')
+      .joins(:teams).where(teams: { project: project })
+      .select('users.*, teams.id as team_id, COUNT(tasks.id) as count')
+      .group('users.id, teams.id')
   end
 
   private

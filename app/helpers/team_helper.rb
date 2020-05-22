@@ -2,8 +2,8 @@
 
 # Helper for team allocation
 module TeamHelper
-  def compability(target, teams, unassigned_id)
-    if unassigned_id == target['team_id']
+  def compability(target, teams, unassigned)
+    if unassigned.id == target['team_id']
       best_team?(target, teams)
     else
       team = teams.where(id: target['team_id']).first
@@ -11,8 +11,9 @@ module TeamHelper
     end
   end
 
-  def recompute_team(teams, unassigned_team, target_team, u_list)
+  def recompute(teams, unassigned_team, target_team, u_list)
     members = u_list[target_team.id.to_s]
+    
     if unassigned_team == target_team
       members.map { |u| [u['id'], best_team?(u, teams, u_list)] }
     else
@@ -32,7 +33,7 @@ module TeamHelper
     results = compare_team(user, teams, u_list)
 
     best = results.max_by { |x| x[1] }
-    best.blank? || best[1] <= 1.0 ? '' : "(#{best[1]}) Team #{best[0]}"
+    best.blank? || best[1] <= 1.0 ? '' : "(#{best[1].round(2)}) Team #{best[0]}"
   end
 
   def compare_team(target, teams, u_list = nil)

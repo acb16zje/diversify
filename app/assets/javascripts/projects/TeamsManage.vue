@@ -62,7 +62,7 @@
         >
           <div class="columns">
             <div class="column">
-              <p>
+              <p class="title is-3">
                 <b-icon icon="menu-down" />
                 {{ team.name }}
               </p>
@@ -236,7 +236,7 @@ export default {
     compute() {
       this.isLoading = true;
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/recompute`,
+        url: `/projects/${this.projectId}/teams/recompute_data`,
         type: 'POST',
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
@@ -289,20 +289,6 @@ export default {
         }
       }
       this.currentToggleState = !this.currentToggleState;
-    },
-    open(teamId) {
-      console.log('open'+teamId);
-      const list = this.$refs[`collapse${teamId}`];
-      if (!list[0].isOpen) {
-        list[0].toggle();
-      }
-    },
-    close(teamId) {
-      console.log('close'+teamId);
-      const list = this.$refs[`collapse${teamId}`];
-      if (list[0].isOpen) {
-        list[0].toggle();
-      }
     },
   },
 };

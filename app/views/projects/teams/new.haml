@@ -5,7 +5,7 @@
     %h1.title.is-4 Create a new team
     %p.subtitle.is-6 Create teams to organise your members and diversify your skills.
     .box
-      = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
+      = form_with model: Team.new, url: [@project, Team.new], html: { '@ajax:error': 'ajaxError' } do |f|
         .field
           %label.label.required Team Name
           .control
