@@ -32,25 +32,16 @@
               %header.card-header
                 %p.card-header-title
                   = team.name
-                  - if team.name != 'Unassigned'
-                    %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
-                      %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
-              .card-content
-                - if team.users.empty?
-                  No Members
-                - team.users.each do |user|
-                  %article.media
-                    %figure.media-left
-                      %p.image.is-32x32
-                        = image_tag user_avatar(user), alt: 'User avatar'
-                    .media-content
-                      .content
-                        .columns
-                          .column.has-text-centered
-                            %div
-                              = link_to user do
-                                %p.has-text-weight-medium= user.name
-                          .column.has-text-centered
-                            %div
-                              %p.heading Task Contributed
-                              %p= user.tasks.where(project: @project, percentage: 100).size
+                  %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
+                    %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
+                .card-header-icon
+                  - if team.users.empty?
+                    No Members
+                  - elsif team.name != 'Unassigned'
+                    = team.users.size
+                    \/
+                    = team.team_size
+                    Members
+                  - else
+                    = team.users.size
+                    Unassigned Members

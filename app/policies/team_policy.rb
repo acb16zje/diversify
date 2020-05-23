@@ -6,8 +6,7 @@ class TeamPolicy < ApplicationPolicy
   default_rule :manage?
 
   def show?
-    record.name != 'Unassigned' &&
-      (record.project.visibility? || user.in_project?(record.project))
+    (record.project.visibility? || user.in_project?(record.project))
   end
 
   def access_team?

@@ -64,7 +64,7 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = Project.includes(:teams, :users, :tasks)
+    @project = Project.includes(:teams, :tasks)
                       .find(params[:id])
     authorize! @project, with: ProjectPolicy
   end

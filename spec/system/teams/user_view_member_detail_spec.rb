@@ -13,6 +13,8 @@ describe 'Team > View team member detail', :js, type: :system do
 
   context 'when view team member detail' do
     it do
+      find(:xpath, "//p[contains(text(),'Unassigned')]/span").click
+      expect(page).to have_content(user.name.to_s)
       click_link user.name
       expect(page).to have_content('Profile')
     end

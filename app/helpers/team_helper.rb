@@ -13,7 +13,7 @@ module TeamHelper
 
   def recompute(teams, unassigned_team, target_team, u_list)
     members = u_list[target_team.id.to_s]
-    
+
     if unassigned_team == target_team
       members.map { |u| [u['id'], best_team?(u, teams, u_list)] }
     else

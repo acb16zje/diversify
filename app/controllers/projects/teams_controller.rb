@@ -49,14 +49,12 @@ class Projects::TeamsController < ApplicationController
   def edit; end
 
   def show
+    extend AvatarHelper
+
     return render_404 unless request.xhr?
 
-    render json: {
-      name: @team.name,
-      skills: @team.skills&.select(:id, :name),
-      teamSize: @team.team_size,
-      memberCount: @team.users.size
-    }
+    render json: { member: @team.users, skill: @team.skills&.select(:id, :name),
+                   team: @team, images: get_avatars(@team.users.pluck('id')) }
   end
 
   # POST /teams

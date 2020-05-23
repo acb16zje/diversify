@@ -21,6 +21,14 @@ module AvatarHelper
     end
   end
 
+  def get_avatars(ids)
+    arr = {}
+    User.find(ids).each do |u|
+      arr[u.id] = u.avatar.attached? ? url_for(user_avatar(u)) : user_avatar(u)
+    end
+    arr
+  end
+
   private
 
   def source_identicon(project)

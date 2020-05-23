@@ -52,7 +52,8 @@ class Projects::TasksController < ApplicationController
   end
 
   def data
-    authorize! @project, to: :count?
+    extend AvatarHelper
+
     return render_404 unless request.xhr? && valid_data_type?
 
     render json: {
@@ -111,6 +112,8 @@ class Projects::TasksController < ApplicationController
   end
 
   def valid_data_type?
+    authorize! @project, to: :count?
+
     @type = params[:type]&.to_sym
     %i[assigned unassigned active completed].include?(@type)
   end
