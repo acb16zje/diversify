@@ -46,12 +46,6 @@ FactoryBot.define do
     trait :with_avatar do
       avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
     end
-
-    # License is automatically created on user create hook, so we need to
-    # do it manually for build
-    after(:build) { |user| build(:license, user: user) }
-
-    after(:create) { |user| create(:license, user: user) }
   end
 
   factory :omniauth_user, parent: :user do

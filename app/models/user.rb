@@ -74,7 +74,7 @@ class User < ApplicationRecord
 
   validate :provided_birthdate, on: :update
 
-  after_create_commit :create_license, :create_activity
+  before_create :build_license, :build_activities
 
   after_update_commit :disable_password_automatically_set,
                       if: [:saved_change_to_encrypted_password?,
@@ -114,8 +114,8 @@ class User < ApplicationRecord
 
   private
 
-  def create_activity
-    activities.create(key: 'user/create')
+  def build_activities
+    activities.build(key: 'user/create')
   end
 
   def disable_password_automatically_set

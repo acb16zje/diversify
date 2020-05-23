@@ -48,9 +48,10 @@ describe Team, type: :model do
     describe '#check_users_limit' do
       subject { team.errors.full_messages }
 
-      let(:team) { build(:team, team_size: 1) }
+      # Need to create project here otherwise license of project owner will be nil
+      let(:team) { build(:team, team_size: 1, project: create(:project)) }
 
-      before { team.users << [build_list(:user, 3)] }
+      before { team.users << build_list(:user, 3) }
 
       it { is_expected.to include('Team Size is smaller than total members') }
     end
