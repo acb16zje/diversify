@@ -62,7 +62,7 @@
         - if @user.skills.blank?
           %h4.font-semibold.text-center.py-8 No Skills
         - else
-          %skill-table{ 'initial-data': @skills.to_json }
+          %skill-table{ ':initial-skills': @skills.to_json }
     %b-tab-item
       %template{ 'slot': 'header' }
         Timeline

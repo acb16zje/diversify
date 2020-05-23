@@ -30,7 +30,7 @@
         <b-table-column field="name" label="Name" sortable searchable>
           {{ name }}
         </b-table-column>
-        <b-table-column field="owner" label="Owner" sortable>
+        <b-table-column field="owner_name" label="Owner" sortable>
           <a :href="`/users/${user_id}`" class="has-text-weight-bold">
             {{ owner_name }}
           </a>
@@ -41,14 +41,14 @@
             {{ priority }}
           </span>
         </b-table-column>
-        <b-table-column field="percentange" label="Progress">
+        <b-table-column label="Progress">
           <b-progress
             :type="percentage === 100 ? 'is-success' : 'is-info'"
             :value="percentage"
             show-value format="percent"
           />
         </b-table-column>
-        <b-table-column field="assignees" label="Assignees">
+        <b-table-column label="Assignees">
           <div class="columns is-0 is-variable is-multiline">
             <div v-for=" user in userData[id]" :key="user.user_id" class="column is-narrow">
               <b-tooltip :label="user.user_name" position="is-top" type="is-info">

@@ -13,8 +13,8 @@ const purgeCss = require('@fullhuman/postcss-purgecss')({
     '::placeholder',
     'img',
     'image',
-    'is-expanded',
     'disabled',
+    'is-expanded',
     'is-loading',
   ],
   whitelistPatternsChildren: [

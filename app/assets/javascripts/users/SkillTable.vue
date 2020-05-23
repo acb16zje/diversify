@@ -1,22 +1,22 @@
 <template>
   <section>
     <b-table
-      :data="skills"
+      :data="initialSkills"
       :paginated="true"
       :pagination-simple="true"
       :hoverable="true"
       :per-page="10"
       :mobile-cards="true"
     >
-      <template v-slot="{ row }">
+      <template v-slot="{ row: { name, category_name, created_at } }">
         <b-table-column field="name" label="Name" sortable searchable>
-          {{ row.name }}
+          {{ name }}
         </b-table-column>
-        <b-table-column field="category" label="Category" sortable searchable>
-          {{ row.category_name }}
+        <b-table-column field="category_name" label="Category" sortable searchable>
+          {{ category_name }}
         </b-table-column>
-        <b-table-column field="time" label="Added At">
-          {{ dateConvert(row.created_at) }}
+        <b-table-column label="Added At">
+          {{ new Date(created_at).toLocaleDateString() }}
         </b-table-column>
       </template>
       <template v-slot:empty>
@@ -31,20 +31,9 @@
 <script>
 export default {
   props: {
-    initialData: {
-      type: String,
+    initialSkills: {
+      type: Array,
       required: true,
-    },
-  },
-  data() {
-    return {
-      skills: JSON.parse(this.initialData),
-    };
-  },
-  methods: {
-    dateConvert(str) {
-      const d = new Date(str);
-      return d.toLocaleDateString();
     },
   },
 };
