@@ -64,8 +64,7 @@ class Project < ApplicationRecord
       .select('users.name AS user_name, users.email')
       .where('projects.status::text ~ ?', params[:status] || '')
       .where('categories.name ~ ?', params[:category] || '')
-      .where('projects.name ~* :query OR projects.description ~* :query',
-             query: params[:query] || '')
+      .where('projects.name ~* :query OR projects.description ~* :query', query: params[:query] || '')
       .order(SORT_BY[params[:sort]&.to_sym] || SORT_BY[:created_desc])
   }
 

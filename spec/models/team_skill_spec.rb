@@ -36,9 +36,7 @@ describe TeamSkill, type: :model do
     context 'when validate unique team skill' do
       let(:team_skill) { build(:team_skill) }
 
-      it do
-        expect(team_skill).to validate_uniqueness_of(:skill_id).scoped_to(:team_id)
-      end
+      it { expect(team_skill).to validate_uniqueness_of(:skill_id).scoped_to(:team_id) }
     end
   end
 end

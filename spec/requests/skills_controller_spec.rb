@@ -12,9 +12,7 @@ describe SkillsController, type: :request do
   end
 
   describe 'GET #index XHR' do
-    subject(:request) do
-      get skills_path, xhr: true, headers: { accept: 'application/json' }
-    end
+    subject(:request) { get skills_path, xhr: true, headers: { accept: 'application/json' } }
 
     let(:user) { create(:user) }
 

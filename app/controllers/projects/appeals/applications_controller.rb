@@ -11,9 +11,7 @@ class Projects::Appeals::ApplicationsController < Projects::Appeals::BaseControl
   end
 
   def create
-    @application = Appeal.new(user: current_user,
-                              project_id: params[:project_id],
-                              type: 'application')
+    @application = Appeal.new(user: current_user, project_id: params[:project_id], type: 'application')
 
     authorize! @application, with: Appeal::ApplicationPolicy
     return application_fail unless @application.save
@@ -35,8 +33,7 @@ class Projects::Appeals::ApplicationsController < Projects::Appeals::BaseControl
   def destroy
     return application_fail unless @application.delete
 
-    @application.send_resolve_notification('decline',
-                                           current_user == @application.user)
+    @application.send_resolve_notification('decline', current_user == @application.user)
 
     # TODO: should return JSON only, otherwise the Table will redirect
     flash[:toast_success] = 'Application deleted'

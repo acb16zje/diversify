@@ -11,15 +11,13 @@ describe Admin::MetricsController, type: :request do
 
     describe '#index' do
       it {
-        expect { get metrics_path }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { get metrics_path }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
     describe '#traffic' do
       it {
-        expect { get traffic_metrics_path }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { get traffic_metrics_path }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
   end

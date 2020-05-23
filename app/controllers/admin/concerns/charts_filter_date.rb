@@ -43,14 +43,10 @@ module Admin::Concerns::ChartsFilterDate
     case action_name
     when 'landing_page_feedback', 'newsletter_subscription_by_date'
       # Array of ActiveRecord::Relation objects
-      @records.map! do |record|
-        record.where(column + ' BETWEEN ? AND ?', start_date, end_date)
-      end
+      @records.map! { |record| record.where(column + ' BETWEEN ? AND ?', start_date, end_date) }
     when 'unsubscription_by_newsletter'
       # Class of Newsletter, cannot use where
-      @records.filter! do |record|
-        record[:created_at].between?(start_date, end_date)
-      end
+      @records.filter! { |record| record[:created_at].between?(start_date, end_date) }
     else
       @records = @records.where(column + ' BETWEEN ? AND ?', start_date, end_date)
     end

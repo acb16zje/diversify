@@ -33,9 +33,7 @@ describe Admin::ChartsController, type: :request do
       end
 
       context 'with range of dates selected' do
-        let(:params) do
-          { chart: { date: "#{Date.yesterday}, #{Date.tomorrow}" } }
-        end
+        let(:params) { { chart: { date: "#{Date.yesterday}, #{Date.tomorrow}" } } }
 
         it_behaves_like 'accessible to admin users'
         it_behaves_like 'not accessible to non-admin users'
@@ -53,9 +51,7 @@ describe Admin::ChartsController, type: :request do
 
   # Special format
   describe '#unsubscription_by_newsletter' do
-    subject(:request) do
-      get '/charts/unsubscription_by_newsletter', params: params
-    end
+    subject(:request) { get '/charts/unsubscription_by_newsletter', params: params }
 
     let(:newsletter) { create(:newsletter) }
 
@@ -78,9 +74,7 @@ describe Admin::ChartsController, type: :request do
     end
 
     context 'with range of dates selected' do
-      let(:params) do
-        { chart: { date: "#{Time.zone.yesterday}, #{Time.zone.yesterday}" } }
-      end
+      let(:params) { { chart: { date: "#{Time.zone.yesterday}, #{Time.zone.yesterday}" } } }
 
       it_behaves_like 'accessible to admin users'
       it_behaves_like 'not accessible to non-admin users'

@@ -68,20 +68,16 @@ class ProjectsController < ApplicationController
   private
 
   def set_project
-    @project = Project.includes(:teams, :users)
-                      .find(params[:id])
+    @project = Project.includes(:teams, :users).find(params[:id])
     authorize! @project, with: ProjectPolicy
   end
 
   def project_params
-    params
-      .require(:project)
-      .permit(%i[name description visibility category_id avatar])
+    params.require(:project).permit(%i[name description visibility category_id avatar])
   end
 
   def render_projects(policy_scope)
-    @pagy, projects = pagy(authorized_scope(Project.search(params),
-                                            as: policy_scope))
+    @pagy, projects = pagy(authorized_scope(Project.search(params), as: policy_scope))
     @html = view_to_html_string('projects/_projects', projects: projects)
 
     respond_to do |format|

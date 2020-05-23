@@ -7,10 +7,7 @@ describe NotificationBlueprint, type: :serializer do
 
   let(:user) { build_stubbed(:user) }
   let(:project) { build_stubbed(:project) }
-
-  let(:notification) do
-    build_stubbed(:notification, notifiable: user, notifier: project)
-  end
+  let(:notification) { build_stubbed(:notification, notifiable: user, notifier: project) }
 
   describe 'fields' do
     it { is_expected.to include('id') }
@@ -21,17 +18,13 @@ describe NotificationBlueprint, type: :serializer do
 
   describe 'associations' do
     context 'when notifiable is User' do
-      let(:notification) do
-        build_stubbed(:notification, notifiable: user, notifier: project)
-      end
+      let(:notification) { build_stubbed(:notification, notifiable: user, notifier: project) }
 
       it { is_expected.to include('user-avatar-container') }
     end
 
     context 'when notifiable is Project' do
-      let(:notification) do
-        build_stubbed(:notification, notifiable: project, notifier: project)
-      end
+      let(:notification) { build_stubbed(:notification, notifiable: project, notifier: project) }
 
       it { is_expected.to include('project-avatar') }
     end
@@ -42,18 +35,14 @@ describe NotificationBlueprint, type: :serializer do
 
     context 'when notifier is Team' do
       let(:team) { build_stubbed(:team) }
-      let(:notification) do
-        build_stubbed(:notification, notifiable: user, notifier: team)
-      end
+      let(:notification) { build_stubbed(:notification, notifiable: user, notifier: team) }
 
       it { is_expected.to match(%r{/projects/\d+}) }
     end
 
     context 'when notifier is Task' do
       let(:task) { build_stubbed(:task) }
-      let(:notification) do
-        build_stubbed(:notification, notifiable: user, notifier: task)
-      end
+      let(:notification) { build_stubbed(:notification, notifiable: user, notifier: task) }
 
       it { is_expected.to match(%r{/projects/\d+}) }
     end

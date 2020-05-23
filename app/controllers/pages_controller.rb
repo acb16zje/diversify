@@ -31,8 +31,7 @@ class PagesController < ApplicationController
     if LandingFeedback.new(feedback_params).save
       render json: { message: 'Thank you for your feedback' }
     else
-      render json: { message: 'Submission Failed' },
-             status: :unprocessable_entity
+      render json: { message: 'Submission Failed' }, status: :unprocessable_entity
     end
   end
 

@@ -5,7 +5,6 @@ class ArrayInclusionValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.present? && value.all? { |val| options[:in].include?(val) }
 
-    record.errors[attribute] <<
-      (options[:message] || 'is not included in the list')
+    record.errors[attribute] << (options[:message] || 'is not included in the list')
   end
 end

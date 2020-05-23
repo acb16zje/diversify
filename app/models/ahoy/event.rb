@@ -30,7 +30,5 @@ class Ahoy::Event < ApplicationRecord
   scope :action, -> { where(name: 'Ran action') }
   scope :social, -> { where(name: 'Click Social') }
   scope :type_size, -> { group("properties ->> 'type'").size }
-  scope :type_time_size, lambda {
-    group("properties ->> 'type'").group_by_day(:time).size
-  }
+  scope :type_time_size, -> { group("properties ->> 'type'").group_by_day(:time).size }
 end

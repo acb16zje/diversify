@@ -24,9 +24,7 @@ describe Users::PasswordsController, type: :request do
   describe 'PATCH #update' do
     subject(:request) { patch user_password_path(params) }
 
-    let(:generate_token) do
-      Devise.token_generator.generate(User, :reset_password_token)
-    end
+    let(:generate_token) { Devise.token_generator.generate(User, :reset_password_token) }
 
     before do
       user.reset_password_token = generate_token[1]

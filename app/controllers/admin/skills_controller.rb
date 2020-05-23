@@ -12,22 +12,16 @@ class Admin::SkillsController < Admin::BaseController
     skill = Skill.new(skill_params)
 
     if skill.save
-      # rubocop:disable Layout/LineLength
-      render json: {
-        skill: { id: skill.id, name: skill.name, category_name: skill.category.name }
-      }
-      # rubocop:enable Layout/LineLength
+      render json: { skill: { id: skill.id, name: skill.name, category_name: skill.category.name } }
     else
-      render json: { message: skill.errors.full_messages.join(' ') },
-             status: :unprocessable_entity
+      render json: { message: skill.errors.full_messages.join(' ') }, status: :unprocessable_entity
     end
   end
 
   def update
     return head :ok if @skill.update(skill_params)
 
-    render json: { message: @skill.errors.full_messages.join(' ') },
-           status: :unprocessable_entity
+    render json: { message: @skill.errors.full_messages.join(' ') }, status: :unprocessable_entity
   end
 
   def destroy

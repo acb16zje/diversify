@@ -21,9 +21,7 @@ describe Projects::TasksController, type: :request do
     end
 
     describe '#edit' do
-      subject(:request) do
-        get edit_project_task_path(task, project_id: project.id)
-      end
+      subject(:request) { get edit_project_task_path(task, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:manage?, task) }
     end
@@ -41,17 +39,13 @@ describe Projects::TasksController, type: :request do
     end
 
     describe '#assign_self' do
-      subject(:request) do
-        patch assign_self_project_task_path(task, project_id: project.id)
-      end
+      subject(:request) { patch assign_self_project_task_path(task, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:assign_self?, task) }
     end
 
     describe '#destroy' do
-      subject(:request) do
-        delete project_task_path(task, project_id: project.id)
-      end
+      subject(:request) { delete project_task_path(task, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:manage?, task) }
     end
@@ -63,9 +57,7 @@ describe Projects::TasksController, type: :request do
     end
 
     describe '#set_percentage' do
-      subject(:request) do
-        patch set_percentage_project_task_path(task, project_id: project)
-      end
+      subject(:request) { patch set_percentage_project_task_path(task, project_id: project) }
 
       it { expect { request }.to be_authorized_to(:set_percentage?, task) }
     end
@@ -145,10 +137,7 @@ describe Projects::TasksController, type: :request do
     subject(:request) { post project_tasks_path(project, params) }
 
     let(:params) do
-      { task: {
-        name: 'Test', project_id: project.id, user_id: user.id,
-        users_id: [admin.id]
-      } }
+      { task: { name: 'Test', project_id: project.id, user_id: user.id, users_id: [admin.id] } }
     end
 
     context 'when not in project' do
@@ -157,9 +146,7 @@ describe Projects::TasksController, type: :request do
 
     context 'when invalid input' do
       let(:params) do
-        { task: {
-          name: '', project_id: project.id, user_id: user.id
-        } }
+        { task: { name: '', project_id: project.id, user_id: user.id } }
       end
 
       before { sign_in admin }
@@ -194,14 +181,10 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'PATCH #update' do
-    subject(:request) do
-      patch project_task_path(task, project_id: project), params: params
-    end
+    subject(:request) { patch project_task_path(task, project_id: project), params: params }
 
     let(:params) do
-      { task: {
-        name: 'Test', project_id: project.id, user_id: user.id, user_ids: []
-      } }
+      { task: { name: 'Test', project_id: project.id, user_id: user.id, user_ids: [] } }
     end
 
     context 'when not in project' do
@@ -210,9 +193,7 @@ describe Projects::TasksController, type: :request do
 
     context 'when invalid input' do
       let(:params) do
-        { task: {
-          name: '', project_id: project.id, user_id: user.id
-        } }
+        { task: { name: '', project_id: project.id, user_id: user.id } }
       end
 
       before { sign_in admin }
@@ -233,9 +214,7 @@ describe Projects::TasksController, type: :request do
       let(:task) { create(:task, project: project, user: user) }
 
       let(:params) do
-        { task: {
-          name: 'new name', project_id: project.id, user_id: user.id
-        } }
+        { task: { name: 'new name', project_id: project.id, user_id: user.id } }
       end
 
       before do
@@ -260,9 +239,7 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'PATCH #assign_self' do
-    subject(:request) do
-      patch assign_self_project_task_path(task, project_id: project)
-    end
+    subject(:request) { patch assign_self_project_task_path(task, project_id: project) }
 
     context 'when not in project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
@@ -288,9 +265,7 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'DELETE #destroy' do
-    subject(:request) do
-      delete project_task_path(task, project_id: project)
-    end
+    subject(:request) { delete project_task_path(task, project_id: project) }
 
     context 'when not in project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
@@ -328,9 +303,7 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'GET #data' do
-    subject(:request) do
-      get data_project_tasks_path(project, params), xhr: true
-    end
+    subject(:request) { get data_project_tasks_path(project, params), xhr: true }
 
     let(:params) { { type: 'active' } }
     let(:admin) { create(:admin, :with_avatar) }
@@ -379,10 +352,7 @@ describe Projects::TasksController, type: :request do
   end
 
   describe 'PATCH #set_percentage' do
-    subject(:request) do
-      patch set_percentage_project_task_path(task, project_id: project),
-            params: params
-    end
+    subject(:request) { patch set_percentage_project_task_path(task, project_id: project), params: params }
 
     let(:params) { { task: { percentage: 100 } } }
 

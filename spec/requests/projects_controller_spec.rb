@@ -76,10 +76,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'GET #index JSON' do
-    subject(:request) do
-      get projects_path(params), xhr: true,
-                                 headers: { accept: 'application/json' }
-    end
+    subject(:request) { get projects_path(params), xhr: true, headers: { accept: 'application/json' } }
 
     before { sign_in user }
 
@@ -150,11 +147,7 @@ describe ProjectsController, type: :request do
 
     context 'with valid inputs' do
       let(:params) do
-        {
-          project: {
-            name: 'Test', description: 'Test', category_id: category.id
-          }
-        }
+        { project: { name: 'Test', description: 'Test', category_id: category.id } }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -173,12 +166,7 @@ describe ProjectsController, type: :request do
 
     context 'when set visibility with valid license' do
       let(:params) do
-        {
-          project: {
-            name: 'Test', description: 'Test', visibility: false,
-            category_id: category.id
-          }
-        }
+        { project: { name: 'Test', description: 'Test', visibility: false, category_id: category.id } }
       end
 
       before { user.license.plan = 'pro' }
@@ -224,12 +212,7 @@ describe ProjectsController, type: :request do
 
     context 'when set visibility with valid license' do
       let(:params) do
-        {
-          project: {
-            name: 'Test', description: 'Test', visibility: 'false',
-            category_id: category.id
-          }
-        }
+        { project: { name: 'Test', description: 'Test', visibility: 'false', category_id: category.id } }
       end
 
       before { user.license.plan = 'pro' }
@@ -240,11 +223,7 @@ describe ProjectsController, type: :request do
     context 'when not owner of project' do
       let(:user2) { create(:user) }
       let(:params) do
-        {
-          project: {
-            name: 'Test', description: 'Test', category_id: category.id
-          }
-        }
+        { project: { name: 'Test', description: 'Test', category_id: category.id } }
       end
 
       before { sign_in user2 }
@@ -254,9 +233,7 @@ describe ProjectsController, type: :request do
   end
 
   describe 'PATCH #change_status' do
-    subject(:request) do
-      patch change_status_project_path(project, params)
-    end
+    subject(:request) { patch change_status_project_path(project, params) }
 
     %w[open active completed].each do |status|
       context "with valid status change to #{status}" do

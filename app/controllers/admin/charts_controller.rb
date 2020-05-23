@@ -3,26 +3,21 @@
 class Admin::ChartsController < Admin::BaseController
   include Admin::Concerns::ChartsFilterDate
 
-  before_action :load_plan_subscriptions,
-                only: %i[subscription_ratio subscription_by_date]
+  before_action :load_plan_subscriptions, only: %i[subscription_ratio subscription_by_date]
 
   before_action :load_landing_page_feedback, only: :landing_page_feedback
 
-  before_action :load_ahoy_event_social,
-                only: %i[social_share_ratio social_share_by_date]
+  before_action :load_ahoy_event_social, only: %i[social_share_ratio social_share_by_date]
 
-  before_action :load_ahoy_visit_referrer,
-                only: %i[referrers_ratio referrers_by_date]
+  before_action :load_ahoy_visit_referrer, only: %i[referrers_ratio referrers_by_date]
 
   before_action :load_ahoy_event_time_spent, only: :average_time_spent_per_page
 
   before_action :load_ahoy_visit_per_page, only: :number_of_visits_per_page
 
-  before_action :load_newsletter_subscription_by_date,
-                only: :newsletter_subscription_by_date
+  before_action :load_newsletter_subscription_by_date, only: :newsletter_subscription_by_date
 
-  before_action :load_unsubscription_by_newsletter,
-                only: :unsubscription_by_newsletter
+  before_action :load_unsubscription_by_newsletter, only: :unsubscription_by_newsletter
 
   before_action :load_unsubscription_reason, only: :unsubscription_reason
 
@@ -44,12 +39,10 @@ class Admin::ChartsController < Admin::BaseController
                   unsubscription_reason
                 ]
 
-  before_action :filter_date_by_updated_at,
-                only: %i[subscription_ratio subscription_by_date]
+  before_action :filter_date_by_updated_at, only: %i[subscription_ratio subscription_by_date]
 
   # These charts are filtered by 'started_at' column
-  before_action :filter_date_by_started_at,
-                only: %i[referrers_ratio referrers_by_date]
+  before_action :filter_date_by_started_at, only: %i[referrers_ratio referrers_by_date]
 
   def subscription_ratio
     render json: @records.size
@@ -102,8 +95,7 @@ class Admin::ChartsController < Admin::BaseController
 
   def unsubscription_by_newsletter
     @records.map! do |record|
-      ["#{record['title']}, #{record['created_at'].utc.strftime('%d-%m-%Y')}",
-       record['feedback_count']]
+      ["#{record['title']}, #{record['created_at'].utc.strftime('%d-%m-%Y')}", record['feedback_count']]
     end
 
     render json: @records

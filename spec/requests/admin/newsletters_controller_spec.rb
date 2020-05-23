@@ -14,8 +14,7 @@ describe Admin::NewslettersController, type: :request do
       subject(:request) { get newsletters_path }
 
       it {
-        expect { request }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { request }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
@@ -23,8 +22,7 @@ describe Admin::NewslettersController, type: :request do
       subject(:request) { get new_newsletter_path }
 
       it {
-        expect { request }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { request }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
@@ -32,8 +30,7 @@ describe Admin::NewslettersController, type: :request do
       subject(:request) { get newsletter_path(newsletter) }
 
       it {
-        expect { request }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { request }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
@@ -41,8 +38,7 @@ describe Admin::NewslettersController, type: :request do
       subject(:request) { post newsletters_path(newsletter) }
 
       it {
-        expect { request }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { request }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
 
@@ -50,8 +46,7 @@ describe Admin::NewslettersController, type: :request do
       subject(:request) { get subscribers_newsletters_path }
 
       it {
-        expect { request }
-          .to be_authorized_to(:manage?, admin).with(AdminPolicy)
+        expect { request }.to be_authorized_to(:manage?, admin).with(AdminPolicy)
       }
     end
   end
@@ -74,18 +69,14 @@ describe Admin::NewslettersController, type: :request do
     subject(:request) { post newsletters_path(params) }
 
     context 'with valid inputs' do
-      let(:params) do
-        { newsletter: { title: newsletter.title, content: newsletter.content } }
-      end
+      let(:params) { { newsletter: { title: newsletter.title, content: newsletter.content } } }
 
       it_behaves_like 'accessible to admin users'
       it_behaves_like 'not accessible to non-admin users'
     end
 
     context 'with missing params as admin' do
-      let(:params) do
-        { newsletter: { title: '', content: newsletter.content } }
-      end
+      let(:params) { { newsletter: { title: '', content: newsletter.content } } }
 
       before { sign_in admin }
 
@@ -158,12 +149,7 @@ describe Admin::NewslettersController, type: :request do
 
     context 'with valid input' do
       let(:params) do
-        {
-          newsletter_unsubscription: {
-            email: newsletter_user.email,
-            reasons: ['no_longer']
-          }
-        }
+        { newsletter_unsubscription: { email: newsletter_user.email, reasons: ['no_longer'] } }
       end
 
       it_behaves_like 'accessible to authenticated users'
@@ -172,12 +158,7 @@ describe Admin::NewslettersController, type: :request do
 
     context 'with invalid input' do
       let(:params) do
-        {
-          newsletter_unsubscription: {
-            email: newsletter_user.email,
-            reasons: ['invalid']
-          }
-        }
+        { newsletter_unsubscription: { email: newsletter_user.email, reasons: ['invalid'] } }
       end
 
       it_behaves_like 'returns 422 Unprocessable Entity'
@@ -185,12 +166,7 @@ describe Admin::NewslettersController, type: :request do
 
     context 'with not subscribed email' do
       let(:params) do
-        {
-          newsletter_unsubscription: {
-            email: 'randon@email.com',
-            reasons: ['no_longer']
-          }
-        }
+        { newsletter_unsubscription: { email: 'randon@email.com', reasons: ['no_longer'] } }
       end
 
       it_behaves_like 'returns 200 OK'

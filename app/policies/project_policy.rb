@@ -22,9 +22,7 @@ class ProjectPolicy < ApplicationPolicy
     data = scope.joins(teams: :collaborations).where(user: target).distinct
     next data if user&.admin || user == target
 
-    data.where(visibility: true).or(
-      data.where(collaborations: { user_id: user&.id })
-    )
+    data.where(visibility: true).or(data.where(collaborations: { user_id: user&.id }))
   end
 
   relation_scope(:profile_joined) do |scope, target: nil|
@@ -34,9 +32,7 @@ class ProjectPolicy < ApplicationPolicy
 
     next data if user&.admin || user == target
 
-    data.where(visibility: true).or(
-      data.where(collaborations: { user_id: user&.id })
-    )
+    data.where(visibility: true).or(data.where(collaborations: { user_id: user&.id }))
   end
 
   def show?

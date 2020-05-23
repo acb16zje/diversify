@@ -38,8 +38,7 @@ describe NewsletterFeedback, type: :model do
   describe '#count_reason' do
     it 'count and group the reasons' do
       expect(
-        described_class
-          .count_reason([feedback])['I no longer want to receive these emails']
+        described_class.count_reason([feedback])['I no longer want to receive these emails']
       ).to eq(1)
     end
   end

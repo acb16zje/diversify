@@ -9,8 +9,7 @@ class Users::Settings::ProfilesController < Users::Settings::BaseController
     if current_user.update(profile_params)
       render json: { message: 'Profile updated' }
     else
-      render json: { message: current_user.errors.full_messages },
-             status: :bad_request
+      render json: { message: current_user.errors.full_messages }, status: :bad_request
     end
   end
 

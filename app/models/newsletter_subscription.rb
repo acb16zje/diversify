@@ -32,9 +32,7 @@ class NewsletterSubscription < ApplicationRecord
   def self.subscribe(email)
     record = where(email: email).first_or_initialize
 
-    if record.new_record? || (record.persisted? && !record.subscribed?) # rubocop:disable Style/GuardClause
-      record.update(subscribed: true)
-    end
+    record.update(subscribed: true) if record.new_record? || (record.persisted? && !record.subscribed?)
   end
 
   def unsubscribe

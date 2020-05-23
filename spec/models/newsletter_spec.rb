@@ -29,8 +29,7 @@ describe Newsletter, type: :model do
       before { newsletter }
 
       let(:feedback_before_newsletter) do
-        create(:newsletter_feedback, :no_longer,
-               created_at: Time.zone.yesterday)
+        create(:newsletter_feedback, :no_longer, created_at: Time.zone.yesterday)
       end
 
       let(:feedback_after_newsletter) do
@@ -54,8 +53,7 @@ describe Newsletter, type: :model do
       before { create(:newsletter_subscription) }
 
       it 'send newsletter on create' do
-        expect { newsletter }
-          .to have_enqueued_mail(NewsletterMailer, :send_newsletter)
+        expect { newsletter }.to have_enqueued_mail(NewsletterMailer, :send_newsletter)
       end
     end
   end

@@ -88,9 +88,7 @@ describe Task, type: :model do
 
       before { task.skills << skill }
 
-      it do
-        expect(described_class.data.map(&:attributes)).to eql([result])
-      end
+      it { expect(described_class.data.map(&:attributes)).to eql([result]) }
     end
   end
 end

@@ -131,9 +131,7 @@ class User < ApplicationRecord
       birthdate_before_type_cast[3]  # day of month
     )
 
-    if dob >= created_at.to_date
-      return errors.add(:birthdate, 'must be before the account creation date')
-    end
+    return errors.add(:birthdate, 'must be before the account creation date') if dob >= created_at.to_date
 
     age = ((Time.current - dob.to_time) / 1.year.seconds).floor
     return if age.between?(6, 80)

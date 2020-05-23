@@ -15,9 +15,7 @@ describe Users::SessionsController, type: :request do
     end
 
     context 'with invalid sign in params' do
-      let(:params) do
-        { user: { email: 'fake@email.com', password: 'fake123' } }
-      end
+      let(:params) { { user: { email: 'fake@email.com', password: 'fake123' } } }
 
       it_behaves_like 'returns 401 Unauthorized'
     end

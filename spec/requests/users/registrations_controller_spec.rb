@@ -9,9 +9,7 @@ describe Users::RegistrationsController, type: :request do
     subject(:request) { post user_registration_path(params) }
 
     context 'with valid sign up details' do
-      let(:params) do
-        { 'user[email]': '123@email.com', 'user[password]': '12345678' }
-      end
+      let(:params) { { 'user[email]': '123@email.com', 'user[password]': '12345678' } }
 
       it_behaves_like 'returns 200 OK'
     end
@@ -23,9 +21,7 @@ describe Users::RegistrationsController, type: :request do
     end
 
     context 'when email has been taken' do
-      let(:params) do
-        { 'user[email]': user.email, 'user[password]': user.password }
-      end
+      let(:params) { { 'user[email]': user.email, 'user[password]': user.password } }
 
       it_behaves_like 'returns 400 Bad Request'
     end

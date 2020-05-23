@@ -9,9 +9,7 @@ class Users::Settings::SkillsController < Users::Settings::BaseController
   def create
     # insert_all does not trigger validations, handle the errors on client-side
     records = UserSkill.insert_all(
-      skill_params[:skill_ids].map do |id|
-        { user_id: current_user.id, skill_id: id }
-      end
+      skill_params[:skill_ids].map { |id| { user_id: current_user.id, skill_id: id } }
     )
 
     if skill_params[:skill_ids].length == records.length

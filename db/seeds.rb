@@ -8,7 +8,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# rubocop:disable Layout/LineLength
 # 16 personalities
 %w[I E].each do |mind|
   %w[S N].each do |energy|
@@ -57,4 +56,3 @@ Skill.find_or_create_by(name: 'Algorithms and Data Structures', category: comput
 Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
-# rubocop:enable Layout/LineLength

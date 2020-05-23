@@ -50,10 +50,7 @@ describe Project, type: :model do
         .allowing('image/png', 'image/jpg', 'image/jpeg')
     }
 
-    it {
-      is_expected
-        .to validate_size_of(:avatar).less_than_or_equal_to(200.kilobytes)
-    }
+    it { is_expected.to validate_size_of(:avatar).less_than_or_equal_to(200.kilobytes) }
   end
 
   describe 'scopes' do

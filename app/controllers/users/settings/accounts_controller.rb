@@ -27,7 +27,6 @@ class Users::Settings::AccountsController < Users::Settings::BaseController
   private
 
   def disconnect_provider_allowed?
-    !current_user.password_automatically_set? ||
-      current_user.identities.size > 1
+    !current_user.password_automatically_set? || current_user.identities.size > 1
   end
 end

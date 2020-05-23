@@ -88,9 +88,7 @@ describe Projects::Appeals::ApplicationsController, type: :request do
     end
 
     context 'when project is full' do
-      let(:project) do
-        create(:project_with_members, user: user, members_count: 9)
-      end
+      let(:project) { create(:project_with_members, user: user, members_count: 9) }
 
       let(:application) { create(:application, project: project) }
 

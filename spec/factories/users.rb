@@ -36,9 +36,7 @@ FactoryBot.define do
     name { generate(:name) }
 
     trait :newsletter do
-      after(:create) do |user|
-        create(:newsletter_subscription, email: user.email)
-      end
+      after(:create) { |user| create(:newsletter_subscription, email: user.email) }
     end
 
     trait :with_personality do
@@ -70,13 +68,7 @@ FactoryBot.define do
 
     after(:create) do |user, evaluator|
       evaluator.providers.each do |provider|
-        identity_attrs = {
-          provider: provider,
-          uid: evaluator.uid,
-          user: user
-        }
-
-        create(:identity, identity_attrs)
+        create(:identity, provider: provider, uid: evaluator.uid, user: user)
       end
     end
   end

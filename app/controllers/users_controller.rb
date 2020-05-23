@@ -68,9 +68,7 @@ class UsersController < ApplicationController
   end
 
   def prepare_counts
-    joined_ids = if @user.teams.present?
-                   "(#{@user.teams.pluck(:project_id).join(',')})"
-                 else '(0)' end
+    joined_ids = @user.teams.present? ? "(#{@user.teams.pluck(:project_id).join(',')})" : '(0)'
 
     @counts = @user.projects.pluck(
       Arel.sql(

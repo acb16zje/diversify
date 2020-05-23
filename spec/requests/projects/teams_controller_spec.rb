@@ -37,17 +37,13 @@ describe Projects::TeamsController, type: :request do
     end
 
     describe '#edit' do
-      subject(:request) do
-        get edit_project_team_path(team, project_id: project.id)
-      end
+      subject(:request) { get edit_project_team_path(team, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:access_team?, team) }
     end
 
     describe '#show' do
-      subject(:request) do
-        get project_team_path(team, project_id: project.id), xhr: true
-      end
+      subject(:request) { get project_team_path(team, project_id: project.id), xhr: true }
 
       it { expect { request }.to be_authorized_to(:show?, team) }
     end
@@ -59,25 +55,19 @@ describe Projects::TeamsController, type: :request do
     end
 
     describe '#update' do
-      subject(:request) do
-        patch project_team_path(team, project_id: project.id)
-      end
+      subject(:request) { patch project_team_path(team, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:access_team?, team) }
     end
 
     describe '#destroy' do
-      subject(:request) do
-        delete project_team_path(team, project_id: project.id)
-      end
+      subject(:request) { delete project_team_path(team, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:manage?, team) }
     end
 
     describe '#remove_user' do
-      subject(:request) do
-        delete remove_user_project_team_path(team, project_id: project.id)
-      end
+      subject(:request) { delete remove_user_project_team_path(team, project_id: project.id) }
 
       it { expect { request }.to be_authorized_to(:manage?, team) }
     end
@@ -127,9 +117,7 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'POST #save_manage' do
-    subject(:request) do
-      post manage_project_teams_path(project, params), xhr: true
-    end
+    subject(:request) { post manage_project_teams_path(project, params), xhr: true }
 
     let(:params) do
       { data:
@@ -238,9 +226,7 @@ describe Projects::TeamsController, type: :request do
     subject(:request) { post project_teams_path(project, params) }
 
     let(:params) do
-      { team: {
-        name: 'Test', team_size: 1, project_id: project.id, skills_ids: []
-      } }
+      { team: { name: 'Test', team_size: 1, project_id: project.id, skills_ids: [] } }
     end
 
     context 'when not authorized to manage project' do
@@ -260,9 +246,7 @@ describe Projects::TeamsController, type: :request do
 
     context 'when input is invalid' do
       let(:params) do
-        { team: {
-          name: 'Test', team_size: -1, project_id: project.id, skills_ids: []
-        } }
+        { team: { name: 'Test', team_size: -1, project_id: project.id, skills_ids: [] } }
       end
 
       before { sign_in admin }
@@ -273,10 +257,7 @@ describe Projects::TeamsController, type: :request do
     context 'when team has skill' do
       let(:skill) { create(:skill, category: project.category) }
       let(:params) do
-        { team: {
-          name: 'Test', team_size: 1, project_id: project.id,
-          skills_ids: [skill.id]
-        } }
+        { team: { name: 'Test', team_size: 1, project_id: project.id, skills_ids: [skill.id] } }
       end
 
       it_behaves_like 'accessible to admin users'
@@ -287,9 +268,7 @@ describe Projects::TeamsController, type: :request do
     subject(:request) { patch project_team_path(project, team, params) }
 
     let(:params) do
-      { team: {
-        name: 'Test', team_size: 1, project_id: project.id, skills_ids: []
-      } }
+      { team: { name: 'Test', team_size: 1, project_id: project.id, skills_ids: [] } }
     end
 
     context 'when not authorized to manage project' do
@@ -308,9 +287,7 @@ describe Projects::TeamsController, type: :request do
 
     context 'when input is invalid' do
       let(:params) do
-        { team: {
-          name: 'Test', team_size: -1, project_id: project.id, skills_ids: []
-        } }
+        { team: { name: 'Test', team_size: -1, project_id: project.id, skills_ids: [] } }
       end
 
       before { sign_in admin }
@@ -321,10 +298,7 @@ describe Projects::TeamsController, type: :request do
     context 'when team has skill' do
       let(:skill) { create(:skill) }
       let(:params) do
-        { team: {
-          name: 'Test', team_size: 1, project_id: project.id,
-          skills_ids: [skill.id]
-        } }
+        { team: { name: 'Test', team_size: 1, project_id: project.id, skills_ids: [skill.id] } }
       end
 
       it_behaves_like 'accessible to admin users'
@@ -351,9 +325,7 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'DELETE #remove_user' do
-    subject(:request) do
-      delete remove_user_project_team_path(project, team, params)
-    end
+    subject(:request) { delete remove_user_project_team_path(project, team, params) }
 
     let(:target) { create(:user) }
     let(:params) { { user_id: target.id } }

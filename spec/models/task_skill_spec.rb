@@ -36,9 +36,7 @@ describe TaskSkill, type: :model do
     describe 'UNIQUE task_id, skill_id' do
       subject { build(:task_skill) }
 
-      it do
-        is_expected.to validate_uniqueness_of(:skill_id).scoped_to(:task_id)
-      end
+      it { is_expected.to validate_uniqueness_of(:skill_id).scoped_to(:task_id) }
     end
   end
 end

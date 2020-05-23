@@ -3,7 +3,6 @@
 class UserBlueprint < Blueprinter::Base
   field :name
 
-  # rubocop:disable Layout/LineLength
   view :notifiable do
     field :icon do |user|
       extend AvatarHelper
@@ -19,5 +18,4 @@ class UserBlueprint < Blueprinter::Base
       '</figure>'
     end
   end
-  # rubocop:enable Layout/LineLength
 end

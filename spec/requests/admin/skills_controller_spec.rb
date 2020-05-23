@@ -32,9 +32,7 @@ describe Admin::SkillsController, type: :request do
     end
 
     context 'with duplicate name' do
-      let(:params) do
-        { skill: { name: skill.name, category_id: category_id } }
-      end
+      let(:params) { { skill: { name: skill.name, category_id: category_id } } }
 
       it_behaves_like 'returns 422 Unprocessable Entity'
     end

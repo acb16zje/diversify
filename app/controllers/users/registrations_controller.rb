@@ -75,8 +75,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def form_filled?
-    params[:user][:password].present? &&
-      params[:user][:password_confirmation].present?
+    params[:user][:password].present? && params[:user][:password_confirmation].present?
   end
 
   def register_success
@@ -96,8 +95,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def register_fail
     clean_up_passwords resource
     set_minimum_password_length
-    render json: { message: resource.errors.full_messages },
-           status: :bad_request
+    render json: { message: resource.errors.full_messages }, status: :bad_request
   end
 
   def oauth_update_resource

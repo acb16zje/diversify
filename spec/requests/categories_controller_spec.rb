@@ -10,9 +10,7 @@ describe CategoriesController, type: :request do
   end
 
   describe 'GET #index XHR' do
-    subject(:request) do
-      get categories_path, xhr: true, headers: { accept: 'application/json' }
-    end
+    subject(:request) { get categories_path, xhr: true, headers: { accept: 'application/json' } }
 
     let(:user) { create(:user) }
 

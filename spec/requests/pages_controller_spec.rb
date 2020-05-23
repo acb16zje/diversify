@@ -66,18 +66,10 @@ describe PagesController, type: :request do
   end
 
   describe '#submit_feedback' do
-    subject(:request) do
-      post submit_feedback_pages_path(params), xhr: true
-    end
+    subject(:request) { post submit_feedback_pages_path(params), xhr: true }
 
     context 'with valid params' do
-      let(:params) do
-        {
-          landing_feedback: {
-            smiley: 'happy', channel: 'Newspaper', interest: true
-          }
-        }
-      end
+      let(:params) { { landing_feedback: { smiley: 'happy', channel: 'Newspaper', interest: true } } }
 
       it_behaves_like 'accessible to authenticated users'
       it_behaves_like 'accessible to unauthenticated users'
@@ -90,11 +82,7 @@ describe PagesController, type: :request do
     end
 
     context 'with invalid option value' do
-      let(:params) do
-        {
-          landing_feedback: { smiley: 'happy', channel: 'foo', interest: true }
-        }
-      end
+      let(:params) { { landing_feedback: { smiley: 'happy', channel: 'foo', interest: true } } }
 
       it_behaves_like 'returns 422 Unprocessable Entity'
     end

@@ -116,8 +116,7 @@ class Projects::TeamsController < ApplicationController
 
   def team_success(message)
     flash[:toast_success] = message
-    render js:
-      "window.location = '#{manage_project_teams_path(@team.project)}'"
+    render js: "window.location = '#{manage_project_teams_path(@team.project)}'"
   end
 
   def team_fail(message = @team.errors.full_messages)

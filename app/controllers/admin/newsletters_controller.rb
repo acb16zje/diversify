@@ -2,17 +2,9 @@
 
 # Controller for newsletter
 class Admin::NewslettersController < Admin::BaseController
-  skip_before_action :authenticate_user!, only: %i[
-    subscribe
-    unsubscribe
-    post_unsubscribe
-  ]
+  skip_before_action :authenticate_user!, only: %i[subscribe unsubscribe post_unsubscribe]
 
-  skip_before_action :admin_authorize, only: %i[
-    subscribe
-    unsubscribe
-    post_unsubscribe
-  ]
+  skip_before_action :admin_authorize, only: %i[subscribe unsubscribe post_unsubscribe]
 
   layout 'metrics_page', except: :unsubscribe
 
@@ -47,8 +39,7 @@ class Admin::NewslettersController < Admin::BaseController
     if NewsletterSubscription.subscribe(params[:email])
       render json: { message: 'Thanks for subscribing' }
     else
-      render json: { message: 'Subscription Failed' },
-             status: :unprocessable_entity
+      render json: { message: 'Subscription Failed' }, status: :unprocessable_entity
     end
   end
 
@@ -58,8 +49,7 @@ class Admin::NewslettersController < Admin::BaseController
     feedback = NewsletterFeedback.create(unsubscribe_params)
 
     if feedback.errors.any?
-      render json: { message: feedback.errors.full_messages.join(', ') },
-             status: :unprocessable_entity
+      render json: { message: feedback.errors.full_messages.join(', ') }, status: :unprocessable_entity
     else
       # Prevent Oracle attack on newsletter subscribers list by returning as
       # long as the params syntax are correct
@@ -76,9 +66,6 @@ class Admin::NewslettersController < Admin::BaseController
   def unsubscribe_params
     p = params.require(:newsletter_unsubscription).permit(:email, reasons: [])
 
-    {
-      newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]),
-      reasons: p[:reasons]
-    }
+    { newsletter_subscription: NewsletterSubscription.find_by(email: p[:email]), reasons: p[:reasons] }
   end
 end

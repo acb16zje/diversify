@@ -39,9 +39,9 @@ class Task < ApplicationRecord
 
   has_many :task_users, dependent: :destroy
   has_many :users, through: :task_users,
+                   before_add: :check_in_project,
                    after_add: :send_assigned_notification,
-                   after_remove: :send_removed_notification,
-                   before_add: :check_in_project
+                   after_remove: :send_removed_notification
 
   has_many :task_skills, dependent: :destroy
   has_many :skills, through: :task_skills

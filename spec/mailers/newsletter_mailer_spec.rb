@@ -5,10 +5,7 @@ require 'rails_helper'
 describe NewsletterMailer, type: :mailer do
   describe '#send_newsletter' do
     let(:newsletter) { build_stubbed(:newsletter) }
-    let(:mail) do
-      described_class
-        .send_newsletter(%w[foo@bar.com bar@foo.com], newsletter).deliver
-    end
+    let(:mail) { described_class.send_newsletter(%w[foo@bar.com bar@foo.com], newsletter).deliver }
 
     it { expect(mail.to).to eq(['no-reply@sheffield.ac.uk']) }
     it { expect(mail.bcc).to eq(%w[foo@bar.com bar@foo.com]) }

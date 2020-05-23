@@ -33,7 +33,5 @@ class Notification < ApplicationRecord
   scope :unread, -> { where(read: false) }
 
   # TODO: tasks may not have avatar attachment, so the eager load wont work
-  scope :load_index, lambda {
-    includes(:notifier, notifiable: [{ avatar_attachment: :blob }])
-  }
+  scope :load_index, -> { includes(:notifier, notifiable: [{ avatar_attachment: :blob }]) }
 end

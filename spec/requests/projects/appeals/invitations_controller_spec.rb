@@ -50,9 +50,7 @@ describe Projects::Appeals::InvitationsController, type: :request do
   end
 
   describe 'POST #create' do
-    subject(:request) do
-      post project_invitations_path(project), params: { email: email }
-    end
+    subject(:request) { post project_invitations_path(project, email: email) }
 
     context 'when user-to-invite is project owner' do
       let(:email) { user.email }
@@ -100,9 +98,7 @@ describe Projects::Appeals::InvitationsController, type: :request do
     end
 
     context 'when project is full' do
-      let(:project) do
-        create(:project_with_members, user: create(:user), members_count: 9)
-      end
+      let(:project) { create(:project_with_members, user: create(:user), members_count: 9) }
 
       let(:invitation) { create(:invitation, project: project, user: user) }
 
@@ -120,9 +116,7 @@ describe Projects::Appeals::InvitationsController, type: :request do
     end
 
     context 'when user is project owner' do
-      let(:invitation) do
-        create(:invitation, project: create(:project, user: user))
-      end
+      let(:invitation) { create(:invitation, project: create(:project, user: user)) }
 
       it_behaves_like 'returns 200 OK'
     end

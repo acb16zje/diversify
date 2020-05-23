@@ -34,8 +34,7 @@ class Projects::Appeals::InvitationsController < Projects::Appeals::BaseControll
   def destroy
     return invitation_fail unless @invitation.delete
 
-    @invitation.send_resolve_notification('decline',
-                                          current_user == @invitation.user)
+    @invitation.send_resolve_notification('decline', current_user == @invitation.user)
 
     # TODO: should return JSON only, otherwise the Table will redirect
     flash[:toast_success] = 'Invitation deleted'

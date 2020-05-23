@@ -20,8 +20,7 @@ describe LandingFeedback, type: :model do
     it { is_expected.to validate_presence_of(:smiley) }
 
     it {
-      is_expected.to validate_inclusion_of(:channel)
-        .in_array(described_class::CHANNEL)
+      is_expected.to validate_inclusion_of(:channel).in_array(described_class::CHANNEL)
     }
 
     it { is_expected.not_to allow_value(nil).for(:interest) }

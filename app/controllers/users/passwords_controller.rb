@@ -14,8 +14,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
     return head :ok if successfully_sent?(resource)
 
-    render json: { message: resource.errors.full_messages },
-           status: :bad_request
+    render json: { message: resource.errors.full_messages }, status: :bad_request
   end
 
   # GET /resource/password/edit?reset_password_token=abcdef
@@ -46,8 +45,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
   def update_fail
     set_minimum_password_length
-    render json: { message: resource.errors.full_messages },
-           status: :bad_request
+    render json: { message: resource.errors.full_messages }, status: :bad_request
   end
 
   def update_success

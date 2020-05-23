@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Projects::TasksController < ApplicationController
-  before_action :set_task,
-                only: %i[edit update set_percentage assign_self destroy]
+  before_action :set_task, only: %i[edit update set_percentage assign_self destroy]
   before_action :set_project, except: :set_percentage
   before_action :set_skills, only: %i[new edit]
 

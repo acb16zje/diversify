@@ -59,9 +59,7 @@ describe Ahoy::Event, type: :model do
 
       let!(:event) { create(:ahoy_event, :facebook) }
 
-      it {
-        is_expected.to eq([event.properties['type'], event.time.to_date] => 1)
-      }
+      it { is_expected.to eq([event.properties['type'], event.time.to_date] => 1) }
     end
   end
 end

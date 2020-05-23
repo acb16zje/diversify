@@ -18,9 +18,7 @@ describe Users::Settings::PersonalitiesController, type: :request do
     before { create(:personality) }
 
     context 'with valid input' do
-      let(:params) do
-        { personality: { mind: 'I', energy: 'S', nature: 'F', tactic: 'J' } }
-      end
+      let(:params) { { personality: { mind: 'I', energy: 'S', nature: 'F', tactic: 'J' } } }
 
       it_behaves_like 'accessible to authenticated users'
       it_behaves_like 'not accessible to unauthenticated users'
@@ -29,9 +27,7 @@ describe Users::Settings::PersonalitiesController, type: :request do
     context 'with invalid input' do
       before { sign_in user }
 
-      let(:params) do
-        { personality: { mind: '', energy: '', nature: '', tactic: '' } }
-      end
+      let(:params) { { personality: { mind: '', energy: '', nature: '', tactic: '' } } }
 
       it_behaves_like 'returns 422 Unprocessable Entity'
     end
