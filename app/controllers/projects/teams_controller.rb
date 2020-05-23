@@ -22,7 +22,7 @@ class Projects::TeamsController < ApplicationController
   end
 
   def save_manage
-    JSON.parse(params[:data]).each do |team|
+    Oj.load(params[:data]).each do |team|
       selected_team_id, members = team
       new_team = Team.find(selected_team_id.to_i)
       members.each do |member|

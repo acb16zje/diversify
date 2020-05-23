@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'oj'
 require_relative '../../spec/simplecov_env'
 SimpleCovEnv.configure_profile
 
@@ -12,7 +13,7 @@ module SimpleCov
 
       result_array = begin
                        resultset_files.map do |result_file|
-                         SimpleCov::Result.from_hash JSON.parse(result_file.read)
+                         SimpleCov::Result.from_hash Oj.load(result_file.read)
                        end
                      rescue StandardError
                        {}
