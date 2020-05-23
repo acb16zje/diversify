@@ -126,15 +126,16 @@ Rails.application.routes.draw do
     end
 
     scope module: :projects do
-      resources :teams, except: %i[index] do
-        collection do
-          get 'manage'
-          get 'manage_data'
-          post 'recompute_data'
-          post 'manage', to: 'teams#save_manage'
-        end
+      scope module: :teams do
+        resources :teams, except: %i[index]
 
-        delete 'remove_user', on: :member
+        resources :manage, only: %i[index create] do
+          collection do
+            get 'manage_data'
+            post 'recompute_data'
+            delete 'remove_user'
+          end
+        end
       end
 
       shallow do

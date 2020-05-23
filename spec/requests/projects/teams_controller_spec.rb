@@ -13,7 +13,7 @@ describe Projects::TeamsController, type: :request do
     before { sign_in user }
 
     describe '#manage' do
-      subject(:request) { get manage_project_teams_path(project) }
+      subject(:request) { get project_manage_index_path(project) }
 
       it { expect { request }.to be_authorized_to(:manage?, project) }
     end
@@ -25,7 +25,7 @@ describe Projects::TeamsController, type: :request do
     end
 
     describe '#save_manage' do
-      subject(:request) { post manage_project_teams_path(project) }
+      subject(:request) { post project_manage_index_path(project) }
 
       it { expect { request }.to be_authorized_to(:manage?, project) }
     end
@@ -74,7 +74,7 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'GET #manage' do
-    subject(:request) { get manage_project_teams_path(project) }
+    subject(:request) { get project_manage_index_path(project) }
 
     context 'when not authorized to manage project' do
       it_behaves_like 'not accessible to unauthorised users for private object'
@@ -117,7 +117,9 @@ describe Projects::TeamsController, type: :request do
   end
 
   describe 'POST #save_manage' do
-    subject(:request) { post manage_project_teams_path(project, params), xhr: true }
+    subject(:request) do
+      post project_manage_index_path(project, params), xhr: true
+    end
 
     let(:params) do
       { data:

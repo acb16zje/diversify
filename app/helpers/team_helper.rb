@@ -51,7 +51,7 @@ module TeamHelper
     user = target.is_a?(Hash) ? User.find(target['id']) : target
 
     1.0 * team_personality_score(user, users) *
-      team_skills_score(team.skills, user.skills)
+      teamskill_score(team.skills, user.skills)
   end
 
   def member_compability(target, user)
@@ -60,7 +60,7 @@ module TeamHelper
 
   private
 
-  def team_skills_score(t_skill, u_skill)
+  def teamskill_score(t_skill, u_skill)
     return 1.0 unless t_skill.present? && u_skill.present?
 
     1.0 + ((t_skill.size - (t_skill - u_skill).size) / (t_skill.size * 10.0))

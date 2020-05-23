@@ -8,7 +8,7 @@
         .column.is-narrow
           - if (allowed_to? :manage?, @project) && !@project.completed?
             .buttons.has-addons
-              = link_to manage_project_teams_path(@project.id), class: 'button is-info' do
+              = link_to project_manage_index_path(@project.id), class: 'button is-info' do
                 %p Manage Teams
                 %span.icon
                   %span.iconify{ 'data-icon': 'ant-design:tool-filled' }

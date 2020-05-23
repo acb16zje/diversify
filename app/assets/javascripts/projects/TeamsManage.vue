@@ -197,7 +197,7 @@ export default {
     send() {
       this.isLoading = true;
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/manage`,
+        url: `/projects/${this.projectId}/manage/`,
         type: 'POST',
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
@@ -215,7 +215,7 @@ export default {
     query() {
       this.isLoading = true;
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/manage_data`,
+        url: `/projects/${this.projectId}/manage/manage_data`,
         type: 'GET',
         success: ({ compability, data, teams }) => {
           console.log(compability);
@@ -236,7 +236,7 @@ export default {
     compute() {
       this.isLoading = true;
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/recompute_data`,
+        url: `/projects/${this.projectId}/manage/recompute_data`,
         type: 'POST',
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
@@ -270,7 +270,7 @@ export default {
     },
     removeUser(id, userId) {
       Rails.ajax({
-        url: `/projects/${this.projectId}/teams/${id}/remove_user`,
+        url: `/projects/${this.projectId}/manage/remove_user`,
         type: 'DELETE',
         data: new URLSearchParams({
           user_id: userId,
