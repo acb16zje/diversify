@@ -74,7 +74,7 @@ Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
 
-(1..100).each do |i|
+(1..4).each do |i|
   dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
     u.password = 'password'
     u.personality_id = (i % 16) + 1

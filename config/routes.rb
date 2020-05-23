@@ -131,6 +131,7 @@ Rails.application.routes.draw do
 
         resources :manage, only: %i[index create] do
           collection do
+            get 'suggest'
             get 'manage_data'
             post 'recompute_data'
             delete 'remove_user'

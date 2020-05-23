@@ -21,7 +21,7 @@
         </b-button>
         <b-field>
           <p class="control">
-            <b-button class="button is-primary">
+            <b-button class="button is-primary" @click="suggest">
               Suggest
               <span class="icon">
                 <span class="iconify" data-icon="ic:outline-autorenew" />
@@ -104,11 +104,11 @@
               >
                 <p class="card-header-title">
                   {{ element.name }} ({{ element.email }})
-                  <span v-if="element.id === parseInt(projectOwner, 10)" class="tag is-info has-text-weight-normal">
-                    Owner
-                  </span>
                 </p>
                 <a class="card-header-icon">
+                  <b-tooltip v-if="element.id === parseInt(projectOwner, 10)" animated label="Owner" position="is-top">
+                    <b-icon icon="account" size="is-medium" type="is-info" />
+                  </b-tooltip>
                   <b-icon icon="menu-down" />
                 </a>
               </div>
@@ -218,7 +218,7 @@ export default {
         url: `/projects/${this.projectId}/manage/manage_data`,
         type: 'GET',
         success: ({ compability, data, teams }) => {
-          console.log(compability);
+          console.log(data);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
@@ -289,6 +289,18 @@ export default {
         }
       }
       this.currentToggleState = !this.currentToggleState;
+    },
+    suggest() {
+      this.isLoading = true;
+      Rails.ajax({
+        url: `/projects/${this.projectId}/manage/suggest`,
+        type: 'GET',
+        success: ({ data }) => {
+          console.log(data);
+          this.data = data;
+          this.compute();
+        },
+      });
     },
   },
 };

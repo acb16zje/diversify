@@ -4,8 +4,7 @@ class Projects::Teams::TeamsController < Projects::Teams::BaseController
   before_action :set_team, only: %i[edit show update destroy]
   before_action :set_project, except: %i[show]
   before_action :set_skills, only: %i[new edit]
-
-  # GET /teams
+  skip_before_action :authenticate_user!, only: %i[show]
 
   # GET /teams/new
   def new; end

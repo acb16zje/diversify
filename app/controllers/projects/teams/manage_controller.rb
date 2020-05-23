@@ -4,6 +4,7 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
   before_action :set_project
 
   include TeamHelper
+  include SuggestHelper
 
   def index; end
 
@@ -18,6 +19,19 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
       }.to_h, data: @data.group_by(&:team_id),
       teams: @project.teams&.select(:id, :name, :team_size)
     }
+  end
+
+  def suggest
+    users = split_users(User.teams_data(@project))
+    suggestion, leftover = allocate_first_users(@project.teams.where.not(name: 'Unassigned'), users[0])
+
+    [leftover, users[1], users[2]].each do |data|
+      suggestion = match(data, suggestion)
+    end
+
+    leftover = users.flatten - suggestion.values.flatten
+    suggestion[@project.unassigned_team.id] = leftover
+    render json: { data: suggestion }
   end
 
   # save_data
@@ -48,5 +62,22 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
 
     @team.users.delete(user)
     head :ok
+  end
+
+  def match(data, suggestion)
+    data.each do |user|
+      puts(suggestion)
+      results = compare_team(user, @project.teams.where.not(name: 'Unassigned'), suggestion)
+      results.sort_by { |_, v| -v }.each do |k, _|
+        puts(k)
+        team = @project.teams.find_by(name: k)
+        next if suggestion[team.id.to_s].size == team.team_size
+
+        suggestion[team.id.to_s].push(user)
+        break
+      end
+      puts("im out")
+    end
+    suggestion
   end
 end
