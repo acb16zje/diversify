@@ -11,9 +11,7 @@ describe 'Show Dashboard > Admin', :js, type: :system do
   end
 
   describe 'admin category page' do
-    it 'shows categories' do
-      expect(page).to have_content('Categories')
-    end
+    it { expect(page).to have_content('Categories')}
   end
 
   describe 'add new category' do

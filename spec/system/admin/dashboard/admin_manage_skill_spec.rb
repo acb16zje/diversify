@@ -11,9 +11,7 @@ describe 'Show Dashboard > Admin', :js, type: :system do
   end
 
   describe 'show admin skills page' do
-    it 'shows skills' do
-      expect(page).to have_content('Skills')
-    end
+    it { expect(page).to have_content('Skills') }
   end
 
   describe 'add new skill' do

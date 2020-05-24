@@ -7,8 +7,7 @@ describe 'Search Project > Project', :js, type: :system do
 
   before do
     create(:project, name: 'Test', user: user, status: 'active')
-    create(:project,
-           name: 'Test2', user: user, status: 'open', created_at: 1.day.ago)
+    create(:project, name: 'Test2', user: user, status: 'open', created_at: 1.day.ago)
     create_list(:category, 3)
     sign_in user
     visit projects_path
