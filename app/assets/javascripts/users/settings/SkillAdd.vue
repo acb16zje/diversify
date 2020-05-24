@@ -38,6 +38,7 @@
               aria-close-label="Close tag"
               attached
               closable
+              @close="removeFromPending(id)"
             >
               {{ name }}
             </b-tag>
@@ -91,10 +92,8 @@ export default {
       },
     },
     filteredDataObj() {
-      return this.skillList.filter((option) => option.name
-        .toString()
-        .toLowerCase()
-        .indexOf(this.skill.toLowerCase()) >= 0);
+      return this.skillList.filter((option) => option.name.toLowerCase().indexOf(this.skill.toLowerCase()) >= 0
+        && !this.pendingSkills.find(({ name }) => name === option.name));
     },
     ...mapState('skill', ['skillList']),
   },
@@ -108,6 +107,9 @@ export default {
       if (skill && !this.pendingSkills.find((e) => e === skill)) {
         this.pendingSkills.push(skill);
       }
+    },
+    removeFromPending(id) {
+      this.pendingSkills = this.pendingSkills.filter((e) => e.id !== id);
     },
     saveSkills() {
       this.isSaving = true;
