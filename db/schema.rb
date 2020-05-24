@@ -223,7 +223,7 @@ ActiveRecord::Schema.define(version: 2020_05_19_151951) do
     t.enum "tactic", as: "tactics"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "compabilities", default: [], array: true
+    t.integer "compatibilities", default: [], array: true
     t.index ["mind", "energy", "nature", "tactic"], name: "index_personalities_on_mind_and_energy_and_nature_and_tactic", unique: true
   end
 

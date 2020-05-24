@@ -93,7 +93,7 @@ class User < ApplicationRecord
     NewsletterSubscription.find_by(email: email)&.subscribed?
   end
 
-  def empty_compability_data?
+  def empty_compatibility_data?
     personality.blank? && skills.blank?
   end
 
@@ -107,7 +107,7 @@ class User < ApplicationRecord
   end
 
   def compatible_with?(target_user)
-    personality.compabilities[target_user.personality_id - 1]
+    personality.compatibilities[target_user.personality_id - 1]
   end
 
   def self.teams_data(project)

@@ -7,7 +7,6 @@ class Projects::Teams::BaseController < ApplicationController
 
   def set_team
     @team = Team.find(params[:id])
-    puts("TEAM FOUND? #{@team}")
     authorize! @team
   end
 
@@ -17,7 +16,7 @@ class Projects::Teams::BaseController < ApplicationController
   end
 
   def set_project
-    @project = Project.includes(:teams, :users).find(params[:project_id])
+    @project = Project.find(params[:project_id])
     authorize! @project, to: :manage?
   end
 

@@ -13,11 +13,11 @@
     <div class="level-item has-text-centered">
       <div>
         <p class="heading">
-          Compability
+          Compatibility
         </p>
         <p v-if="moved || score.includes('Team') || score === ''">
           -
-          <b-tooltip animated multilined label="Recompute to get Compability Score" position="is-top">
+          <b-tooltip animated multilined label="Recompute to get Compatibility Score" position="is-top">
             <span class="iconify is-24" data-icon="twemoji:warning" />
           </b-tooltip>
         </p>

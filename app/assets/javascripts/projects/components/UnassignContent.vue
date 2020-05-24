@@ -9,7 +9,7 @@
         <span class="iconify is-24" data-icon="twemoji:warning" />
       </b-tooltip>
     </p>
-    <p v-else-if="recommendation.includes('Team')" class="compability-content">
+    <p v-else-if="recommendation.includes('Team')" class="compatibility-content">
       <strong>Recommendation:</strong> {{ recommendation }}
     </p>
     <p v-else-if="recommendation === ''">

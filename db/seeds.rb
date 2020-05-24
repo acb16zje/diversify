@@ -32,7 +32,7 @@ COMPABILITY_LIST = {
 COMPABILITY_LIST.each do |key, value|
   Personality.find_or_create_by(
     mind: key[0], energy: key[1], nature: key[2], tactic: key[3],
-    compabilities: value
+    compatibilities: value
   )
 end
 
@@ -74,7 +74,12 @@ Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
 
-(1..4).each do |i|
+(7..27).each do |i|
+  dummy = Team.find_or_create_by(name: "Team#{i}", team_size: 2, project_id: 1)
+  TeamSkill.find_or_create_by(team: dummy, skill_id: (i % 4) + 1)
+end
+
+(1..50).each do |i|
   dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
     u.password = 'password'
     u.personality_id = (i % 16) + 1

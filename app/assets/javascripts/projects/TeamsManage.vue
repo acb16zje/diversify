@@ -2,6 +2,9 @@
   <div>
     <b-loading :is-full-page="false" :active.sync="isLoading" />
     <div class="sticky box">
+      <p class="has-text-grey">
+        Computing Compatibility might take up to 1 minute depending on project size.
+      </p>
       <div class="buttons">
         <b-button class="button is-success" @click="send">
           Save
@@ -44,10 +47,10 @@
       <div v-if="changed" class="container">
         <p class="has-text-weight-medium">
           <span class="iconify is-24" data-icon="twemoji:warning" />
-          Recompute the compability for current changes.
+          Recompute the compatibility for current changes.
         </p>
         <b-button class="button is-danger" @click="compute">
-          Recompute Compability
+          Recompute Compatibility
         </b-button>
       </div>
     </div>
@@ -113,8 +116,8 @@
                 </a>
               </div>
               <div class="card-content">
-                <unassign-content v-if="team.name === 'Unassigned'" :ref="element.id" :count="element.count" :recommendation="compability[element.id]" />
-                <assigned-content v-else :ref="element.id" :count="element.count" :score="compability[element.id]" />
+                <unassign-content v-if="team.name === 'Unassigned'" :ref="element.id" :count="element.count" :recommendation="compatibility[element.id]" />
+                <assigned-content v-else :ref="element.id" :count="element.count" :score="compatibility[element.id]" />
               </div>
               <footer v-if="element.id != parseInt(projectOwner, 10)" class="card-footer">
                 <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
@@ -157,7 +160,7 @@ export default {
     return {
       currentToggleState: true,
       changed: false,
-      compability: {},
+      compatibility: {},
       data: {},
       teams: {},
       isLoading: false,
@@ -171,7 +174,7 @@ export default {
   methods: {
     reset() {
       this.query();
-      Object.keys(this.compability).forEach((key) => {
+      Object.keys(this.compatibility).forEach((key) => {
         const list = this.$refs[key];
         for (let i = 0; i < list.length; i += 1) {
           list[i].toggle(false);
@@ -202,8 +205,10 @@ export default {
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
         }),
-        success: () => {
+        success: ({ data }) => {
+          this.data = data;
           this.isLoading = false;
+          console.log(data);
           successToast('Saved!');
         },
         error: ({ message }) => {
@@ -217,12 +222,12 @@ export default {
       Rails.ajax({
         url: `/projects/${this.projectId}/manage/manage_data`,
         type: 'GET',
-        success: ({ compability, data, teams }) => {
+        success: ({ compatibility, data, teams }) => {
           console.log(data);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
-          this.compability = compability;
+          this.compatibility = compatibility;
           this.teams.forEach((team) => {
             if (!(team.id in data)) {
               newData[team.id] = [];
@@ -241,15 +246,14 @@ export default {
         data: new URLSearchParams({
           data: JSON.stringify(this.data),
         }),
-        success: ({ compability }) => {
-          Object.keys(compability).forEach((key) => {
-            this.compability[key] = compability[key];
+        success: ({ compatibility }) => {
+          Object.keys(compatibility).forEach((key) => {
+            this.compatibility[key] = compatibility[key];
             const list = this.$refs[key];
             for (let i = 0; i < list.length; i += 1) {
               list[i].toggle(false);
             }
           });
-
           this.isLoading = false;
           this.changed = false;
         },

@@ -55,12 +55,4 @@ class Projects::Teams::TeamsController < Projects::Teams::BaseController
   def edit_params
     params.require(:team).permit(:team_size, :name, skill_ids: [])
   end
-
-  def change_team(member, new_team)
-    user = @project.users.where(id: member['id']).first
-    old_team = @project.teams.where(id: member['team_id']).first
-    authorize! new_team
-    new_team.users << user
-    old_team.users.delete(user)
-  end
 end
