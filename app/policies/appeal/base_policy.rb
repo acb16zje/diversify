@@ -9,8 +9,4 @@ class Appeal::BasePolicy < ApplicationPolicy
   def destroy?
     owner? || project_owner? || user.admin?
   end
-
-  def project_owner?
-    record.project.user_id == user.id
-  end
 end

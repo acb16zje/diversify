@@ -11,10 +11,10 @@ class TeamPolicy < ApplicationPolicy
   end
 
   def access_team?
-    record.name != 'Unassigned' && (user&.admin? || record.project.user == user)
+    record.name != 'Unassigned' && manage?
   end
 
   def manage?
-    user&.admin? || record.project.user == user
+    user&.admin? || project_owner?
   end
 end

@@ -20,9 +20,9 @@ class ProjectPolicy < ApplicationPolicy
 
   relation_scope(:profile_owned) do |scope, target: nil|
     data = scope.joins(teams: :collaborations).where(user: target).distinct
-    next data if user&.admin || user == target
+    next data if user&.admin || user&.id == target.id
 
-    data.where(visibility: true).or(data.where(collaborations: { user_id: user&.id }))
+    data.where("visibility = 't' OR collaborations.user_id = ?", user&.id)
   end
 
   relation_scope(:profile_joined) do |scope, target: nil|
@@ -30,14 +30,14 @@ class ProjectPolicy < ApplicationPolicy
                 .where(id: target.teams.pluck(:project_id))
                 .where.not(user: target).distinct
 
-    next data if user&.admin || user == target
+    next data if user&.admin || user&.id == target.id
 
-    data.where(visibility: true).or(data.where(collaborations: { user_id: user&.id }))
+    data.where("visibility = 't' OR collaborations.user_id = ?", user&.id)
   end
 
   def show?
     record.visibility || owner? || user&.admin? || user&.in_project?(record) ||
-      record.appeals.where(user: user, type: 'invitation').exists?
+      record.appeals.invitation.where(user: user).exists?
   end
 
   def manage?

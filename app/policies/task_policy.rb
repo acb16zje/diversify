@@ -3,11 +3,11 @@
 # Class for Task policies
 class TaskPolicy < ApplicationPolicy
   scope_matcher :user, User
-  alias_rule :create?, to: :new?
+
   default_rule :manage?
 
   relation_scope(:assigned) do |scope|
-    ids = scope.left_outer_joins(:task_users).where(task_users: { user_id: user.id }).pluck('task_users.task_id').uniq
+    ids = scope.left_outer_joins(:task_users).where(task_users: { user_id: user&.id }).pluck('task_users.task_id').uniq
     scope.where(id: ids)
   end
 
@@ -24,15 +24,14 @@ class TaskPolicy < ApplicationPolicy
   end
 
   def manage?
-    owner? || user&.admin? || record.project.user == user
+    owner? || user&.admin? || project_owner?
   end
 
   def set_percentage?
-    owner? || user&.admin? || record.project.user == user ||
-      record.users.include?(user)
+    manage? || record.users.include?(user)
   end
 
   def assign_self?
-    record.project.user == user || record.project.users.include?(user)
+    project_owner? || record.project.users.include?(user)
   end
 end

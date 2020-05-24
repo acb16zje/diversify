@@ -7,4 +7,8 @@ class ApplicationPolicy < ActionPolicy::Base
   def owner?
     record.user_id == user&.id
   end
+
+  def project_owner?
+    record.project.user_id == user&.id
+  end
 end
