@@ -7,7 +7,7 @@
         %h1.title.is-2
         Manage Teams
       .column
-        - if user_signed_in? && (current_user == @project.user || current_user.admin?) && !@project.completed?
+        - if (current_user == @project.user || current_user.admin?) && !@project.completed?
           .float-right.buttons
             = link_to new_project_team_path(project_id: @project.id), class: 'button is-primary' do
               %p New Team

@@ -22,14 +22,10 @@
 
 FactoryBot.define do
   factory :newsletter_feedback, class: NewsletterFeedback.name do
-    subscribed
-
-    trait :subscribed do
-      newsletter_subscription
-    end
+    association :newsletter_subscription, factory: :newsletter_subscription
 
     trait :not_subscribed do
-      association :newsletter_subscription, :unsubscribed
+      association :newsletter_subscription, :unsubscribed, factory: :newsletter_subscription
     end
 
     trait :no_longer do

@@ -27,8 +27,5 @@ class Activity < ApplicationRecord
 
   validates :key, presence: true
 
-  def self.from_month(mth)
-    where('activities.created_at >= ? AND activities.created_at <= ?',
-          mth.beginning_of_month, mth.end_of_month)
-  end
+  scope :from_month, ->(mth) { where(created_at: mth.all_month) }
 end

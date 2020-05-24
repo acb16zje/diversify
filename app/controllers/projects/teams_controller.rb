@@ -2,22 +2,17 @@
 
 class Projects::TeamsController < ApplicationController
   before_action :set_team, only: %i[edit show update destroy remove_user]
-  before_action :set_project, except: %i[show update destroy remove_user]
+  before_action :set_project, except: %i[show update remove_user]
   before_action :set_skills, only: %i[new edit]
 
   layout 'project'
 
-  # GET /teams
-  def manage; end
-
   def manage_data
     return render_404 unless request.xhr?
 
-    @data = User.joins(:teams).where(teams: { project: @project })
-                .select('users.*, teams.id as team_id')
     render json: {
-      data: @data.group_by(&:team_id),
-      teams: Team.where(project: @project).select(:id, :name, :team_size)
+      data: @project.users.select('users.*, teams.id AS team_id').group_by(&:team_id),
+      teams: @project.teams.select(:id, :name, :team_size)
     }
   end
 
@@ -74,8 +69,7 @@ class Projects::TeamsController < ApplicationController
 
   # DELETE /teams/1
   def destroy
-    team = Team.find_by(project_id: params[:project_id], name: 'Unassigned')
-    team.users << @team.users
+    @project.unassigned_team.users << @team.users
     @team.destroy
     head :ok
   end
@@ -91,15 +85,13 @@ class Projects::TeamsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_team
     @team = Team.find(params[:id])
     authorize! @team
   end
 
   def set_skills
-    @skills = Skill.where(category: @project.category)
-                   .collect { |s| [s.name, s.id] }
+    @skills = @project.category.skills.map { |s| [s.name, s.id] }
   end
 
   def set_project

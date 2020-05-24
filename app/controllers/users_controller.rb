@@ -18,7 +18,6 @@ class UsersController < ApplicationController
     return render_404 unless request.xhr?
 
     month = find_next_activity(params[:month].to_i)
-
     month.present? ? render_timeline(month) : head(:no_content)
   end
 
@@ -29,17 +28,19 @@ class UsersController < ApplicationController
   end
 
   def find_next_activity(month)
-    data = Activity.where('user_id = ? AND created_at <= ?',
-                          @user.id,
-                          DateTime.current.beginning_of_month << month)
+    data = @user.activities.where('created_at <= ?',
+                                  DateTime.current.beginning_of_month << month)
 
     data.order('created_at DESC').first.created_at.to_datetime if data.exists?
   end
 
   def render_timeline(mth)
     tasks, events = authorized_scope(@user.activities.from_month(mth))
-    html = view_to_html_string('users/_timeline', events: events, tasks: tasks,
-                                                  header: mth.strftime('%B %Y'))
+    html = view_to_html_string('users/_timeline',
+                               events: events,
+                               tasks: tasks,
+                               header: mth.strftime('%B %Y'))
+
     render json: { html: html, m: ((Time.current - mth) / 1.month).floor }
   end
 

@@ -6,7 +6,7 @@
     %p.subtitle.is-6 Create Task to delegate work to your fellow members.
     .box
       = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
-        .field.my-4
+        .field
           %label.label.required Task Name
           .control
             = f.text_field :name, class: 'input', required: ''

@@ -45,24 +45,28 @@ class ProjectsController < ApplicationController
   end
 
   def change_status
-    msg = prepare_message
-    if @project.update(status: params[:status])
-      project_success(msg)
-    else
-      project_fail
-    end
+    msg = case params[:status]
+          when 'completed'
+            'Project Archived'
+          when 'active'
+            @project.appeals.application.destroy_all
+            @project.completed? ? 'Project Activated' : 'Project Closed'
+          when 'open'
+            'Project Opened'
+          end
+
+    @project.update(status: params[:status]) ? project_success(msg) : project_fail
   end
 
   def count
-    return head :bad_request unless
-    params.key?(:type) && %w[task application].include?(params[:type])
+    return head :bad_request unless %w[task application].include?(params[:type])
 
-    count = case params[:type]
-            when 'task' then @project.tasks.where('percentage < ?', 100).size
-            when 'application' then @project.appeals.size
-            end
-
-    render json: { count: count }
+    render json: {
+      count: case params[:type]
+             when 'task' then @project.tasks.where('percentage < 100').size
+             when 'application' then @project.appeals.size
+             end
+    }
   end
 
   private
@@ -99,17 +103,5 @@ class ProjectsController < ApplicationController
 
   def project_fail(message = @project.errors.full_messages)
     render json: { message: message }, status: :unprocessable_entity
-  end
-
-  def prepare_message
-    case params[:status]
-    when 'completed'
-      'Project Archived'
-    when 'active'
-      @project.appeals.where(type: 'application').destroy_all
-      @project.completed? ? 'Project Activated' : 'Project Closed'
-    when 'open'
-      'Project Opened'
-    end
   end
 end

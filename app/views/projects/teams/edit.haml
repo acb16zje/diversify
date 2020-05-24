@@ -19,5 +19,5 @@
             = f.select :skill_ids, @skills, {}, multiple: true
         .field.mt-8
           .control.flex.justify-between
-            = f.submit 'Save Team', class: 'button is-success'
+            = f.submit 'Save', class: 'button is-success'
             = link_to 'Cancel', manage_project_teams_path(@team.project.id), class: 'button'

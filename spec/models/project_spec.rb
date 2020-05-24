@@ -64,10 +64,8 @@ describe Project, type: :model do
   end
 
   describe 'before_validation hook' do
-    describe '#check_users_limit' do
-      let(:project) do
-        create(:project_with_members, user: create(:user), members_count: 9)
-      end
+    describe '#validate_status_update' do
+      let(:project) { create(:project_with_members, user: create(:user), members_count: 9) }
 
       before do
         project.reload # otherwise project.users won't be updated

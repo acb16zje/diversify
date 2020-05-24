@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 class Projects::TasksController < ApplicationController
-  before_action :set_task, only: %i[edit update set_percentage assign_self destroy]
-  before_action :set_project, except: :set_percentage
+  before_action :set_task,
+                only: %i[edit update set_percentage assign_self destroy]
+  before_action :set_project,
+                except: %i[update destroy assign_self set_percentage]
   before_action :set_skills, only: %i[new edit]
 
   layout 'project'
@@ -53,7 +55,7 @@ class Projects::TasksController < ApplicationController
     authorize! @project, to: :count?
     return render_404 unless request.xhr? && valid_data_type?
 
-    scope_data = authorized_scope(Task.where(project: @project), as: @type)
+    scope_data = authorized_scope(@project.tasks, as: @type)
 
     user_data = scope_data.user_data
     images = assignee_avatars(user_data.pluck('users.id').uniq)
@@ -63,11 +65,7 @@ class Projects::TasksController < ApplicationController
   end
 
   def set_percentage
-    if @task.update(edit_params)
-      head :ok
-    else
-      task_fail
-    end
+    @task.update(edit_params) ? head(:ok) : task_fail
   end
 
   private
@@ -77,17 +75,16 @@ class Projects::TasksController < ApplicationController
   end
 
   def set_skills
-    @skills = Skill.where(category: @project.category)
-                   .collect { |s| [s.name, s.id] }
+    @skills = @project.category.skills.map { |s| [s.name, s.id] }
 
     team = current_user.teams.find_by(project: @project)
     @assignees = authorized_scope(
       @project.users,
-      as: :assignee, scope_options: { team_id: team&.id, project: @project }
+      as: :assignee,
+      scope_options: { team_id: team&.id, project: @project }
     )
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id])
     authorize! @task

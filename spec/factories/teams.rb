@@ -26,9 +26,5 @@ FactoryBot.define do
     name { generate(:name) }
     team_size { 5 }
     association :project, factory: :project
-
-    trait :with_skill do
-      association :skills, factory: :skill
-    end
   end
 end

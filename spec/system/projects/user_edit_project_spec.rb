@@ -59,7 +59,7 @@ describe 'Edit Project > Project', :js, type: :system do
       expect(page).to have_content('Project Details')
     end
 
-    it 'can archive project' do
+    it 'can reactivate project' do
       click_button 'Reactivate Project'
       page.accept_alert
       expect(page).to have_content('Project Activated')

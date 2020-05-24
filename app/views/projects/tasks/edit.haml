@@ -5,7 +5,7 @@
     %h1.title.is-4 Edit Task
     .box
       = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
-        .field.my-4
+        .field
           %label.label.required Task Name
           .control
             = f.text_field :name, class: 'input', required: ''

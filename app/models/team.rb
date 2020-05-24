@@ -44,9 +44,7 @@ class Team < ApplicationRecord
   private
 
   def check_users_limit(_)
-    project.check_users_limit
-
-    return unless users.size > team_size
+    return project.check_users_limit unless users.size > team_size
 
     errors[:base] << 'Team Size is smaller than total members'
   end

@@ -36,7 +36,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    record.visibility || owner? || user&.admin? || user&.in_project?(record) ||
+    record.visibility || manage? || user&.in_project?(record) ||
       record.appeals.invitation.where(user: user).exists?
   end
 
@@ -49,7 +49,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def change_visibility?
-    user&.admin? || !user.license.free?
+    user&.admin? || !user.license.free? && (owner? || record.new_record?)
   end
 
   def create_task?

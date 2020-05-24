@@ -225,10 +225,30 @@ describe ProjectPolicy, type: :policy do
   describe_rule :change_visibility? do
     let(:user) { create(:user) }
 
-    failed 'when not user has free license'
+    failed 'when user is not project owner' do
+      failed 'when user has free license'
 
-    succeed 'when user has premium license' do
-      before { user.license.plan = 'pro' }
+      failed 'when user has pro license' do
+        before { user.license.pro! }
+      end
+
+      failed 'when user has ultiamte license' do
+        before { user.license.ultimate! }
+      end
+    end
+
+    context 'when user is project owner' do
+      before { record.user = user }
+
+      failed 'when user has free license'
+
+      succeed 'when user has pro license' do
+        before { user.license.pro! }
+      end
+
+      succeed 'when user has ultiamte license' do
+        before { user.license.ultimate! }
+      end
     end
 
     succeed 'when user is admin' do

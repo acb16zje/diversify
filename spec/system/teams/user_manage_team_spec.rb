@@ -17,13 +17,13 @@ describe 'Team > Manage Team', :js, type: :system do
 
     it 'can change team name' do
       fill_in 'team_name', with: 'New Team'
-      click_button 'Save Team'
+      click_button 'Save'
       expect(page).to have_content('New Team')
     end
 
     it 'can change team size' do
       fill_in 'team_team_size', with: '3'
-      click_button 'Save Team'
+      click_button 'Save'
       expect(page).to have_content('Members: 0 / 3')
     end
   end

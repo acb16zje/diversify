@@ -148,7 +148,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :tasks do
+      resources :tasks, except: %i[index show] do
         collection do
           get 'data'
         end
