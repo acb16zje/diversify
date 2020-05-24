@@ -57,8 +57,8 @@ export default {
         this.isLoading = false;
         this.name = data.name;
         this.skills = data.skills;
-        this.teamSize = data.team_size;
-        this.memberCount = data.member_count;
+        this.teamSize = data.teamSize;
+        this.memberCount = data.memberCount;
       },
     });
   },

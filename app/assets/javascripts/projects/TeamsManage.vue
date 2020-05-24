@@ -72,7 +72,7 @@
             <header class="card-header">
               <p class="card-header-title">
                 {{ element.name }} ({{ element.email }})
-                <span v-if="element.id === parseInt(projectOwner, 10)" class="tag is-info has-text-weight-normal">
+                <span v-if="element.id === projectOwner" class="tag is-info has-text-weight-normal">
                   Owner
                 </span>
               </p>
@@ -92,7 +92,7 @@
                 <div class="level-item has-text-centered">
                   <div>
                     <p class="heading">
-                      Compability
+                      Compatibility
                     </p>
                     <p class="title">
                       -
@@ -101,7 +101,7 @@
                 </div>
               </nav>
             </div>
-            <footer v-if="element.id != parseInt(projectOwner, 10)" class="card-footer">
+            <footer v-if="element.id !== projectOwner" class="card-footer">
               <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
             </footer>
           </div>
@@ -113,6 +113,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import draggable from 'vuedraggable';
 import Rails from '@rails/ujs';
@@ -124,11 +125,11 @@ export default {
   },
   props: {
     projectId: {
-      type: String,
+      type: Number,
       required: true,
     },
     projectOwner: {
-      type: String,
+      type: Number,
       required: true,
     },
   },
@@ -149,12 +150,10 @@ export default {
       this.query();
     },
     checkMove(evt) {
-      const targetId = parseInt(evt.to.id, 10);
+      const targetId = +evt.to.id;
       const selectedTeam = this.teams.find((o) => o.id === targetId);
-      if (this.data[targetId].length === selectedTeam.team_size) {
-        return false;
-      }
-      return true;
+
+      return this.data[targetId].length !== selectedTeam.team_size;
     },
     log(evt) {
       if (Object.prototype.hasOwnProperty.call(evt, 'added')) {

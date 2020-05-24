@@ -17,4 +17,4 @@
             .content
               .notification.is-warning
                 Project is Completed. Tasks are now Read Only.
-      %task-table{ 'project-id': @project.id, ':completed': @project.completed?, 'admin': (allowed_to? :manage?, @project), 'user-id': current_user.id }
+      %task-table{ ':project-id': @project.id, ':completed': @project.completed?, ':admin': allowed_to?(:manage?, @project), ':user-id': current_user.id }

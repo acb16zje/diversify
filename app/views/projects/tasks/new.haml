@@ -1,8 +1,9 @@
-- content_for :title, 'Edit Task'
+- content_for :title, 'Create Task'
 
 %section.section#tasks
   .container.max-w-2xl
-    %h1.title.is-4 Edit Task
+    %h1.title.is-4 Create Task
+    %p.subtitle.is-6 Create Task to delegate work to your fellow members.
     .box
       = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
         .field.my-4
@@ -18,21 +19,16 @@
         .field.my-4
           %label.label.required Priority
           .select
-            = f.select :priority, Task.priorities, {}, include_blank: false
+            = f.select :priority, Task.priorities, {}, class: 'capitalize'
         .field.my-4
           %label.label Skills
           .select.is-multiple
-            = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+            = f.select :skill_ids, @skills, { include_hidden: false }, multiple: true
         .field.my-4
           %label.label Assignee
           .select.is-multiple
-            = f.select :user_ids, @assignees, {}, multiple: true, include_blank: true
+            = f.select :user_ids, @assignees, { include_hidden: false }, multiple: true
         .field.mt-8
           .control.flex.justify-between
-            = f.submit 'Edit Task', class: 'button is-success'
+            = f.submit 'Create Task', class: 'button is-success'
             = link_to 'Cancel', project_path(@project), class: 'button'
-
-
-
-
-

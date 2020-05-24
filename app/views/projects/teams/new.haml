@@ -6,7 +6,6 @@
     %p.subtitle.is-6 Create Teams to organise your members and diversify your skills.
     .box
       = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
-        = f.hidden_field :project_id, value: @project.id
         .field
           %label.label.required Team Name
           .control
@@ -14,11 +13,11 @@
         .field
           %label.label.required Max Team Size
           .control
-            = f.number_field :team_size, class: 'input'
+            = f.number_field :team_size, min: 1, class: 'input', required: ''
         .field
           %label.label Skills
           .select.is-multiple
-            = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+            = f.select :skill_ids, @skills, { include_hidden: false }, multiple: true
         .field.mt-8
           .control.flex.justify-between
             = f.submit 'Create Team', class: 'button is-success'

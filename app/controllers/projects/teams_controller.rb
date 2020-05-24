@@ -48,17 +48,19 @@ class Projects::TeamsController < ApplicationController
     return render_404 unless request.xhr?
 
     render json: {
-      name: @team.name, skills: @team.skills&.select(:id, :name),
-      team_size: @team.team_size, member_count: @team.users.size
+      name: @team.name,
+      skills: @team.skills&.select(:id, :name),
+      teamSize: @team.team_size,
+      memberCount: @team.users.size
     }
   end
 
   # POST /teams
   def create
-    skill_ids = params[:team][:skill_ids]
-    @team = Team.new(create_params)
+    @team = @project.teams.build(create_params)
+
     if @team.save
-      @team.skills << Skill.find(skill_ids.drop(1)) if skill_ids.present?
+      @team.skill_ids = params[:team][:skill_ids]
       team_success('Team was successfully created')
     else
       team_fail
@@ -106,12 +108,13 @@ class Projects::TeamsController < ApplicationController
   end
 
   def create_params
-    params.require(:team).except(:skill_ids)
-          .permit(:team_size, :project_id, :name)
+    params.require(:team)
+          .except(:skill_ids)
+          .permit(:team_size, :name)
   end
 
   def edit_params
-    params.require(:team).permit(:team_size, :project_id, :name, skill_ids: [])
+    params.require(:team).permit(:team_size, :name, skill_ids: [])
   end
 
   def team_success(message)

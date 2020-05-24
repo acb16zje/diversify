@@ -32,7 +32,7 @@
 #
 
 class Task < ApplicationRecord
-  enum priority: { High: 'high', Medium: 'medium', Low: 'low' }
+  enum priority: { high: 'high', medium: 'medium', low: 'low' }
 
   belongs_to :project
   belongs_to :user

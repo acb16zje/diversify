@@ -8,15 +8,15 @@
         .field
           %label.label.required Team Name
           .control
-            = f.text_field :name, class: 'input', required: ''
+            = f.text_field :name, class: 'input', required: true
         .field
           %label.label.required Max Team Size
           .control
-            = f.number_field :team_size, class: 'input'
+            = f.number_field :team_size, min: 1, class: 'input', required: true
         .field
           %label.label Skills
           .select.is-multiple
-            = f.select :skill_ids, @skills, {}, multiple: true, include_blank: false
+            = f.select :skill_ids, @skills, {}, multiple: true
         .field.mt-8
           .control.flex.justify-between
             = f.submit 'Save Team', class: 'button is-success'

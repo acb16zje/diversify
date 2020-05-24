@@ -48,7 +48,7 @@ describe 'Project > Create Task', :js, type: :system do
 
     it 'set skills' do
       fill_in 'task_name', with: 'Test Task'
-      find('#task_skills_id').find(:xpath, 'option[2]').select_option
+      find('#task_skill_ids').find(:xpath, 'option[2]').select_option
       click_button 'Create Task'
       expect(page).to have_content('Task created')
       find('a', text: 'Tasks').click
@@ -60,7 +60,7 @@ describe 'Project > Create Task', :js, type: :system do
 
     it 'with assignee' do
       fill_in 'task_name', with: 'Test Task'
-      find('#task_users_id').find(:xpath, 'option[1]').select_option
+      find('#task_user_ids').find(:xpath, 'option[1]').select_option
       click_button 'Create Task'
       expect(page).to have_content('Tasks')
       find('a', text: 'Tasks').click

@@ -1,60 +1,58 @@
-.container
-  %section
-    .content
-      %h1.title.is-2
-        Project Details
-      - if @project.completed?
-        %p.has-text-grey Project is Completed and cannot be edited.
-      = form_with model: @project, html: { '@ajax:error': 'ajaxError' } do |f|
-        %fieldset{ 'disabled': @project.completed? ? 'disabled' : false }
-          .columns.is-vcentered
-            .column.is-3
-              .project-avatar.is-large
-                = project_icon(@project)
-            .column
-              %label.label Upload new avatar
-              .file.has-name
-                %label.file-label
-                  = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg', class: 'file-input', '@change': 'avatarChanged'
-                  %span.file-cta
-                    %span.file-label
-                      Choose an image
-                  %span.file-name
-                    {{ avatarFilename }}
-              %p.has-text-grey Maximum file size allowed is 200KB
-          .columns.is-vcentered
-            .column.is-8
-              .field
-                %label.label Project Title
-                .control
-                  = f.text_field :name, class: 'input', required: ''
-            .column
-              .field
-                %label.label Category
-                .control.is-expanded
-                  .select.is-fullwidth
-                    = f.collection_select :category_id, Category.all, :id, :name
+.content
+  %h1.title.is-2
+    Project Details
+  - if @project.completed?
+    %p.has-text-grey Project is Completed and cannot be edited.
+  = form_with model: @project, html: { '@ajax:error': 'ajaxError' } do |f|
+    %fieldset{ 'disabled': @project.completed? ? 'disabled' : false }
+      .columns.is-vcentered
+        .column.is-3
+          .project-avatar.is-large
+            = project_icon(@project)
+        .column
+          %label.label Upload new avatar
+          .file.has-name
+            %label.file-label
+              = f.file_field :avatar, accept: 'image/png,image/jpg,image/jpeg', class: 'file-input', '@change': 'avatarChanged'
+              %span.file-cta
+                %span.file-label
+                  Choose an image
+              %span.file-name
+                {{ avatarFilename }}
+          %p.has-text-grey Maximum file size allowed is 200KB
+      .columns.is-vcentered
+        .column.is-8
           .field
-            %label.label Project Description
+            %label.label Project Title
             .control
-              = f.text_area :description, class: 'textarea'
-          - if allowed_to? :change_visibility?, @project
-            .field
-              .control
-                %label.checkbox
-                  = f.check_box :visibility, class: 'checkbox', value: 'yes'
-                  Public Project
-          - unless @project.completed?
-            .field
-              .control
-                = f.submit 'Save Settings', class: 'button is-success'
-      - if @project.completed?
-        %h1.title.is-2
-          Unarchive Project
-        %p.has-text-grey Reopens Project
-        = button_to 'Reactivate Project', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
-      - else
-        %h1.title.is-2
-          Mark Project as Complete
-        %p.has-text-grey Marking the project as complete will not allow anyone to change the project
-        = button_to 'Archive Project', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'completed' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
+              = f.text_field :name, class: 'input', required: ''
+        .column
+          .field
+            %label.label Category
+            .control.is-expanded
+              .select.is-fullwidth
+                = f.collection_select :category_id, Category.all, :id, :name
+      .field
+        %label.label Project Description
+        .control
+          = f.text_area :description, class: 'textarea'
+      - if allowed_to? :change_visibility?, @project
+        .field
+          .control
+            %label.checkbox
+              = f.check_box :visibility, class: 'checkbox', value: 'yes'
+              Public Project
+      - unless @project.completed?
+        .field
+          .control
+            = f.submit 'Save Settings', class: 'button is-success'
+  - if @project.completed?
+    %h1.title.is-2
+      Unarchive Project
+    %p.has-text-grey Reopens Project
+    = button_to 'Reactivate Project', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
+  - else
+    %h1.title.is-2
+      Mark Project as Complete
+    %p.has-text-grey Marking the project as complete will not allow anyone to change the project
+    = button_to 'Archive Project', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'completed' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }

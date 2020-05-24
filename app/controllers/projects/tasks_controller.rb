@@ -19,13 +19,11 @@ class Projects::TasksController < ApplicationController
   # POST /tasks
   def create
     authorize! @project, to: :create_task?
-    @task = Task.new(create_params)
-
-    @task.user = current_user
+    @task = @project.tasks.build(create_params)
 
     if @task.save
-      @task.skill_ids = params.dig(:task, :skills_id)&.drop(1)
-      @task.user_ids =  params.dig(:task, :users_id)&.drop(1)
+      @task.skill_ids = params.dig(:task, :skill_ids)
+      @task.user_ids =  params.dig(:task, :user_ids)
       task_success('Task created')
     else
       task_fail
@@ -61,8 +59,7 @@ class Projects::TasksController < ApplicationController
     images = assignee_avatars(user_data.pluck('users.id').uniq)
     user_data = user_data.group_by(&:id)
 
-    render json: { data: scope_data.data, user_data: user_data,
-                   images: images }, status: :ok
+    render json: { data: scope_data.data, userData: user_data, images: images }
   end
 
   def set_percentage
@@ -96,6 +93,19 @@ class Projects::TasksController < ApplicationController
     authorize! @task
   end
 
+  def create_params
+    params.require(:task)
+          .except(:skill_ids, :user_ids)
+          .permit(:name, :description, :priority)
+          .merge(user: current_user)
+  end
+
+  def edit_params
+    params.require(:task).permit(:description, :name,
+                                 :percentage, :priority,
+                                 skill_ids: [], user_ids: [])
+  end
+
   def task_fail(message = @task.errors.full_messages)
     render json: { message: message }, status: :unprocessable_entity
   end
@@ -103,18 +113,6 @@ class Projects::TasksController < ApplicationController
   def task_success(message)
     flash[:toast_success] = message
     render js: "window.location = '#{project_path(@task.project)}'"
-  end
-
-  # Only allow a trusted parameter "white list" through.
-  def create_params
-    params.require(:task).except(:skills_id, :users_id)
-          .permit(:project_id, :name, :description, :priority)
-  end
-
-  def edit_params
-    params.require(:task)
-          .permit(:description, :project_id, :name, :percentage, :priority,
-                  skill_ids: [], user_ids: [])
   end
 
   def assignee_avatars(ids)

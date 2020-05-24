@@ -27,11 +27,11 @@ Vue.mixin({
     NotificationDropdown,
   },
   methods: {
-    ajaxError({ detail: [response, status] }) {
-      if (Array.isArray(response.message)) {
-        response.message.forEach((message) => dangerToast(message));
+    ajaxError({ detail: [{ message }, status] }) {
+      if (Array.isArray(message) && message.length > 0) {
+        message.forEach((msg) => dangerToast(msg));
       } else {
-        dangerToast(response.message || status);
+        dangerToast(message.length === 0 ? status : message);
       }
     },
   },

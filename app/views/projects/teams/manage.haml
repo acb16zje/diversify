@@ -16,4 +16,4 @@
             = link_to project_path(@project), class: 'button is-danger' do
               %p Back
     .container
-      %teams-manage{ 'project-id': @project.id, 'project-owner': @project.user.id }
+      %teams-manage{ ':project-id': @project.id, ':project-owner': @project.user.id }
