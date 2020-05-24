@@ -44,7 +44,7 @@
           </b-select>
         </b-field>
       </div>
-      <div v-if="changed" class="container">
+      <div v-if="changed.length !== 1" class="container">
         <p class="has-text-weight-medium">
           <span class="iconify is-24" data-icon="twemoji:warning" />
           Recompute the compatibility for current changes.
@@ -56,7 +56,7 @@
     </div>
 
     <div v-for="team in teams" :key="team.id" class="container">
-      <b-collapse :ref="'collapse'+team.id" animation="slide" :aria-id="team.id.toString()">
+      <b-collapse ref="collapse" animation="slide" :aria-id="team.id.toString()">
         <div
           slot="trigger"
           role="button"
@@ -155,11 +155,15 @@ export default {
       type: Number,
       required: true,
     },
+    unassignedId: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
       currentToggleState: true,
-      changed: false,
+      changed: [this.unassignedId],
       compatibility: {},
       data: {},
       teams: {},
@@ -184,12 +188,15 @@ export default {
     checkMove(evt) {
       const targetId = +evt.to.id;
       const selectedTeam = this.teams.find((o) => o.id === targetId);
-
-      return this.data[targetId].length !== selectedTeam.team_size;
+      if (this.data[targetId].length === selectedTeam.team_size) {
+        return false;
+      }
+      if (!this.changed.includes(evt.from.id)) { this.changed.push(evt.from.id); }
+      if (!this.changed.includes(evt.to.id)) { this.changed.push(evt.to.id); }
+      return true;
     },
     log(evt) {
       if (Object.prototype.hasOwnProperty.call(evt, 'added')) {
-        this.changed = true;
         const list = this.$refs[evt.added.element.id];
         for (let i = 0; i < list.length; i += 1) {
           list[i].toggle(true);
@@ -223,7 +230,7 @@ export default {
         url: `/projects/${this.projectId}/manage/manage_data`,
         type: 'GET',
         success: ({ compatibility, data, teams }) => {
-          console.log(data);
+          console.log(compatibility);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
@@ -234,17 +241,27 @@ export default {
             }
           });
           this.data = newData;
-          this.changed = false;
+          this.changed = [this.unassignedId];
         },
       });
     },
     compute() {
       this.isLoading = true;
+      let changedData = {};
+      if (this.changed.length === 1) {
+        changedData = this.data;
+      } else {
+        Object.keys(this.data).forEach((key) => {
+          if (this.changed.includes(key)) {
+            changedData[key] = this.data[key];
+          }
+        });
+      }
       Rails.ajax({
         url: `/projects/${this.projectId}/manage/recompute_data`,
         type: 'POST',
         data: new URLSearchParams({
-          data: JSON.stringify(this.data),
+          data: JSON.stringify(changedData),
         }),
         success: ({ compatibility }) => {
           Object.keys(compatibility).forEach((key) => {
@@ -255,7 +272,7 @@ export default {
             }
           });
           this.isLoading = false;
-          this.changed = false;
+          this.changed = [this.unassignedId];
         },
       });
     },
@@ -302,6 +319,7 @@ export default {
         success: ({ data }) => {
           console.log(data);
           this.data = data;
+          this.changed = [this.unassignedId];
           this.compute();
         },
       });

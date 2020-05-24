@@ -52,7 +52,9 @@ class Team < ApplicationRecord
   def send_notification(user)
     return if name == 'Unassigned'
 
-    Notification.create({ user: user, key: 'team', notifiable: project, notifier: self })
+    SendNotificationJob.perform_later(
+      { user: user, key: 'team', notifiable: project, notifier: self }
+    )
   end
 
   def unassign_tasks(user)

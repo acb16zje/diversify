@@ -14,34 +14,35 @@ class ComputeService < ApplicationService
   def compare_team(target, teams, u_list = nil)
     results = {}
     teams.each do |team|
+      next if team.name == 'Unassigned' || (!u_list.nil? && (!u_list.key?(team.id.to_s) || u_list[team.id.to_s].empty?))
       users = u_list.blank? ? team.users : User.find(u_list[team.id.to_s].pluck('id'))
-      next if team.name == 'Unassigned' || users.size == team.team_size
 
-      results[team.name] = team_compatibility(target, team, users)
+      if users.size < team.team_size
+        results[team.name] = team_compatibility(target, team, users)
+      end
     end
     results
   end
 
   def team_compatibility(target, team, users)
-    user = target.is_a?(Hash) ? User.find(target['id']) : target
-
-    1.0 * team_personality_score(user, users) *
-      teamskill_score(team.skills, user.skills)
+    1.0 * team_personality_score(target, users) *
+      teamskill_score(team.team_skills.pluck(:skill_id),
+                      target.user_skills.pluck(:skill_id))
   end
 
   def teamskill_score(t_skill, u_skill)
-    return 1.0 unless t_skill.present? && u_skill.present?
+    return 1.0 if t_skill.empty? || u_skill.empty?
 
     1.0 + ((t_skill.size - (t_skill - u_skill).size) / (t_skill.size * 10.0))
   end
 
   def team_personality_score(target, users)
-    return 1.0 if target.personality.blank?
+    return 1.0 if target.personality_id.blank?
 
     user_score = 0
     counter = 0
     users.each do |usr|
-      next if usr.personality.blank? || target == usr
+      next if usr.personality_id.blank? || target == usr
 
       user_score += target.compatible_with?(usr)
       counter += 1.0

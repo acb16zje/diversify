@@ -94,7 +94,7 @@ class User < ApplicationRecord
   end
 
   def empty_compatibility_data?
-    personality.blank? && skills.blank?
+    personality_id.blank? && user_skills.exists?
   end
 
   # TODO: use has_many :members, through: :teams
@@ -111,7 +111,8 @@ class User < ApplicationRecord
   end
 
   def self.teams_data(project)
-    joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
+    includes(:user_skills)
+      .joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
       .joins('LEFT OUTER JOIN tasks ON tasks.id = task_users.task_id AND tasks.percentage != 100')
       .joins(:teams).where(teams: { project: project })
       .select('users.*, teams.id as team_id, COUNT(tasks.id) as count')

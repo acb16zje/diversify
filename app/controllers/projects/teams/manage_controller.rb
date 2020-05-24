@@ -3,16 +3,14 @@
 class Projects::Teams::ManageController < Projects::Teams::BaseController
   before_action :set_project
 
-  # include TeamHelper
-  # include SuggestHelper
-
   def index; end
 
   def manage_data
     return render_404 unless request.xhr?
 
     @data = User.teams_data(@project)
-    compute = CompatibilityCompute.new(@project.teams, @project.unassigned_team)
+    compute = CompatibilityCompute.new(@project.teams.includes(:team_skills),
+                                       @project.unassigned_team)
 
     render json: {
       compatibility: @data.to_h { |u| [u.id, compute.call(u)] },
@@ -31,8 +29,9 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
   # save_data
   def create
     data = Oj.load(params[:data])
+    teams = @project.teams
     data.each do |id, members|
-      new_team = Team.find(id.to_i)
+      new_team = teams.find{ |x| x.id.to_s == id }
       members.each do |m|
         next unless m['team_id'] != id.to_i
 
@@ -44,14 +43,14 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
   end
 
   def recompute_data
-    compute = Recompute.new(@project.teams, @project.unassigned_team)
     d = {}
     i = Oj.load(params[:data])
+    teams = @project.teams.find(i.keys)
+    compute = Recompute.new(teams, teams.find{ |x| x.name == 'Unassigned' })
     i.each do |selected_team_id, members|
-      team = @project.teams.find(selected_team_id)
       next if members.blank?
 
-      d.merge!(compute.call(team, i).to_h)
+      d.merge!(compute.call(teams.find{ |x| x.id.to_s == selected_team_id }, i).to_h)
     end
     render json: { compatibility: d }
   end
@@ -65,10 +64,12 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
     head :ok
   end
 
+  private
+
   def change_team(member, new_team)
     user = @project.users.where(id: member['id']).first
-    old_team = @project.teams.where(id: member['team_id']).first
-    authorize! new_team,to: :manage?
+    old_team = user.teams.find_by(project: @project)
+    authorize! new_team, to: :manage?
     old_team.users.delete(user)
     new_team.users << user
   end

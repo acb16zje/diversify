@@ -12,7 +12,7 @@ class Recompute < ComputeService
     if @unassigned == target_team
       members.map { |u| [u['id'], best_team?(u, @teams, u_list)] }
     else
-      users = User.find(members.pluck('id'))
+      users = User.includes(:user_skills).find(members.pluck('id'))
       return if target_team.users == users
 
       users.map do |u|

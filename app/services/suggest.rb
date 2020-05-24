@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Suggest < ComputeService
-  def initialize(users, teams, unassigned, mode='balance')
+  def initialize(users, teams, unassigned, mode = 'balance')
     @users = split_users(users)
     @teams = teams
     @unassigned = unassigned
@@ -11,6 +11,7 @@ class Suggest < ComputeService
     suggestion, leftover = allocate_first_users
 
     [leftover, @users[1], @users[2]].each do |data|
+      puts("suggestion #{suggestion}")
       suggestion = match(data, suggestion)
     end
 
@@ -22,13 +23,14 @@ class Suggest < ComputeService
   private
 
   def split_users(users)
-    d = users.joins(:user_skills).where.not(personality_id: nil)
-    s = users.joins(:user_skills).where(personality_id: nil)
-    p = users.includes(:user_skills).where(user_skills: { user_id: nil })
+    d = users.where.not(user_skills: { user_id: nil })
+             .where.not(users: { personality_id: nil }).group('user_skills.id')
+    s = users.where.not(user_skills: { user_id: nil })
+             .where(personality_id: nil).group('user_skills.id')
+    p = users.where(user_skills: { user_id: nil })
              .where.not(users: { personality_id: nil })
              .group('user_skills.id')
-    o = users.includes(:user_skills).where(user_skills: { user_id: nil },
-                                           users: { personality_id: nil })
+    o = users.where(user_skills: { user_id: nil }, users: { personality_id: nil })
              .group('user_skills.id')
     [d, s, p, o]
   end
@@ -38,7 +40,7 @@ class Suggest < ComputeService
 
     top_mem = first_users_loop
 
-    [top_mem.map { |k, v| [k, [v]] }.to_h, @users[0] - top_mem.values]
+    [top_mem.map { |k, v| v.nil? ? [k, []] : [k, [v]] }.to_h, @users[0] - top_mem.values]
   end
 
   def first_users_loop
@@ -55,14 +57,17 @@ class Suggest < ComputeService
 
   def prepare_skill_comp
     skill_comp = @teams.map do |t|
-      [t.id.to_s, @users[0].map { |u| [u, teamskill_score(t.skills, u.skills)] }
-                           .sort_by { |_, v| -v }.to_h]
+      t_s = t.team_skills.pluck(:skill_id)
+      [t.id.to_s, @users[0].map { |u|
+        [u, teamskill_score(t_s, u.user_skills.pluck(:skill_id))]
+      }.sort_by { |_, v| -v }.to_h]
     end
     skill_comp.to_h
   end
 
   def get_top_mem(skill_comp)
-    top_mem = skill_comp.collect { |k, v| [k, v.first[0]] }.to_h
+    puts(skill_comp)
+    top_mem = skill_comp.collect { |k, v| [k, v.first&.[](0)] }.to_h
     conflicts = top_mem.values.select { |e| top_mem.values.count(e) > 1 }.uniq
     [top_mem, conflicts[0]]
   end

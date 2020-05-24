@@ -51,7 +51,7 @@ class Appeal < ApplicationRecord
     Notification.delete_by(send_notification_params)
     return if is_cancel
 
-    Notification.create(
+    SendNotificationJob.perform_later(
       user: invitation? ? project.user : user,
       key: "#{type}/#{resolution}",
       notifiable: invitation? ? user : project,
@@ -68,7 +68,7 @@ class Appeal < ApplicationRecord
   end
 
   def send_notification
-    Notification.create(send_notification_params)
+    SendNotificationJob.perform_later(send_notification_params)
   end
 
   def send_notification_params
