@@ -43,14 +43,7 @@ class User < ApplicationRecord
   has_many :identities, dependent: :destroy
   has_many :notifications, dependent: :destroy
   has_many :projects, dependent: :destroy
-  has_many :preferences, dependent: :destroy
   has_many :appeals, dependent: :destroy
-
-  has_many :reviews,
-           foreign_key: :reviewer_id,
-           class_name: 'Review',
-           dependent: :nullify,
-           inverse_of: :reviewer
 
   # Join table
   has_many :collaborations, dependent: :destroy

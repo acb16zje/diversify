@@ -44,7 +44,6 @@ class Project < ApplicationRecord
   has_many :notifications, as: :notifiable, dependent: :destroy
   has_many :notifications, as: :notifier, dependent: :destroy
   has_many :activities, dependent: :destroy
-  has_many :reviews, dependent: :destroy
   has_many :tasks, dependent: :destroy
   has_many :teams, dependent: :destroy
   has_many :users, through: :teams

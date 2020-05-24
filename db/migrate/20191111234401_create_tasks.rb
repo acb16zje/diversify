@@ -6,7 +6,6 @@ class CreateTasks < ActiveRecord::Migration[6.0]
       t.string :name,         null: false, default: ''
       t.text :description,    null: false, default: ''
 
-      t.references :skills, foreign_key: true
       t.references :user, foreign_key: true
       t.references :project, foreign_key: true
 

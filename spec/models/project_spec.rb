@@ -35,7 +35,6 @@ describe Project, type: :model do
 
     it { is_expected.to have_many(:appeals) }
     it { is_expected.to have_many(:notifications) }
-    it { is_expected.to have_many(:reviews) }
     it { is_expected.to have_many(:tasks) }
     it { is_expected.to have_many(:teams) }
     it { is_expected.to have_many(:users).through(:teams) }

@@ -162,18 +162,6 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
     t.index ["user_id"], name: "index_identities_on_user_id"
   end
 
-  create_table "issues", force: :cascade do |t|
-    t.string "name", null: false
-    t.text "description", null: false
-    t.string "status", null: false
-    t.bigint "project_id", null: false
-    t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_issues_on_project_id"
-    t.index ["user_id"], name: "index_issues_on_user_id"
-  end
-
   create_table "landing_feedbacks", force: :cascade do |t|
     t.string "smiley", default: "", null: false
     t.string "channel", default: "", null: false
@@ -238,15 +226,6 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
     t.index ["mind", "energy", "nature", "tactic"], name: "index_personalities_on_mind_and_energy_and_nature_and_tactic", unique: true
   end
 
-  create_table "preferences", force: :cascade do |t|
-    t.integer "group_size", default: 0, null: false
-    t.text "preferred_tasks", default: "", null: false
-    t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_preferences_on_user_id"
-  end
-
   create_table "projects", force: :cascade do |t|
     t.string "name", limit: 100, default: "", null: false
     t.text "description", default: "", null: false
@@ -258,18 +237,6 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["category_id"], name: "index_projects_on_category_id"
     t.index ["user_id"], name: "index_projects_on_user_id"
-  end
-
-  create_table "reviews", force: :cascade do |t|
-    t.integer "rating", null: false
-    t.bigint "project_id"
-    t.bigint "reviewer_id"
-    t.bigint "reviewee_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["project_id"], name: "index_reviews_on_project_id"
-    t.index ["reviewee_id"], name: "index_reviews_on_reviewee_id"
-    t.index ["reviewer_id"], name: "index_reviews_on_reviewer_id"
   end
 
   create_table "skills", force: :cascade do |t|
@@ -304,18 +271,14 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
   create_table "tasks", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.text "description", default: "", null: false
-    t.bigint "skills_id"
     t.bigint "user_id"
     t.bigint "project_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.enum "priority", default: "medium", null: false, as: "priority"
-    t.bigint "users_id"
     t.integer "percentage", default: 0, null: false
     t.index ["project_id"], name: "index_tasks_on_project_id"
-    t.index ["skills_id"], name: "index_tasks_on_skills_id"
     t.index ["user_id"], name: "index_tasks_on_user_id"
-    t.index ["users_id"], name: "index_tasks_on_users_id"
   end
 
   create_table "team_skills", force: :cascade do |t|
@@ -374,26 +337,18 @@ ActiveRecord::Schema.define(version: 2020_05_15_065415) do
   add_foreign_key "collaborations", "teams"
   add_foreign_key "collaborations", "users"
   add_foreign_key "identities", "users"
-  add_foreign_key "issues", "projects"
-  add_foreign_key "issues", "users"
   add_foreign_key "licenses", "users"
   add_foreign_key "newsletter_feedbacks", "newsletter_subscriptions"
   add_foreign_key "notifications", "users"
-  add_foreign_key "preferences", "users"
   add_foreign_key "projects", "categories"
   add_foreign_key "projects", "users"
-  add_foreign_key "reviews", "projects"
-  add_foreign_key "reviews", "users", column: "reviewee_id"
-  add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "skills", "categories"
   add_foreign_key "task_skills", "skills"
   add_foreign_key "task_skills", "tasks"
   add_foreign_key "task_users", "tasks"
   add_foreign_key "task_users", "users"
   add_foreign_key "tasks", "projects"
-  add_foreign_key "tasks", "skills", column: "skills_id"
   add_foreign_key "tasks", "users"
-  add_foreign_key "tasks", "users", column: "users_id"
   add_foreign_key "team_skills", "skills"
   add_foreign_key "team_skills", "teams"
   add_foreign_key "teams", "projects"
