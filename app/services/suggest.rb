@@ -5,13 +5,15 @@ class Suggest < ComputeService
     @users = split_users(users)
     @teams = teams
     @unassigned = unassigned
+    @mode = mode
+    @weightage = WEIGHTAGE[mode.to_sym]
   end
 
   def call
     suggestion, leftover = allocate_first_users
 
-    [leftover, @users[1], @users[2]].each do |data|
-      puts("suggestion #{suggestion}")
+    is_coh = @mode == 'cohesion'
+    [leftover, @users[is_coh ? 2 : 1], @users[is_coh ? 1 : 2]].each do |data|
       suggestion = match(data, suggestion)
     end
 
@@ -23,16 +25,15 @@ class Suggest < ComputeService
   private
 
   def split_users(users)
-    d = users.where.not(user_skills: { user_id: nil })
-             .where.not(users: { personality_id: nil }).group('user_skills.id')
-    s = users.where.not(user_skills: { user_id: nil })
-             .where(personality_id: nil).group('user_skills.id')
-    p = users.where(user_skills: { user_id: nil })
-             .where.not(users: { personality_id: nil })
-             .group('user_skills.id')
-    o = users.where(user_skills: { user_id: nil }, users: { personality_id: nil })
-             .group('user_skills.id')
-    [d, s, p, o]
+    [users.where.not(user_skills: { user_id: nil })
+          .where.not(users: { personality_id: nil }).group('user_skills.id'),
+     users.where.not(user_skills: { user_id: nil })
+          .where(personality_id: nil).group('user_skills.id'),
+     users.where(user_skills: { user_id: nil })
+          .where.not(users: { personality_id: nil })
+          .group('user_skills.id'),
+     users.where(user_skills: { user_id: nil }, users: { personality_id: nil })
+          .group('user_skills.id')]
   end
 
   def allocate_first_users
@@ -58,15 +59,19 @@ class Suggest < ComputeService
   def prepare_skill_comp
     skill_comp = @teams.map do |t|
       t_s = t.team_skills.pluck(:skill_id)
-      [t.id.to_s, @users[0].map { |u|
-        [u, teamskill_score(t_s, u.user_skills.pluck(:skill_id))]
-      }.sort_by { |_, v| -v }.to_h]
+      data = prepare_skill_comp_loop(t_s)
+      [t.id.to_s, data.sort_by { |_, v| -v }.to_h]
     end
     skill_comp.to_h
   end
 
+  def prepare_skill_comp_loop(t_s)
+    @users[0].map do |u|
+      [u, teamskill_score(t_s, u.user_skills.pluck(:skill_id)) * @weightage[1]]
+    end
+  end
+
   def get_top_mem(skill_comp)
-    puts(skill_comp)
     top_mem = skill_comp.collect { |k, v| [k, v.first&.[](0)] }.to_h
     conflicts = top_mem.values.select { |e| top_mem.values.count(e) > 1 }.uniq
     [top_mem, conflicts[0]]
@@ -92,13 +97,13 @@ class Suggest < ComputeService
   end
 
   def match(data, suggestion)
-    data.each do |user|
-      compare_team(user, @teams, suggestion).sort_by { |_, v| -v }.each do |k, _|
+    data.each do |u|
+      compare_team(u, @teams, suggestion, @mode == 'cohesion', @weightage).sort_by { |_, v| -v }.each do |k, v|
         team = @teams.where(name: k).first
         target = suggestion[team.id.to_s]
-        next if target.size == team.team_size
+        next if target.size == team.team_size || v <= 1.0
 
-        target.push(user)
+        target.push(u)
         break
       end
     end

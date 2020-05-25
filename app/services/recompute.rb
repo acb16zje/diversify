@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 class Recompute < ComputeService
-  def initialize(teams, unassigned)
+  def initialize(teams, unassigned, mode = 'balance')
     @teams = teams
     @unassigned = unassigned
+    @weightage = WEIGHTAGE[mode.to_sym]
   end
 
   def call(target_team, u_list)
@@ -13,10 +14,9 @@ class Recompute < ComputeService
       members.map { |u| [u['id'], best_team?(u, @teams, u_list)] }
     else
       users = User.includes(:user_skills).find(members.pluck('id'))
-      return if target_team.users == users
 
       users.map do |u|
-        [u.id, team_compatibility(u, target_team, users).round(2).to_s]
+        [u.id, team_compatibility(u, target_team, users, @weightage).round(2).to_s]
       end
     end
   end

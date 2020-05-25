@@ -31,7 +31,7 @@
               </span>
             </b-button>
           </p>
-          <b-select placeholder="Team Preset">
+          <b-select v-model="mode">
             <option value="efficient">
               Efficient
             </option>
@@ -120,7 +120,7 @@
                 <assigned-content v-else :ref="element.id" :count="element.count" :score="compatibility[element.id]" />
               </div>
               <footer v-if="element.id != parseInt(projectOwner, 10)" class="card-footer">
-                <a href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
+                <a data-confirm="Are you sure?" href="#" class="card-footer-item" @click="removeUser(team.id, element.id)">Remove from Project</a>
               </footer>
             </b-collapse>
           </div>
@@ -169,6 +169,7 @@ export default {
       teams: {},
       isLoading: false,
       teamCount: 1,
+      mode: 'balance',
     };
   },
   created() {
@@ -230,7 +231,6 @@ export default {
         url: `/projects/${this.projectId}/manage/manage_data`,
         type: 'GET',
         success: ({ compatibility, data, teams }) => {
-          console.log(compatibility);
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
@@ -261,6 +261,7 @@ export default {
         url: `/projects/${this.projectId}/manage/recompute_data`,
         type: 'POST',
         data: new URLSearchParams({
+          mode: this.mode,
           data: JSON.stringify(changedData),
         }),
         success: ({ compatibility }) => {
@@ -273,6 +274,10 @@ export default {
           });
           this.isLoading = false;
           this.changed = [this.unassignedId];
+        },
+        error: ({ message }) => {
+          this.isLoading = false;
+          dangerToast(message);
         },
       });
     },
@@ -316,11 +321,17 @@ export default {
       Rails.ajax({
         url: `/projects/${this.projectId}/manage/suggest`,
         type: 'GET',
+        data: new URLSearchParams({
+          mode: this.mode,
+        }),
         success: ({ data }) => {
-          console.log(data);
           this.data = data;
           this.changed = [this.unassignedId];
           this.compute();
+        },
+        error: ({ message }) => {
+          this.isLoading = false;
+          dangerToast(message);
         },
       });
     },
