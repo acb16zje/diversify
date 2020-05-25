@@ -43,7 +43,7 @@ class Projects::Appeals::ApplicationsController < Projects::Appeals::BaseControl
   private
 
   def application_fail(msg = @application.errors.full_messages)
-    render json: { message: msg.join(', ') }, status: :unprocessable_entity
+    render json: { message: msg }, status: :unprocessable_entity
   end
 
   def set_application

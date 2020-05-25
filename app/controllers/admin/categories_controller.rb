@@ -13,14 +13,14 @@ class Admin::CategoriesController < Admin::BaseController
     if category.save
       render json: { category: { id: category.id, name: category.name } }
     else
-      render json: { message: category.errors.full_messages.join(' ') }, status: :unprocessable_entity
+      render json: { message: category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
   def update
     return head :ok if @category.update(category_params)
 
-    render json: { message: @category.errors.full_messages.join(' ') }, status: :unprocessable_entity
+    render json: { message: @category.errors.full_messages }, status: :unprocessable_entity
   end
 
   def destroy

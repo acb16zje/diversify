@@ -30,7 +30,7 @@
     <b-field>
       <b-input v-model="email" placeholder="Email" @keyup.native.enter="invite" />
       <p class="control">
-        <b-button class="button is-primary" data-disable data-remote @click="invite">
+        <b-button class="button is-primary" @click="invite">
           Invite
         </b-button>
       </p>

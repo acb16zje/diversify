@@ -49,7 +49,7 @@ class Admin::NewslettersController < Admin::BaseController
     feedback = NewsletterFeedback.create(unsubscribe_params)
 
     if feedback.errors.any?
-      render json: { message: feedback.errors.full_messages.join(', ') }, status: :unprocessable_entity
+      render json: { message: feedback.errors.full_messages }, status: :unprocessable_entity
     else
       # Prevent Oracle attack on newsletter subscribers list by returning as
       # long as the params syntax are correct

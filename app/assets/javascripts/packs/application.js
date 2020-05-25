@@ -28,8 +28,8 @@ Vue.mixin({
   },
   methods: {
     ajaxError({ detail: [{ message }, status] }) {
-      if (Array.isArray(message) && message.length > 0) {
-        message.forEach((msg) => dangerToast(msg));
+      if (message === null || message === undefined) {
+        dangerToast(status);
       } else {
         dangerToast(message.length === 0 ? status : message);
       }

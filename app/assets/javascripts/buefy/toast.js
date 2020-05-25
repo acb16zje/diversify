@@ -1,19 +1,17 @@
 import { ToastProgrammatic as Toast } from 'buefy';
 
+const launchToast = (message, options) => {
+  if (Array.isArray(message) && message.length > 0) {
+    message.forEach((msg) => Toast.open({ message: msg, ...options }));
+  } else {
+    Toast.open({ message, ...options });
+  }
+};
+
 export const successToast = (message) => {
-  Toast.open({
-    message,
-    type: 'is-success',
-    position: 'is-top',
-    queue: false,
-  });
+  launchToast(message, { type: 'is-success', position: 'is-top', queue: false });
 };
 
 export const dangerToast = (message) => {
-  Toast.open({
-    message,
-    type: 'is-danger',
-    position: 'is-top',
-    queue: false,
-  });
+  launchToast(message, { type: 'is-danger', position: 'is-top', queue: false });
 };
