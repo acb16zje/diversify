@@ -9,7 +9,7 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
     return render_404 unless request.xhr?
 
     @data = User.teams_data(@project)
-    compute = CompatibilityCompute.new(@project.teams.includes(:team_skills),
+    compute = CompatibilityCompute.new(@project.teams,
                                        @project.unassigned_team)
 
     render json: {
@@ -30,12 +30,15 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
   def create
     data = Oj.load(params[:data])
     teams = @project.teams
+    users = @project.users
     data.each do |id, members|
       new_team = teams.find{ |x| x.id.to_s == id }
       members.each do |m|
         next unless m['team_id'] != id.to_i
+        target = users.find{ |x| x.id == m['id'] }
+        old_team = teams.find{ |x| x.id == m['team_id'] }
 
-        change_team(m, new_team)
+        change_team(target, new_team, old_team)
         m['team_id'] = new_team.id
       end
     end
@@ -46,12 +49,15 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
     d = {}
     i = Oj.load(params[:data])
     teams = @project.teams.find(i.keys)
+    puts(teams.size)
     compute = Recompute.new(teams, teams.find{ |x| x.name == 'Unassigned' })
     i.each do |selected_team_id, members|
       next if members.blank?
-
+      puts("running #{selected_team_id}")
+      puts(members)
       d.merge!(compute.call(teams.find{ |x| x.id.to_s == selected_team_id }, i).to_h)
     end
+    
     render json: { compatibility: d }
   end
 
@@ -66,11 +72,9 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
 
   private
 
-  def change_team(member, new_team)
-    user = @project.users.where(id: member['id']).first
-    old_team = user.teams.find_by(project: @project)
+  def change_team(member, new_team, old_team)
     authorize! new_team, to: :manage?
-    old_team.users.delete(user)
-    new_team.users << user
+    new_team.users << member
+    old_team.users.delete(member)
   end
 end

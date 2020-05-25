@@ -11,11 +11,12 @@ class ComputeService < ApplicationService
     best.blank? || best[1] <= 1.0 ? '' : "(#{best[1].round(2)}) Team #{best[0]}"
   end
 
-  def compare_team(target, teams, u_list = nil)
+  def compare_team(target, teams, u_list = nil, ignore_empty = false)
     results = {}
     teams.each do |team|
-      next if team.name == 'Unassigned' || (!u_list.nil? && (!u_list.key?(team.id.to_s) || u_list[team.id.to_s].empty?))
-      users = u_list.blank? ? team.users : User.find(u_list[team.id.to_s].pluck('id'))
+      next if valid_team_compare(team, u_list, ignore_empty)
+
+      users = prepare_team_compare(team, u_list)
 
       if users.size < team.team_size
         results[team.name] = team_compatibility(target, team, users)
@@ -48,5 +49,25 @@ class ComputeService < ApplicationService
       counter += 1.0
     end
     counter.zero? ? 1.0 : 1.0 + (user_score / (counter * 10.0))
+  end
+
+  private
+
+  def valid_team_compare(team, u_list, ignore_empty)
+    return true if team.name == 'Unassigned'
+
+    return false if u_list.nil?
+
+    !u_list.key?(team.id.to_s) || (ignore_empty && u_list[team.id.to_s].empty?)
+  end
+
+  def prepare_team_compare(team, u_list)
+    team.users if u_list.blank?
+
+    if u_list[team.id.to_s].empty?
+      []
+    else
+      User.find(u_list[team.id.to_s].pluck('id'))
+    end
   end
 end
