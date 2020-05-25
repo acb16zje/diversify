@@ -2,7 +2,7 @@
 
 %section.section#tasks
   .container.max-w-2xl
-    %h1.title.is-4 Edit Task
+    %h1.title.is-4 Edit Task: #{@task.name}
     .box
       = form_with model: @task, url: [@project, @task], html: { '@ajax:error': 'ajaxError' } do |f|
         .field

@@ -7,10 +7,10 @@
 
     = javascript_packs_with_chunks_tag 'landing_page', defer: ''
 
-  %body.text-center
+  %body.has-text-centered
     #landing-page
       %section.section#unsubscribe
-        .container.box.text-center
+        .container.box.has-text-centered
           .columns
             .column
               = image_tag 'logo/logo_horizontal.svg', alt: 'Diversify logo', width: 200
@@ -33,5 +33,5 @@
                         = desc
 
                 .field
-                  .control.text-center
+                  .control.has-text-centered
                     = f.submit 'Unsubscribe', class: 'button is-primary'

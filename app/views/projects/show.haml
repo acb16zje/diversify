@@ -1,27 +1,27 @@
 - content_for :title, @project.name
 
-%section.section#projects
+%section.section
   .container
-    .columns.is-vcentered
-      .column.is-narrow.is-hidden-touch
+    .columns.is-mobile
+      .column.is-narrow
         .project-avatar.is-large
           = project_icon(@project)
       .column
         %h1.title.is-3-desktop.is-size-4-touch
           = @project.name
           - if @project.completed?
-            %b-tooltip{ 'label': 'Project Completed', 'position': 'is-top', 'type': 'is-info' }
-              %span.icon.iconify{ 'data-icon': 'ion:checkmark-done-circle-sharp', 'data-inline': 'false' }
+            %b-tooltip{ 'label': 'Project completed', 'position': 'is-top', 'type': 'is-info' }
+              %span.icon.iconify{ 'data-icon': 'bx:bxs-check-circle' }
           - elsif @project.open?
-            %b-tooltip{ 'label': 'Project is Receiving Applications', 'position': 'is-top', 'type': 'is-info' }
-              %span.icon.iconify{ 'data-icon': 'ic:baseline-person-add', 'data-inline': 'false' }
+            %b-tooltip{ 'label': 'Project is receiving applications', 'position': 'is-top', 'type': 'is-info' }
+              %span.icon.iconify{ 'data-icon': 'ic:baseline-person-add' }
 
           - if @project.visibility
-            %b-tooltip{ 'label': 'Public Project', 'position': 'is-right', 'type': 'is-info' }
-              %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'fa:unlock' }
+            %b-tooltip{ 'label': 'Public project', 'position': 'is-top', 'type': 'is-info' }
+              %span.icon.iconify{ 'data-tooltip': 'Tooltip Text', 'data-icon': 'ic:baseline-public' }
           - else
-            %b-tooltip{ 'label': 'Private Project', 'position': 'is-right', 'type': 'is-info' }
-              %span.icon.iconify{ 'data-icon': 'fa:lock' }
+            %b-tooltip{ 'label': 'Private project', 'position': 'is-top', 'type': 'is-info' }
+              %span.icon.iconify{ 'data-icon': 'bx:bxs-lock-alt' }
         %p.subtitle.is-5-desktop.is-size-6-touch Owned by: #{@project.user.name}
 
       - unless current_user&.in_project?(@project) || !user_signed_in?
@@ -47,41 +47,41 @@
           - elsif current_user != @project.user && @project.applicable?
             = button_to 'Join', project_applications_path(@project), class: 'button is-success float-right',
               remote: true, data: { confirm: 'Are you sure?', disable: true }, form: { '@ajax:error': 'ajaxError' }
-%section
-  %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'position': 'is-centered' }
-    %b-tab-item
-      %template{ 'slot': 'header' }
-        %span.icon.iconify{ 'data-icon': 'whh:avataralt', 'data-inline': 'false' }
-        Members
-      .container.is-fullscreen
-        = render partial: 'members'
-    - if current_user&.in_project?(@project)
+
+    %b-tabs{ 'destroy-on-hide': '', ':animated': 'false', 'type': 'is-boxed', 'position': 'is-centered' }
       %b-tab-item
         %template{ 'slot': 'header' }
-          %span.icon.iconify{ 'data-icon': 'fe:list-task', 'data-inline': 'false' }
-          Tasks
-          - if @project.tasks.size.positive?
-            %b-tag{ 'rounded': '', 'v-if': 'taskCount == -1' }
-              %p= @project.tasks.where('percentage < ?', 100).size
-          %b-tag{ 'v-if': 'taskCount >= 0', 'rounded': '' }
-            {{ taskCount }}
-        .container.is-fullscreen
-          = render partial: 'tasks'
-    - if @project.user == current_user || current_user&.admin?
-      %b-tab-item
-        %template{ 'slot': 'header' }
-          %span.icon.iconify{ 'data-icon': 'mdi:application-import', 'data-inline': 'false' }
-          Applications
-          - if @project.appeals.size.positive?
-            %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
-              %p= @project.appeals.size
-          %b-tag{ 'rounded': '', 'v-if': 'applicationCount > 0' }
-            %p {{ applicationCount }}
-        .container.is-fullscreen
-          = render partial: 'applications'
-      %b-tab-item{ 'label': 'Settings' }
-        %template{ 'slot': 'header' }
-          %span.icon.iconify{ 'data-icon': 'ic:baseline-settings', 'data-inline': 'false' }
-          Settings
-        .container.is-fullscreen
-          = render partial: 'settings'
+          %span.icon.iconify.ml-0{ 'data-icon': 'jam:users' }
+          Members
+        .container
+          = render partial: 'members'
+      - if current_user&.in_project?(@project)
+        %b-tab-item
+          %template{ 'slot': 'header' }
+            %span.icon.iconify.ml-0{ 'data-icon': 'fe:list-task' }
+            Tasks
+            - if @project.tasks.size.positive?
+              %b-tag{ 'rounded': '', 'v-if': 'taskCount == -1' }
+                %p= @project.tasks.where('percentage < ?', 100).size
+            %b-tag{ 'v-if': 'taskCount >= 0', 'rounded': '' }
+              {{ taskCount }}
+          .container
+            = render partial: 'tasks'
+      - if @project.user == current_user || current_user&.admin?
+        %b-tab-item
+          %template{ 'slot': 'header' }
+            %span.icon.iconify.ml-0{ 'data-icon': 'mdi:application-import' }
+            Applications
+            - if @project.appeals.size.positive?
+              %b-tag{ 'rounded': '', 'v-if': 'applicationCount == -1' }
+                %p= @project.appeals.size
+            %b-tag{ 'rounded': '', 'v-if': 'applicationCount > 0' }
+              %p {{ applicationCount }}
+          .container
+            = render partial: 'applications'
+        %b-tab-item{ 'label': 'Settings' }
+          %template{ 'slot': 'header' }
+            %span.icon.iconify.ml-0{ 'data-icon': 'ic:baseline-settings' }
+            Settings
+          .container
+            = render partial: 'settings'

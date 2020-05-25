@@ -117,10 +117,10 @@ class Project < ApplicationRecord
   end
 
   def create_activity
-    user.activities.create(key: 'project/create')
+    activities.create(key: 'project/create', user: user)
   end
 
   def complete_activity
-    user.activities.find_or_create_by(key: 'project/complete') if completed?
+    activities.find_or_create_by(key: 'project/complete', user: user) if completed?
   end
 end

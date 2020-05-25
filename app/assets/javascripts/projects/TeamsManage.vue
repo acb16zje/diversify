@@ -42,7 +42,7 @@
           <p>{{ team.name }}</p>
         </div>
         <div v-if="team.name !== 'Unassigned'" class="column is-narrow">
-          <span :class="[data[team.id].length === team.team_size ? 'has-background-warning has-text-weight-medium' : 'has-text-primary', 'tag is-medium']">
+          <span :class="[data[team.id].length === team.team_size ? 'has-background-warning font-medium' : 'has-text-primary', 'tag is-medium']">
             <p>
               Members: {{ data[team.id].length }} / {{ team.team_size }}
             </p>
@@ -72,7 +72,7 @@
             <header class="card-header">
               <p class="card-header-title">
                 {{ element.name }} ({{ element.email }})
-                <span v-if="element.id === projectOwner" class="tag is-info has-text-weight-normal">
+                <span v-if="element.id === projectOwner" class="tag is-info font-normal">
                   Owner
                 </span>
               </p>

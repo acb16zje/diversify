@@ -13,7 +13,7 @@
         %figure.image.mt-0
           .type= File.read("#{Rails.root}/public/images/personalities/#{current_user.personality.to_type.downcase}.svg").html_safe
 
-          %h4.text-center.mt-3= current_user.personality.to_type
+          %h4.has-text-centered.mt-3= current_user.personality.to_type
 
       = form_with model: @personality, url: settings_personality_path, method: :patch, html: { '@ajax:error': 'ajaxError' } do |f|
         .field

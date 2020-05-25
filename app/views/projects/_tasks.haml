@@ -1,20 +1,9 @@
-.container
-  %section
-    .container
-      .columns.is-vcentered.is-mobile
-        .column
-          %h1.title.is-2
-            Tasks
-        .column.is-narrow
-          - if !@project.completed? && (allowed_to? :create_task?, @project)
-            .float-right
-              .buttons.has-addons
-                = link_to new_project_task_path(@project), class: 'button is-primary' do
-                  %p New Task
-                  %span.icon
-                    %span.iconify{ 'data-icon': 'el:plus' }
-          - if @project.completed?
-            .content
-              .notification.is-warning
-                Project is Completed. Tasks are now Read Only.
-      %task-table{ ':project-id': @project.id, ':completed': @project.completed?, ':admin': allowed_to?(:manage?, @project), ':user-id': current_user.id }
+#task
+  %task-table{ ':project-id': @project.id, ':completed': @project.completed?, ':admin': allowed_to?(:manage?, @project), ':user-id': current_user.id }
+    %template{ 'v-slot:action': '' }
+      - if !@project.completed? && (allowed_to? :create_task?, @project)
+        .buttons.has-addons
+          = link_to 'New task', new_project_task_path(@project), class: 'button is-primary'
+      - if @project.completed?
+        .notification.is-warning.has-text-centered
+          Project is completed. Tasks are now read-only.

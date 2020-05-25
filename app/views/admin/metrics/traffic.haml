@@ -1,8 +1,8 @@
 - content_for :title, 'Traffic Overview'
 
-%h1.title.text-center Demographics
+%h1.title.has-text-centered Demographics
 .box
-  .columns.text-center
+  .columns.has-text-centered
     .column.is-4
       %pie-chart{ ':data': @data[:device_type] }
       %p.subtitle Device Types
@@ -15,7 +15,7 @@
 
 %section.has-top-padding
   .container
-    %h1.title.text-center Landing Pages Statistics
+    %h1.title.has-text-centered Landing Pages Statistics
 
     .columns
       .column

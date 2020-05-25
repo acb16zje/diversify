@@ -3,7 +3,7 @@
 - joined, owned, completed = @counts
 
 %section.section
-  .container.text-center
+  .container.has-text-centered
     %figure.image.is-96x96.user-avatar-container.mx-auto.mb-3
       = image_tag user_avatar(@user), alt: 'User avatar'
     - if @user.name.present?
@@ -48,9 +48,9 @@
                       - if @user.personality
                         %figure.image
                           .type= File.read("#{Rails.root}/public/images/personalities/#{@user.personality.to_type.downcase}.svg").html_safe
-                        %h4.text-center.mt-3= @user.personality.to_type
+                        %h4.has-text-centered.mt-3= @user.personality.to_type
                       - else
-                        %p.text-center No personality set
+                        %p.has-text-centered No personality set
                   .tile.is-parent
                     %article.tile.is-child.notification.is-warning
                       %p.title.is-3 Skills
@@ -58,23 +58,23 @@
     %b-tab-item
       %template{ 'slot': 'header' }
         Skills
-      .container.is-fullscreen
+      .container
         - if @user.skills.blank?
-          %h4.font-semibold.text-center.py-8 No Skills
+          %h4.font-semibold.has-text-centered.py-8 No Skills
         - else
           %skill-table{ ':initial-skills': @skills.to_json }
     %b-tab-item
       %template{ 'slot': 'header' }
         Timeline
-      .container.is-fullscreen
+      .container
         %timeline
     %b-tab-item
       %template{ 'slot': 'header' }
         Joined Projects
-      .container.is-fullscreen
+      .container
         %project-list{ ':has-tabs': false, ':is-joined': true }
     %b-tab-item
       %template{ 'slot': 'header' }
         Personal Projects
-      .container.is-fullscreen
+      .container
         %project-list{ ':has-tabs': false }

@@ -18,11 +18,11 @@ describe 'Join Project > Project', :js, type: :system do
     end
 
     it 'can access applications tab' do
-      expect(page).to have_content('Open Application')
+      expect(page).to have_content('Application: Closed')
     end
 
-    it 'can open applications' do
-      click_on 'Open Applications'
+    it 'can open application' do
+      click_on 'Open application'
       page.accept_alert
       expect(page).to have_content('Project Opened')
     end
@@ -35,7 +35,7 @@ describe 'Join Project > Project', :js, type: :system do
     end
 
     it 'can close project' do
-      click_on 'Close Application'
+      click_on 'Close application'
       page.accept_alert
       expect(page).to have_content('Project Closed')
     end

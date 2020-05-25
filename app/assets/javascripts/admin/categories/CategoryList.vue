@@ -41,7 +41,7 @@
         </template>
 
         <template v-slot:empty>
-          <div class="content has-text-grey text-center">
+          <div class="content has-text-grey has-text-centered">
             <p>No categories</p>
           </div>
         </template>

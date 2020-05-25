@@ -10,7 +10,7 @@
       </button>
     </div>
 
-    <p v-if="userSkills.length === 0" class="settings-message text-center">
+    <p v-if="userSkills.length === 0" class="settings-message has-text-centered">
       There are no skills added in your profile
     </p>
     <div v-else v-for="(skills, category, index) in categoryGroupedSkills" :key="index" class="content">

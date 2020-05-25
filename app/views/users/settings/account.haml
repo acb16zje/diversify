@@ -41,7 +41,7 @@
               %span.has-text-black= provider_label(provider)
             - if current_user.oauth_provider_connected?(provider)
               = button_to 'Disconnect', disconnect_omniauth_settings_account_path(provider: provider), method: :delete,
-                class: 'button has-text-danger has-text-weight-semibold', data: { disable: true }
+                class: 'button has-text-danger font-semibold', data: { disable: true }
             - else
               = button_to 'Connect', omniauth_authorize_path(current_user, provider), class: 'button', data: { disable: true }
   .columns

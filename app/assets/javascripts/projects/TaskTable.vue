@@ -1,15 +1,19 @@
 <template>
   <div>
-    <b-tabs v-model="type" type="is-toggle" @change="getData">
-      <b-tab-item label="Assigned" value="assigned" />
-      <b-tab-item label="Unassigned" value="unassigned" />
-      <b-tab-item label="Active" value="active" />
-      <b-tab-item label="Completed" value="completed" />
-    </b-tabs>
+    <b-loading :is-full-page="false" :active.sync="isLoading" />
 
-    <template>
-      <b-loading :is-full-page="false" :active.sync="isLoading" />
-    </template>
+    <div class="action-holder">
+      <div>
+        <slot name="action" />
+      </div>
+
+      <b-tabs v-model="type" type="is-toggle" @change="getData">
+        <b-tab-item label="Assigned" value="assigned" />
+        <b-tab-item label="Unassigned" value="unassigned" />
+        <b-tab-item label="Active" value="active" />
+        <b-tab-item label="Completed" value="completed" />
+      </b-tabs>
+    </div>
 
     <b-table
       :data="data"
@@ -25,7 +29,7 @@
           {{ name }}
         </b-table-column>
         <b-table-column field="owner_name" label="Owner" sortable>
-          <a :href="`/users/${user_id}`" class="has-text-weight-bold">
+          <a :href="`/users/${user_id}`" class="font-bold">
             {{ owner_name }}
           </a>
         </b-table-column>
@@ -61,7 +65,7 @@
       </template>
       <template v-slot:empty>
         <div class="content has-text-grey has-text-centered">
-          <p>No Tasks</p>
+          <p>No tasks</p>
         </div>
       </template>
       <template slot="detail" slot-scope="{ row : { id, description, percentage, skill_names, user_id } }">

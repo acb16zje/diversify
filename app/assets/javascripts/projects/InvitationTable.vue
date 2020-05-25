@@ -1,5 +1,19 @@
 <template>
   <section>
+    <b-field>
+      <b-input v-model="email" placeholder="Email" @keyup.native.enter="invite" />
+      <p class="control">
+        <b-button
+          class="button is-primary"
+          :loading="isInviting"
+          :disabled="isInviting"
+          @click="invite"
+        >
+          Invite
+        </b-button>
+      </p>
+    </b-field>
+
     <b-table
       :data="invitations"
       :paginated="true"
@@ -26,15 +40,6 @@
         </div>
       </template>
     </b-table>
-
-    <b-field>
-      <b-input v-model="email" placeholder="Email" @keyup.native.enter="invite" />
-      <p class="control">
-        <b-button class="button is-primary" @click="invite">
-          Invite
-        </b-button>
-      </p>
-    </b-field>
   </section>
 </template>
 
@@ -48,6 +53,7 @@ export default {
       invitations: [],
       email: '',
       isLoading: false,
+      isInviting: false,
     };
   },
   created() {
@@ -68,6 +74,8 @@ export default {
       });
     },
     invite() {
+      this.isInviting = true;
+
       Rails.ajax({
         url: `${window.location.pathname}/invitations`,
         type: 'POST',
@@ -81,6 +89,9 @@ export default {
         },
         error: ({ message }) => {
           dangerToast(message);
+        },
+        complete: () => {
+          this.isInviting = false;
         },
       });
     },

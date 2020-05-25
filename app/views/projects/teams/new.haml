@@ -1,9 +1,9 @@
-- content_for :title, 'Create Team'
+- content_for :title, 'Create a New Team'
 
 %section.section#teams
   .container.max-w-2xl
-    %h1.title.is-4 Create Team
-    %p.subtitle.is-6 Create Teams to organise your members and diversify your skills.
+    %h1.title.is-4 Create a new team
+    %p.subtitle.is-6 Create teams to organise your members and diversify your skills.
     .box
       = form_with model: @team, url: [@project, @team], html: { '@ajax:error': 'ajaxError' } do |f|
         .field

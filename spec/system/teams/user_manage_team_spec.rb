@@ -43,8 +43,8 @@ describe 'Team > Manage Team', :js, type: :system do
 
     context 'when creates new team while manage team' do
       it do
-        click_link_or_button 'New Team'
-        expect(page).to have_content('Create Team')
+        click_link_or_button 'New team'
+        expect(page).to have_content('Create a new team')
       end
     end
   end

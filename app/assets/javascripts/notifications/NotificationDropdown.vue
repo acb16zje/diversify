@@ -25,7 +25,7 @@
 
     <b-loading :is-full-page="false" :active.sync="isGettingNotifications" />
 
-    <h4 v-if="notifications.length === 0" class="font-semibold text-center py-2">
+    <h4 v-if="notifications.length === 0" class="font-semibold has-text-centered py-2">
       No notifications
     </h4>
     <template v-else>

@@ -17,7 +17,7 @@ describe 'Edit Project > Project', :js, type: :system do
   context 'when project is private' do
     it 'can change to public' do
       page.check('project_visibility')
-      click_button 'Save Settings'
+      click_button 'Save changes'
       find('a', text: 'Settings').click
       expect(page).to have_field('project_visibility', checked: true)
     end

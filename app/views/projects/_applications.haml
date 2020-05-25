@@ -1,30 +1,29 @@
-.container
-  %section
-    - if @project.completed?
-      .content
-        .notification.is-warning
-          Project is Completed. New users cannot be added.
-    - else
-      .content
-        - if @project.visibility
+#application
+  - if @project.completed?
+    .notification.is-warning.has-text-centered
+      Project is completed. New users cannot be added.
+  - else
+    - if @project.visibility
+      .columns
+        .column.is-4
+          %h4.title.is-4 Application: #{@project.open? ? 'Open' : 'Closed'}
+        .column.content
           - if @project.open?
-            %h1.title.is-2
-              Close Application
-            %p.has-text-grey All application will be turned downed if you close application
-            = button_to 'Close Application', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'active' }, data: { confirm: 'Are you sure?' }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
-            %h1.title.is-5
-              Applications
+            %p All join requests will be rejected if you close application
+            = button_to 'Close application', change_status_project_path(@project, status: 'active'), method: :patch, remote: true,
+              data: { confirm: 'Are you sure?', disable: true }, class: 'button is-warning', form: { '@ajax:error': 'ajaxError' }
           - elsif @project.active?
-            %h1.title.is-2
-              Open Application
-            %p.has-text-grey Open Project to Applications
-            = button_to 'Open Applications', change_status_project_path(@project), method: :patch, remote: true, params: { status: 'open' }, data: { confirm: 'Are you sure?' }, class: 'button is-danger', form: { '@ajax:error': 'ajaxError' }
-      - if @project.applicable?
-        %application-table
-      .content
-        %h1.title.is-2
-          Invite User
-        %p.has-text-grey Invite User to Project
-      %h1.title.is-5
-        Invites
-      %invitation-table
+            %p Other users can start sending join request when the application is open
+            = button_to 'Open application', change_status_project_path(@project, status: 'open'), method: :patch, remote: true,
+              data: { confirm: 'Are you sure?', disable: true  }, class: 'button', form: { '@ajax:error': 'ajaxError' }
+    - if @project.applicable?
+      .columns
+        .column.is-4
+          %h4.title.is-4 Join Requests
+        .column
+          %application-table
+    .columns
+      .column.is-4
+        %h4.title.is-4 Invite Users
+      .column
+        %invitation-table

@@ -1,5 +1,5 @@
 <template>
-  <section class="section text-center">
+  <section class="section has-text-centered">
     <b-loading :active.sync="isLoading" :is-full-page="false" />
     <div class="timeline is-centered" v-html="events" /> <!-- eslint-disable-line vue/no-v-html -->
     <div v-if="finished" class="tag is-medium is-primary">

@@ -1,19 +1,14 @@
 - content_for :title, @project.name
 
-%section.section#projects
+%section.section
   .container.box
     .columns.is-vcentered
       .column
-        %h1.title.is-2
-        Manage Teams
+        %h1.title.is-4 Manage Teams
       .column
         - if (current_user == @project.user || current_user.admin?) && !@project.completed?
           .float-right.buttons
-            = link_to new_project_team_path(project_id: @project.id), class: 'button is-primary' do
-              %p New Team
-              %span.icon
-                %span.iconify{ 'data-icon': 'el:plus' }
-            = link_to project_path(@project), class: 'button is-danger' do
-              %p Back
+            = link_to 'New team', new_project_team_path(project_id: @project.id), class: 'button is-primary'
+            = link_to 'Back', project_path(@project), class: 'button'
     .container
       %teams-manage{ ':project-id': @project.id, ':project-owner': @project.user.id }

@@ -1,61 +1,50 @@
-.container
-  %section
-    .container
-      .columns.is-vcentered
-        .column
-          %h1.title.is-2
-            Members
-        .column.is-narrow
-          - if (allowed_to? :manage?, @project) && !@project.completed?
-            .buttons.has-addons
-              = link_to manage_project_teams_path(@project.id), class: 'button is-info' do
-                %p Manage Teams
-                %span.icon
-                  %span.iconify{ 'data-icon': 'ant-design:tool-filled' }
-              = link_to new_project_team_path(@project), class: 'button is-primary' do
-                %p New Team
-                %span.icon
-                  %span.iconify{ 'data-icon': 'el:plus' }
-      .content
-        %p.has-text-grey
-          - if @project.users.empty?
-            No members. Invite some to Get Started!
-          - else
-            Total Members
-            = @project.users.size
-            \/
-            = @project.user.license.member_limit
-      .columns.is-multiline
-        - @project.teams.each do |team|
-          .column.is-half
-            .card
-              %header.card-header
-                %p.card-header-title
-                  = team.name
-                  - if team.name != 'Unassigned'
-                    %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
-                      %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
-              .card-content
-                .content
-                  - if team.users.empty?
-                    No Members
-                  - team.users.each do |user|
-                    %article.media
-                      %figure.media-left
-                        %p.image.is-32x32
-                          = image_tag user_avatar(user), alt: 'User avatar'
-                      .media-content
-                        .content
-                          .columns
-                            .column.has-text-centered
-                              %div
-                                = link_to user do
-                                  %p.has-text-weight-medium= user.name
-                            .column.has-text-centered
-                              %div
-                                %p.heading Task Contributed
-                                %p 0
-                            .column.has-text-centered
-                              %div
-                                %p.heading Best Compatibility
-                                %p -
+.columns.is-vcentered
+  .column
+    %p.subtitle
+      - if @project.users.empty?
+        No members
+      - else
+        Total Members: #{@project.users.size} / #{@project.user.license.member_limit}
+  .column.is-narrow
+    - if (allowed_to? :manage?, @project) && !@project.completed?
+      .buttons
+        = link_to manage_project_teams_path(@project.id), class: 'button is-info' do
+          %p Manage teams
+          %span.icon
+            %span.iconify{ 'data-icon': 'ant-design:tool-filled' }
+        = link_to 'New team' , new_project_team_path(@project), class: 'button is-primary'
+
+.columns.is-multiline
+  - @project.teams.each do |team|
+    .column.is-half
+      .card
+        %header.card-header
+          %p.card-header-title
+            = team.name
+            - if team.name != 'Unassigned'
+              %span.icon{ '@click': "teamModal(#{team.id},#{@project.id})" }
+                %span.iconify{ 'data-icon': 'ant-design:info-circle-outlined' }
+        .card-content
+          .content
+            - if team.users.empty?
+              No Members
+            - team.users.each do |user|
+              %article.media
+                %figure.media-left
+                  %p.image.is-32x32
+                    = image_tag user_avatar(user), alt: 'User avatar'
+                .media-content
+                  .content
+                    .columns
+                      .column.has-text-centered
+                        %div
+                          = link_to user do
+                            %p.font-medium= user.name
+                      .column.has-text-centered
+                        %div
+                          %p.heading Task Contributed
+                          %p 0
+                      .column.has-text-centered
+                        %div
+                          %p.heading Best Compatibility
+                          %p -

@@ -14,7 +14,7 @@ describe 'Project > Create team', :js, type: :system do
   end
 
   context 'when creates new team' do
-    before { click_link_or_button 'New Team' }
+    before { click_link_or_button 'New team' }
 
     it do
       fill_in 'team_name', with: 'Test Team'

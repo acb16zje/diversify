@@ -1,7 +1,7 @@
 - content_for :title, 'Join Diversify'
 
 .box#signup
-  %h1.title.is-4.text-center Create your account
+  %h1.title.is-4.has-text-centered Create your account
 
   .content
     = form_with model: resource, url: registration_path(resource), html: { '@ajax:error': 'ajaxError' } do |f|
@@ -22,6 +22,6 @@
 
 = render 'devise/shared/omniauth_box'
 
-.box.callout.text-center
+.box.callout.has-text-centered
   %p.inline Already have an account?
   = link_to 'Sign in', new_user_session_path

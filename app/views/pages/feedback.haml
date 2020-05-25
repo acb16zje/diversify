@@ -2,7 +2,7 @@
 
 %section.section#feedback
   .container
-    %h1.title.is-1.text-center Help us improve
+    %h1.title.is-1.has-text-centered Help us improve
 
     .box.m-auto
       = form_with url: submit_feedback_pages_path, scope: :landing_feedback, html: { '@ajax:success': 'ajaxSuccess', '@ajax:error': 'ajaxError' } do |f|
