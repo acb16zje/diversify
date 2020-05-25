@@ -26,6 +26,8 @@
 #
 
 class Project < ApplicationRecord
+  include ActionPolicy::Behaviour
+
   # To prevent ORDER BY injection
   SORT_BY = {
     created_asc: 'projects.created_at ASC',
@@ -71,6 +73,8 @@ class Project < ApplicationRecord
                     on: :update,
                     if: :will_save_change_to_status?
 
+  before_save :validate_visibility_change, if: :will_save_change_to_visibility?
+
   before_commit :create_unassigned_team, on: :create
   after_create_commit :create_activity
   after_update_commit :complete_activity, if: :saved_change_to_status?
@@ -101,15 +105,22 @@ class Project < ApplicationRecord
     check_users_limit if status == 'open'
   end
 
+  def validate_visibility_change
+    return if allowed_to?(:change_visibility?, self, context: { user: user })
+
+    errors.add(:base, 'Private project not available on free license')
+    throw :abort
+  end
+
   def create_unassigned_team
     teams.create(name: 'Unassigned', team_size: 999).users << user
   end
 
   def create_activity
-    activities.create(key: 'project/create', user: user)
+    user.activities.create(key: 'project/create')
   end
 
   def complete_activity
-    activities.find_or_create_by(key: 'project/complete', user: user) if completed?
+    user.activities.find_or_create_by(key: 'project/complete') if completed?
   end
 end

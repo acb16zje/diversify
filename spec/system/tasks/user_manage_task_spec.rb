@@ -10,7 +10,7 @@ describe 'Task > Manage Task', :js, type: :system do
   let(:team) { create(:team, name: 'Test', project: project) }
   let!(:task) { create(:task, user_id: owner.id, project_id: project.id) }
   let!(:task_2) do
-    create(:task, percentage: 100, user_id: owner.id, project_id: project.id)
+    create(:task, :completed, user_id: owner.id, project_id: project.id)
   end
   let(:task_skill) do
     create(:task_skill, taks_id: task_id, skill_id: skill_1.id)

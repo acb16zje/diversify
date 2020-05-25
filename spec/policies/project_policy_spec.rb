@@ -18,8 +18,8 @@ describe ProjectPolicy, type: :policy do
     let(:target) { Project.where(name: %w[Test Test2]) }
 
     before do
-      create(:project, name: 'Test', visibility: false, user: user)
-      create(:project, name: 'Test2', visibility: false)
+      create(:project, name: 'Test', user: user)
+      create(:project, name: 'Test2')
     end
 
     it { is_expected.to eq(%w[Test]) }
@@ -27,17 +27,16 @@ describe ProjectPolicy, type: :policy do
 
   describe 'relation_scope(:joined)' do
     subject do
-      policy.apply_scope(target, type: :active_record_relation, name: :joined)
-            .pluck(:name)
+      policy.apply_scope(target, type: :active_record_relation, name: :joined).pluck(:name)
     end
 
     let(:user) { create(:user) }
     let(:target) { Project.where(name: %w[Test Test2]) }
 
     before do
-      project = create(:project, name: 'Test', visibility: false)
+      project = create(:project, name: 'Test')
       project.unassigned_team.users << user
-      create(:project, name: 'Test2', visibility: false)
+      create(:project, name: 'Test2')
     end
 
     it { is_expected.to eq(%w[Test]) }
@@ -45,8 +44,7 @@ describe ProjectPolicy, type: :policy do
 
   describe 'relation_scope(:explore)' do
     subject do
-      policy.apply_scope(target, type: :active_record_relation, name: :explore)
-            .pluck(:name)
+      policy.apply_scope(target, type: :active_record_relation, name: :explore).pluck(:name)
     end
 
     let(:target) { Project.where(name: %w[Test Test2]) }
@@ -54,7 +52,7 @@ describe ProjectPolicy, type: :policy do
     before do
       # Both belongs to another user
       create(:project, name: 'Test')
-      create(:project, name: 'Test2', visibility: false)
+      create(:project, :private, name: 'Test2')
     end
 
     context 'when as user' do
@@ -70,45 +68,47 @@ describe ProjectPolicy, type: :policy do
 
   describe 'relation_scope(:profile_owned)' do
     subject do
-      policy.apply_scope(target, type: :active_record_relation,
-                                 name: :profile_owned,
-                                 scope_options: { target: user2 })
+      policy.apply_scope(target,
+                         type: :active_record_relation,
+                         name: :profile_owned,
+                         scope_options: { profile_owner: profile_owner })
             .pluck(:name)
     end
 
-    let(:user2) { create(:user) }
+    let(:profile_owner) { create(:user, :pro) }
     let(:target) { Project.where(name: %w[Test Test2 Test3]) }
 
     before do
-      create(:project, name: 'Test', visibility: false, user: user2)
-      create(:project, name: 'Test3', visibility: true, user: user2)
+      create(:project, name: 'Test', user: profile_owner)
+      create(:project, :private, name: 'Test2', user: profile_owner)
     end
 
-    context 'when is owner' do
-      let(:context) { { user: user2 } }
+    context 'when user is profile owner' do
+      let(:user) { create(:user, :pro) }
+      let(:profile_owner) { user }
 
-      it { is_expected.to eq(%w[Test Test3]) }
+      it { is_expected.to eq(%w[Test Test2]) }
     end
 
-    context 'when is admin' do
+    context 'when user is not profile owner' do
+      it { is_expected.to eq(%w[Test]) }
+    end
+
+    context 'when user is admin' do
       before { user.admin = true }
 
-      it { is_expected.to eq(%w[Test Test3]) }
+      it { is_expected.to eq(%w[Test Test2]) }
     end
 
-    context 'when is not owner' do
-      it { is_expected.to eq(%w[Test3]) }
-    end
-
-    context 'when is in private project' do
+    context 'when user is in private project of profile owner' do
       let(:user) { create(:user) }
 
       before do
-        project = create(:project, name: 'Test2', visibility: false, user: user2)
+        project = create(:project, :private, name: 'Test3', user: profile_owner)
         project.unassigned_team.users << user
       end
 
-      it { is_expected.to eq(%w[Test2 Test3]) }
+      it { is_expected.to eq(%w[Test Test3]) }
     end
   end
 
@@ -116,44 +116,44 @@ describe ProjectPolicy, type: :policy do
     subject do
       policy.apply_scope(target, type: :active_record_relation,
                                  name: :profile_joined,
-                                 scope_options: { target: user2 })
+                                 scope_options: { profile_owner: profile_owner })
             .pluck(:name)
     end
 
     let(:admin) { create(:admin) }
-    let(:user2) { create(:user) }
+    let(:profile_owner) { create(:user) }
     let(:target) { Project.where(name: %w[Test Test2 Test3]) }
 
     before do
-      project = create(:project, name: 'Test', visibility: false, user: admin)
-      project.unassigned_team.users << user2
-      project = create(:project, name: 'Test3', visibility: true, user: admin)
-      project.unassigned_team.users << user2
+      project = create(:project, :private, name: 'Test', user: admin)
+      project.unassigned_team.users << profile_owner
+      project = create(:project, name: 'Test2', user: admin)
+      project.unassigned_team.users << profile_owner
     end
 
-    context 'when is owner' do
-      let(:context) { { user: user2 } }
+    context 'when user is profile owner' do
+      let(:context) { { user: profile_owner } }
 
-      it { is_expected.to eq(%w[Test Test3]) }
+      it { is_expected.to eq(%w[Test Test2]) }
+    end
+
+    context 'when user is not profile owner' do
+      it { is_expected.to eq(%w[Test2]) }
     end
 
     context 'when is admin' do
       before { user.admin = true }
 
-      it { is_expected.to eq(%w[Test Test3]) }
-    end
-
-    context 'when is not owner' do
-      it { is_expected.to eq(%w[Test3]) }
+      it { is_expected.to eq(%w[Test Test2]) }
     end
 
     context 'when is in private project' do
       let(:user) { create(:user) }
 
       before do
-        project = create(:project, name: 'Test2', visibility: false, user: admin)
+        project = create(:project, :private, name: 'Test3', user: admin)
         project.unassigned_team.users << user
-        project.unassigned_team.users << user2
+        project.unassigned_team.users << profile_owner
       end
 
       it { is_expected.to eq(%w[Test2 Test3]) }

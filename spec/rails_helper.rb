@@ -73,12 +73,14 @@ Capybara.register_driver :chrome do |app|
   options.add_argument('window-size=1366,768')
   options.add_argument("user-data-dir=/tmp/chrome") if ENV['CI']
 
-  Capybara::Selenium::Driver.new app, browser: :chrome, options: options
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.read_timeout = 120
+
+  Capybara::Selenium::Driver.new app, browser: :chrome, options: options, http_client: client
 end
 
 Capybara.configure do |config|
   config.server = :puma, { Silent: true }
-  config.asset_host = 'http://localhost:3000'
   config.javascript_driver = :chrome
   config.default_max_wait_time = ENV['CI'] ? 60 : 30
 end

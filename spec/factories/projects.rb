@@ -43,6 +43,7 @@ FactoryBot.define do
 
     trait :private do
       visibility { false }
+      association :user, :pro, factory: :user
     end
 
     trait :with_avatar do

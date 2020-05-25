@@ -113,6 +113,7 @@ describe ProjectsController, type: :request do
     end
 
     context 'with owned private project' do
+      let(:user) { create(:user, :pro) }
       let(:project) { create(:project, :private, user: user) }
 
       it_behaves_like 'accessible to authorised users for public object'
@@ -165,11 +166,11 @@ describe ProjectsController, type: :request do
     end
 
     context 'when set visibility with valid license' do
+      let(:user) { create(:user, :pro) }
+
       let(:params) do
         { project: { name: 'Test', description: 'Test', visibility: false, category_id: category.id } }
       end
-
-      before { user.license.plan = 'pro' }
 
       it_behaves_like 'accessible to authenticated users'
     end
@@ -211,11 +212,11 @@ describe ProjectsController, type: :request do
     end
 
     context 'when set visibility with valid license' do
+      let(:user) { create(:user, :pro) }
+
       let(:params) do
         { project: { name: 'Test', description: 'Test', visibility: 'false', category_id: category.id } }
       end
-
-      before { user.license.plan = 'pro' }
 
       it_behaves_like 'accessible to authenticated users'
     end

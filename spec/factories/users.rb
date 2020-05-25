@@ -46,6 +46,14 @@ FactoryBot.define do
     trait :with_avatar do
       avatar { Rack::Test::UploadedFile.new('spec/fixtures/squirtle.png') }
     end
+
+    trait :pro do
+      after(:create) { |user| user.license.pro! }
+    end
+
+    trait :ultimate do
+      after(:create) { |user| user.license.ultimate! }
+    end
   end
 
   factory :omniauth_user, parent: :user do

@@ -33,5 +33,9 @@ FactoryBot.define do
     priority { 'medium' }
     association :user, factory: :user
     association :project, factory: :project
+
+    trait :completed do
+      percentage { 100 }
+    end
   end
 end

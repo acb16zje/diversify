@@ -18,19 +18,19 @@ class ProjectPolicy < ApplicationPolicy
     scope.where(visibility: true).or(scope.where(user: user)).distinct
   end
 
-  relation_scope(:profile_owned) do |scope, target: nil|
-    data = scope.joins(teams: :collaborations).where(user: target).distinct
-    next data if user&.admin || user&.id == target.id
+  relation_scope(:profile_owned) do |scope, profile_owner: nil|
+    data = scope.joins(teams: :collaborations).where(user: profile_owner).distinct
+    next data if user&.admin || user&.id == profile_owner.id
 
     data.where("visibility = 't' OR collaborations.user_id = ?", user&.id)
   end
 
-  relation_scope(:profile_joined) do |scope, target: nil|
+  relation_scope(:profile_joined) do |scope, profile_owner: nil|
     data = scope.joins(teams: :collaborations)
-                .where(id: target.teams.pluck(:project_id))
-                .where.not(user: target).distinct
+                .where(id: profile_owner.teams.pluck(:project_id))
+                .where.not(user: profile_owner).distinct
 
-    next data if user&.admin || user&.id == target.id
+    next data if user&.admin || user&.id == profile_owner.id
 
     data.where("visibility = 't' OR collaborations.user_id = ?", user&.id)
   end

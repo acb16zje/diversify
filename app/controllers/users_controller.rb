@@ -48,7 +48,7 @@ class UsersController < ApplicationController
     pagy, projects = pagy(authorized_scope(
                             Project.search(params),
                             as: policy_scope,
-                            scope_options: { target: @user }
+                            scope_options: { profile_owner: @user }
                           ))
     html = view_to_html_string('projects/_projects', projects: projects)
 

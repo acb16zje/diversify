@@ -25,23 +25,15 @@ class ProjectsController < ApplicationController
 
   # POST /projects
   def create
-    @project = Project.new(project_params)
-
-    return project_fail('Bad Request') if valid_project?
-
     @project = current_user.projects.build(project_params)
     @project.save ? project_success('Project Created') : project_fail
   end
 
   # PATCH/PUT /projects/1
   def update
-    return project_fail('Bad Request') if valid_project?
+    return project_fail unless @project.update(project_params)
 
-    if @project.update(project_params)
-      project_success('Project Updated')
-    else
-      project_fail
-    end
+    project_success('Project Updated')
   end
 
   def change_status
@@ -88,11 +80,6 @@ class ProjectsController < ApplicationController
       format.html
       format.json { render json: { html: @html, total: @pagy.count } }
     end
-  end
-
-  def valid_project?
-    params[:project].key?(:visibility) &&
-      !(allowed_to? :change_visibility?, @project)
   end
 
   def project_success(message)

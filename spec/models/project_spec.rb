@@ -76,6 +76,34 @@ describe Project, type: :model do
     end
   end
 
+  describe 'before_save hook' do
+    describe '#validate_visibility_change' do
+      let(:project) { build(:project, user: user) }
+
+      before { project.visibility = false }
+
+      # rubocop:disable RSpec/NestedGroups
+      context 'when free user' do
+        let(:user) { create(:user) }
+
+        it { expect(project.save).to be_falsey }
+      end
+
+      context 'when pro user' do
+        let(:user) { create(:user, :pro) }
+
+        it { expect(project.save).to be_truthy }
+      end
+
+      context 'when ultimate user' do
+        let(:user) { create(:user, :ultimate) }
+
+        it { expect(project.save).to be_truthy }
+      end
+      # rubocop:enable RSpec/NestedGroups
+    end
+  end
+
   describe '#applicable?' do
     subject { project.applicable? }
 

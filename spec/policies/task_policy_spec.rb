@@ -14,7 +14,7 @@ describe TaskPolicy, type: :policy do
     let(:target) { Task.where(name: %w[Test Test2]) }
 
     before do
-      task = create(:task, name: 'Test', percentage: 100, project: project)
+      task = create(:task, :completed, name: 'Test', project: project)
       project.unassigned_team.users << user
       task.users << user
       create(:task, name: 'Test2')
