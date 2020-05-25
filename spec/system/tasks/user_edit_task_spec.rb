@@ -6,18 +6,10 @@ describe 'Task > Edit Task', :js, type: :system do
   let(:owner) { create(:user) }
   let(:member) { create(:user) }
   let(:category) { create(:category) }
-  let!(:skill_1) { create(:skill, category_id: category.id) }
-  let!(:skill_2) { create(:skill, category_id: category.id) }
-  let(:project) { create(:project, user: owner, category_id: category.id) }
-  let(:team) { create(:team, name: 'Test', project: project) }
-  let(:task) { create(:task, user_id: owner.id, project_id: project.id) }
-  let(:task_skill) do
-    create(:task_skill, taks_id: task_id, skill_id: skill_1.id)
-  end
-  let(:task_user) { create(:task_user, taks_id: task_id, user_id: owner.id) }
-  let(:collaboration) do
-    create(:collaboration, user_id: member.id, team_id: team.id)
-  end
+  let(:project) { create(:project, user: owner, category: category) }
+  let(:task) { create(:task, user: owner, project: project) }
+
+  let!(:skill) { create(:skill, category: category) }
 
   before do
     sign_in owner
@@ -30,7 +22,7 @@ describe 'Task > Edit Task', :js, type: :system do
       click_button 'Save'
       expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
-      find(".select option[value='active']").select_option
+      find('a', text: 'Active').click
       expect(page).to have_content('Test Task')
     end
 
@@ -40,7 +32,7 @@ describe 'Task > Edit Task', :js, type: :system do
       click_button 'Save'
       expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
-      find(".select option[value='active']").select_option
+      find('a', text: 'Active').click
       expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
       expect(page).to have_content('Random description')
@@ -48,14 +40,14 @@ describe 'Task > Edit Task', :js, type: :system do
 
     it 'change skills' do
       fill_in 'task_name', with: 'Test Task'
-      find('#task_skill_ids').find(:xpath, 'option[2]').select_option
+      find('#task_skill_ids').find(:xpath, 'option[1]').select_option
       click_button 'Save'
       expect(page).to have_content('Task updated')
       find('a', text: 'Tasks').click
-      find(".select option[value='active']").select_option
+      find('a', text: 'Active').click
       expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
-      expect(page).to have_content(skill_2.name)
+      expect(page).to have_content(skill.name)
     end
 
     it 'change assignee' do

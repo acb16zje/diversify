@@ -1,28 +1,22 @@
 <template>
-  <section class="section">
-    <div>
-      <b-select v-model="type" @input="getData">
-        <option value="assigned">
-          Tasks Assigned
-        </option>
-        <option value="unassigned">
-          Unassigned Tasks
-        </option>
-        <option value="active">
-          Active Tasks
-        </option>
-        <option value="completed">
-          Completed Tasks
-        </option>
-      </b-select>
-    </div>
+  <div>
+    <b-tabs v-model="type" type="is-toggle" @change="getData">
+      <b-tab-item label="Assigned" value="assigned" />
+      <b-tab-item label="Unassigned" value="unassigned" />
+      <b-tab-item label="Active" value="active" />
+      <b-tab-item label="Completed" value="completed" />
+    </b-tabs>
+
+    <template>
+      <b-loading :is-full-page="false" :active.sync="isLoading" />
+    </template>
+
     <b-table
       :data="data"
+      :per-page="10"
       :paginated="true"
       :hoverable="true"
-      :per-page="10"
       :mobile-cards="true"
-      :loading="isLoading"
       detailed
       detail-key="id"
     >
@@ -97,7 +91,7 @@
         </div>
       </template>
     </b-table>
-  </section>
+  </div>
 </template>
 
 <script>

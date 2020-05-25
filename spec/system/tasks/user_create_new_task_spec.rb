@@ -5,9 +5,9 @@ require 'rails_helper'
 describe 'Project > Create Task', :js, type: :system do
   let(:user) { create(:user) }
   let(:category) { create(:category) }
-  let!(:skill_1) { create(:skill, category_id: category.id) }
-  let!(:skill_2) { create(:skill, category_id: category.id) }
-  let(:project) { create(:project, user: user, category_id: category.id) }
+  let!(:skill_1) { create(:skill, category: category) }
+  let!(:skill_2) { create(:skill, category: category) }
+  let(:project) { create(:project, user: user, category: category) }
 
   before do
     sign_in user
@@ -20,7 +20,7 @@ describe 'Project > Create Task', :js, type: :system do
       click_button 'Create Task'
       expect(page).to have_content('Task created')
       find('a', text: 'Tasks').click
-      find(".select option[value='unassigned']").select_option
+      find('a', text: 'Unassigned').click
       expect(page).to have_content('Test Task')
     end
 
@@ -30,7 +30,7 @@ describe 'Project > Create Task', :js, type: :system do
       click_button 'Create Task'
       expect(page).to have_content('Task created')
       find('a', text: 'Tasks').click
-      find(".select option[value='unassigned']").select_option
+      find('a', text: 'Unassigned').click
       expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
       expect(page).to have_content('Random description')
@@ -42,7 +42,7 @@ describe 'Project > Create Task', :js, type: :system do
       click_button 'Create Task'
       expect(page).to have_content('Task created')
       find('a', text: 'Tasks').click
-      find(".select option[value='unassigned']").select_option
+      find('a', text: 'Unassigned').click
       expect(page).to have_content('Low')
     end
 
@@ -52,7 +52,7 @@ describe 'Project > Create Task', :js, type: :system do
       click_button 'Create Task'
       expect(page).to have_content('Task created')
       find('a', text: 'Tasks').click
-      find(".select option[value='unassigned']").select_option
+      find('a', text: 'Unassigned').click
       expect(page).to have_content('Test Task')
       find(:xpath, "//tbody/tr/td[@class='chevron-cell']").click
       expect(page).to have_content(skill_2.name)
