@@ -44,7 +44,7 @@ describe 'New Password > Password', :js, type: :system do
     context 'when email is blank' do
       it 'prompt user to fill in email' do
         click_button 'Send reset password instructions'
-        expect(email).to have_content('Please fill in this field')
+        expect(email).to have_content(/Please fill (in|out) this field/)
       end
     end
 

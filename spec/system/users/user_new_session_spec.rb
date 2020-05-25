@@ -54,7 +54,7 @@ describe 'New Session > User', :js, type: :system do
     context 'when email is blank' do
       it 'prompt user to fill in email' do
         click_button 'Sign in'
-        expect(email).to have_content('Please fill in this field')
+        expect(email).to have_content(/Please fill (in|out) this field/)
       end
     end
 
@@ -62,7 +62,7 @@ describe 'New Session > User', :js, type: :system do
       it 'prompt user to fill in password' do
         fill_form('admin@email.com', '')
         click_button 'Sign in'
-        expect(password).to have_content('Please fill in this field')
+        expect(password).to have_content(/Please fill (in|out) this field/)
       end
     end
   end
