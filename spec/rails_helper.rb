@@ -82,7 +82,7 @@ end
 Capybara.configure do |config|
   config.server = :puma, { Silent: true }
   config.javascript_driver = :chrome
-  config.default_max_wait_time = ENV['CI'] ? 60 : 30
+  config.default_max_wait_time = 30
 end
 
 Shoulda::Matchers.configure do |config|

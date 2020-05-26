@@ -117,7 +117,7 @@ class Projects::TasksController < ApplicationController
 
     arr = {}
     User.find(ids).each do |u|
-      arr[u.id] = u.avatar.attached? ? url_for(user_avatar(u)) : user_avatar(u)
+      arr[u.id] = user_avatar(u)
     end
     arr
   end

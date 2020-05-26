@@ -4,7 +4,6 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   app_url = 'team07.demo1.genesys.shefcompsci.org.uk'
   config.action_mailer.default_url_options = { host: app_url, protocol: 'https' }
-  Rails.application.routes.default_url_options[:host] = "https://#{app_url}"
 
   # Code is not reloaded between requests.
   config.cache_classes = true
