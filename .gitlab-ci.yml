@@ -69,7 +69,7 @@ setup-test-env:
     when: always
     expire_in: 1h
 
-spec:helpers spec:mailers spec:policies spec:serializers spec:validators:
+spec:helpers spec:mailers spec:policies spec:serializers spec:validators spec:services:
   extends: .rspec
 
 spec:models:

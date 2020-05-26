@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe Recompute do
+describe Recompute, type: :service do
   describe '#call' do
     let(:user) { create(:user, :with_personality) }
 

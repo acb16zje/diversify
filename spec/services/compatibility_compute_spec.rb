@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-describe CompatibilityCompute do
+describe CompatibilityCompute, type: :service do
   describe '#call' do
     subject do
       described_class.new(project.teams, project.unassigned_team)

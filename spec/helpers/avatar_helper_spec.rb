@@ -39,15 +39,15 @@ describe AvatarHelper, type: :helper do
     subject { get_avatars([user.id]) }
 
     context 'without avatar' do
-      let(:user) { build_stubbed(:user) }
+      let(:user) { create(:user) }
 
-      it { is_expected.to match(%r{<div class="identicon bg\d+">[A-Z]+</div>}) }
+      it { is_expected.to match({ user.id => %r{https?:\/\/secure.gravatar.com\/avatar\/[\S]+} }) }
     end
 
     context 'with avatar' do
-      let(:user) { build_stubbed(:user, :with_avatar) }
+      let(:user) { create(:user, :with_avatar) }
 
-      it { is_expected.to match(%r{.+<img src=".+squirtle\.png" />.+}) }
+      it { is_expected.to match({ user.id => %r{rails\/active\_storage\/representations\/[\S]+} }) }
     end
   end
 end

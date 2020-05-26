@@ -108,7 +108,7 @@ describe Projects::Teams::TeamsController, type: :request do
     end
 
     context 'when project is private' do
-      let(:project) { create(:project, visibility: false) }
+      let(:project) { create(:project, :private) }
 
       it_behaves_like 'returns 404 Not Found'
     end

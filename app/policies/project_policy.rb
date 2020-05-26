@@ -53,7 +53,7 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def change_visibility?
-    user&.admin? || !user.license.free? && (owner? || record.new_record?)
+    user&.admin? || (!user.license.free? && (owner? || record.new_record?))
   end
 
   def create_task?

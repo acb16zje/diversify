@@ -68,7 +68,7 @@ class Task < ApplicationRecord
         Activity.find_or_create_by(key: "task/#{id}", user: user, project: project)
       end
     else
-      SendNotificationJob.perform_later(users, notification_params('task/update'))
+      SendNotificationJob.perform_later(users.to_a, notification_params('task/update'))
     end
   end
 

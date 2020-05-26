@@ -40,6 +40,7 @@ FactoryBot.define do
     end
 
     trait :entp do
+      id { 8 }
       mind { 'E' }
       energy { 'N' }
       nature { 'T' }
@@ -48,6 +49,7 @@ FactoryBot.define do
     end
 
     trait :intp do
+      id { 7 }
       mind { 'I' }
       energy { 'N' }
       nature { 'T' }
@@ -56,6 +58,7 @@ FactoryBot.define do
     end
 
     trait :entj do
+      id { 6 }
       mind { 'E' }
       energy { 'N' }
       nature { 'T' }
@@ -64,6 +67,7 @@ FactoryBot.define do
     end
 
     trait :estj do
+      id { 16 }
       mind { 'E' }
       energy { 'S' }
       nature { 'T' }
@@ -72,6 +76,7 @@ FactoryBot.define do
     end
 
     trait :estp do
+      id { 12 }
       mind { 'E' }
       energy { 'S' }
       nature { 'T' }
@@ -89,6 +94,7 @@ FactoryBot.define do
     end
 
     trait :esfp do
+      id { 10 }
       mind { 'E' }
       energy { 'S' }
       nature { 'F' }
@@ -106,6 +112,7 @@ FactoryBot.define do
     end
 
     trait :esfj do
+      id { 14 }
       mind { 'E' }
       energy { 'S' }
       nature { 'F' }
@@ -114,6 +121,7 @@ FactoryBot.define do
     end
 
     trait :istp do
+      id { 11 }
       mind { 'I' }
       energy { 'S' }
       nature { 'T' }
@@ -122,6 +130,7 @@ FactoryBot.define do
     end
 
     trait :enfj do
+      id { 4 }
       mind { 'E' }
       energy { 'N' }
       nature { 'F' }
@@ -130,6 +139,7 @@ FactoryBot.define do
     end
 
     trait :isfj do
+      id { 13 }
       mind { 'I' }
       energy { 'S' }
       nature { 'F' }
@@ -138,6 +148,7 @@ FactoryBot.define do
     end
 
     trait :infj do
+      id { 3 }
       mind { 'I' }
       energy { 'N' }
       nature { 'F' }
@@ -146,6 +157,7 @@ FactoryBot.define do
     end
 
     trait :istj do
+      id { 15 }
       mind { 'I' }
       energy { 'S' }
       nature { 'T' }

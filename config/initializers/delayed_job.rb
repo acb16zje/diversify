@@ -1,4 +1,4 @@
-Notification# frozen_string_literal: true
+# frozen_string_literal: true
 
 require 'delayed-plugins-airbrake'
 Delayed::Worker.plugins << Delayed::Plugins::Airbrake::Plugin

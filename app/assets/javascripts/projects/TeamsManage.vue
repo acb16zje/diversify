@@ -216,7 +216,6 @@ export default {
         success: ({ data }) => {
           this.data = data;
           this.isLoading = false;
-          console.log(data);
           successToast('Saved!');
         },
         error: ({ message }) => {

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ComputeService < ApplicationService
+class ComputeService
   WEIGHTAGE = {
     "balance": [1.0, 1.0],
     "cohesion": [1.5, 0.5],
