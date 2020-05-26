@@ -115,7 +115,8 @@ class User < ApplicationRecord
       .joins('LEFT OUTER JOIN task_users ON task_users.user_id = users.id')
       .joins('LEFT OUTER JOIN tasks ON tasks.id = task_users.task_id AND tasks.percentage != 100')
       .joins(:teams).where(teams: { project: project })
-      .select('users.*, teams.id as team_id, COUNT(tasks.id) as count')
+      .select('users.id, users.name, users.email, users.personality_id')
+      .select('teams.id as team_id, COUNT(tasks.id) as count')
       .group('users.id, teams.id')
   end
 

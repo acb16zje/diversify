@@ -234,6 +234,7 @@ export default {
           this.isLoading = false;
           const newData = data;
           this.teams = teams;
+          this.mode = 'balance';
           this.compatibility = compatibility;
           this.teams.forEach((team) => {
             if (!(team.id in data)) {

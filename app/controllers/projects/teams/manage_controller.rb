@@ -36,6 +36,10 @@ class Projects::Teams::ManageController < Projects::Teams::BaseController
     users = @project.users
     data.each do |id, members|
       new_team = teams.find { |x| x.id.to_s == id }
+      next if new_team.nil?
+
+      authorize! new_team, to: :manage?
+
       saving_loop(new_team, members, teams, users)
     end
     render json: { data: data }

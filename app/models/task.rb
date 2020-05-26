@@ -56,38 +56,36 @@ class Task < ApplicationRecord
   end
 
   def send_picked_up_notification
-    SendNotificationJob.perform_later(notification_params(user, 'task/picked'))
+    SendNotificationJob.perform_later([user], notification_params('task/picked'))
   end
 
   private
 
   def send_update_notification
     if saved_change_to_percentage? && completed?
-      SendNotificationJob.perform_later(notification_params(user, 'task/completed'))
+      SendNotificationJob.perform_later([user], notification_params('task/completed'))
       users.each do |user|
         Activity.find_or_create_by(key: "task/#{id}", user: user, project: project)
       end
     else
-      users.each do |user|
-        SendNotificationJob.perform_later(notification_params(user, 'task/update'))
-      end
+      SendNotificationJob.perform_later(users, notification_params('task/update'))
     end
   end
 
   def send_assigned_notification(user)
-    SendNotificationJob.perform_later(notification_params(user, 'task/assigned'))
+    SendNotificationJob.perform_later([user], notification_params('task/assigned'))
   end
 
   def send_removed_notification(user)
-    SendNotificationJob.perform_later(notification_params(user, 'task/removed'))
+    SendNotificationJob.perform_later([user], notification_params('task/removed'))
   end
 
   def destroy_notifications
     Notification.delete_by(notifier: self)
   end
 
-  def notification_params(target, key)
-    { user: target, key: key, notifiable: project, notifier: self }
+  def notification_params(key)
+    { key: key, notifiable: project, notifier: self }
   end
 
   def check_in_project(record)

@@ -8,6 +8,22 @@ describe TeamPolicy, type: :policy do
 
   let(:context) { { user: user } }
 
+  describe_rule :show? do
+    succeed 'when project is public'
+
+    failed 'when project is private' do
+      before { record.project.visibility = false }
+
+      succeed 'when user is admin' do
+        before { user.admin = true }
+      end
+
+      succeed 'when user is project owner' do
+        before { record.project.user = user }
+      end
+    end
+  end
+
   describe_rule :access_team? do
     succeed 'when user is admin' do
       before { user.admin = true }

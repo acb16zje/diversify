@@ -26,5 +26,9 @@ FactoryBot.define do
     name { generate(:name) }
     team_size { 5 }
     association :project, factory: :project
+
+    trait :with_skill do
+      after(:create) { |team| create(:team_skill, team: team) }
+    end
   end
 end

@@ -203,6 +203,18 @@ describe ProjectPolicy, type: :policy do
     failed 'when user is not owner or admin'
   end
 
+  describe_rule :change_status? do
+    failed 'when not user is not member'
+
+    succeed 'when user is owner' do
+      before { record.user = user }
+    end
+
+    succeed 'when user is admin' do
+      before { user.admin = true }
+    end
+  end
+
   describe_rule :count? do
     failed 'when not user is not member'
 

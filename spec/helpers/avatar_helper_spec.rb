@@ -34,4 +34,20 @@ describe AvatarHelper, type: :helper do
       it { is_expected.to match(/.+src=".+squirtle\.png".+/) }
     end
   end
+
+  describe '#get_avatars' do
+    subject { get_avatars([user.id]) }
+
+    context 'without avatar' do
+      let(:user) { build_stubbed(:user) }
+
+      it { is_expected.to match(%r{<div class="identicon bg\d+">[A-Z]+</div>}) }
+    end
+
+    context 'with avatar' do
+      let(:user) { build_stubbed(:user, :with_avatar) }
+
+      it { is_expected.to match(%r{.+<img src=".+squirtle\.png" />.+}) }
+    end
+  end
 end

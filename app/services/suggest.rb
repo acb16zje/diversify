@@ -11,7 +11,7 @@ class Suggest < ComputeService
 
   def call
     suggestion, leftover = allocate_first_users
-
+    puts(suggestion)
     is_coh = @mode == 'cohesion'
     [leftover, @users[is_coh ? 2 : 1], @users[is_coh ? 1 : 2]].each do |data|
       suggestion = match(data, suggestion)

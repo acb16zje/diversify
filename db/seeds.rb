@@ -74,45 +74,4 @@ Skill.find_or_create_by(name: 'Database Architecture', category: computing)
 Skill.find_or_create_by(name: 'Kernel Programming', category: computing)
 Skill.find_or_create_by(name: 'Web Development (Rails)', category: computing)
 
-# (7..27).each do |i|
-#   dummy = Team.find_or_create_by(name: "Team#{i}", team_size: 5, project_id: 1)
-#   TeamSkill.find_or_create_by(team: dummy, skill_id: (i % 4) + 1)
-# end
-
-(1..25).each do |i|
-  dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
-    u.password = 'password'
-    u.personality_id = (i % 16) + 1
-  end
-  UserSkill.find_or_create_by(user: dummy, skill_id: (i % 4) + 1)
-  UserSkill.find_or_create_by(user: dummy, skill_id: (i + 1 % 4) + 1)
-  Collaboration.find_or_create_by(user: dummy, team_id: 1)
-end
-
-(26..50).each do |i|
-  dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
-    u.password = 'password'
-  end
-  UserSkill.find_or_create_by(user: dummy, skill_id: (i % 4) + 1)
-  Collaboration.find_or_create_by(user: dummy, team_id: 1)
-end
-
-(51..75).each do |i|
-  dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
-    u.password = 'password'
-    u.personality_id = (i % 16) + 1
-  end
-  Collaboration.find_or_create_by(user: dummy, team_id: 1)
-end
-
-(76..100).each do |i|
-  dummy = User.find_or_create_by(name: "User#{i}", email: "user#{i}@email.com", admin: false) do |u|
-    u.password = 'password'
-  end
-  Collaboration.find_or_create_by(user: dummy, team_id: 1)
-end
-
-license = License.where(user: user)
-license.update(plan: 'ultimate')
-
 # rubocop:enable Layout/LineLength

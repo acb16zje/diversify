@@ -78,34 +78,52 @@ describe Appeal, type: :model do
   end
 
   describe 'after_commit hook' do
+    ActiveJob::Base.queue_adapter = :test
+
     describe '#send_notification, on: :create' do
-      it { expect { create(:appeal) }.to change(Notification, :count).by(1) }
+      it { expect { create(:appeal) }.to have_enqueued_job(SendNotificationJob) }
     end
   end
 
   describe '#send_resolve_notification' do
-    subject { Notification.count }
+    ActiveJob::Base.queue_adapter = :test
 
-    let(:appeal) { build(:appeal) }
+    let(:appeal) { create(:appeal) }
+
+    before { appeal }
 
     context 'when canceled by initiator' do
-      before { appeal.send_resolve_notification('accept', true) }
+      let(:function) { appeal.send_resolve_notification('accept', true) }
 
-      it { is_expected.to eq(0) }
+      it do
+        expect { function }.to change {
+          ActiveJob::Base.queue_adapter.enqueued_jobs.count
+        }.by 0
+      end
     end
 
     context 'when not canceled by initiator' do
-      before { appeal.send_resolve_notification('decline', false) }
+      let(:function) { appeal.send_resolve_notification('decline', false) }
 
-      it { is_expected.to eq(1) }
+      it do
+        expect { function }.to change {
+          ActiveJob::Base.queue_adapter.enqueued_jobs.count
+        }.by 1
+      end
     end
 
     describe 'delete send type notification' do
-      subject { Notification.first.key }
+      subject { Notification.count }
 
-      before { create(:appeal).send_resolve_notification('accept') }
+      before do
+        create(
+          :notification, user: appeal.user, key: 'invitation/send',
+                         notifier: appeal.project, notifiable: appeal.project
+        )
+        appeal.send_resolve_notification('accept')
+      end
 
-      it { is_expected.to eq('invitation/accept') }
+      it { is_expected.to eq(0) }
     end
   end
 end

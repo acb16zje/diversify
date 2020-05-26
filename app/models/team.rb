@@ -53,7 +53,8 @@ class Team < ApplicationRecord
     return if name == 'Unassigned'
 
     SendNotificationJob.perform_later(
-      { user: user, key: 'team', notifiable: project, notifier: self }
+      [user],
+      { key: 'team', notifiable: project, notifier: self }
     )
   end
 

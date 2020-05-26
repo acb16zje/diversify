@@ -52,10 +52,10 @@ class Appeal < ApplicationRecord
     return if is_cancel
 
     SendNotificationJob.perform_later(
-      user: invitation? ? project.user : user,
-      key: "#{type}/#{resolution}",
-      notifiable: invitation? ? user : project,
-      notifier: project
+      invitation? ? [project.user] : [user],
+      { key: "#{type}/#{resolution}",
+        notifiable: invitation? ? user : project,
+        notifier: project }
     )
 
     join_activity if resolution == 'accept'
@@ -68,7 +68,10 @@ class Appeal < ApplicationRecord
   end
 
   def send_notification
-    SendNotificationJob.perform_later(send_notification_params)
+    SendNotificationJob.perform_later(
+      invitation? ? [project.user] : [user],
+      send_notification_params
+    )
   end
 
   def send_notification_params

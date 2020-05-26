@@ -9,7 +9,7 @@ describe 'Team > Manage Team', :js, type: :system do
   before do
     sign_in user
     create(:team, name: 'Test', project: project)
-    visit "projects/#{project.id}/teams/manage"
+    visit "projects/#{project.id}/manage"
   end
 
   context 'when edit existing team' do
@@ -43,7 +43,7 @@ describe 'Team > Manage Team', :js, type: :system do
 
     context 'when creates new team while manage team' do
       it do
-        click_link_or_button 'New team'
+        click_link_or_button 'New Team'
         expect(page).to have_content('Create a new team')
       end
     end

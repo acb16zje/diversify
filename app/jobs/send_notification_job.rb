@@ -3,12 +3,14 @@
 class SendNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform(params)
-    Notification.create(
-      user: params[:user],
-      key: params[:key],
-      notifiable: params[:notifiable],
-      notifier: params[:notifier]
-    )
+  def perform(users, params)
+    users.each do |user|
+      Notification.create(
+        user: user,
+        key: params[:key],
+        notifiable: params[:notifiable],
+        notifier: params[:notifier]
+      )
+    end
   end
 end

@@ -27,6 +27,7 @@ describe Team, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:project) }
     it { is_expected.to have_many(:users) }
+    it { is_expected.to have_many(:team_skills) }
     it { is_expected.to have_many(:skills) }
   end
 
@@ -49,9 +50,9 @@ describe Team, type: :model do
       subject { team.errors.full_messages }
 
       # Need to create project here otherwise license of project owner will be nil
-      let(:team) { build(:team, team_size: 1, project: create(:project)) }
+      let(:team) { create(:team, team_size: 1, project: create(:project)) }
 
-      before { team.users << build_list(:user, 3) }
+      before { team.users << create_list(:user, 3) }
 
       it { is_expected.to include('Team Size is smaller than total members') }
     end

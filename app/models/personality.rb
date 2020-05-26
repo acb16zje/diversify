@@ -4,13 +4,14 @@
 #
 # Table name: personalities
 #
-#  id         :bigint           not null, primary key
-#  energy     :enum
-#  mind       :enum
-#  nature     :enum
-#  tactic     :enum
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id              :bigint           not null, primary key
+#  compatibilities :integer          default([]), is an Array
+#  energy          :enum
+#  mind            :enum
+#  nature          :enum
+#  tactic          :enum
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
