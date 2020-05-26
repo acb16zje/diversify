@@ -50,39 +50,4 @@ describe Task, type: :model do
       it { is_expected.to include('User is not in project') }
     end
   end
-
-  describe 'scopes' do
-    describe ':user_data' do
-      let(:task) { create(:task) }
-      let(:user) { create(:user) }
-
-      before do
-        task.project.unassigned_team.users << user
-        task.users << user
-      end
-
-      it do
-        expect(described_class.user_data.map(&:attributes)).to eql(
-          [{ "id": task.id, "user_id": user.id,
-             "user_name": user.name }.stringify_keys]
-        )
-      end
-    end
-
-    describe ':data' do
-      let(:user) { create(:user) }
-      let(:task) { create(:task, user: user) }
-      let(:skill) { create(:skill) }
-      let(:result) do
-        { "id": task.id, "description": task.description, "name": task.name,
-          "percentage": task.percentage, "priority": task.priority,
-          "user_id": task.user_id, "owner_name": user.name,
-          "skill_names": skill.name }.stringify_keys
-      end
-
-      before { task.skills << skill }
-
-      it { expect(described_class.data.map(&:attributes)).to eql([result]) }
-    end
-  end
 end

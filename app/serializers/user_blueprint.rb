@@ -12,4 +12,12 @@ class UserBlueprint < Blueprinter::Base
       '</figure>'
     end
   end
+
+  view :assignee do
+    field :id
+
+    field :icon do |user|
+      user_avatar(user)
+    end
+  end
 end

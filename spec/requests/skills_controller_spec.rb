@@ -3,8 +3,6 @@
 require 'rails_helper'
 
 describe SkillsController, type: :request do
-
-
   describe 'GET #index' do
     subject(:request) { get skills_path }
 

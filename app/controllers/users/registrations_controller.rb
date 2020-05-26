@@ -84,9 +84,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_success
-    if sign_in_after_change_password?
-      bypass_sign_in resource, scope: resource_name
-    end
+    bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
 
     flash[:toast_success] = 'Password Changed'
     render js: "window.location='#{settings_account_path}'"

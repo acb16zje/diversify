@@ -34,7 +34,7 @@ describe TaskPolicy, type: :policy do
       subject do
         policy.apply_scope(
           target, type: :active_record_relation, name: :unassigned
-        ).group('tasks.id').pluck(:name)
+        ).pluck(:name)
       end
 
       it { is_expected.to eq(%w[Test2]) }
@@ -44,7 +44,7 @@ describe TaskPolicy, type: :policy do
       subject do
         policy.apply_scope(
           target, type: :active_record_relation, name: :active
-        ).group('tasks.id').pluck(:name)
+        ).pluck(:name)
       end
 
       it { is_expected.to eq(%w[Test2]) }
@@ -54,7 +54,7 @@ describe TaskPolicy, type: :policy do
       subject do
         policy.apply_scope(
           target, type: :active_record_relation, name: :completed
-        ).group('tasks.id').pluck(:name)
+        ).pluck(:name)
       end
 
       before { Task.find_by(name: 'Test').percentage = 100 }

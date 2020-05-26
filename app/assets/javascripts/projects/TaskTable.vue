@@ -24,12 +24,12 @@
       detailed
       detail-key="id"
     >
-      <template v-slot="{ row: { id, name, percentage, priority, owner_name, user_id } }">
+      <template v-slot="{ row: { id, name, percentage, priority, owner_id, owner_name, assignees } }">
         <b-table-column field="name" label="Name" sortable searchable>
           {{ name }}
         </b-table-column>
         <b-table-column field="owner_name" label="Owner" sortable>
-          <a :href="`/users/${user_id}`" class="font-bold">
+          <a :href="`/users/${owner_id}`" class="font-bold">
             {{ owner_name }}
           </a>
         </b-table-column>
@@ -48,17 +48,17 @@
         </b-table-column>
         <b-table-column label="Assignees">
           <div class="columns is-0 is-variable is-multiline">
-            <div v-for="user in userData[id]" :key="user.user_id" class="column is-narrow">
-              <b-tooltip :label="user.user_name" position="is-top" type="is-info">
-                <a :href="`/users/${user.user_id}`">
+            <div v-for="assignee in assignees" :key="assignee.id" class="column is-narrow">
+              <b-tooltip :label="assignee.name" position="is-top" type="is-info">
+                <a :href="`/users/${assignee.id}`">
                   <p class="image is-32x32 user-avatar-container">
-                    <img :src="images[user.user_id]">
+                    <img :src="assignee.icon">
                   </p>
                 </a>
               </b-tooltip>
             </div>
           </div>
-          <a v-if="!userData[id] && !completed" class="button is-small is-success" data-confirm="Are you sure?" @click="assignSelf(id)">
+          <a v-if="!assignees.length && !completed" class="button is-small is-success" data-confirm="Are you sure?" @click="assignSelf(id)">
             Assign Self
           </a>
         </b-table-column>
@@ -68,23 +68,23 @@
           <p>No tasks</p>
         </div>
       </template>
-      <template slot="detail" slot-scope="{ row : { id, description, percentage, skill_names, user_id } }">
+      <template v-slot:detail="{ row: { id, description, percentage, skills, owner_id, assignees } }">
         <div class="columns">
           <div class="column is-8">
-            <div v-if="skill_names !== null" class="tags are-medium">
-              <label class="label">Skills:  </label>
-              <span v-for="skill in skill_names.split(',')" :key="skill" class="tag is-primary">
+            <label class="label">Skills</label>
+            <div v-if="skills !== null" class="tags are-medium">
+              <span v-for="skill in skills" :key="skill" class="tag is-primary">
                 {{ skill }}
               </span>
             </div>
             {{ description }}
           </div>
           <div class="column is-4">
-            <div v-if="canEdit(user_id) || inTask(id)" class="box">
-              <a v-if="canEdit(user_id)" :href="`/projects/${projectId}/tasks/${id}/edit`" class="button is-warning">
+            <div v-if="canEdit(owner_id) || inTask(assignees)" class="box">
+              <a v-if="canEdit(owner_id)" :href="`/projects/${projectId}/tasks/${id}/edit`" class="button is-warning">
                 Edit Task
               </a>
-              <a v-if="canEdit(user_id)" class="button is-danger" data-confirm="Are you sure?" @click="deleteTask(id)">
+              <a v-if="canEdit(owner_id)" class="button is-danger" data-confirm="Are you sure?" @click="deleteTask(id)">
                 Delete Task
               </a>
               <b-field label="Set Progress">
@@ -124,8 +124,6 @@ export default {
   data() {
     return {
       data: [],
-      userData: [],
-      images: [],
       isLoading: false,
       type: 'assigned',
     };
@@ -137,23 +135,19 @@ export default {
     canEdit(ownerId) {
       return (this.userId === ownerId || this.admin) && !this.completed;
     },
-    inTask(id) {
-      return (id in this.userData
-        && (this.userData[id].findIndex((u) => u.user_id === this.userId) !== -1))
-        && !this.completed;
+    inTask(assignees) {
+      return !this.completed && assignees.find(({ id }) => id === this.userId);
     },
     getData() {
       this.isLoading = true;
       Rails.ajax({
         url: `/projects/${this.projectId}/tasks/data`,
         type: 'GET',
-        data: new URLSearchParams({
-          type: this.type,
-        }),
-        success: ({ data, userData, images }) => {
+        data: new URLSearchParams({ type: this.type }),
+        success: ({ data }) => {
           this.data = data;
-          this.userData = userData;
-          this.images = images;
+        },
+        complete: () => {
           this.isLoading = false;
         },
       });

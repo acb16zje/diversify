@@ -15,7 +15,7 @@ describe AvatarHelper, type: :helper do
     context 'with avatar' do
       let(:user) { build_stubbed(:user, :with_avatar) }
 
-      it { is_expected.to be_an_instance_of(ActiveStorage::Variant) }
+      it { is_expected.to match(%r{.+rails/active_storage.+}) }
     end
   end
 
@@ -31,7 +31,7 @@ describe AvatarHelper, type: :helper do
     context 'with avatar' do
       let(:project) { build_stubbed(:project, :with_avatar) }
 
-      it { is_expected.to match(%r{.+<img src=".+squirtle\.png" />.+}) }
+      it { is_expected.to match(/.+src=".+squirtle\.png".+/) }
     end
   end
 end

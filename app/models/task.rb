@@ -48,27 +48,12 @@ class Task < ApplicationRecord
                            message: 'Percentage should be between 0 and 100'
                          }
 
-  scope :user_data, lambda {
-    joins(:users)
-      .select('tasks.id, users.id AS user_id, users.name AS user_name')
-      .group('tasks.id, users.id')
-  }
-
-  scope :data, lambda {
-    joins(:user).left_joins(:skills)
-                .select('tasks.id, tasks.description, tasks.name, tasks.user_id')
-                .select('tasks.priority, tasks.percentage')
-                .select('users.name as owner_name')
-                .select("string_agg(skills.name, ',') as skill_names")
-                .group('tasks.id, users.name')
-  }
+  after_update_commit :send_update_notification
+  after_destroy_commit :destroy_notifications
 
   def completed?
     percentage == 100
   end
-
-  after_update_commit :send_update_notification
-  after_destroy_commit :destroy_notifications
 
   def send_picked_up_notification
     Notification.create(notification_params(user, 'task/picked'))

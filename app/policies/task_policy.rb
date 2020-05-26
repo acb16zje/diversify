@@ -12,15 +12,15 @@ class TaskPolicy < ApplicationPolicy
   end
 
   relation_scope(:unassigned) do |scope|
-    scope.left_outer_joins(:task_users).having('count(task_users) = 0')
+    scope.left_outer_joins(:task_users).where(task_users: { user_id: nil })
   end
 
   relation_scope(:active) do |scope|
-    scope.having('percentage != 100')
+    scope.where('percentage != 100')
   end
 
   relation_scope(:completed) do |scope|
-    scope.having('percentage = 100')
+    scope.where('percentage = 100')
   end
 
   def manage?

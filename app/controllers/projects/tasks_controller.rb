@@ -55,13 +55,11 @@ class Projects::TasksController < ApplicationController
     authorize! @project, to: :count?
     return render_404 unless request.xhr? && valid_data_type?
 
-    scope_data = authorized_scope(@project.tasks, as: @type)
-
-    user_data = scope_data.user_data
-    images = assignee_avatars(user_data.pluck('users.id').uniq)
-    user_data = user_data.group_by(&:id)
-
-    render json: { data: scope_data.data, userData: user_data, images: images }
+    render json: {
+      data: TaskBlueprint.render_as_json(
+        authorized_scope(@project.tasks, as: @type).includes(users: [{ avatar_attachment: :blob }])
+      )
+    }
   end
 
   def set_percentage
@@ -110,16 +108,6 @@ class Projects::TasksController < ApplicationController
   def task_success(message)
     flash[:toast_success] = message
     render js: "window.location = '#{project_path(@task.project)}'"
-  end
-
-  def assignee_avatars(ids)
-    extend AvatarHelper
-
-    arr = {}
-    User.find(ids).each do |u|
-      arr[u.id] = user_avatar(u)
-    end
-    arr
   end
 
   def valid_data_type?
