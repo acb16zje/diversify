@@ -16,10 +16,10 @@ describe 'Edit Project > Project', :js, type: :system do
 
   context 'when project is private' do
     it 'can change to public' do
-      page.check('project_visibility')
+      find('#project_visibility_true').click
       click_button 'Save changes'
       find('a', text: 'Settings').click
-      expect(page).to have_field('project_visibility', checked: true)
+      expect(page).to have_field('project_visibility_true', checked: true)
     end
   end
 end

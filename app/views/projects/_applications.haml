@@ -3,7 +3,7 @@
     .notification.is-warning.has-text-centered
       Project is completed. New users cannot be added.
   - else
-    - if @project.visibility
+    - if @project.visibility || @project.open?
       .columns
         .column.is-4
           %h4.title.is-4 Application: #{@project.open? ? 'Open' : 'Closed'}
@@ -16,7 +16,7 @@
             %p Other users can start sending join request when the application is open
             = button_to 'Open application', change_status_project_path(@project, status: 'open'), method: :patch, remote: true,
               data: { confirm: 'Are you sure?', disable: true  }, class: 'button', form: { '@ajax:error': 'ajaxError' }
-    - if @project.applicable?
+    - if @project.applicable? || @project.appeals.application.exists?
       .columns
         .column.is-4
           %h4.title.is-4 Join Requests

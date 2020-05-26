@@ -97,7 +97,7 @@ class Project < ApplicationRecord
   private
 
   def validate_status_update
-    if status_was != 'active' && status != 'active'
+    if visibility && status_was != 'active' && status != 'active'
       errors.add(:base, 'Invalid status change')
       throw :abort
     end

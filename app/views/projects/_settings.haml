@@ -5,7 +5,7 @@
   .columns
     .column.is-4
       %h4.title.is-4 Project Details
-    .column.content
+    .column
       = form_with model: @project, html: { '@ajax:error': 'ajaxError' } do |f|
         %fieldset{ 'disabled': @project.completed? ? 'disabled' : false }
           .flex.flex-wrap.items-center
@@ -37,11 +37,24 @@
             .control
               = f.text_area :description, class: 'textarea'
           - if allowed_to? :change_visibility?, @project
-            .field
+            .field.my-4
               .control
-                %label.checkbox
-                  = f.check_box :visibility, class: 'checkbox', value: 'yes'
-                  Public Project
+                %label.label.required Visibility Level
+                .field.flex.items-center
+                  = f.radio_button :visibility, true, checked: true, required: true
+                  = f.label :visibility_true, class: 'inline-flex items-center ml-2' do
+                    %span.iconify.text-3xl.mr-1.flex-shrink-0{ 'data-icon': 'ic:baseline-public' }
+                    %div
+                      %p.font-semibold Public
+                      %p.text-sm Anyone can see this project. You choose who can join.
+
+                .field.flex.items-center
+                  = f.radio_button :visibility, false
+                  = f.label :visibility_false, class: 'inline-flex items-center ml-2' do
+                    %span.iconify.text-3xl.mr-1.flex-shrink-0{ 'data-icon': 'bx:bxs-lock-alt' }
+                    %div
+                      %p.font-semibold Private
+                      %p.text-sm Project access must be granted explicitly to each user.
           - unless @project.completed?
             .field.my-4
               .control
@@ -58,7 +71,7 @@
       - else
         %h1.title.is-5.mb-3 Archive project
         - if @project.open?
-          %p.mb-4 Close the application first
+          %p.settings-message.has-text-centered Please close the application before archiving the project
         - else
           %p.mb-4 Archiving the project will make it entirely read only. The project will be marked as completed.
           = button_to 'Archive project', change_status_project_path(@project, status: 'completed'), method: :patch, remote: true,
