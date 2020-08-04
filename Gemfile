@@ -2,10 +2,10 @@
 
 source 'https://rubygems.org'
 
-source 'https://gems.shefcompsci.org.uk' do
-  gem 'airbrake'
-  gem 'epi_deploy', group: :development
-end
+# source 'https://gems.shefcompsci.org.uk' do
+#   gem 'airbrake'
+#   gem 'epi_deploy', group: :development
+# end
 
 # Rails core
 gem 'rails'
