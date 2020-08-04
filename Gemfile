@@ -2,10 +2,10 @@
 
 source 'https://rubygems.org'
 
-source 'https://gems.shefcompsci.org.uk' do
-  gem 'airbrake'
-  gem 'epi_deploy', group: :development
-end
+# source 'https://gems.shefcompsci.org.uk' do
+#   gem 'airbrake'
+#   gem 'epi_deploy', group: :development
+# end
 
 # Rails core
 gem 'rails'
@@ -55,7 +55,7 @@ gem 'oj'
 gem 'faker'
 
 gem 'daemons'
-gem 'delayed-plugins-airbrake'
+# gem 'delayed-plugins-airbrake'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'whenever'
